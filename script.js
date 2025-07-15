@@ -1,4 +1,7 @@
+// ✅ DOM Load: Search and Newsletter + Section2 Slideshow
+
 document.addEventListener('DOMContentLoaded', function () {
+  // 🔍 SEARCH SECTION --------------------------
   const searchBar = document.getElementById('search-bar');
   const input = document.getElementById('search-input');
   const clearBtn = document.getElementById('clear-search');
@@ -20,7 +23,6 @@ document.addEventListener('DOMContentLoaded', function () {
     input.value = '';
     results.innerHTML = '';
     clearBtn.style.display = 'none';
-
     if (!searchBar.classList.contains('hidden')) {
       input.focus();
       renderRecommendations(data);
@@ -31,7 +33,6 @@ document.addEventListener('DOMContentLoaded', function () {
   input.addEventListener('input', function () {
     const query = this.value.toLowerCase().replace(/\s+/g, '');
     clearBtn.style.display = query ? 'block' : 'none';
-
     if (query) {
       const filtered = data.filter(item =>
         item.title.toLowerCase().replace(/\s+/g, '').includes(query)
@@ -64,9 +65,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const searchCards = results.querySelectorAll('.search-card');
     const isRecommendation = recommendItems.length > 0;
     const activeList = isRecommendation ? recommendItems : searchCards;
-
     if (!activeList.length) return;
-
     const itemsPerRow = 5;
     let row = Math.floor(currentIndex / itemsPerRow);
     let col = currentIndex % itemsPerRow;
@@ -116,7 +115,6 @@ document.addEventListener('DOMContentLoaded', function () {
         window.location.href = selected.link;
       }
     }
-
     updateHighlight(activeList);
   });
 
@@ -140,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function renderResults(filteredItems) {
-    currentIndex = 0; // 처음 항목을 선택한 상태로 시작
+    currentIndex = 0;
     results.innerHTML = `
       <div class="search-results-images">
         ${filteredItems.map((item, index) => `
@@ -153,47 +151,84 @@ document.addEventListener('DOMContentLoaded', function () {
     `;
   }
 
-  // 추천 클릭 시 이동
   results.addEventListener('click', function (e) {
     const target = e.target.closest('.recommend-item');
     if (target) {
       const link = target.dataset.link;
-      if (link) {
-        window.location.href = link;
-      }
+      if (link) window.location.href = link;
     }
   });
 
-  // 이미지 카드 클릭 시 이동
   results.addEventListener('click', function (e) {
     const card = e.target.closest('.search-card');
     if (card) {
       const title = card.querySelector('.card-title')?.textContent.trim();
       const match = data.find(item => item.title === title);
-      if (match) {
-        window.location.href = match.link;
-      }
+      if (match) window.location.href = match.link;
     }
   });
+
+  // 🎞️ SECTION 2 SLIDESHOW --------------------------
+  const artworks = [
+    {
+      src: 'assets/G_25SP_JungS_Documentation-001.mov',
+      caption: ['Afterlives', 'Brooklyn, New York', 'May 2025']
+    },
+    {
+      src: 'assets/sample2.mp4',
+      caption: ['Another Memory', 'Seoul, Korea', 'Feb 2024']
+    },
+    {
+      src: 'assets/sample3.mp4',
+      caption: ['Blue Hour', 'Paris, France', 'June 2023']
+    }
+  ];
+
+  let artworkIndex = 0;
+  const videoEl = document.getElementById('artworkVideo');
+  const captionEl = document.querySelector('.video-caption');
+  const muteBtn = document.getElementById('muteBtn');
+  const nextBtn = document.querySelector('.next-arrow');
+
+  function loadVideo(index) {
+    videoEl.src = artworks[index].src;
+    captionEl.innerHTML = artworks[index].caption.map(text => `<p>${text}</p>`).join('');
+    videoEl.load();
+    videoEl.play();
+  }
+
+  nextBtn.addEventListener('click', function () {
+    artworkIndex = (artworkIndex + 1) % artworks.length;
+    loadVideo(artworkIndex);
+  });
+
+  muteBtn.addEventListener('click', () => {
+    videoEl.muted = !videoEl.muted;
+    muteBtn.textContent = videoEl.muted ? '🔇' : '🔊';
+  });
+
+  setInterval(() => {
+    artworkIndex = (artworkIndex + 1) % artworks.length;
+    loadVideo(artworkIndex);
+  }, 15000);
+
+  loadVideo(artworkIndex);
 });
 
-// ✅ 팝업 열기
+// ✅ NEWSLETTER POPUP --------------------------
 function openPopup() {
   document.getElementById('newsletter-popup').style.display = 'flex';
 }
 
-// ✅ 팝업 닫기 + 입력창 비우기
 function closePopup() {
   document.getElementById('newsletter-popup').style.display = 'none';
   resetEmailInput();
 }
 
-// ✅ 입력창 초기화
 function resetEmailInput() {
   document.getElementById('newsletter-email').value = '';
 }
 
-// ✅ 구독하기
 async function subscribeEmail() {
   const emailInput = document.getElementById('newsletter-email');
   const email = emailInput.value.trim();
@@ -203,23 +238,19 @@ async function subscribeEmail() {
     return;
   }
 
-  // 2. 이메일 형식 검사 (한글/이상한 문자 방지)
   const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   if (!emailPattern.test(email)) {
     alert("Invalid email format. Please enter a valid email address.");
     return;
   }
 
-  // 3. 이미 등록된 이메일인지 확인
   const check = await fetch(`https://sheetdb.io/api/v1/ti5ilziqzjtcf/search?email=${email}`);
   const exists = await check.json();
-
   if (exists.length > 0) {
     closePopup();
     return;
   }
 
-  // 4. SheetDB에 새 이메일 추가
   await fetch('https://sheetdb.io/api/v1/ti5ilziqzjtcf', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -229,7 +260,6 @@ async function subscribeEmail() {
   closePopup();
 }
 
-// ✅ 구독 취소
 async function unsubscribeEmail() {
   const email = document.getElementById('newsletter-email').value.trim();
 
