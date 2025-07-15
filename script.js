@@ -58,67 +58,67 @@ document.addEventListener('DOMContentLoaded', function () {
       results.innerHTML = '';
     }
   });
-input.addEventListener('keydown', function (e) {
-  const recommendItems = results.querySelectorAll('.recommend-item');
-  const searchCards = results.querySelectorAll('.search-card');
-  const isRecommendation = recommendItems.length > 0;
-  const activeList = isRecommendation ? recommendItems : searchCards;
 
-  if (!activeList.length) return;
+  input.addEventListener('keydown', function (e) {
+    const recommendItems = results.querySelectorAll('.recommend-item');
+    const searchCards = results.querySelectorAll('.search-card');
+    const isRecommendation = recommendItems.length > 0;
+    const activeList = isRecommendation ? recommendItems : searchCards;
 
-  const itemsPerRow = 5;
-  let row = Math.floor(currentIndex / itemsPerRow);
-  let col = currentIndex % itemsPerRow;
+    if (!activeList.length) return;
 
-  if (e.key === 'ArrowDown') {
-    e.preventDefault();
-    if (currentIndex === -1) {
-      currentIndex = 0;
-    } else if (isRecommendation) {
-      currentIndex = (currentIndex + 1) % activeList.length;
-    } else {
-      row++;
-      const nextIndex = row * itemsPerRow + col;
-      if (nextIndex < activeList.length) {
-        currentIndex = nextIndex;
+    const itemsPerRow = 5;
+    let row = Math.floor(currentIndex / itemsPerRow);
+    let col = currentIndex % itemsPerRow;
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (currentIndex === -1) {
+        currentIndex = 0;
+      } else if (isRecommendation) {
+        currentIndex = (currentIndex + 1) % activeList.length;
+      } else {
+        row++;
+        const nextIndex = row * itemsPerRow + col;
+        if (nextIndex < activeList.length) {
+          currentIndex = nextIndex;
+        }
+      }
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (currentIndex === -1) {
+        currentIndex = 0;
+      } else if (isRecommendation) {
+        currentIndex = (currentIndex - 1 + activeList.length) % activeList.length;
+      } else {
+        row--;
+        const prevIndex = row * itemsPerRow + col;
+        if (row >= 0 && prevIndex < activeList.length) {
+          currentIndex = prevIndex;
+        }
+      }
+    } else if (!isRecommendation && e.key === 'ArrowRight') {
+      e.preventDefault();
+      if (currentIndex === -1) {
+        currentIndex = 0;
+      } else if (currentIndex + 1 < activeList.length) {
+        currentIndex++;
+      }
+    } else if (!isRecommendation && e.key === 'ArrowLeft') {
+      e.preventDefault();
+      if (currentIndex > 0) {
+        currentIndex--;
+      }
+    } else if (e.key === 'Enter' && currentIndex >= 0) {
+      const selectedTitle = activeList[currentIndex].textContent.trim();
+      const selected = data.find(item => item.title === selectedTitle);
+      if (selected) {
+        window.location.href = selected.link;
       }
     }
-  } else if (e.key === 'ArrowUp') {
-    e.preventDefault();
-    if (currentIndex === -1) {
-      currentIndex = 0;
-    } else if (isRecommendation) {
-      currentIndex = (currentIndex - 1 + activeList.length) % activeList.length;
-    } else {
-      row--;
-      const prevIndex = row * itemsPerRow + col;
-      if (row >= 0 && prevIndex < activeList.length) {
-        currentIndex = prevIndex;
-      }
-    }
-  } else if (!isRecommendation && e.key === 'ArrowRight') {
-    e.preventDefault();
-    if (currentIndex === -1) {
-      currentIndex = 0;
-    } else if (currentIndex + 1 < activeList.length) {
-      currentIndex++;
-    }
-  } else if (!isRecommendation && e.key === 'ArrowLeft') {
-    e.preventDefault();
-    if (currentIndex > 0) {
-      currentIndex--;
-    }
-  } else if (e.key === 'Enter' && currentIndex >= 0) {
-    const selectedTitle = activeList[currentIndex].textContent.trim();
-    const selected = data.find(item => item.title === selectedTitle);
-    if (selected) {
-      window.location.href = selected.link;
-    }
-  }
 
-  updateHighlight(activeList);
-});
-
+    updateHighlight(activeList);
+  });
 
   function updateHighlight(items) {
     items.forEach((el, i) => {
@@ -176,3 +176,71 @@ input.addEventListener('keydown', function (e) {
     }
   });
 });
+
+// ✅ 팝업 열기
+function openPopup() {
+  document.getElementById('newsletter-popup').style.display = 'flex';
+}
+
+// ✅ 팝업 닫기 + 입력창 비우기
+function closePopup() {
+  document.getElementById('newsletter-popup').style.display = 'none';
+  resetEmailInput();
+}
+
+// ✅ 입력창 초기화
+function resetEmailInput() {
+  document.getElementById('newsletter-email').value = '';
+}
+
+// ✅ 구독하기
+async function subscribeEmail() {
+  const emailInput = document.getElementById('newsletter-email');
+  const email = emailInput.value.trim();
+
+  if (!email) {
+    closePopup();
+    return;
+  }
+
+  // 2. 이메일 형식 검사 (한글/이상한 문자 방지)
+  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  if (!emailPattern.test(email)) {
+    alert("Invalid email format. Please enter a valid email address.");
+    return;
+  }
+
+  // 3. 이미 등록된 이메일인지 확인
+  const check = await fetch(`https://sheetdb.io/api/v1/ti5ilziqzjtcf/search?email=${email}`);
+  const exists = await check.json();
+
+  if (exists.length > 0) {
+    closePopup();
+    return;
+  }
+
+  // 4. SheetDB에 새 이메일 추가
+  await fetch('https://sheetdb.io/api/v1/ti5ilziqzjtcf', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ data: [{ email }] })
+  });
+
+  closePopup();
+}
+
+// ✅ 구독 취소
+async function unsubscribeEmail() {
+  const email = document.getElementById('newsletter-email').value.trim();
+
+  if (!email) {
+    closePopup();
+    return;
+  }
+
+  await fetch(`https://sheetdb.io/api/v1/ti5ilziqzjtcf/email/${email}`, {
+    method: 'DELETE'
+  });
+
+  closePopup();
+}
