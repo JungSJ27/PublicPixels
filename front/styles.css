@@ -1,0 +1,474 @@
+/* Phototaxis overlay — 기본은 숨김, 시작 시에만 보이게 */
+#overlay{
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9990;        /* 검색바가 더 위여도 OK (header search z-index가 더 크면 그대로 유지) */
+  pointer-events: none; /* 클릭은 통과 (끄기/켜기는 문서 리스너에서 처리) */
+  display: none;        /* ✅ 기본 숨김 */
+}
+
+/* ===========================
+   Global Styles (Front/styles.css)
+   =========================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+  line-height: 1.5;
+  background: #fff;
+}
+
+#ambient-moths, #overlay{ background: transparent; }
+
+
+/* ===========================
+   ✨ Section Styles (compact)
+   =========================== */
+section {
+  padding: 24px 20px;     /* 여백 확 줄임 */
+  min-height: auto;       /* 강제 100vh 제거 → 하얀 공백 방지 */
+  border-bottom: 0;       /* 섹션 사이 라인 제거 */
+}
+
+/* 첫 섹션은 고정 헤더만큼만 여유 줌 */
+section:first-of-type {
+  padding-top: calc(var(--header-h, 56px) + 12px);
+}
+
+/* 모바일에서 더 타이트하게 */
+@media (max-width: 900px) {
+  section { padding: 16px 12px; }
+  section:first-of-type { padding-top: calc(var(--header-h, 56px) + 8px); }
+}
+
+
+/* ===========================
+   ✨ Section 1
+   =========================== */
+
+#section1 {
+  background-image: url('/front/Profile.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 80px 20px 20px 40px;
+  min-height: 100vh;
+  color: #000;
+}
+
+#section1 h2 {
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.7);
+  margin-bottom: 1px;
+  letter-spacing: 0.02em;
+}
+
+#section1 .subtitle {
+  font-size: 0.6rem;
+  color: rgba(0, 0, 0, 0.6);
+  margin-top: -2px;
+  line-height: 1.0;
+}
+
+/* 바코드 블록 */
+#section1 .code-stamp {
+  position: absolute;
+  left: 60px;      /* h2/subtitle의 padding-left와 동일 */
+  bottom: 27px;    /* 섹션 하단 padding 값과 동일 */
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 5;
+  pointer-events: auto;
+  user-select: none;
+}
+
+/* 바코드 이미지 */
+#section1 .code-stamp img {
+  width: 250px;   /* 원하는 픽셀 값 */
+  height: auto;
+  mix-blend-mode: multiply;   /* 배경과 섞이게 */
+  image-rendering: pixelated;
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
+}
+#section1 .code-stamp:hover img {
+  opacity: 1;
+}
+
+@media (max-width: 600px) {
+  #section1 .code-caption { display: none; }
+}
+
+
+/* ===========================
+   ✨ Contact Section
+   =========================== */
+#contact {
+  background-color: white;
+  padding: 90px 40px 22px 40px;
+  min-height: 20vh;
+  text-align: left;
+  font-size: 0.9rem; 
+  color: rgba(0, 0, 0, 0.7);
+  line-height: 1.8;
+  letter-spacing: 0.03em;
+}
+
+#contact h2 {
+  font-size: 0.6rem; 
+  margin-bottom: 10px;
+}
+
+#contact p,
+#contact a {
+  font-size: 0.6rem;
+  color: rgba(0, 0, 0, 0.7);
+  text-decoration: none;
+  margin: 0;
+  padding: 0;
+}
+
+#contact a:hover {
+  color: #000;
+}
+
+#contact .contact-columns {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  gap: 140px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin-bottom: 40px;
+}
+
+#contact .contact-left,
+#contact .contact-right {
+  flex: none;
+  min-width: auto;
+  padding: 0;
+  margin: 0;
+}
+
+#contact .contact-left > *,
+#contact .contact-right > * {
+  margin: 0;
+  padding: 0;
+}
+
+#contact .contact-left h2,
+#contact .contact-right h2 {
+  margin-bottom: 16px;
+}
+
+#contact .contact-right p,
+#contact .contact-right a,
+#contact .subscribe-btn {
+  font-size: 0.6rem;
+  color: rgba(0, 0, 0, 0.7);
+  line-height: 1.8;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+}
+
+#contact .contact-right a:hover {
+  color: #000;
+}
+
+#contact .subscribe-btn {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  border-radius: 0;
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+#contact .subscribe-btn:hover {
+  color: #000;
+  background-color: transparent;
+  text-decoration: none;
+  font-weight: normal; /* ✅ 굵기 고정 (600 ➝ normal) */
+}
+
+
+#contact .contact-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 80px;
+  padding-top: 50px;
+  border-top: none;
+  font-size: 0.55rem;
+  color: #999;
+}
+
+#contact .last-touched {
+  margin: 0;
+  font-weight: normal;
+  font-size: 0.55rem;
+  color: #999;
+}
+
+#contact .last-touched a {
+  font-size: 0.55rem;
+  font-weight: normal;
+  color: #999;
+  text-decoration: none;
+}
+
+
+#contact .last-touched a:hover {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+#contact .copyright {
+  margin: 0;
+  font-size: 0.55rem;
+  color: #999;
+}
+
+#contact .inspired-note{
+  margin: 6px 0 0;
+  font-size: 0.55rem;
+  color: #999;
+  letter-spacing: 0.02em;
+}
+
+/* contact 마지막 줄 아래 여백만 최소화 */
+#contact{
+  padding-bottom: 16px;            /* 22px → 6px (원하면 0~10px로 조절) */
+  min-height: 0 !important;       /* 20vh 최소높이 효과 제거 */
+}
+#contact .contact-footer,
+#contact .copyright{ margin-bottom: 0; padding-bottom: 0; }
+#contact :where(.contact-columns, .contact-footer, .copyright) :last-child{ margin-bottom: 0; }
+
+/* ===== Contact footer: 좌 1칸 + 우측 2줄(오른쪽 정렬) ===== */
+#contact .contact-footer{
+  display: grid;                       /* flex → grid로 오버라이드 */
+  grid-template-columns: 1fr auto;     /* 왼쪽 넓게, 오른쪽 내용 폭만큼 */
+  grid-template-rows: auto auto;       /* 오른쪽 두 줄 */
+  column-gap: 16px;
+  row-gap: 0px;
+  align-items: end;
+}
+
+/* 왼쪽 블록은 두 행을 차지 */
+#contact .contact-footer .last-touched{
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  margin: 0;
+}
+
+/* 오른쪽 1줄차지: 저작권 */
+#contact .contact-footer .copyright{
+  grid-column: 2;
+  grid-row: 1;
+  margin: 0;
+  text-align: right;
+  justify-self: end;
+}
+
+/* 오른쪽 2줄차지: 프라다 인스파이어드 */
+#contact .contact-footer .inspired-note{
+  grid-column: 2;
+  grid-row: 2;
+  margin: 0;                /* 기존 6px → 0으로 맞춤 */
+  text-align: right;
+  justify-self: end;
+}
+
+/* 다크 페이지에서 톤 살짝 업 (선택) */
+body[data-page="news"] #contact .contact-footer :is(.copyright,.inspired-note){
+  color:#bdbdbd;
+}
+
+
+/* ===========================
+   ✨ Popup Newsletter Styles
+   =========================== */
+/* 기본: 숨김 */
+.popup-overlay{
+  display: none;
+  position: fixed;
+  inset: 0;                            /* top/left/width/height 축약 */
+  background: rgba(0,0,0,.30);
+  z-index: 2000;                       /* 헤더/패널/백드롭보다 위 */
+  justify-content: center;             /* 보이는 상태에서만 의미 */
+  align-items: center;
+  overscroll-behavior: contain;        /* iOS 등에서 배경 스크롤 방지 보조 */
+  touch-action: none;                  /* 배경 제스처 차단 */
+}
+
+/* 보일 때: flex로 중앙정렬 */
+.popup-overlay.is-open{
+  display: flex;
+}
+
+.popup-box {
+  background: #fff;
+  border: 1px solid #999;
+  padding: 20px;
+  width: 300px;
+  font-family: system-ui, sans-serif;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.popup-close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #666;
+}
+
+.newsletter-title {
+  font-size: 1.1rem;
+  letter-spacing: -0.5px;  /* 🎯 자간 좁게 */
+  margin-bottom: 8px;
+  color: rgba(0, 0, 0, 0.9);
+}
+
+.newsletter-subtext {
+  font-size: 0.7rem;
+  color: rgba(0, 0, 0, 0.6);
+  margin: 3px 0 4px 0;  /* 위/오른/아래/왼 */
+}
+
+#newsletter-email {
+  width: 100%;
+  padding: 5.7px;
+  margin: -4px 0 20px;
+  font-size: 0.8rem;
+}
+
+.popup-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.popup-buttons button {
+  padding: 4.5px 14px;
+  font-size: 0.7rem;
+  cursor: pointer;
+}
+
+/* === Newsletter popup: 모바일(터치)에서만 데스크톱 룩을 강제 === */
+@media (hover: none) and (pointer: coarse) {
+  /* 시스템 기본 외형 제거 */
+  .popup-box input[type="email"],
+  .popup-box input[type="text"],
+  .popup-buttons button,
+  .popup-close {
+    -webkit-appearance: none;
+    appearance: none;
+    font: inherit; /* .popup-box의 system-ui 그대로 */
+  }
+
+  /* 입력창: 데스크톱과 동일한 박스 */
+  #newsletter-email{
+    border: 1px solid #999;
+    border-radius: 0;      /* 둥근 모서리 제거 */
+    background: #fff;
+    color: #000;
+    padding: 5.7px;        /* 네가 준 값 유지 */
+    font-size: 0.8rem;     /* 데스크톱과 동일 비율 */
+    box-sizing: border-box;
+  }
+
+  /* 버튼: 데스크톱과 동일한 각진 작은 버튼 */
+  .popup-buttons button{
+    border: 1px solid #999;
+    border-radius: 3px;      /* ← 이전에 2(단위 없음) 들어가 있던 부분 수정 */
+    background: #eeeeee;      /* 시스템 기본 배경 제거, 데스크톱과 동일 */
+    color: #000;
+    padding: 4.5px 14px;
+    font-size: 0.7rem;
+    line-height: 1.1;
+    box-shadow: none;
+  }
+
+  /* 닫기(X) */
+  .popup-close{
+    background: none;
+    border: 0;
+    color: #666;
+  }
+
+  /* iOS 자동 글자 확대 방지: 모바일에만 적용 */
+  html { -webkit-text-size-adjust: 100%; }
+}
+
+
+/* 히스토리 스와이프 방지: 가로 오버스크롤/제스처 막기 */
+html, body{
+  overscroll-behavior-x: none;  /* Chrome/Edge/Firefox */
+  touch-action: pan-y;          /* 세로만 스크롤 허용 */
+}
+
+/* Section1: 작은 화면일 때 텍스트/바코드 숨김 */
+@media (max-width: 900px) {
+  #section1 h2,
+  #section1 .subtitle,
+  #section1 .code-stamp {
+    display: none !important;
+  }
+}
+
+/* Contact: 모바일에서 세로 스택 (<=900px) */
+@media (max-width: 900px) {
+  /* 본문 두 칼럼 → 세로 쌓기 */
+  #contact .contact-columns{
+    display: flex;            /* inline-flex → flex */
+    flex-direction: column;   /* 세로 정렬 */
+    gap: 48px;
+    align-items: stretch;
+  }
+  #contact .contact-left,
+  #contact .contact-right{
+    width: 100%;
+  }
+
+  /* 푸터 두 줄도 위/아래로 */
+  #contact .contact-footer{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1px;
+  }
+
+  #contact .last-touched,
+  #contact .copyright{
+    width: 100%;
+    text-align: left;      /* 필요하면 center로 변경 가능 */
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+}
+
+
+
+/* 모바일에서 세로 스택 (선택) */
+@media (max-width: 900px){
+  #contact .contact-footer{
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    row-gap: 4px;
+  }
+  #contact .contact-footer .last-touched{ grid-column:1; grid-row:1; }
+  #contact .contact-footer .copyright{    grid-column:1; grid-row:2; text-align:left; justify-self:start; }
+  #contact .contact-footer .inspired-note{grid-column:1; grid-row:3; text-align:left; justify-self:start; }
+}

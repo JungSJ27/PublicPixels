@@ -1,0 +1,255 @@
+/* ========== Section 4 — Train carousel, center emphasis ========== */
+
+#section4.s4{
+  /* stage ratio */
+  --ratio-w: 18; --ratio-h: 8;
+
+  /* desktop card controls */
+  --card-w: clamp(540px, 62vw, 1940px);
+  --card-h: clamp(100px, 32vw, 1200px);
+
+  --card-gap: clamp(12px, 2.3vw, 25px);
+  --scale-min: .80;            /* preview scale */
+
+  /* title and alignment */
+  --hero-offset-y: 25px;
+  --title-gap: clamp(20px, 5vw, 70px);
+
+  margin:0; padding:0;
+  min-height:auto !important; height:auto !important;
+  display:grid; place-items:center; overflow:hidden;
+  position: relative; background:#0a0a0a;
+
+  --track-shift:35px;   /* ← 카드 덩어리 세로 이동 (양수면 아래) */
+}
+
+/* stage box that fits inside the section */
+.s4__stage{
+  position:relative; z-index:1;
+  inline-size:min(100svw, calc(100svh*(var(--ratio-w)/var(--ratio-h))));
+  block-size:min(100svh, calc(100svw*(var(--ratio-h)/var(--ratio-w))));
+  margin:0 auto;
+}
+
+/* title */
+.s4__title{
+  --title-offset-y: calc(-1 * var(--title-gap));
+  position:absolute; left:50%;
+  top: calc(
+    50%
+    - ( (var(--hero-w,55%) * (9/16) * (var(--ratio-w)/var(--ratio-h)) ) / 2 )
+    + var(--hero-offset-y)
+    + var(--title-offset-y)
+  );
+  transform: translateX(-50%);
+  inline-size: var(--hero-w,55%);
+  text-align: center;
+  font:600 clamp(13px,1.6vw,16px)/1.3 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  color:#ededed; z-index:5; opacity:.85;
+  white-space: normal; overflow-wrap: break-word;
+}
+.s4__link{ text-decoration:none; display:inline-block; transition: transform .25s ease; }
+
+/* frame + track */
+.s4__frame{ position:absolute; inset:0; overflow:hidden; background:transparent; }
+.s4__track{
+  position:absolute; inset:0;
+  display:flex; align-items:center;
+  gap: var(--card-gap);
+  transition:transform .5s ease;
+  will-change: transform;
+}
+
+/* slides */
+.s4__slide{
+  position: relative;
+  min-inline-size: unset !important;
+  flex: 0 0 var(--card-w);
+  transform: scale(var(--scale, var(--scale-min)));
+  transition: transform .35s cubic-bezier(.22,.61,.36,1), opacity .35s ease;
+  opacity: var(--alpha, .95);
+  z-index: 1;
+  background-color: #0a0a0a;
+}
+.s4__bg{ position:absolute; inset:0; z-index:0; }
+
+/* hero */
+.s4__heroLink{
+  position: relative; left:auto; top:auto; transform:none;
+  display:block; inline-size:100%; max-inline-size:none; max-block-size:none; z-index:2;
+}
+.s4__heroPh{
+  inline-size:100%;
+  block-size: var(--card-h);
+  aspect-ratio: auto;
+  background:#0a0a0a center/cover no-repeat;
+  border-radius: 0px;
+}
+
+/* caption */
+.s4__meta{
+  margin-top:2px; display:flex; justify-content:space-between; align-items:flex-start;
+  gap:6px; font-size: clamp(7px, 0.8vw, 9px); line-height:0.7; font-weight:200;
+  color:#ddd; letter-spacing:0.15px; opacity:.7;
+  white-space: normal; overflow-wrap: break-word;
+}
+.s4__metaL, .s4__metaR{ white-space:pre-line; flex:0 0 auto; max-width:45%; }
+.s4__metaL{ text-align:left;  padding:0 3px; }
+.s4__metaR{ text-align:right; padding:0 3px; }
+.s4__heroLink:hover .s4__title, .s4__heroLink:hover .s4__meta { opacity:1; }
+
+/* arrows between cards */
+.s4__sep{
+  position:absolute; top:50%; transform:translate(-50%,-50%);
+  background:transparent; border:none; color:#c4c3c3;
+  font-size:18px; cursor:pointer; z-index:6; opacity:.9;
+  padding:6px 8px;
+}
+/* 안쪽으로 6px씩 모으기 예시 */
+.s4__sep--left  { left: calc(50% - (var(--card-w)/2) - (var(--card-gap)/2) - 12px); }
+.s4__sep--right { left: calc(50% + (var(--card-w)/2) + (var(--card-gap)/2) + 12px); }
+
+#s4-track, #s4-track li{ list-style: none; }
+
+/* show the gradient of the section under first slide */
+#section4.s4.is-first .s4__slide:first-child{ background: transparent !important; }
+#section4.s4.is-first .s4__slide:first-child .s4__bg{ background: transparent !important; }
+
+/* ========== Section4: 링크 언더라인/색상 리셋 ========== */
+#section4.s4 .s4__heroLink{
+  text-decoration: none !important;
+  color: inherit !important;
+}
+#section4.s4 .s4__heroLink:link,
+#section4.s4 .s4__heroLink:visited,
+#section4.s4 .s4__heroLink:hover,
+#section4.s4 .s4__heroLink:focus-visible{
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+/* 캡션 안의 링크(when/where 등)도 확실히 제거 */
+#section4.s4 .s4__meta a{
+  text-decoration: none !important;
+  border-bottom: 0 !important;
+  color: inherit !important;
+}
+#section4.s4 .s4__meta a:hover,
+#section4.s4 .s4__meta a:focus-visible{
+  text-decoration: none !important;
+}
+
+
+#section4.s4{ background:#0a0a0a; } /* 기본 */
+#section4.s4.is-first{
+  background: linear-gradient(180deg, #0a0a0a 0%, #1f2534 40%, #1a211a 100%);
+}
+/* 첫 슬라이드만 투명 처리해서 섹션 그라데이션이 비치도록 */
+#section4.s4.is-first .s4__slide:first-child{ background: transparent !important; }
+#section4.s4.is-first .s4__slide:first-child .s4__bg{ background: transparent !important; }
+
+/* ========== Mobile <=900px : 프라다 레이아웃 ========== */
+@media (max-width: 1300px){
+  #section4.s4{padding-bottom: 25px;}     
+}
+
+@media (max-width: 700px){
+  #section4.s4{
+    /* 카드 폭(중앙) + 양옆 살짝 보이게(peek) */
+    --m-card-w: clamp(200px, 70vw, 560px);
+    --m-peek:  30vw;                    /* 양옆 비치기 정도 (작게 4~8vw 조절) */
+    --m-card-gap: 16px;
+    --m-scale-min: .96;                /* 프리뷰 카드 축소 정도 */
+
+    /* 이미지 기본 비율(카드별로 --rw/--rh 줬으면 그 값이 우선) */
+    --m-rw: 4; --m-rh: 6;
+
+    /* 타이틀/캡션 안전 여백 (프라다처럼 여유 있게) */
+    --pad-top:0px;
+    --pad-bottom: calc(78px + env(safe-area-inset-bottom, 0px));
+    --m-title-gap: clamp(20px, 9vw, 100px);
+  }
+
+  /* 좌우 패딩: 카드 폭 기준으로 중앙 정렬하되, 살짝 덜 채워서 옆 카드가 보이게 */
+  .s4__stage{
+    inline-size: 100% !important;
+    block-size: auto !important;
+    aspect-ratio: 1 / 1.3 !important;
+
+    /* 중심 카드 정렬 + peek */
+    --m-frame-pad: max(12px,
+      calc((100vw - var(--m-card-w)) / 2 - var(--m-peek))
+    );
+    padding-inline: var(--m-frame-pad);
+
+    /* 위아래 안전 여백(제목/캡션 겹침 방지) */
+    padding-block: var(--pad-top) var(--pad-bottom);
+  }
+
+  .s4__frame{ padding-inline: var(--m-frame-pad); }
+  .s4__track{ gap: var(--m-card-gap); }
+
+  /* 중앙 카드 폭 고정, 양옆은 살짝 축소 */
+  .s4__slide{
+    flex-basis: var(--m-card-w);
+    transform: scale(var(--scale, var(--m-scale-min)));
+  }
+
+  /* 이미지: 모바일 비율 우선, 카드별 --rw/--rh 있으면 그 값을 사용 */
+  .s4__heroPh{
+    aspect-ratio:
+      calc(var(--rw, var(--m-rw))) /
+      calc(var(--rh, var(--m-rh)));
+    block-size: auto; /* 비율 우선 */
+    background-position:
+      calc(50% + var(--hero-shift-x, 0%))
+      calc(50% + var(--hero-shift-y, 0%));
+  }
+
+  /* 제목 간격(위로 띄우기) */
+  .s4__title{ --title-offset-y: calc(-1 * var(--m-title-gap)); }
+
+  /* 프라다처럼 캡션 보이도록 */
+  .s4__meta{
+    display: flex;
+    gap: 3px;
+    margin-top: 5px;
+    font-size: clamp(6px, 3.4vw, 8px);
+    line-height: 0.7;
+    opacity: .8;
+  }
+  .s4__metaL, .s4__metaR{ max-width:unset; }
+  .s4__metaL{ text-align:left; }
+  .s4__metaR{ text-align:right; } /* 필요하면 유지, 둘 다 보이려면 이 줄 삭제 */
+
+  /* 모바일에선 화살표 숨김(스와이프 중심) */
+  .s4__sep{ display:none !important; }
+}
+
+/* 모바일 마지막 카드 화살표 — 미니멀 톤다운 */
+@media (max-width:700px){
+  #section4.s4.is-last .s4__stage::after{
+    content:"››";
+    right: calc(var(--m-frame-pad, 12px) + 4px);
+    top:54%;
+    position:absolute;
+    transform: translateY(-50%);          /* Y만 고정 */
+    font: 600 16px/1 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    letter-spacing: -2px;                  /* 두 화살표 간격 좁게 */
+    color:#909090;
+    opacity:.65;                            /* 기본 투명도 낮춤 */
+    text-shadow:none;                       /* 그림자 제거 */
+    pointer-events:none;
+    animation: s4hint 2.4s ease-in-out infinite;  /* 천천히 은근하게 */
+  }
+
+  /* 살짝 앞으로 밀었다 돌아오는 정도만 */
+  @keyframes s4hint{
+    0%   { opacity:.28; transform:translateY(-50%) translateX(0); }
+    70%  { opacity:.75; transform:translateY(-50%) translateX(1.5px); }
+    100% { opacity:.28; transform:translateY(-50%) translateX(0); }
+  }
+}
+/* 활성 카드만 배경 유지, 프리뷰(비활성) 카드는 투명 처리 */
+#section4.s4 .s4__slide:not(.is-active){ background: transparent !important; }
+#section4.s4 .s4__slide:not(.is-active) .s4__bg{ background: transparent !important; }

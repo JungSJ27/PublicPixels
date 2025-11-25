@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <!-- ✅ iOS safe-area + 100svh 정확도 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Studio Log</title>
+
+  <!-- common -->
+  <link rel="stylesheet" href="../front/styles.css">
+  <link rel="stylesheet" href="../front/header.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <!-- page -->
+  <link rel="stylesheet" href="./current.css" />
+
+  <meta name="theme-color" content="#010102" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#010102">
+</head>
+
+<body data-page="news">
+  <!-- header (동적으로 주입) -->
+  <div data-include="header"></div>
+  <script src="../front/headerLoader.js" defer></script>
+  <script defer src="/front/favicons.js"></script>
+
+  <!-- ✅ 스크롤 컨테이너는 main 하나만 -->
+  <main id="news-wrap" class="news-wrap" aria-label="News">
+    <!-- 헤더 아래 ~ 룰러 위: 정확히 잘리는 무대 -->
+    <div id="news-stage" class="news-stage" role="region" aria-label="News grid stage">
+      <section id="news-grid" class="news-grid one-row" aria-label="News grid"></section>
+    </div>
+
+    <!-- 고정 룰러 -->
+    <footer class="year-ruler" aria-hidden="false">
+      <div class="ruler">
+        <div id="ticks" class="ticks"></div>
+        <div id="indicator" class="indicator" aria-hidden="true">
+          <canvas class="heart3d"></canvas>
+        </div>
+        <div id="indicator-label" class="indicator-label" aria-live="polite">NOW</div>
+      </div>
+    </footer>
+  </main>
+
+  <!-- common -->
+  <script src="../front/script.js"></script>
+
+  <!-- three import map (반드시 모듈 전에) -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+
+  <!-- ✅ 뉴스 하트: 한 번만 로드 -->
+  <script type="module" src="/studiolog/current.heart.js"></script>
+
+  <!-- (선택) 카드 하트 쓰면 유지, 아니면 지워도 됨 -->
+  <!-- <script type="module" src="/Section4/heart.js"></script> -->
+
+  <!-- 레이아웃/룰러 등 -->
+  <script>
+    (function waitHeader() {
+      const root = document;
+      const fire = () => window.dispatchEvent(new Event('resize'));
+      if (root.querySelector('header')) { fire(); return; }
+      const mo = new MutationObserver(() => {
+        if (root.querySelector('header')) { mo.disconnect(); fire(); }
+      });
+      mo.observe(root.body || root.documentElement, { childList: true, subtree: true });
+    })();
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => window.dispatchEvent(new Event('resize'))).catch(()=>{});
+    }
+  </script>
+
+  <!-- ✅ 룰러/그리드 생성 스크립트는 그대로 -->
+  <script src="./current.js" defer></script>
+
+</body>
+</html>

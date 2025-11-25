@@ -1,0 +1,347 @@
+/* /front/search.css
+   PublicPixels 전체 화면 검색 오버레이
+*/
+
+#search {
+  z-index: 2000 !important;   /* 검색창이 가장 위 */
+}
+
+#search-backdrop {
+  z-index: 1000 !important;   /* 검색창보다 아래 */
+}
+
+
+/* 루트 오버레이 */
+#search[aria-hidden="true"] {
+  display: none;
+}
+
+/* 기본은 전체 화면 */
+#search {
+  position: fixed;
+  top: var(--header-h, 56px);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.97);
+  overflow-y: auto;
+  transition: all 0.25s ease;
+}
+
+/* 반만 열리는 모드 */
+#search.half {
+  height: 50vh;
+  top: var(--header-h, 56px);
+  bottom: auto;
+  border-radius: 0 0 0px 0px;
+  overflow: hidden;   /* 스크롤 없앰 */
+}
+
+/* 전체 모드 */
+#search.full {
+  height: calc(100vh - var(--header-h, 56px));
+  top: var(--header-h, 56px);
+  bottom: auto;
+  border-radius: 0;
+  overflow-y: auto;   /* 검색하기 시작하면 스크롤 가능 */
+}
+
+
+/* 가운데 컬럼 */
+.search-inner {
+  max-width: 3000px;
+  margin: 0 auto;
+  padding: 64px 20px 80px;
+  box-sizing: border-box;
+}
+
+/* ==== 전체 블러 백드롭 ==== */
+#search-backdrop {
+  position: fixed;
+  top: var(--header-h, 56px);  /* 헤더 아래부터 시작 */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.38);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(12px);
+  display: none;
+  z-index: 1000;               /* 헤더(3000) < search(2000) > backdrop(1000) */
+}
+
+#search-backdrop.visible {
+  opacity: 1;
+  pointer-events: auto;
+  display: block;
+}
+
+
+/* 인풋 줄 */
+.search-input-wrapper {
+  position: sticky;
+  top: 0;
+  padding-bottom: 14px;
+  margin-top: 30px;
+  margin-bottom: 80px;
+  background:  transparent;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;  /* 중앙 배치 */
+}
+
+/* 언더라인 하나만 있는 인풋 */
+#search-input {
+  border: none;
+  border-bottom: 1px solid #222;
+  border-radius: 0;
+  background: transparent;
+  font-size: 0.9rem;
+  padding: 8px 40px 6px 2px;
+  color: #111;
+  flex: none;
+  width: 720px;             /* 원하는 길이 */
+  max-width: calc(100% - 70px);
+}
+
+#search-input::placeholder {
+  color: #999;
+}
+
+#search-input:focus {
+  outline: none;
+  border-bottom-color: #343333;
+}
+
+/* X 버튼 */
+.clear-btn {
+  position: relative;
+  right: 12px;
+  bottom: 1px;
+  font-size: 1rem;
+  opacity: 0.6;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* 결과 전체 래퍼 */
+.search-results {
+  min-height: 50vh;
+}
+/* ===========================
+   1) 추천 카드 전용 스타일
+   (검색어 입력 전, 작은 썸네일 느낌)
+   =========================== */
+
+.search-results-images {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+
+  padding: clamp(10px, 1.75vw, 80px) 5vw 70px;
+}
+
+/* 추천 카드 크기 / 레이아웃 */
+.search-results-images .search-card {
+  width: 100px;                /* 🔹 작고 귀엽게 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.search-results-images .search-image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 0;
+  background: #f5f5f5;
+}
+
+.search-results-images .card-body {
+  width: 100%;
+  margin-top: 4px;
+}
+
+.search-results-images .card-title {
+  font-size: 0.6rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-left: 3px; /* ← 🔥 들여쓰기 */
+}
+
+.search-results-images .card-meta {
+  display: none; /* 추천카드 메타는 안 보이게 */
+}
+
+
+/* ===========================
+   2) 검색 결과 카드 전용 스타일
+   (검색 후, 크게 / 반응형)
+   =========================== */
+
+.search-results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* 🔹 카드 최소 260px */
+  gap: 50px;
+  width: min(2000px, 92vw);
+  margin: 40px auto 80px;
+  justify-items: center;
+  align-items: start;
+}
+
+/* 검색 결과 카드 크기 / 레이아웃 */
+.search-results-grid .search-card {
+  width: 100%;
+  max-width: 280px;     /* 🔹 체감상 2배 정도 커짐 */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-decoration: none;
+  color: inherit;
+}
+
+.search-results-grid .search-image {
+  width: 100%;
+  aspect-ratio: 4 / 4;  /* 🔹 세로로 시원한 비율 */
+  object-fit: cover;
+  border-radius: 0;
+  background: #f5f5f5;
+}
+
+/* 텍스트 */
+.search-results-grid .card-body {
+  width: 100%;
+  margin-top: 4px;
+  padding-left: 4px; /* ← 🔥 들여쓰기 */
+}
+
+.search-results-grid .card-title,
+.search-results-grid .card-meta {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.search-results-grid .card-title {
+  font-size: 0.7rem;
+  font-weight: 300;
+  color: #111;
+}
+
+.search-results-grid .card-meta {
+  font-size: 0.7rem;
+  color: #9f9f9f;
+  font-weight: 200;
+  margin-top: -2px;
+}
+
+/* ===========================
+   No Results 중앙 정렬
+   =========================== */
+.search-results-empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  /* 🔥 높이를 검색 전체화면에서	input 라인 제외한 만큼 */
+  min-height: calc(15vh);  
+  font-size: 0.8rem;
+  color: #888;
+}
+
+
+/* ===========================
+   3) 모바일에서 검색 결과 카드 (수정완성본)
+   =========================== */
+@media (max-width: 700px) {
+
+  #search.half {
+    height: 45vh;
+  }
+
+  .search-inner {
+    padding-top: 20px;
+    padding-bottom: 30px;
+  }
+
+ #search-input {
+  font-size: 16px !important;
+  -webkit-text-size-adjust: 100%;
+  }
+
+  .search-input-wrapper {
+    margin-bottom: 35px;    /* 기존 38px → 20px */
+    padding-bottom: 4px;
+  }
+
+  /* 🔥 추천 카드 (왼쪽 정렬 + 스냅 제거) */
+  .search-results-images {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 16px;
+
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 30px;
+
+    justify-content: flex-start;   /* ⭐ 왼쪽부터 시작하도록 명시 */
+    scroll-snap-type: none;        /* ⭐ Safari 가운데로 끌려가는 문제 해결 */
+   
+    -webkit-overflow-scrolling: touch; /* iOS 자연스러운 스크롤 */
+    scrollbar-width: none;     
+  }
+
+  .search-results-images::-webkit-scrollbar {
+  display: none !important;          /* Safari / Chrome 스크롤바 숨김 */
+  }
+
+  .search-results-images .search-card {
+    flex: 0 0 100px;
+    scroll-snap-align: none;       /* ⭐ 스냅 완전 제거 */
+  }
+
+
+  /* 🔥 검색 결과 grid 카드 좌우 균등 */
+  .search-results-grid {
+    width: 100% !important;        /* ⭐ 가운데 max-width 제거 */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 16px;
+
+    padding-left: 5px;            /* ⭐ 좌우 동일 */
+    padding-right: 5px;
+    margin: 24px 0 80px;           /* margin auto 제거 */
+  }
+
+  .search-results-grid .search-card {
+    width: 100%;
+    max-width: 100%;               /* 카드가 한쪽으로 안 쏠리게 */
+  }
+
+  .search-results-grid .search-image {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+  }
+
+  .search-results-grid .card-body {
+    margin-top: 6px;
+    padding-left: 3px;
+  }
+
+  .search-results-grid .card-title,
+  .search-results-grid .card-meta {
+    font-size: 0.6rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+

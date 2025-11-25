@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>05.19.2025</title>
+
+  <!-- Global styles -->
+  <link rel="stylesheet" href="/front/styles.css">
+  <link rel="stylesheet" href="/front/header.css">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="/front/favicon.ico">
+  <link rel="apple-touch-icon" href="/front/apple-touch-icon.png">
+  <script defer src="/front/favicons.js"></script>
+
+  <!-- Page-specific CSS -->
+  <link rel="stylesheet" href="./202106.css">
+</head>
+
+<body data-page="log" data-no-header-offset="true">
+
+  <!-- Header -->
+  <div data-include="header"></div>
+  <script src="/front/headerLoader.js" defer></script>
+
+  <!-- List icon -->
+  <div class="list-toggle" onclick="location.href='/studiolog/'">
+    <svg viewBox="0 0 24 24" class="ic-list">
+      <g fill="none" stroke="currentColor" stroke-width="1.6">
+        <line x1="4" y1="6" x2="20" y2="6"/>
+        <line x1="4" y1="12" x2="20" y2="12"/>
+        <line x1="4" y1="18" x2="20" y2="18"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- FULLSCREEN HERO -->
+  <section class="hero">
+    <img src="IMG_7945.png" alt="Exhibition main visual">
+  </section>
+
+  <!-- DESCRIPTION -->
+  <section class="description">
+
+    <h1 class="brand">TEXTILE. TEXTURE. TACTILE : TTT</h1>
+
+    <!-- POSTER -->
+    <div class="poster">
+      <img src="IMG_7863.jpg" alt="Exhibition Poster">
+    </div>
+
+    <!-- Exhibition info -->
+    <div class="exhibition-info">
+        <p><strong>Location</strong>: Sungkyunkwan Univ., Seoul</p>
+        <p><strong>Date</strong>: JUN 2021</p>
+        <p><strong>Artists</strong>: Surface Design MFA students</p>
+
+      <br>
+      <br>
+
+         <p><strong>위치</strong>: 대한민국 서울, 성균관대학교 인문사회과학캠퍼스 경영관 1층 성균갤러리</p>
+         <p><strong>일시</strong>: 2021년 06월 중</p>
+         <p><strong>작가</strong>: 성균관대학교 예술대학 디자인학과 써피스디자인 대학원</p>
+
+    </div>
+
+    <!-- English intro -->
+    <p class="text">
+      This exhibition presents textile artworks by graduate students 
+      in the Surface Design program, exploring 
+      the expanded possibilities of fiber-based expression 
+      through techniques such as yarn work, tufting, and digital printing.<br><br>
+
+      JJ’s project takes a distinctive approach in terms of material choice. 
+      Rather than purchasing new materials, 
+      she intentionally worked with what she already had, 
+      driven by her personal concern about the environmental impact 
+      of excessive material consumption in annual art production.<br><br>
+
+      In her work, each textile layer represents an individual ecosystem, 
+      and when these layers are combined, they form a unified ocean. 
+      This concept reflects her interest in accumulation, interdependence, 
+      and the ecological relationships that emerge when multiple systems coexist.
+    </p>
+
+    <!-- Korean intro -->
+    <p class="text kor">
+    써피스디자인 전공 대학원생들의 섬유 예술 전시이다. 
+    다양한 실험적 접근을 기반으로 실, 터프팅, 디지털 프린팅 등 여러 기법을 활용해 섬유 예술의 확장성을 탐구한다.<br><br>
+
+    승진의 작업은 특히 재료 선택에서 차별성을 보인다. 
+    새로운 재료를 구매하기보다 기존에 가지고 있던 재료를 활용해 작업을 구성했는데, 
+    매해 많은 재료를 소비하는 관행이 환경적으로 지속 가능하지 않다는 개인적 문제의식에서 비롯한 선택이다.<br><br>
+
+    한 장의 레이어를 하나의 생태계로 설정하고, 여러 레이어가 겹쳐질 때 비로소 하나의 바다가 완성된다는 개념을 제시한다. 
+    이는 자연의 상호 연결성과 축적의 과정을 섬유적 조형 언어로 풀어낸 시도이다.
+    </p>
+  </section>
+
+  <div class="above-slider-link">
+    <a href="/archive/works/all-in-one/">
+      <svg class="ic-arrow" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M7 17 L17 7" stroke="currentColor" stroke-width="1.5" fill="none"/>
+        <path d="M10 7h7v7" stroke="currentColor" stroke-width="1.5" fill="none"/>
+      </svg>
+      Visit full project page
+    </a>
+  </div>
+
+  <!-- IMAGE SLIDER -->
+  <section class="slider-section">
+    <div class="slider" id="slider"></div>
+
+    <div class="slider-controls">
+      <button id="prevBtn" class="arrow-btn">‹</button>
+      <span id="sliderIndicator"></span>
+      <button id="nextBtn" class="arrow-btn">›</button>
+    </div>
+  </section>
+
+  <!-- Page-specific JS -->
+  <script src="202106.js"></script>
+
+</body>
+</html>

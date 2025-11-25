@@ -1,0 +1,124 @@
+/* Global */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background: #ffffff;
+  color: #4b3d33;
+}
+
+/* HERO IMAGE */
+.hero img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* DESCRIPTION SECTION */
+.description {
+  text-align: center;
+  max-width: 820px;
+  margin: 80px auto;
+  padding: 0 24px;
+  line-height: 1.6;
+}
+
+/* 부가 한국어 문구 스타일 */
+.text.kor,
+.info-kor {
+  font-size: 14px;
+  color: #7a6f6f;
+  margin-top: 8px;
+  line-height: 1.6;
+  font-family: "Noto Sans KR", sans-serif;
+  opacity: 0.75;
+}
+
+.brand {
+  font-size: 34px;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  font-size: 20px;
+  opacity: 0.7;
+  margin-bottom: 24px;
+}
+
+.text {
+  font-size: 16px;
+  opacity: 0.8;
+  margin-bottom: 28px;
+}
+
+.info-link {
+  display: inline-block;
+  font-size: 15px;
+  color: #4b3d33;
+  border-bottom: 1px solid #4b3d33;
+  text-decoration: none;
+  padding-bottom: 2px;
+}
+
+/* SLIDER */
+.slider-section {
+  width: 100%;
+  text-align: center;
+  margin: 0 auto 80px;
+}
+
+.slider {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  scroll-behavior: smooth;
+}
+
+.slide {
+  display: inline-block;
+  width: 100%;
+}
+
+.slide img {
+  width: 70%;
+  max-width: 900px;
+  height: auto;
+  border-radius: 4px;
+}
+
+.slider-indicator {
+  margin-top: 18px;
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+
+/* Floating back button (bottom centered) */
+.back-floating {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 16px;
+  font-size: 12px;
+  color: #4b3d33;
+  text-decoration: none;
+  background: transparent;
+  border: 0px solid rgba(120, 96, 70, 0.25);
+  border-radius: 5px;
+  backdrop-filter: blur(6px);
+  z-index: 2000;
+  opacity: 0.85;
+  transition: opacity 0.2s ease, background 0.2s ease;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .slide img {
+    width: 92%;
+  }
+  .description {
+    margin: 60px auto;
+  }
+}

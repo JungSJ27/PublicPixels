@@ -1,0 +1,22 @@
+/* 🦋 나방 캔버스: 헤더보다 아래, 콘텐츠보다 위 (원하면 조정) */
+#ambient-moths{
+  position: fixed; inset: 0;
+  z-index: 500;             /* 헤더(=2000)보다 낮게 */
+  pointer-events: none;
+  /* blend를 쓰지 않으면 불투명도 제어가 쉽고, 배경에 막 안 생김 */
+  mix-blend-mode: normal;
+}
+
+/* 🧭 헤더(주입되는 컨테이너 포함)는 최상단 */
+[data-include="header"],
+header,
+.site-header {
+  position: relative;
+  z-index: 2000;            /* 나방보다 위 */
+}
+
+/* 본문 섹션들은 기본값이면 충분하지만, 필요하면 명시 */
+.site-root, main, #app, .page, section, #contact {
+  position: relative;
+  z-index: 100;             /* 나방(500)보다는 아래로 두고 싶으면 50 같은 값으로 */
+}

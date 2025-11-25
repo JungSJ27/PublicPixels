@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pixelshop</title>
+
+  <!-- 공통 스타일 -->
+  <link rel="stylesheet" href="../front/styles.css" />
+  <link rel="stylesheet" href="../front/header.css" />
+  <link rel="stylesheet" href="./shop.css" />
+
+  <!-- three.js import map (Heart3D.s3.js보다 먼저) -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body data-page="shop">
+  <div data-include="header"></div>
+  <div data-include="cart"></div>
+
+  <main id="shop" class="shop">
+    <!-- 필터 바: 1줄 유지, 중앙 정렬 -->
+    <div id="bar" class="shop__bar" role="search" aria-label="Filters">
+      <input id="q" class="shop__search" type="search" placeholder="Search products" />
+
+      <select id="type" class="shop__select" aria-label="Type">
+        <option value="">All types</option>
+        <option value="wearable">Wearable</option>
+        <option value="objects">Objects</option>
+        <option value="prints">Prints</option>
+      </select>
+
+      <select id="color" class="shop__select" aria-label="Color">
+        <option value="">All colors</option>
+        <option value="black">Black</option>
+        <option value="white">White</option>
+        <option value="blue">Blue</option>
+        <option value="pink">Pink</option>
+        <option value="brown">Brown</option>
+        <option value="beige">Beige</option>
+        <option value="red">Red</option>
+        <option value="green">Green</option>
+        <option value="gray">Gray</option>
+      </select>
+
+      <select id="price" class="shop__select" aria-label="Price">
+        <option value="">All prices</option>
+        <option value="0-50">$0–50</option>
+        <option value="50-100">$50–100</option>
+        <option value="100-9999">$100+</option>
+      </select>
+
+      <select id="sort" class="shop__select" aria-label="Sort">
+        <option value="new">Newest</option>
+        <option value="price-asc">Price low to high</option>
+        <option value="price-desc">Price high to low</option>
+        <option value="az">A–Z</option>
+      </select>
+
+      <!-- Reset -->
+<button id="btn-clear" class="shop__btn shop__btn--reset" type="button" aria-label="Reset filters" title="Reset">
+  <svg viewBox="0 0 24 24" class="ico" aria-hidden="true">
+    <!-- 원호: 시계방향, 시작점 3,12 -->
+    <path class="stroke" d="M3 12 A9 9 0 1 0 12 3" />
+    <!-- 화살촉: 꼭짓점이 3,12, 날개가 '아래'로 벌어짐 -->
+    <path class="stroke" d="M3 12 L7 14" />
+    <path class="stroke" d="M3 12 L0.4 16.2" />
+  </svg>
+</button>
+
+
+
+    </div>
+
+    <section id="grid" class="shop__grid" aria-live="polite"></section>
+    <div id="empty" class="shop__empty" hidden><p>No items found.</p></div>
+  </main>
+
+  <!-- 카드 템플릿 -->
+  <template id="card-tpl">
+    <article class="card">
+      <a class="card__media" href="#">
+        <img class="card__img" alt="" loading="lazy" />
+      </a>
+      <div class="card__body">
+        <div class="card__head">
+          <h3 class="card__title"></h3>
+          <!-- HeartFX가 하트 버튼 주입 -->
+        </div>
+        <p class="card__price"></p>
+      </div>
+    </article>
+  </template>
+
+
+
+  <script defer src="/front/favicons.js"></script>
+  <script defer src="../front/headerLoader.js"></script>
+  <link rel="stylesheet" href="./heartFX.s3.css" />
+  <script type="module" src="./heart3D.s3.js"></script>
+  <script type="module" src="./heartFX.s3.js"></script>
+  <script type="module" src="./shop.js"></script>
+  <script type="module" src="/front/cart.js"></script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<body>
+
+<!-- 🔥 검색 블러 백드롭 (반드시 body 바로 아래에 있어야 함) -->
+<div id="search-backdrop"></div>
+
+<header>
+  <div class="logo">
+    <a href="/index.html" style="text-decoration:none;color:inherit;">
+      <span class="logo-brand">PublicPixels</span>
+    </a>
+    <span class="logo-roman">JJ seungjin jung</span>
+    <span class="logo-korean">정 승진</span>
+  </div>
+
+  <div class="actions">
+
+    <!-- Cart button -->
+    <div class="shop-toggle"
+         data-cart-open
+         aria-label="Open cart"
+         role="button">
+      <svg class="ic-bag" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M8 9V7a4 4 0 1 1 8 0v2"/>
+          <path d="M6 9h12l-1.2 11H7.2L6 9Z"/>
+        </g>
+      </svg>
+    </div>
+
+    
+    <!-- Search button -->
+    <div class="search-icon"
+         aria-label="Open search"
+         aria-expanded="false"
+         role="button"
+         tabindex="0">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="7"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </div>
+
+  </div>
+</header>
+
+<script>
+  // 검색 JSON 소스 설정
+  (function () {
+    const ROOT = location.pathname.startsWith("/PublicPixels/") ? "/PublicPixels" : "";
+    window.SEARCH_SOURCES = [
+      ROOT + "/archive/artworks.json",
+      ROOT + "/pixelshop/shop.json",
+      ROOT + "/studiolog/current.data.json"
+    ];
+  })();
+
+  // 🔥 검색창이 떠있을 때 카트 버튼 누르면 → 검색 먼저 닫기
+  window.addEventListener("DOMContentLoaded", () => {
+    const cartBtn = document.querySelector("[data-cart-open]");
+    const searchPanel = document.getElementById("search");
+
+    if (cartBtn) {
+      cartBtn.addEventListener("click", () => {
+        const isSearchOpen = searchPanel && searchPanel.getAttribute("aria-hidden") === "false";
+        if (isSearchOpen) {
+          // 검색창 닫기 함수 호출
+          if (window.closeSearchPanel) {
+            window.closeSearchPanel();
+          }
+        }
+      });
+    }
+  });
+</script>
+

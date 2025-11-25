@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>05.19.2025</title>
+
+  <!-- Global styles -->
+  <link rel="stylesheet" href="/front/styles.css">
+  <link rel="stylesheet" href="/front/header.css">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="/front/favicon.ico">
+  <link rel="apple-touch-icon" href="/front/apple-touch-icon.png">
+  <script defer src="/front/favicons.js"></script>
+
+  <!-- Page-specific CSS -->
+  <link rel="stylesheet" href="./202301.css">
+</head>
+
+<body data-page="log" data-no-header-offset="true">
+
+  <!-- Header -->
+  <div data-include="header"></div>
+  <script src="/front/headerLoader.js" defer></script>
+
+  <!-- List icon -->
+  <div class="list-toggle" onclick="location.href='/studiolog/'">
+    <svg viewBox="0 0 24 24" class="ic-list">
+      <g fill="none" stroke="currentColor" stroke-width="1.6">
+        <line x1="4" y1="6" x2="20" y2="6"/>
+        <line x1="4" y1="12" x2="20" y2="12"/>
+        <line x1="4" y1="18" x2="20" y2="18"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- FULLSCREEN HERO -->
+  <section class="hero">
+    <img src="IMG_9611.png" alt="Exhibition main visual">
+  </section>
+
+  <!-- DESCRIPTION -->
+  <section class="description">
+
+    <h1 class="brand">EGO</h1>
+
+    <!-- POSTER -->
+    <div class="poster">
+      <img src="IMG_9370.JPG" alt="Exhibition Poster">
+    </div>
+
+    <!-- Exhibition info -->
+    <div class="exhibition-info">
+        <p><strong>Location</strong>: Keep in Touch Seoul, Bukchon-ro 1-gil, Seoul, South Korea</p>
+        <p><strong>Date</strong>: JAN 11 — JAN 15, 2023</p>
+        <p><strong>Artists</strong>: @201 Crew</p>
+
+      <br>
+      <br>
+
+         <p><strong>위치</strong>: 대한민국 서울, 북촌로 1길, 킵인터치 서울</p>
+         <p><strong>일시</strong>: 2023년 01월 11일 — 2023년 01월 15일</p>
+         <p><strong>작가</strong>: @201 Crew</p>
+
+    </div>
+
+    <!-- English intro -->
+    <p class="text">
+    JJ participated in EGO, the first exhibition organized by the MFA student collective @201 at Sungkyunkwan University.
+    She presented an installation work titled <em>A moth drawn to the scent of peonies</em>, which blends traditional Korean motifs with contemporary symbolism.<br><br>
+
+    Drawing inspiration from traditional Moran-do (peony paintings), 
+    Seungjin reinterprets the imagery by introducing a moth—her personal symbol—into the narrative. 
+    Through this shift, the work explores the idea of living a self-directed, 
+    autonomous life, even in the face of external judgment or stereotypes.<br><br>
+
+    The piece incorporates elements of traditional hanging scrolls, video, and AR technology, 
+    connecting classical Eastern aesthetics with modern digital expression.
+    </p>
+
+    <!-- Korean intro -->
+    <p class="text kor">
+    성균관대학교 대학원생들이 결성한 전시 크루 @201의 첫 전시 EGO에 참여했다.
+    승진은 전통 문양과 현대적 상징을 결합한 설치 작품 <em>모란의 향을 맡는 나방</em>을 선보였다.<br><br>
+
+    모란도에서 모티프를 가져오되, 나방이라는 개인적 상징을 더해
+    편견 속에서도 스스로의 가치를 보고자 하는 ‘주체적 삶’의 태도를 표현했다.
+    전통 족자 형식, 영상, AR을 활용해 동양적 이미지와 현대 기술을 연결한 작품이다.
+    </p>
+  </section>
+
+  <div class="above-slider-link">
+    <a href="/archive/works/a-moth-drawn-to-the-scent-of-peonies/">
+      <svg class="ic-arrow" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M7 17 L17 7" stroke="currentColor" stroke-width="1.5" fill="none"/>
+        <path d="M10 7h7v7" stroke="currentColor" stroke-width="1.5" fill="none"/>
+      </svg>
+      Visit full project page
+    </a>
+  </div>
+
+  <!-- IMAGE SLIDER -->
+  <section class="slider-section">
+    <div class="slider" id="slider"></div>
+
+    <div class="slider-controls">
+      <button id="prevBtn" class="arrow-btn">‹</button>
+      <span id="sliderIndicator"></span>
+      <button id="nextBtn" class="arrow-btn">›</button>
+    </div>
+  </section>
+
+  <!-- Page-specific JS -->
+  <script src="202301.js"></script>
+
+</body>
+</html>

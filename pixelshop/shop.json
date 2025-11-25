@@ -1,0 +1,82 @@
+[
+  {
+    "id": "Turkish men’s red night robe",
+    "title": "Men’s night robe",
+    "price": 69.90,
+    "category": "Wearable",
+    "color": "Red",
+    "thumb": { "src": "/pixelshop/secass3/TMR.png", "alt": "Night robe" },
+    "href": "/pixelshop/shop/robe.n1/",
+    "created": "2023-05"
+  },
+  {
+    "id": "Turkish women’s red night robe",
+    "title": "Women’s night robe",
+    "price": 69.90,
+    "category": "Wearable",
+    "color": "Red",
+    "thumb": { "src": "/pixelshop/secass3/TWR.png", "alt": "Night Robe" },
+    "href": "/pixelshop/shop/robe.n2/",
+    "created": "2023-05"
+  },
+  {
+    "id": "Turkish women’s blue night robe",
+    "title": "Women’s night robe",
+    "price": 69.90,
+    "category": "Wearable",
+    "color": "Blue",
+    "thumb": { "src": "/pixelshop/secass3/TWR_Blue.png", "alt": "Night Robe" },
+    "href": "/pixelshop/shop/robe.n3/",
+    "created": "2023-05"
+  },
+  {
+    "id": "Blue Scrunchie",
+    "title": "Scrunchie",
+    "price": 19.90,
+    "category": "Accessories",
+    "color": "Blue",
+    "thumb": { "src": "/pixelshop/secass3/TBS.png", "alt": "Scrunchie" },
+    "href": "/pixelshop/shop/scrunchie.n1/",
+    "created": "2024-06"
+  },
+  {
+    "id": "Red Scrunchie",
+    "title": "Scrunchie",
+    "price": 19.90,
+    "category": "Accessories",
+    "color": "Red",
+    "thumb": { "src": "/pixelshop/secass3/TRS.png", "alt": "Scrunchie" },
+    "href": "/pixelshop/shop/scrunchie.n2/",
+    "created": "2024-06"
+  },
+  {
+    "id": "Rent-a-JJ Chat",
+    "title": "Rent-a-JJ Chat",
+    "price": 39.90,
+    "category": "Objects",
+    "color": "Transparent",
+    "thumb": { "src": "/pixelshop/secass3/TRJ.png", "alt": "Rent-a-JJ Chat" },
+    "href": "/pixelshop/shop/rent-a-jjchat/",
+    "created": "2025-10"
+  },
+  {
+    "id": "Heart Necklace",
+    "title": "Heart Necklace",
+    "price": 15.50,
+    "category": "Accessories",
+    "color": "Red",
+    "thumb": { "src": "/pixelshop/secass3/THN.png", "alt": "Heart Necklace" },
+    "href": "/pixelshop/shop/heart-necklace/",
+    "created": "2024-05"
+  },
+  {
+    "id": "Moth Necklace",
+    "title": "Moth Necklace",
+    "price": 39.90,
+    "category": "Accessories",
+    "color": "Silver",
+    "thumb": { "src": "/pixelshop/secass3/TMN.png", "alt": "Moth Necklace" },
+    "href": "/pixelshop/shop/moth-necklace/",
+    "created": "2023-06"
+  }
+]

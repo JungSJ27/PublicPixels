@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>05.19.2025</title>
+
+  <!-- Global styles -->
+  <link rel="stylesheet" href="/front/styles.css">
+  <link rel="stylesheet" href="/front/header.css">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="/front/favicon.ico">
+  <link rel="apple-touch-icon" href="/front/apple-touch-icon.png">
+  <script defer src="/front/favicons.js"></script>
+
+  <!-- Page-specific CSS -->
+  <link rel="stylesheet" href="./201910.css">
+</head>
+
+<body data-page="log" data-no-header-offset="true">
+
+  <!-- Header -->
+  <div data-include="header"></div>
+  <script src="/front/headerLoader.js" defer></script>
+
+  <!-- List icon -->
+  <div class="list-toggle" onclick="location.href='/studiolog/'">
+    <svg viewBox="0 0 24 24" class="ic-list">
+      <g fill="none" stroke="currentColor" stroke-width="1.6">
+        <line x1="4" y1="6" x2="20" y2="6"/>
+        <line x1="4" y1="12" x2="20" y2="12"/>
+        <line x1="4" y1="18" x2="20" y2="18"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- FULLSCREEN HERO -->
+  <section class="hero">
+    <img src="DSC_5396.jpg" alt="Exhibition main visual">
+  </section>
+
+  <!-- DESCRIPTION -->
+  <section class="description">
+
+    <h1 class="brand">2019 SungKyunKwan Univ. Dept. of Surface Design<br>27th BFA Thesis show</h1>
+    <h2 class="subtitle">2019년 성균관 대학교 예술대학 디자인학과<br>써피스디자인 전공 27회 학사 졸업 전시</h2>
+
+    <!-- POSTER -->
+    <div class="poster">
+      <img src="IMG_1202.png" alt="Exhibition Poster">
+    </div>
+
+    <!-- Exhibition info -->
+    <div class="exhibition-info">
+        <p><strong>Location</strong>: Sungkyunkwan Univ., Seoul</p>
+        <p><strong>Date</strong>: Oct 23–29, 2019</p>
+        <p><strong>Artists</strong>: Surface Design BFA students</p>
+
+      <br>
+      <br>
+
+         <p><strong>위치</strong>: 대한민국 서울, 성균관대학교 인문사회과학캠퍼스 경영관 1층 성균갤러리</p>
+         <p><strong>일시</strong>: 2019년 10월 23일 — 2019년 10월 29일</p>
+         <p><strong>작가</strong>: 성균관대학교 예술대학 디자인학과 써피스디자인 전공생</p>
+
+    </div>
+
+    <!-- English intro -->
+    <p class="text">
+      JJ participated in the 27th Surface Design Graduation Exhibition and presented her project, <em>Cha</em>. 
+      <em>Cha</em>, developed around the graduation exhibition’s central theme of Inner Peace,
+      explores emotional stability and a private space for relaxation through tea. The artist
+      views the act of drinking tea as a small ritual within daily life and seeks to expand this
+      moment into a visual and tactile experience. <br><br>
+
+      The project incorporates digitally refined versions of hand-dyed textile patterns,
+      reconstructed for spatial application. The ceramics and lighting that form the space were
+      also designed by the artist, following the same formal language. These elements serve
+      functional roles while reinforcing the atmosphere of calm and contemplation that the work
+      aims to evoke. <br><br>
+
+      More than simply creating a physical environment, ChaChaCha translates the sensory and
+      emotional experience of tea into visual form, inviting viewers to pause, breathe, and
+      experience a moment of inner balance away from daily life.
+    </p>
+
+    <!-- Korean intro -->
+    <p class="text kor">
+      제 27회 써피스디자인 전공 졸업전시에 참여하여 <em>Cha</em>를 전시하였다. 
+      <em>Cha</em>는 졸업 전시의 전체 주제인 Inner Peace를 기반으로 한 작품으로, 차를
+      매개로 정서적 안정과 사적 휴식의 공간을 탐구한다. 작가는 차를 마시는 행위를
+      일상 속 잠시 머무는 의식적 시간으로 바라보며, 이를 시각적·촉각적 경험으로
+      확장하고자 했다. <br><br>
+
+      작품은 직접 염색한 텍스타일 패턴을 디지털 보정과 재구성을 통해 공간 적용이
+      가능하도록 정제하는 방식으로 제작되었다. 더불어 공간을 구성하는 도자기와 조명
+      역시 동일한 조형 언어에 맞추어 작가가 직접 디자인하였다. <br><br>
+
+      이러한 요소들은 기능적 역할을 수행하는 동시에, 작품이 전달하고자 하는 고요함과
+      집중의 분위기를 강화한다. 관람자는 이 공간 안에서 잠시 멈추어 숨을 고르고,
+      일상에서 벗어난 내면의 균형을 체감할 수 있다.
+    </p>
+  </section>
+
+  <div class="above-slider-link">
+    <a href="/archive/works/cha/">
+      <svg class="ic-arrow" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M7 17 L17 7" stroke="currentColor" stroke-width="1.5" fill="none"/>
+        <path d="M10 7h7v7" stroke="currentColor" stroke-width="1.5" fill="none"/>
+      </svg>
+      Visit full project page
+    </a>
+  </div>
+  
+  <!-- IMAGE SLIDER -->
+  <section class="slider-section">
+    <div class="slider" id="slider"></div>
+
+    <div class="slider-controls">
+      <button id="prevBtn" class="arrow-btn">‹</button>
+      <span id="sliderIndicator"></span>
+      <button id="nextBtn" class="arrow-btn">›</button>
+    </div>
+  </section>
+
+  <!-- Page-specific JS -->
+  <script src="201910.js"></script>
+
+</body>
+</html>

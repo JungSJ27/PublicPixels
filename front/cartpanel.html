@@ -1,0 +1,48 @@
+<!-- /Front/CartPanel.html -->
+<div id="cart-backdrop" class="cartBackdrop" hidden></div>
+
+<aside id="cart" class="cart"
+       aria-hidden="true"
+       role="dialog"
+       aria-modal="true"
+       aria-labelledby="cart-title"
+       aria-describedby="cart-desc">
+
+  <!-- Head -->
+  <header class="cart__head">
+    <h3 id="cart-title" class="cart__title">Your selection</h3>
+    <button class="cart__close" aria-label="Close cart" data-cart-close>&times;</button>
+  </header>
+
+  <!-- Body -->
+  <div class="cart__body">
+    <!-- 화면리더 안내용 -->
+    <p id="cart-desc" class="visually-hidden">Items you add will appear here. You can change quantity or remove.</p>
+
+    <!-- 빈 상태(아이템 생기면 JS가 숨김) -->
+    <p id="cart-empty" class="cart__empty" aria-live="polite">
+      Your bag is empty.
+    </p>
+
+    <!-- 목록(아이템 카드들이 JS로 주입) -->
+    <div id="cart-list" class="cart__list"></div>
+  </div>
+
+  <!-- Foot -->
+  <footer class="cart__foot">
+    <div class="line pp-subtotal">
+      <strong>Subtotal</strong>
+      <strong id="cart-subtotal" class="val">$0.00</strong>
+    </div>
+    <div class="line small">This sends a purchase request. No payment now.</div>
+
+    <!-- 주버튼(가장 강조) -->
+    <button class="btn btn--primary" data-cart-request>Request invoice</button>
+
+    <!-- 보조 버튼 2개는 나란히 배치 (CSS에 .btn-row 규칙 추가 시) -->
+    <div class="btn-row">
+      <button class="btn" data-cart-status>Order status</button>
+      <button class="btn" data-cart-clear>Clear cart</button>
+    </div>
+  </footer>
+</aside>

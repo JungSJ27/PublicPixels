@@ -1,0 +1,231 @@
+:root{
+  --heart-btn: 36px;
+  --heart-inset: 0px;      /* 소수점 대신 정수 권장(렌더링 깨끗) */
+  --heart-stroke: 0.7;
+  --heart-x: -4px;
+  --heart-y: -40px;
+  --heart-center: 6px;     /* 기본은 0으로! */
+  --heart-center-x: 4.6px;   /* ← 새로 추가: X축 */
+  --heart-smoke-a: rgba(60,120,255,0.28); /* 바깥쪽 */
+  --heart-smoke-b: rgba(40,90,210,0.20);  /* 안쪽  */
+
+  --smoke-h: 75px;   /* 더 길게 */
+  --smoke-w: 40px;    /* 약간 넓게 */
+  --smoke-boost-k: 1.8; /* 더 진하게 */
+}
+
+/* 버튼 */
+.heart-button{
+  position: relative;
+  width: var(--heart-btn); height: var(--heart-btn);
+  padding: 0;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 999px;
+  background: rgba(255,255,255,.05);
+  box-shadow: 0 1px 2px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.06);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  backface-visibility: hidden;
+  translate: var(--heart-x, 0) var(--heart-y,0);
+  transition: translate .12s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+.heart-button:hover{ background: rgba(255,255,255,.12); }
+.heart-button.is-on{
+  border-color: rgba(255,255,255,.18);
+  background: rgba(255,255,255,.10);
+}
+
+/* 아이콘(정중앙 + 크기) */
+.heart-icon{
+  position: absolute;
+  inset: var(--heart-inset);
+  z-index: 2;
+  translate: var(--heart-center-x) var(--heart-center);
+  width: 74%;
+  height: 74%;
+  display: block;
+}
+
+/* 선/면 */
+.heart-icon .stroke{
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.283);
+  stroke-width: var(--heart-stroke);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+/* 수정 */
+.heart-icon .fill{ opacity:1; transition: fill .18s ease, opacity .18s ease; }
+
+.heart-button.is-on .heart-icon .stroke{ opacity: 0; }
+.heart-button.is-on .heart-icon .fill{ fill:#3aa0ff; } /* ON일 때 두 경로 모두 파란색으로 */
+
+/* 내부 글로우(하트 모양) */
+.heart-icon .glow{
+  fill: #fff;        /* 하얀 글로우 */
+  opacity: 0;      /* 강도: .12 ~ .24에서 조절 */
+  pointer-events: none;
+  transition: opacity .18s ease;
+}
+
+/* 켜질 때는 3D/파란 채움이 주인공이니 글로우를 줄이거나 끄고 싶으면 */
+.heart-button.is-on .heart-icon .glow{ opacity: 0; }   /* (원하면 유지해도 됨) */
+
+
+/* 3D 캔버스 */
+.heart-canvas{
+  position: absolute;
+  inset: var(--heart-inset);
+  translate: var(--heart-center-x) var(--heart-center);
+  pointer-events: none;
+  z-index: 1;
+}
+.heart-button.is-on .heart-canvas{ z-index: 3; }
+.heart-button.is-on .heart-icon{ opacity: 0; }
+
+/* 강하게 보이는 검정 연기 */
+.heart-smoke{
+  position: fixed;
+  left: 0; top: 0;
+  width: var(--smoke-w, 56px);
+  height: var(--smoke-h, 110px);
+  pointer-events: none;
+  z-index: 9999;
+
+  /* 진한 검정 연기 기본값 */
+  --smoke-a: var(--heart-smoke-a, rgba(0,0,0,.60));
+  --smoke-b: var(--heart-smoke-b, rgba(0,0,0,.38));
+  --smoke-boost: var(--smoke-boost-k, 1.8);   /* 1~1.6 정도로 세기 조절 */
+
+  background:
+    radial-gradient(ellipse 42% 30% at 48% 78%, color-mix(in oklab, var(--smoke-a) calc(70%*var(--smoke-boost)), transparent), transparent 66%),
+    radial-gradient(ellipse 38% 30% at 52% 60%, color-mix(in oklab, var(--smoke-b) calc(85%*var(--smoke-boost)), transparent), transparent 70%),
+    radial-gradient(ellipse 28% 24% at 50% 42%, rgba(0,0,0,.16), transparent 72%);
+
+  /* 위로 갈수록 사라지게 마스크 */
+  -webkit-mask-image: linear-gradient(to top, transparent 0 6%, #000 12% 92%, transparent 100%);
+          mask-image: linear-gradient(to top, transparent 0 6%, #000 12% 92%, transparent 100%);
+
+  /* 검정 연기는 normal이 가장 눈에 잘 띔 */
+  mix-blend-mode: normal;
+
+  /* 과한 흐림 제거 */
+  filter: blur(.5px) drop-shadow(0 2px 8px rgba(0,0,0,.22));
+
+  transform: translate(-50%,-50%) scale(.9) rotate(-2deg);
+  animation: smoke-rise 1.35s ease-out forwards;
+}
+
+.heart-smoke::before{
+  content:"";
+  position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse 26% 18% at 52% 88%, var(--smoke-a), transparent 74%),
+    radial-gradient(ellipse 22% 16% at 48% 72%, var(--smoke-b), transparent 76%);
+  opacity:.92;
+  animation: smoke-wobble 1.35s ease-out forwards;
+}
+
+@keyframes smoke-rise{
+  0%   { opacity:.98; transform: translate(-50%,-50%)  scale(.86) rotate(-4deg); }
+  45%  { opacity:.85; transform: translate(-50%,-88%)  scale(1.06) rotate( 2deg); }
+  100% { opacity:0;   transform: translate(-50%,-146%) scale(1.34) rotate( 8deg); }
+}
+
+@keyframes smoke-wobble{
+  0%   { transform: rotate(0deg)  skewX(0deg); }
+  40%  { transform: rotate(3deg)  skewX(1deg); }
+  100% { transform: rotate(8deg)  skewX(2deg); }
+}
+
+
+/* 접근성: 모션 최소화 환경에서 연기/전환 완화 */
+@media (prefers-reduced-motion: reduce){
+  .heart-button{ transition: none; }
+  .heart-smoke{ animation: none; opacity:0; }
+}
+
+/* 미디어 구간 */
+@media (max-width: 430px){
+  :root{
+    --heart-btn: 38px;
+    --heart-inset: 0px;
+    --heart-center: 5.5px;     /* 기본은 0으로! */
+    --heart-center-x: 4.5px;   /* ← 새로 추가: X축 */
+  }
+}
+@media (min-width: 431px) and (max-width: 600px){
+  :root{
+    --heart-btn: 38px;
+    --heart-inset: 0px;
+    --heart-center: 6px;     /* 기본은 0으로! */
+    --heart-center-x: 5px;   /* ← 새로 추가: X축 */
+  }
+}
+
+
+/* 공통 베이스: 코어 배경 없음 */
+.heart-sparkle{
+  position: fixed;
+  left: 0; top: 0;
+  width: var(--sparkle-w, 18px);
+  height: var(--sparkle-h, 50px);
+  pointer-events: none;
+  z-index: 9999;
+  transform-origin: center;
+  animation: heart-sparkle .45s ease-out forwards;
+  will-change: transform, opacity, filter;
+  --sparkle-color: #9ecbff;
+  filter: drop-shadow(0 0 6px var(--sparkle-color));
+  background: none;                 /* 코어 끔 */
+}
+
+/* 애니메이션 그대로 사용 */
+@keyframes heart-sparkle{
+  0%   { opacity:0; transform:scale(.35) rotate(0deg); filter:blur(.4px); }
+  30%  { opacity:1; transform:scale(1.15) rotate(8deg); }
+  100% { opacity:0; transform:scale(1.7)  rotate(18deg); }
+}
+
+/* 십자가: 세로와 가로 라인만 */
+.heart-sparkle[data-style="tall"]{
+  background: none;
+  --ray-v-thick: 2px;
+  --ray-h-thick: 1px;
+  --halo: 6px;
+  --cross-angle: 0deg;            /* 여기서 기본 각도 */
+  --h-len: 60%;                   /* 가로 라인 길이 비율 */
+  filter: drop-shadow(0 0 var(--halo) var(--sparkle-color));
+}
+
+/* 세로 라인 */
+.heart-sparkle[data-style="tall"]::before{
+  content:"";
+  position:absolute; left:50%; top:50%;
+  transform: translate(-50%,-50%) rotate(var(--cross-angle));
+  width: var(--ray-v-thick);      /* 두께 */
+  height: 100%;                   /* 길이 */
+  background: linear-gradient(
+    to bottom,
+    transparent 18%,
+    rgba(255,255,255,.98) 50%,
+    transparent 82%
+  );
+  filter: drop-shadow(0 0 var(--halo) var(--sparkle-color));
+}
+
+/* 가로 라인 */
+.heart-sparkle[data-style="tall"]::after{
+  content:"";
+  position:absolute; left:50%; top:50%;
+  transform: translate(-50%,-50%) rotate(calc(var(--cross-angle) + 90deg));
+  width: var(--ray-h-thick);      /* 두께 */
+  height: var(--h-len);           /* 길이 비율 */
+  background: linear-gradient(
+    to bottom,
+    transparent 18%,
+    rgba(255,255,255,.98) 50%,
+    transparent 82%
+  );
+  filter: drop-shadow(0 0 var(--halo) var(--sparkle-color));
+}

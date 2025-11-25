@@ -1,0 +1,162 @@
+/* ===== Section3: Horizontal scroller — responsive with clamps ===== */
+
+/* 앵커 스크롤만 부드럽게 */
+html { scroll-behavior: smooth; }
+
+/* 섹션 높이는 콘텐츠에 맞춤 */
+#section3.s3{
+  min-height: auto !important;
+  height: auto !important;
+  margin-bottom: clamp(100px, 9vw, 170px);
+  margin-top: clamp(50px, 8.9svh, 130px);
+
+}
+
+/* 상단 패딩과 배경은 화면 크기에 따라 자동 보정 */
+.scroll-shop{
+  background: #fff;
+  /* 위쪽 패딩: 폰에서는 넉넉, 데스크탑은 절제 */
+  overflow: hidden;
+  position: relative;
+  z-index: 10;
+}
+
+/* 타이틀: 크기·두께·여백 모두 clamp로 */
+.shop-title{
+  text-align: center;
+  margin-bottom: clamp(30px, 3.2vw, 50px);
+  padding: 0 20px 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  font-weight: 600;
+  font-size: clamp(13px, 1.6vw, 16px);
+  line-height: 1.3;
+  letter-spacing: .2px;
+  color: #544b4b;
+}
+
+/* 트랙: 좌우 여백과 마스크를 clamp로 계산 */
+#s3-track{
+  /* 가장자리 여백: 폰 작은 화면 16px → 큰 화면 200px */
+  --edge: clamp(16px, 10vw, 200px);
+  /* 카드 간격 */
+  --gap: clamp(2px, 0.3vw, 3px);
+
+  display: flex;
+  gap: var(--gap);
+  padding: 0 var(--edge) clamp(4px, 0.8vw, 8px);
+
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x proximity;
+  scroll-behavior: auto;
+  -webkit-overflow-scrolling: touch;
+
+  touch-action: pan-x pinch-zoom;
+  overscroll-behavior-inline: auto;
+  overscroll-behavior: auto;
+
+  /* 가장자리 페이드도 화면에 비례 */
+  -webkit-mask-image: linear-gradient(to right,
+      transparent 0, #000 calc(var(--edge) - 8px),
+      #000 calc(100% - calc(var(--edge) - 8px)), transparent 100%);
+          mask-image: linear-gradient(to right,
+      transparent 0, #000 calc(var(--edge) - 8px),
+      #000 calc(100% - calc(var(--edge) - 8px)), transparent 100%);
+}
+
+/* 스크롤바 정리 */
+#s3-track::-webkit-scrollbar{ display: none; }
+#s3-track{ scrollbar-width: none; }
+
+/* 카드: 폭과 비율만 clamp로, 나머지는 동일 */
+.s3-item{
+  position: relative;
+  flex: 0 0 auto;
+  cursor: pointer;
+
+  aspect-ratio: 2 / 3;                             /* 1:1.5 와 유사한 세로형 */
+  width: clamp(140px, 22vw, 300px);                /* 폰에서 작게, 데스크탑에서 크게 */
+  max-height: clamp(280px, 70svh, 720px);          /* 화면 높이에 비례 제한 */
+
+  background: #e5e5e5;
+  overflow: hidden;
+
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+
+  contain: paint;
+  backface-visibility: hidden;
+}
+
+/* 링크 레이어 */
+.s3-item .s3-link{
+  position: absolute;
+  inset: 0;
+  display: block;
+  z-index: 2;
+  cursor: pointer;
+}
+
+/* 미디어 공통: 위치와 변형은 CSS 변수로 제어 */
+#s3-track .s3-item img,
+#s3-track .s3-item video{
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: var(--ox, 50%) var(--oy, 50%);
+  transform:
+    translate3d(var(--tx, 0%), var(--ty, 0%), 0)
+    rotate(var(--rot, 0deg))
+    scale(var(--scale, 1));
+  transform-origin: center center;
+  transition: transform .35s ease, object-position .35s ease;
+  pointer-events: none; -webkit-user-drag: none; user-select: none;
+}
+
+/* 스크롤 중 스냅 완화 */
+#s3-track.is-scrolling { 
+  scroll-snap-type: none;
+  scroll-padding-inline: clamp(8px, 1.2vw, 16px);
+}
+
+/* 카드별 미세 튜닝은 유지 가능 */
+#s3-track .s3-item:nth-child(2){ --scale: 1; --ty: 0%; }
+#s3-track .s3-item:nth-child(3){ --oy: 42%; }
+#s3-track .s3-item:nth-child(5){ --scale: 1.12; --tx: -2%; --ty: -4%; }
+#s3-track .s3-item:nth-child(7){ --scale: 1.09; --tx: 0%;  --ty: 0%;  --rot: 0deg; }
+
+/* aspect-ratio 폴백 */
+.s3-item::before{ content: ""; display: block; padding-top: 150%; }
+@supports (aspect-ratio: 1 / 1){ .s3-item::before{ display: none; } }
+
+/* 상단 캔버스 이벤트 통과 */
+#overlay, #ambient-moths, canvas#overlay, canvas#ambient-moths{
+  pointer-events: none !important;
+}
+
+/* Section3 모바일 전용: 카드 크기와 상하 여백 노브 */
+@media (max-width: 700px){
+  /* 섹션 위아래 여백 */
+
+  /* 트랙 좌우 여백과 카드 간격 */
+  #s3-track{
+    --edge: clamp(16px, 8vw, 32px);    /* 좌우 패딩 */
+    --gap:  clamp(2px, 2.2vw, 3px);   /* 카드 사이 간격 */
+
+    padding: 0 var(--edge) clamp(6px, 1.6vw, 10px);
+    gap: var(--gap);
+  }
+
+  /* 카드 크기 노브 */
+  .s3-item{
+    /* 가로 폭과 최대 높이를 원하는 값으로 */
+    --card-w: clamp(140px, 56vw, 260px);  /* 카드 폭 */
+    --card-h: clamp(260px, 62svh, 560px); /* 최대 높이 한계 */
+
+    width: var(--card-w);
+    max-height: var(--card-h);
+
+    /* 비율을 바꾸고 싶으면 이 값만 조정 */
+    aspect-ratio: 2 / 3;                 /* 예 3 / 4, 4 / 5 등 */
+  }
+}
