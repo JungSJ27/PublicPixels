@@ -115,7 +115,7 @@ window.addEventListener("resize", () => {
   // JSON 로드
   // ---------------------------------------------
   
-  fetch("202501images.json")
+  fetch("202409images.json")
     .then((res) => res.json())
     .then((files) => {
       if (!Array.isArray(files) || !files.length) {
