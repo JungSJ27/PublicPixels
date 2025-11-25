@@ -18,10 +18,9 @@ body {
 /* =======================================================
    FULLSCREEN HERO
    ======================================================= */
-/* 기본: PC, 태블릿 — 전체 화면 채우기 */
 .hero {
   width: 100vw;
-  height: 90vh;   /* 기본은 무조건 90vh */
+  height: 90vh;
   overflow: hidden;
   margin: 0 !important;
   padding: 0 !important;
@@ -37,6 +36,7 @@ body {
   display: block;
   margin: 0 !important;
 }
+
 
 
 /* =======================================================
@@ -55,14 +55,12 @@ body[data-page="log"] header {
   z-index: 3000;
 }
 
-/* 헤더 텍스트 (흰색) */
 body[data-page="log"] header .logo-brand,
 body[data-page="log"] header .logo-roman,
 body[data-page="log"] header .logo-korean {
   color: rgba(255, 255, 255, 0.9) !important;
 }
 
-/* 서치/카트 아이콘 숨기기 */
 body[data-page="log"] header .search-icon,
 body[data-page="log"] header .shop-toggle {
   display: none !important;
@@ -71,10 +69,10 @@ body[data-page="log"] header .shop-toggle {
 
 
 /* =======================================================
-   LIST ICON (Back to Log)
+   LIST ICON
    ======================================================= */
 .list-toggle {
-  position: fixed;           /* hero 위에 고정 */
+  position: fixed;
   top: 9px;
   right: 22px;
   width: 28px;
@@ -113,7 +111,7 @@ body[data-page="log"] header .shop-toggle {
 .brand {
   font-size: 21px;
   font-weight: 300;
-  margin-bottom: 90px;
+  margin-bottom: 70px;
 }
 
 .subtitle {
@@ -122,6 +120,8 @@ body[data-page="log"] header .shop-toggle {
   opacity: 1;
   margin-bottom: 70px;
 }
+
+
 
 /* =======================================================
    POSTER
@@ -139,11 +139,12 @@ body[data-page="log"] header .shop-toggle {
 }
 
 
+
 /* =======================================================
    EXHIBITION INFO
    ======================================================= */
 .exhibition-info {
-  margin: 70px 0 100px;
+  margin: 60px 0 100px;
   font-size: 10px;
   color: #333;
   line-height: 1.45;
@@ -181,39 +182,49 @@ body[data-page="log"] header .shop-toggle {
   margin-top: 55px;
 }
 
+
+
+/* =======================================================
+   ABOVE SLIDER LINK
+   ======================================================= */
 .above-slider-link {
   text-align: center;
   margin: 100px auto 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;   /* 두 링크 간 간격 */
 }
 
-/* a 태그: 기존 스타일 그대로 유지 + icon 배치 위해 flex 추가 */
 .above-slider-link a {
-  display: inline-flex;         /* 텍스트+아이콘 가로 배치 */
-  align-items: center;          /* 세로 정렬 */
-  gap: 6px;                     /* 아이콘과 텍스트 간격 */
+  display: inline-flex;
+  justify-content: center;  /* 가운데 정렬 보강 */
+  align-items: center;
+  gap: 6px;
   color: #444444;
-  font-size: 12px;
+  font-size: 10px;
   text-decoration: none;
   opacity: 0.7;
 }
 
-/* hover 시 기존 스타일 유지 */
 .above-slider-link a:hover {
-  color: #d92a2a;
+  color: #f260c9;
   opacity: 1;
 }
 
-/* SVG 아이콘 크기 */
-.ic-arrow {
-  width: 14px;
-  height: 14px;
+.ic-arrow,
+.ic-insta {
+  width: 11px;
+  height: 11px;
   stroke-linecap: round;
   stroke-linejoin: round;
   flex-shrink: 0;
 }
 
+
+
+
 /* =======================================================
-   IMAGE SLIDER
+   IMAGE SLIDER ✅ 최종 완성
    ======================================================= */
 .slider-section {
   width: 100%;
@@ -221,25 +232,35 @@ body[data-page="log"] header .shop-toggle {
   margin: 0 auto 100px;
 }
 
+/* ✅ 핵심: 슬라이드 가로 배열 + 한 장씩 화면 100% */
 .slider {
+  width: 100%;
   overflow: hidden;
-  white-space: nowrap;
-  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  padding: 0;
+  margin: 0;
 }
 
+/* ✅ 슬라이드 자체가 화면 1장을 꽉 채움 */
 .slide {
-  width: 100%;
-  display: inline-block;
+  flex: 0 0 100%;
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
+/* ✅ 이미지는 비율 유지 + 가운데 */
 .slide img {
-  width: auto;           /* 비율 망가지는 것 방지 */
-  max-width: 950px;      /* 가로 사진은 이 기준으로 */
-  max-height: 50vh;      /* 세로 사진은 화면 80%까지만 */
+  width: auto;
   height: auto;
-  margin: 0 auto;
+  max-width: 950px;
+  max-height: 50vh;
   display: block;
+  margin: 0 auto;
 }
+
 
 
 /* =======================================================
@@ -261,6 +282,7 @@ body[data-page="log"] header .shop-toggle {
   cursor: pointer;
   opacity: 0.6;
   padding: 6px 10px;
+  color: #000 !important;
 }
 
 .arrow-btn:hover {
@@ -272,10 +294,7 @@ body[data-page="log"] header .shop-toggle {
   opacity: 0.75;
 }
 
-  .arrow-btn {
-  -webkit-text-fill-color: currentColor !important;  /* iOS 파란색 방지 */
-  color: #000000 !important;  /* 원하는 색 */
-}
+
 
 /* =======================================================
    MOBILE RESPONSIVE
@@ -305,12 +324,19 @@ body[data-page="log"] header .shop-toggle {
     height: 24px;
   }
 
-  .description {
-    margin: 60px auto;
+
+  /* ✅ 모바일에서도 옆 슬라이드 절대 안 보임 */
+  .slider {
+    overflow: hidden;
+  }
+
+  .slide {
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
   .slide img {
-    width: 92%;
+    max-width: 100%;
+    max-height: 40vh;
   }
-
 }

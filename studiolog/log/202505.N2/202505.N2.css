@@ -190,26 +190,40 @@ body[data-page="log"] header .shop-toggle {
   margin-top: 55px;
 }
 
+/* =======================================================
+   ABOVE SLIDER LINK
+   ======================================================= */
 .above-slider-link {
   text-align: center;
-  margin: 100px auto 50px;
+  margin: 20px auto 90px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;   /* 링크 간 간격 조금 더 여유 */
 }
 
 .above-slider-link a {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
   color: #444444;
-  font-size: 12px;
+  font-size: 11px;   /* 너무 작지 않게 살짝 키움 */
   text-decoration: none;
   opacity: 0.7;
+  transition: opacity 0.2s ease, color 0.2s ease;
 }
 
 .above-slider-link a:hover {
-  color: #64ffb4;
+  color: #d25612;
   opacity: 1;
 }
-/* SVG 아이콘 크기 */
-.ic-arrow {
-  width: 14px;
-  height: 14px;
+
+/* 공통 아이콘 스타일 */
+.ic-arrow,
+.ic-insta,
+.ic-external {
+  width: 12px;
+  height: 12px;
   stroke-linecap: round;
   stroke-linejoin: round;
   flex-shrink: 0;
@@ -318,10 +332,6 @@ body[data-page="log"] header .shop-toggle {
   .ic-list {
     width: 24px;
     height: 24px;
-  }
-
-  .description {
-    margin: 60px auto;
   }
 
    .slide img {

@@ -183,36 +183,42 @@ body[data-page="log"] header .shop-toggle {
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
 }
 
+/* =======================================================
+   ABOVE SLIDER LINK
+   ======================================================= */
 .above-slider-link {
   text-align: center;
   margin: 100px auto 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;   /* 두 링크 간 간격 */
 }
 
-/* a 태그: 기존 스타일 그대로 유지 + icon 배치 위해 flex 추가 */
 .above-slider-link a {
-  display: inline-flex;         /* 텍스트+아이콘 가로 배치 */
-  align-items: center;          /* 세로 정렬 */
-  gap: 6px;                     /* 아이콘과 텍스트 간격 */
+  display: inline-flex;
+  justify-content: center;  /* 가운데 정렬 보강 */
+  align-items: center;
+  gap: 6px;
   color: #444444;
-  font-size: 12px;
+  font-size: 10px;
   text-decoration: none;
   opacity: 0.7;
 }
 
-/* hover 시 기존 스타일 유지 */
 .above-slider-link a:hover {
-  color: #09a39b;
+  color: #1cd3b4;
   opacity: 1;
 }
 
-/* SVG 아이콘 크기 */
-.ic-arrow {
-  width: 14px;
-  height: 14px;
+.ic-arrow,
+.ic-insta {
+  width: 11px;
+  height: 11px;
   stroke-linecap: round;
   stroke-linejoin: round;
   flex-shrink: 0;
 }
+
 
 /* =======================================================
    IMAGE SLIDER
@@ -304,11 +310,6 @@ body[data-page="log"] header .shop-toggle {
     width: 24px;
     height: 24px;
   }
-
-  .description {
-    margin: 60px auto;
-  }
-
   .slide img {
     width: 92%;
   }
