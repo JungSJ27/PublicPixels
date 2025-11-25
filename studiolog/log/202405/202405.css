@@ -206,6 +206,14 @@ body[data-page="log"] header .shop-toggle {
   color: #27dd5e;
   opacity: 1;
 }
+/* SVG 아이콘 크기 */
+.ic-arrow {
+  width: 14px;
+  height: 14px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
 
 
 /* =======================================================
