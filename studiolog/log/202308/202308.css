@@ -111,7 +111,7 @@ body[data-page="log"] header .shop-toggle {
 .brand {
   font-size: 21px;
   font-weight: 300;
-  margin-bottom: 90px;
+  margin-bottom: 70px;
 }
 
 .subtitle {
@@ -190,14 +190,18 @@ body[data-page="log"] header .shop-toggle {
 .above-slider-link {
   text-align: center;
   margin: 100px auto 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;   /* 두 링크 간 간격 */
 }
 
 .above-slider-link a {
   display: inline-flex;
+  justify-content: center;  /* 가운데 정렬 보강 */
   align-items: center;
   gap: 6px;
   color: #444444;
-  font-size: 12px;
+  font-size: 10px;
   text-decoration: none;
   opacity: 0.7;
 }
@@ -207,13 +211,15 @@ body[data-page="log"] header .shop-toggle {
   opacity: 1;
 }
 
-.ic-arrow {
-  width: 14px;
-  height: 14px;
+.ic-arrow,
+.ic-insta {
+  width: 11px;
+  height: 11px;
   stroke-linecap: round;
   stroke-linejoin: round;
   flex-shrink: 0;
 }
+
 
 
 
@@ -318,9 +324,6 @@ body[data-page="log"] header .shop-toggle {
     height: 24px;
   }
 
-  .description {
-    margin: 60px auto;
-  }
 
   /* ✅ 모바일에서도 옆 슬라이드 절대 안 보임 */
   .slider {
