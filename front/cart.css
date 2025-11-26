@@ -99,7 +99,7 @@
   align-items: start;
   gap: 10px 14px;                                /* 행 간격 / 열 간격 */
   position: relative;  
-  padding:8px 0;
+  padding:15px 0;
   border-bottom:1px dashed var(--border);
 }
 .cart-item .thumb{ grid-area: thumb; line-height: 0; }
