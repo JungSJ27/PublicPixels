@@ -159,7 +159,7 @@ export function ensureSearchPanel() {
 
   // 5. 추천 카드
   const DEMO = [
-    { title: "SJ1",                 url: "/about/",                             image: "" },
+    { title: "SJ1",                 url: "/about/",                             image: "/front/SJ1.png" },
     { title: "Still, Life goes on", url: "/archive/works/still-life-goes-on/",  image: "/front/recstill.png" },
     { title: "Rent-a-JJ Chat",      url: "/pixelshop/shop/rent-a-jjchat/",      image: "/front/jjchat.png" },
     { title: "Korea–U.S. Group Show", url: "/studiolog/log/202606/",            image: "/front/CNKorUS.png" },
