@@ -404,11 +404,16 @@
 /* ---------- Mobile ---------- */
 @media (max-width:600px){
   #cart{
-    inline-size:100vw;
+    inline-size:90vw;
   }
+  .cart__head{
+    justify-content: flex-start; /* 🔥 모바일에서 왼쪽 정렬 */
+    padding-left: var(--pad-x);
+    padding-right: var(--pad-x);
+  }
+
   .cart__close{
-    inline-size:30px;
-    block-size:30px;
+    margin-right: auto; /* 🔥 X를 왼쪽으로 밀어줌 */
   }
 }
 
