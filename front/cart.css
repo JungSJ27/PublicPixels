@@ -96,7 +96,7 @@
   display:grid;
   place-items:center;
   margin-top: 14px;
-  margin-right: -10px;
+  margin-right: -4px;
 }
 
 /* ---------- Body ---------- */
@@ -239,8 +239,8 @@
 /* ---------- Remove Heart 버튼 ---------- */
 .cart-item .remove{
   position:absolute;
-  right:13px;
-  bottom:12px;
+  right:14px;
+  bottom:10px;
   background:transparent;
   border:none;
   cursor:pointer;
