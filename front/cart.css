@@ -403,8 +403,24 @@
 
 /* ---------- Mobile ---------- */
 @media (max-width:600px){
-  #cart{
-    inline-size:100vw;
+
+   #cart {
+    left: 0;
+    right: 0;
+    inline-size: 100vw !important; /* 완전히 꽉 채우기 */
+    
+    height: 100dvh;    /* 새 모바일 viewport 기준 */
+    max-height: 100dvh;
+
+    border-left: none;   /* 흰 경계선 제거 */
+    box-shadow: none;    /* 오른쪽 그림자 제거 */
+    
+    overflow: hidden;
+  }
+  
+  .cart__body {
+    -webkit-overflow-scrolling: touch; /* iOS momentum scroll */
+    overflow-y: auto;
   }
 }
 
@@ -415,6 +431,18 @@
   #search-backdrop{
     transition:none !important;
     backdrop-filter:none !important;
+  }
+}
+
+/* ---------- iOS Safe Area 보정 ---------- */
+@supports (-webkit-touch-callout: none) {
+  #cart {
+    height: calc(100dvh - env(safe-area-inset-bottom));
+    max-height: calc(100dvh - env(safe-area-inset-bottom));
+  }
+
+  .cart__foot {
+    padding-bottom: calc(18px + env(safe-area-inset-bottom));
   }
 }
 
