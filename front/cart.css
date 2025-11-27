@@ -1,294 +1,378 @@
-/* ===== PublicPixels — Cart (v4 unified backdrops + polish) ===== */
+/* ===== PublicPixels — Cart (v4 clean + animations) ===== */
 
-/* ---------- Backdrop (cart + search 통일) ---------- */
+/* ---------- Backdrop (cart + search 공통) ---------- */
 :root{
-  --backdrop-dim: rgba(0,0,0,.38); /* 명암 강도 */
-  --backdrop-blur: 3px;            /* 블러 강도 */
-  --thumb: 160px;
+  --backdrop-dim: rgba(0,0,0,.38);
+  --backdrop-blur: 3px;
+  --thumb: 120px;           /* 썸네일 살짝 줄임 */
+  --pad-x: 24px;
+  --gap: 14px;
+  --muted:#686a70;
+  --border:#ececee;
+  --ghost:#f7f7f8;
+  --ring:#111;
 }
 
-/* 공통 스타일 */
+/* 공통 백드롭 */
 #cart-backdrop,
 #search-backdrop{
-  position:fixed; left:0; top:var(--header-h,56px);
-  width:100%; height:calc(100vh - var(--header-h,56px));
+  position:fixed;
+  left:0;
+  top:var(--header-h,56px);
+  width:100%;
+  height:calc(100vh - var(--header-h,56px));
   background:var(--backdrop-dim);
   backdrop-filter:saturate(1.05) blur(var(--backdrop-blur));
   -webkit-backdrop-filter:saturate(1.05) blur(var(--backdrop-blur));
-  opacity:0; pointer-events:none; transition:opacity .22s ease;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .22s ease;
   z-index:1200;
 }
 #cart-backdrop[hidden]{ display:none !important; }
 
-/* 활성화: 순서 의존 제거 + 형제 규칙 유지 */
-#cart[aria-hidden="false"] ~ #cart-backdrop{ opacity:1; pointer-events:auto; }
-#cart-backdrop:not([hidden]){ opacity:1; pointer-events:auto; }         /* cart */
-#search-backdrop:not(.hidden){ opacity:1; pointer-events:auto; }         /* search */
+/* 활성화 */
+#cart[aria-hidden="false"] ~ #cart-backdrop{
+  opacity:1;
+  pointer-events:auto;
+}
+#cart-backdrop:not([hidden]){
+  opacity:1;
+  pointer-events:auto;
+}
+#search-backdrop:not(.hidden){
+  opacity:1;
+  pointer-events:auto;
+}
 
 /* ---------- Drawer ---------- */
 #cart{
-  position:fixed; right:0; top:var(--header-h,56px);
-  inline-size:min(500px, 92vw);
+  position:fixed;
+  right:0;
+  top:var(--header-h,56px);
+  inline-size:min(450px, 92vw);
   block-size:calc(100vh - var(--header-h,56px));
-  background:#fff; color:#111; z-index:1300;
+  background:#fff;
+  color:#111;
+  z-index:1300;
   border-left:1px solid #ececee;
   box-shadow:-18px 0 40px rgba(0,0,0,.16);
   transform:translateX(100%);
   transition:transform .26s cubic-bezier(.3,.7,0,1);
-  display:flex; flex-direction:column;
-  --pad-x: 24px;
-  --gap: 14px;
-  --muted:#686a70; --border:#ececee; --ghost:#f7f7f8;
-  --ring:#111;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden; /* 전체는 스크롤 막고 body만 스크롤 */
 }
 #cart[aria-hidden="false"]{ transform:none; }
 
-/* ---------- Head ---------- */
+/* ---------- Head (X 버튼) ---------- */
+/* cart__head는 cart__body 안에 있어야 함 */
 .cart__head{
-  position:sticky; top:0; z-index:2; background:#fff;
-  display:flex; align-items:center; justify-content:space-between;
-  padding: 4px var(--pad-x);
-  border-bottom:none;
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  padding: 4px var(--pad-x) 0;   /* 위쪽 +4px은 오히려 더 균형 좋아짐 */
+  margin:0;                 /* X 밑 선 느낌 나던 여백 제거 */
+  background:#fff;
+  padding-bottom: 0;
+  margin-bottom: 0;
+  border-bottom: none;
 }
-.cart__title{ font-size:0.7rem; font-weight:700; letter-spacing:.2px; opacity: 0;}
+.cart__title{
+  font-size:0.7rem;
+  font-weight:700;
+  letter-spacing:.2px;
+  opacity:0;
+}
 .cart__close {
-  position: absolute;
-  top: 12px;
-  right: 22px;
-  z-index: 10;
-  inline-size: 34px;
-  block-size: 34px;
-  border: 0;
-  border-radius: 50%;
-  background: transparent;
-  font-size: 22px; 
-  color: rgba(0,0,0,.7);
-  cursor: pointer;
-  display: grid;
-  place-items: center;
+  inline-size:0px;
+  block-size:0px;
+  border:0;
+  border-radius:50%;
+  background:transparent;
+  font-size:20px;
+  color:rgba(0,0,0,.7);
+  cursor:pointer;
+  display:grid;
+  place-items:center;
+  margin-top: 14px;
+  margin-right: -10px;
 }
 
 /* ---------- Body ---------- */
 .cart__body {
-  flex: 1;
-  overflow: auto;
-  padding: 30px var(--pad-x) 22px;
-  display: grid;
-  gap: var(--gap);
-  align-content: flex-start;   /* 기본은 위에서부터 쌓이게 */
+  flex:1;
+  overflow:auto;
+  padding:0px var(--pad-x) 18px;
+  display:grid;
+  gap:var(--gap);
+  align-content:flex-start;
+  position: relative;
 }
 
-/* ✅ 1. 장바구니가 '진짜' 비어 있을 때만 중앙 정렬 */
-.cart__body:has(#cart-list:empty) {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0;   /* 정확히 가운데로 */
-}
-
-/* ✅ 2. 아이템이 하나라도 있으면 empty 문구 숨기기 */
-.cart__body:has(#cart-list:not(:empty)) #cart-empty {
-  display: none;
-}
-
-
-.cart__body::-webkit-scrollbar{ width:10px; }
-.cart__body::-webkit-scrollbar-thumb{ background:#e6e6e8; border-radius:0px; }
 .cart__empty {
-  text-align: center;
-  color: rgba(0,0,0,.6);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   font-size: .8rem;
+  color: rgba(0,0,0,.6);
+  white-space: nowrap;
 }
 
+
+/* 아이템이 하나라도 있으면 empty 문구 숨기기 */
+.cart__body:has(#cart-list:not(:empty)) #cart-empty{
+  display:none;
+}
+
+.cart__body::-webkit-scrollbar{ width:8px; }
+.cart__body::-webkit-scrollbar-thumb{
+  background:#e6e6e8;
+  border-radius:0;
+}
+
+.cart__empty{
+  text-align:center;
+  color:rgba(0,0,0,.6);
+  font-size:.8rem;
+}
 
 /* ---------- Items ---------- */
 .cart__list{ display:block; }
+
 .cart-item{
-  display: grid;
-  grid-template-columns: var(--thumb) 1fr; 
-  grid-template-rows: auto auto auto;   /* ✅ 2줄 → 3줄 */
+  display:grid;
+  grid-template-columns:var(--thumb) 1fr;
+  grid-template-rows:auto auto auto;
   grid-template-areas:
     "thumb title"
     "thumb title"
-    "thumb qty"; 
-  align-items: start;
-  gap: 10px 14px;
-  position: relative;
-  padding: 15px 0;
-  border-bottom: 1px solid var(--border);
+    "thumb qty";
+  align-items:start;
+  gap:10px 14px;
+  position:relative;
+  padding:15px 0;
+  border-bottom:1px solid var(--border);
 }
 
-.cart-item .thumb{ grid-area: thumb; line-height: 0; }
+.cart-item .thumb{
+  grid-area:thumb;
+  line-height:0;
+}
 
 .cart-item .thumb img{
-  inline-size: var(--thumb);
-  block-size : var(--thumb);
-  object-fit: cover;
-  border-radius:0px; 
-  background:#f4f4f6; 
+  inline-size:var(--thumb);
+  block-size:var(--thumb);
+  object-fit:cover;
+  border-radius:0;
+  background:#f4f4f6;
   display:block;
 }
+
 .cart-item .meta{
-  grid-area: title;
-  display: grid;
-  gap: 4px;
-  min-width: 0;
+  grid-area:title;
+  display:grid;
+  gap:4px;
+  min-width:0;
 }
 
 .cart-item .title{
-  font-size: .75rem;
-  padding: 9px 10px 0 10px;
-  font-weight: 400;
-  color: #111;
-  text-decoration: none;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  font-size:.75rem;
+  padding:6px 10px 0 10px;
+  font-weight:400;
+  color:#111;
+  text-decoration:none;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
 }
 
 .cart-item .price{
-  /* grid-area 필요 없음! meta 안에서 아래로 쌓이게 */
-  font-size: .7rem;
-  font-weight: 100;
-  padding: 0px 10px 0 12px;
-  color: #111;
-  white-space: nowrap;
+  font-size:.7rem;
+  font-weight:300;
+  padding:0 10px 0 12px;
+  color:#111;
+  white-space:nowrap;
 }
 
-.cart-item .variant{ font-size:.82rem; color:var(--muted); }
+.cart-item .variant{
+  font-size:.82rem;
+  color:var(--muted);
+}
 
+/* ---------- Qty ---------- */
+.qty{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
 
-/* Qty & remove */
-.qty{ display:flex; align-items:center; gap:10px; }
 .qty .btn{
-  inline-size:0px; block-size:10px; border-radius:0px;
-  border:0px solid #dedfe2; background:transparent; display:grid; place-items:center;
-  cursor:pointer; line-height:0;
+  inline-size:18px;
+  block-size:18px;
+  border-radius:3px;
+  border:0px solid #dedfe2;
+  background:transparent;
+  display:grid;
+  place-items:center;
+  cursor:pointer;
+  line-height:0;
+  font-size:11px;
 }
 
-.qty .num{ min-width:10px; text-align:center; font-size:.7rem; }
-/* 2행: 수량 */
+.qty .num{
+  min-width:14px;
+  text-align:center;
+  font-size:.7rem;
+}
+
 .cart-item .qty{
-  grid-area: qty;
-  justify-self: start;
-  display: inline-flex;
-  gap: 12px;
-  align-items: center;
-  margin-top: 60px;   /* ✅ 추가 */
+  grid-area:qty;
+  justify-self:start;
+  display:inline-flex;
+  gap:8px;
+  align-items:center;
+  margin-top:20px;
 }
 
-/* ------------------------------
-   💔 Remove Button
------------------------------- */
-.cart-item .remove {
-  position: absolute;
-  right: 20px;
-  bottom: 17px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 4px;
-  color: #a77e9c;
-  transition: color .2s ease;
+/* ---------- Remove Heart 버튼 ---------- */
+.cart-item .remove{
+  position:absolute;
+  right:16px;
+  bottom:14px;
+  background:transparent;
+  border:none;
+  cursor:pointer;
+  padding:14px;
+  color:#8e6083;
+  transition:color .2s ease;
 }
 
-.cart-item .remove:hover {
-  color: #f0ebed;
+.cart-item .remove:hover{
+  color:#ebe9ea;
 }
 
-/* 하트 기본 크기 업 */
-.cart-item .remove svg {
-  width: 25px;
-  height: 25px;
-}
-.heart-split path {
-  position: absolute;
-  left: 0;
-  top: 0;
+.cart-item .remove svg{
+  width:22px;      /* 살짝 줄임 */
+  height:22px;
+  overflow:visible;
 }
 
-.cart-item .remove svg {
-  overflow: visible;
+.heart-split path{
+  position:absolute;
+  left:0;
+  top:0;
 }
 
-
-/* ------------------------------
-   💔 Split Animation on Remove
------------------------------- */
-
-/* 조각 초기 상태 */
+/* ---------- Split Animation ---------- */
 .heart-split .left,
-.heart-split .right {
-  transform-origin: center;
+.heart-split .right{
+  transform-origin:center;
 }
 
-/* 제거 버튼이 removing 상태일 때 */
-.remove.removing .left {
-  animation: split-left .48s forwards cubic-bezier(.3,.7,0,1);
+.remove.removing .left{
+  animation:split-left .48s forwards cubic-bezier(.3,.7,0,1);
+}
+.remove.removing .right{
+  animation:split-right .48s forwards cubic-bezier(.3,.7,0,1);
 }
 
-.remove.removing .right {
-  animation: split-right .48s forwards cubic-bezier(.3,.7,0,1);
+@keyframes split-left{
+  0%   { transform:translate(0,0) rotate(0) scale(1);   opacity:1; }
+  100% { transform:translate(-14px,6px) rotate(-28deg) scale(.55); opacity:0; }
 }
 
-@keyframes split-left {
-  0%   { transform: translate(0,0) rotate(0) scale(1); opacity:1; }
-  100% { transform: translate(-14px, 6px) rotate(-28deg) scale(.55); opacity:0; }
+@keyframes split-right{
+  0%   { transform:translate(0,0) rotate(0) scale(1);   opacity:1; }
+  100% { transform:translate(14px,6px) rotate(28deg) scale(.55);  opacity:0; }
 }
 
-@keyframes split-right {
-  0%   { transform: translate(0,0) rotate(0) scale(1); opacity:1; }
-  100% { transform: translate(14px, 6px) rotate(28deg) scale(.55); opacity:0; }
+/* ---------- Item vanish Animation ---------- */
+@keyframes vanish{
+  0%   { opacity:1; transform:translateY(0); }
+  100% { opacity:0; transform:translateY(-12px); }
 }
 
-
-/* ------------------------------
-   📦 Item Vanish Animation
------------------------------- */
-
-@keyframes vanish {
-  0%   { opacity: 1; transform: translateY(0); }
-  100% { opacity: 0; transform: translateY(-12px); }
-}
-
-/* 아이템은 하트 깨진 뒤 사라지게 딜레이 */
-.cart-item.removing {
-  animation: vanish .32s forwards cubic-bezier(.3,.7,0,1);
-  animation-delay: .2s;   /* ✅ 핵심: 하트 먼저 보여주기 */
-  pointer-events: none;
+.cart-item.removing{
+  animation:vanish .32s forwards cubic-bezier(.3,.7,0,1);
+  animation-delay:.2s;
+  pointer-events:none;
 }
 
 /* ---------- Footer ---------- */
 .cart__foot{
-  position:sticky; bottom:0; z-index:2; background:#fff;
+  position:sticky;
+  bottom:0;
+  z-index:2;
+  background:#fff;
   padding:16px var(--pad-x) calc(18px + env(safe-area-inset-bottom));
   border-top:1px solid var(--border);
-  display:grid; gap:12px;
+  display:grid;
+  gap:12px;
   box-shadow:0 -18px 28px -16px rgba(0,0,0,.08);
 }
-.line{ display:flex; justify-content:space-between; align-items:center; }
-.line.small{ font-size:.65rem; color:var(--muted); padding-left: 2px; font-weight: 300;}
-.pp-subtotal{ font-weight:300; font-size:.85rem; padding-left: 2px;  padding-right: 5px; /* ✅ 조금 더 여백 주고 싶으면 */
+.line{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.line.small{
+  font-size:.65rem;
+  color:var(--muted);
+  padding-left:2px;
+  font-weight:300;
+}
+.pp-subtotal{
+  font-weight:300;
+  font-size:.85rem;
+  padding-left:2px;
+  padding-right:5px;
 }
 
-#cart-subtotal {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end; /* 숫자를 오른쪽으로 */
-  gap: 20px;                 /* ✅ 간격 조절 핵심 */
+#cart-subtotal{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:20px;
 }
 
 /* Buttons */
-.btn, .btn--primary{
-  display:block; width:100%; text-align:center; cursor:pointer;
-  padding:13px 16px; font-size:.8rem; border-radius:0px;
-  border:1px solid #dcdcdc; background:#fff; transition:filter .15s ease, background .15s ease;
+.btn,
+.btn--primary{
+  display:block;
+  width:100%;
+  text-align:center;
+  cursor:pointer;
+  padding:13px 16px;
+  font-size:.8rem;
+  border-radius:0;
+  border:1px solid #dcdcdc;
+  background:#fff;
+  transition:filter .15s ease, background .15s ease;
 }
 .btn:hover{ background:var(--ghost); }
-.btn:focus-visible{ outline:2px solid var(--ring); outline-offset:2px; }
-.btn--primary{ background:#181818ee; color:#fff; border-color:111111ee; box-shadow:0 8px 22px rgba(0,0,0,.16); }
-.btn--primary:hover{ filter:brightness(.96); background: #a77e9c}
-.cart__foot .btn-row{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.btn:focus-visible{
+  outline:2px solid var(--ring);
+  outline-offset:2px;
+}
+.btn--primary{
+  background:#181818ee;
+  color:#fff;
+  border-color:#111111ee;
+  box-shadow:0 8px 22px rgba(0,0,0,.16);
+}
+.btn--primary:hover{
+  filter:brightness(.96);
+  background:#8e6083;
+  border-color:#8e6083;
+}
+
+.cart__foot .btn-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
 
 .cart__alpha{
   display:inline-block;
@@ -304,21 +388,35 @@
 
 /* ---------- Utilities ---------- */
 .visually-hidden{
-  position:absolute !important; width:1px; height:1px; padding:0; margin:-1px;
-  overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+  position:absolute !important;
+  width:1px;
+  height:1px;
+  padding:0;
+  margin:-1px;
+  overflow:hidden;
+  clip:rect(0,0,0,0);
+  white-space:nowrap;
+  border:0;
 }
 
 /* ---------- Mobile ---------- */
-@media (max-width: 600px){
-
-  .cart__close {
-  left: 22px;
-}
+@media (max-width:600px){
+  #cart{
+    inline-size:100vw;
+  }
+  .cart__close{
+    inline-size:30px;
+    block-size:30px;
+  }
 }
 
 /* ---------- Reduced motion ---------- */
-@media (prefers-reduced-motion: reduce){
-  #cart, #cart-backdrop, #search-backdrop{ transition:none !important; backdrop-filter:none !important; }
+@media (prefers-reduced-motion:reduce){
+  #cart,
+  #cart-backdrop,
+  #search-backdrop{
+    transition:none !important;
+    backdrop-filter:none !important;
+  }
 }
-
 

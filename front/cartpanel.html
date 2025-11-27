@@ -7,33 +7,34 @@
        aria-modal="true"
        aria-labelledby="cart-desc">
 
-  <!-- ✅ Close 버튼 단독 -->
-<div class="cart__head">
-  <button class="cart__close" aria-label="Close cart" data-cart-close>&times;</button>
-</div>
+  <!-- ===== Body (스크롤 영역) ===== -->
+  <div class="cart__body">
 
-<div class="cart__body">
-    <!-- 화면리더 안내용 -->
-    <p id="cart-desc" class="visually-hidden">
-      Items you add will appear here. You can change quantity or remove.
-    </p>
+    <!-- X 버튼 -->
+    <div class="cart__head">
+      <button class="cart__close" aria-label="Close cart" data-cart-close>&times;</button>
+    </div>
 
     <!-- 빈 상태 -->
     <p id="cart-empty" class="cart__empty" aria-live="polite">
       Your collection is empty.
     </p>
 
-    <!-- 아이템 목록 -->
+    <!-- 상품 목록 -->
     <div id="cart-list" class="cart__list"></div>
+
   </div>
 
-  <!-- ✅ Footer 그대로 유지 -->
+  <!-- ===== Footer (고정 영역) ===== -->
   <footer class="cart__foot">
     <div class="line pp-subtotal">
       <strong>Subtotal</strong>
       <strong id="cart-subtotal" class="val">$0.00</strong>
     </div>
-    <div class="line small">This sends a purchase request. No payment now.</div>
+
+    <div class="line small">
+      This sends a purchase request. No payment now.
+    </div>
 
     <button class="btn btn--primary" data-cart-request>
       Request invoice
