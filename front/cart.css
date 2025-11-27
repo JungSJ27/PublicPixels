@@ -239,18 +239,18 @@
 /* ---------- Remove Heart 버튼 ---------- */
 .cart-item .remove{
   position:absolute;
-  right:16px;
-  bottom:14px;
+  right:13px;
+  bottom:12px;
   background:transparent;
   border:none;
   cursor:pointer;
   padding:14px;
-  color:#8e6083;
+  color:#3a2b31;
   transition:color .2s ease;
 }
 
 .cart-item .remove:hover{
-  color:#ebe9ea;
+  color:#d0ccce;
 }
 
 .cart-item .remove svg{
@@ -364,8 +364,10 @@
 }
 .btn--primary:hover{
   filter:brightness(.96);
-  background:#8e6083;
-  border-color:#8e6083;
+  background: linear-gradient(135deg, #010520 0%, #4a2d42 100%);
+  box-shadow:0 0 18px rgba(167,126,156,.4); 
+  filter:none; /* optional: 밝기 조정 안 필요 */
+  border-color:transparent;
 }
 
 .cart__foot .btn-row{
