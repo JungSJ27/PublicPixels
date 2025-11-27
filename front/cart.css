@@ -402,5 +402,19 @@
 }
 
 /* ---------- Mobile ---------- */
+@media (max-width:600px){
+  #cart{
+    inline-size:100vw;
+  }
+}
 
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion:reduce){
+  #cart,
+  #cart-backdrop,
+  #search-backdrop{
+    transition:none !important;
+    backdrop-filter:none !important;
+  }
+}
 

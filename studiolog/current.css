@@ -405,3 +405,112 @@ body[data-page="news"] .search-results-empty {
   color: var(--news-muted);
 }
 
+
+/* ============================
+   NEWS PAGE — CART DARK MODE
+   ============================ */
+
+/* --- Cart wrapper --- */
+body[data-page="news"] #cart {
+  background: var(--news-bg);
+  color: var(--news-fg-strong);
+  border-left: 1px solid #22262b;
+  box-shadow: -18px 0 40px rgba(0,0,0,.55);
+}
+
+/* --- Cart backdrop (뒤 어둡게) --- */
+body[data-page="news"] #cart-backdrop {
+  background: rgba(0,0,0,0.65);
+}
+
+/* --- Cart header (X 포함 상단 영역) --- */
+body[data-page="news"] .cart__head {
+  background: var(--news-bg);
+  box-shadow: none;
+  border-bottom: 0px solid #22262b;
+}
+
+/* X 버튼 */
+body[data-page="news"] .cart__close {
+  color: var(--news-fg);
+}
+body[data-page="news"] .cart__close:hover {
+  color: var(--news-fg-strong);
+}
+
+/* --- Item cell (각 제품 박스) --- */
+body[data-page="news"] .cart-item {
+  border-bottom: 1px solid #22262b;
+}
+
+body[data-page="news"] .cart-item .title {
+  color: var(--news-fg-strong);
+}
+body[data-page="news"] .cart-item .price {
+  color: var(--news-muted);
+}
+
+/* 썸네일 배경 */
+body[data-page="news"] .cart-item .thumb img {
+  background: #222328;
+}
+
+/* --- QTY button --- */
+body[data-page="news"] .qty .btn {
+  background: var(--news-bg);
+  color: var(--news-fg-strong);
+}
+body[data-page="news"] .qty .btn:hover {
+  background: #1c1d22;
+}
+
+body[data-page="news"] .qty .num {
+  color: var(--news-fg-strong);
+}
+
+/* --- Remove (하트) --- */
+body[data-page="news"] .cart-item .remove {
+  color: #a890c0;
+}
+body[data-page="news"] .cart-item .remove:hover {
+  color: #e8d0dc;
+}
+
+/* --- Footer --- */
+body[data-page="news"] .cart__foot {
+  background: var(--news-bg);
+  border-top: 1px solid #22262b;
+  box-shadow: 0 -18px 28px -18px rgba(0,0,0,.4);
+}
+
+body[data-page="news"] .line,
+body[data-page="news"] .line.small,
+body[data-page="news"] #cart-subtotal {
+  color: var(--news-fg-strong);
+}
+
+/* --- Buttons --- */
+body[data-page="news"] .btn {
+  background: var(--news-bg);
+  color: var(--news-fg-strong);
+  border-color: #2d2f34;
+}
+body[data-page="news"] .btn:hover {
+  background: #1c1d22;
+}
+
+body[data-page="news"] .btn--primary {
+  background: #15151a;
+  border-color: #2d2f34;
+  color: #ffffff;
+  box-shadow: 0 8px 22px rgba(0,0,0,.25);
+}
+body[data-page="news"] .btn--primary:hover {
+  background: linear-gradient(135deg, #000000 0%, #1a1525 100%);
+  filter: brightness(.95);
+}
+
+/* --- Empty message --- */
+body[data-page="news"] .cart__empty {
+  color: var(--news-muted);
+}
