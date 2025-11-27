@@ -61,7 +61,7 @@
   border: 0;
   border-radius: 50%;
   background: transparent;
-  font-size: 18px; 
+  font-size: 22px; 
   color: rgba(0,0,0,.7);
   cursor: pointer;
   display: grid;
@@ -268,7 +268,15 @@
 }
 .line{ display:flex; justify-content:space-between; align-items:center; }
 .line.small{ font-size:.65rem; color:var(--muted); padding-left: 2px; font-weight: 300;}
-.pp-subtotal{ font-weight:300; font-size:.85rem; padding-left: 2px;}
+.pp-subtotal{ font-weight:300; font-size:.85rem; padding-left: 2px;  padding-right: 5px; /* ✅ 조금 더 여백 주고 싶으면 */
+}
+
+#cart-subtotal {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* 숫자를 오른쪽으로 */
+  gap: 20px;                 /* ✅ 간격 조절 핵심 */
+}
 
 /* Buttons */
 .btn, .btn--primary{
@@ -301,13 +309,11 @@
 }
 
 /* ---------- Mobile ---------- */
-@media (max-width: 480px){
+@media (max-width: 600px){
 
-  :root{ --thumb: 120px; }
-
-  #cart{ --pad-x:18px; inline-size:min(480px, 100vw); }
-  .cart-item{gap: 8px 10px; grid-template-columns:60px 1fr auto; }
-  .qty{ margin-left:auto; }
+  .cart__close {
+  left: 22px;
+}
 }
 
 /* ---------- Reduced motion ---------- */

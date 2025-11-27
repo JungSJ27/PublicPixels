@@ -172,9 +172,13 @@ function rowHTML(it){
     }
 
     if (hasArt && hasProduct) {
-      // ✅ 작품 + 상품 → α + 가격
-      sub.textContent = `α   +  ${subtotal}`;
-    } 
+      sub.innerHTML = `
+        <span class="sub-alpha">α</span>
+        <span class="sub-plus">+</span>
+        <span class="sub-price">${subtotal}</span>
+      `;
+    }
+
     else if (hasArt && !hasProduct) {
       // ✅ 작품만 → Req. (or 네가 정한 subtotal 값)
       sub.textContent = `${subtotal}`;
