@@ -160,17 +160,23 @@ function rowHTML(it){
   // ✅ Subtotal α 위치 규칙 적용
   const sub = $("#cart-subtotal");
   if (sub){
-    const subtotal = fmt(safeSubtotal());
 
+    const subtotal = fmt(safeSubtotal());
     const hasArt = items.some(x => Number(x?.price || 0) <= 0);
     const hasProduct = items.some(x => Number(x?.price || 0) > 0);
 
+    // ✅ empty 상태 → 표시 없음
+    if (items.length === 0) {
+      sub.textContent = "";
+      return;
+    }
+
     if (hasArt && hasProduct) {
-      // ✅ 작품 + 상품 → α 앞으로
+      // ✅ 작품 + 상품 → α + 가격
       sub.textContent = `α   +  ${subtotal}`;
     } 
     else if (hasArt && !hasProduct) {
-      // ✅ 작품만 → α 뒤로
+      // ✅ 작품만 → Req. (or 네가 정한 subtotal 값)
       sub.textContent = `${subtotal}`;
     }
     else {
@@ -178,7 +184,6 @@ function rowHTML(it){
       sub.textContent = subtotal;
     }
   }
-
   }
 
   // openers bind once
