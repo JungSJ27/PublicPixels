@@ -404,7 +404,7 @@
 /* ---------- Mobile ---------- */
 @media (max-width:600px){
   #cart{
-    inline-size:90vw;
+    inline-size:95vw;
   }
   .cart__head{
     justify-content: flex-start; /* 🔥 모바일에서 왼쪽 정렬 */
