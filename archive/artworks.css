@@ -662,3 +662,103 @@ body[data-page="artworks"] .search-results-empty {
 /* Generic fade */
 @keyframes fadeIn{ from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:translateY(0);} }
 
+/* ============================
+   ARTWORKS PAGE — CART DARK MODE
+   ============================ */
+
+body[data-page="artworks"] #cart {
+  background: #17181b;
+  color: #e5e5e7;
+  border-left: 1px solid #2a2c31;
+  box-shadow: -18px 0 40px rgba(0,0,0,.55);
+}
+
+/* Backdrop 더 어둡게 */
+body[data-page="artworks"] #cart-backdrop {
+  background: rgba(0,0,0,0.65);
+}
+
+/* X 버튼 */
+body[data-page="artworks"] .cart__close {
+  color: #d0d0d2;
+}
+body[data-page="artworks"] .cart__close:hover {
+  color: #ffffff;
+}
+
+/* 아이템(셀) */
+body[data-page="artworks"] .cart-item {
+  border-bottom: 1px solid #2c2f35;
+}
+
+body[data-page="artworks"] .cart-item .title {
+  color: #f0f0f2;
+}
+body[data-page="artworks"] .cart-item .price {
+  color: #c8c8cc;
+}
+
+/* 썸네일 영역 */
+body[data-page="artworks"] .cart-item .thumb img {
+  background: #222328;
+}
+
+/* 수량 버튼 */
+body[data-page="artworks"] .qty .btn {
+  background: #1e2024;
+  color: #f4f4f6;
+}
+body[data-page="artworks"] .qty .btn:hover {
+  background: #2c2e33;
+}
+
+/* 수량 숫자 */
+body[data-page="artworks"] .qty .num {
+  color: #f4f4f6;
+}
+
+/* 하트 Remove */
+body[data-page="artworks"] .cart-item .remove {
+  color: #b48ba2;
+}
+body[data-page="artworks"] .cart-item .remove:hover {
+  color: #e8d0dc;
+}
+
+/* Footer */
+body[data-page="artworks"] .cart__foot {
+  background: #17181b;
+  border-top: 1px solid #2a2c31;
+  box-shadow: 0 -18px 28px -18px rgba(0,0,0,.4);
+}
+
+body[data-page="artworks"] .line,
+body[data-page="artworks"] .line.small,
+body[data-page="artworks"] #cart-subtotal {
+  color: #e5e5e5;
+}
+
+/* 버튼들 */
+body[data-page="artworks"] .btn {
+  background: #1e1f23;
+  color: #f2f2f4;
+  border-color: #2d2f34;
+}
+body[data-page="artworks"] .btn:hover {
+  background: #2a2c31;
+}
+
+body[data-page="artworks"] .btn--primary {
+  background: linear-gradient(135deg, #51435b, #a77e9c);
+  border-color: transparent;
+  color: white;
+  box-shadow: 0 8px 22px rgba(0,0,0,.25);
+}
+body[data-page="artworks"] .btn--primary:hover {
+  filter: brightness(.92);
+}
+
+/* Empty 문구 */
+body[data-page="artworks"] .cart__empty {
+  color: #b5b5b8;
+}
