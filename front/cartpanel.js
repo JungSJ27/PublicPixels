@@ -11,9 +11,13 @@ const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
 const fmt = (n) => {
   const v = Number(n) || 0;
   return v <= 0
-    ? "Available upon inquiry"
-    : new Intl.NumberFormat(undefined, { style:"currency", currency:"USD" }).format(v);
+    ? "Req."           // ✅ Available upon inquiry → Req.
+    : new Intl.NumberFormat(undefined, { 
+        style:"currency", 
+        currency:"USD" 
+      }).format(v);
 };
+
 const esc = (s) => String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 
 // main
@@ -65,26 +69,63 @@ export function ensureCartPanel(){
     updateAlphaIndicators(items);
   }
 
-  function rowHTML(it){
-    return `
-      <div class="cart-item" data-id="${esc(it.id)}">
-        <a class="thumb" href="${esc(it.url || "#")}">
-          ${it.media ? `<img src="${esc(it.media)}" alt="">` : ""}
+function rowHTML(it){
+  return `
+    <div class="cart-item" data-id="${esc(it.id)}">
+      <a class="thumb" href="${esc(it.url || "#")}">
+        ${it.media ? `<img src="${esc(it.media)}" alt="">` : ""}
+      </a>
+
+      <div class="meta">
+        <a class="title" href="${esc(it.url || "#")}">
+          ${esc(it.name || it.title || "Untitled")}
         </a>
-        <div class="meta">
-          <a class="title" href="${esc(it.url || "#")}">${esc(it.name || it.title || "Untitled")}</a>
-          ${it.variant ? `<div class="variant">${esc(it.variant)}</div>` : ""}
-        </div>
-        <div class="qty">
-          <button class="btn" data-cart-dec="${esc(it.id)}" aria-label="Decrease">−</button>
-          <span class="num">${Number(it.qty || 1)}</span>
-          <button class="btn" data-cart-inc="${esc(it.id)}" aria-label="Increase">+</button>
-        </div>
-        <div class="price">${fmt(it.price)}</div>
-        <button class="remove" data-cart-remove="${esc(it.id)}" aria-label="Remove">✕</button>
+        <div class="price">${fmt(it.price)}</div>   <!-- ✅ meta 안으로 -->
       </div>
-    `;
-  }
+
+      <div class="qty">
+        <button class="btn" data-cart-dec="${esc(it.id)}" aria-label="Decrease">−</button>
+        <span class="num">${Number(it.qty || 1)}</span>
+        <button class="btn" data-cart-inc="${esc(it.id)}" aria-label="Increase">+</button>
+      </div>
+
+  <button class="remove" data-cart-remove="${esc(it.id)}" aria-label="Remove">
+  <svg class="heart-split" viewBox="0 0 24 24">
+    
+    <!-- Left half -->
+    <path class="left"
+      d="M12 20
+         C7 16 4.5 13 4 10
+         C3.5 7.2 5.4 5 8.2 5
+         C10 5 11.4 6 12 7.5
+         L11.2 9
+         L12 10.2
+         L11 11.6
+         L12 13
+         V20Z"
+      fill="currentColor"/>
+
+    <!-- Right half -->
+    <path class="right"
+      d="M12 20
+         C17 16 19.5 13 20 10
+         C20.5 7.2 18.6 5 15.8 5
+         C14 5 12.6 6 12 7.5
+         L12.8 9
+         L12 10.2
+         L13 11.6
+         L12 13
+         V20Z"
+      fill="currentColor"/>
+
+  </svg>
+</button>
+
+    </div>
+  `;
+}
+
+
 
   // header cart badge
   function updateBadge(){
@@ -116,20 +157,28 @@ export function ensureCartPanel(){
       }
     }
 
-    const sub = $("#cart-subtotal");
-    if (sub){
-      let flag = sub.parentElement?.querySelector?.(".cart__alpha");
-      if (hasArt){
-        if (!flag){
-          flag = document.createElement("span");
-          flag.className = "cart__alpha";
-          flag.textContent = "α";
-          sub.after(flag);
-        }
-      } else if (flag){
-        flag.remove();
-      }
+  // ✅ Subtotal α 위치 규칙 적용
+  const sub = $("#cart-subtotal");
+  if (sub){
+    const subtotal = fmt(safeSubtotal());
+
+    const hasArt = items.some(x => Number(x?.price || 0) <= 0);
+    const hasProduct = items.some(x => Number(x?.price || 0) > 0);
+
+    if (hasArt && hasProduct) {
+      // ✅ 작품 + 상품 → α 앞으로
+      sub.textContent = `α   +  ${subtotal}`;
+    } 
+    else if (hasArt && !hasProduct) {
+      // ✅ 작품만 → α 뒤로
+      sub.textContent = `${subtotal}`;
     }
+    else {
+      // ✅ 상품만 → 가격만
+      sub.textContent = subtotal;
+    }
+  }
+
   }
 
   // openers bind once
@@ -155,11 +204,27 @@ export function ensureCartPanel(){
       const t = e.target;
 
       if (t.closest("[data-cart-close]")) { e.preventDefault(); close(); return; }
-
+      
       const rm = t.closest("[data-cart-remove]");
       if (rm){
-        safeRemove(rm.getAttribute("data-cart-remove")); render(); return;
+        const item = rm.closest(".cart-item");
+
+        // 1) 하트 애니메이션
+        rm.classList.add("removing");
+
+        // 2) 아이템 전체 애니메이션
+        if (item) item.classList.add("removing");
+
+        // 3) 애니메이션 끝난 뒤 삭제
+        setTimeout(() => {
+          safeRemove(rm.getAttribute("data-cart-remove"));
+          render();
+        }, 400);
+
+        return;
       }
+
+
       const inc = t.closest("[data-cart-inc]");
       if (inc){
         const id = inc.getAttribute("data-cart-inc");

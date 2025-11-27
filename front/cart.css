@@ -54,15 +54,15 @@
 .cart__close {
   position: absolute;
   top: 12px;
-  left: 14px;
+  right: 22px;
   z-index: 10;
-  inline-size: 32px;
-  block-size: 32px;
+  inline-size: 34px;
+  block-size: 34px;
   border: 0;
   border-radius: 50%;
   background: transparent;
-  font-size: 16px;
-  color: rgba(0,0,0,.68);
+  font-size: 18px; 
+  color: rgba(0,0,0,.7);
   cursor: pointer;
   display: grid;
   place-items: center;
@@ -70,39 +70,56 @@
 
 /* ---------- Body ---------- */
 .cart__body {
-  flex:1;
-  overflow:auto;
-  padding:50px var(--pad-x) 22px;
-  display:grid;
-  gap:var(--gap);
+  flex: 1;
+  overflow: auto;
+  padding: 30px var(--pad-x) 22px;
+  display: grid;
+  gap: var(--gap);
+  align-content: flex-start;   /* 기본은 위에서부터 쌓이게 */
 }
+
+/* ✅ 1. 장바구니가 '진짜' 비어 있을 때만 중앙 정렬 */
+.cart__body:has(#cart-list:empty) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;   /* 정확히 가운데로 */
+}
+
+/* ✅ 2. 아이템이 하나라도 있으면 empty 문구 숨기기 */
+.cart__body:has(#cart-list:not(:empty)) #cart-empty {
+  display: none;
+}
+
 
 .cart__body::-webkit-scrollbar{ width:10px; }
 .cart__body::-webkit-scrollbar-thumb{ background:#e6e6e8; border-radius:0px; }
-.cart__empty{
-  display:block; margin:2px 0 0; padding:25px;
-  border:0px dashed var(--border); border-radius:12px;
-  background:transparent; color:rgba(0,0,0,.6); font-size:.8rem;
+.cart__empty {
+  text-align: center;
+  color: rgba(0,0,0,.6);
+  font-size: .8rem;
 }
+
 
 /* ---------- Items ---------- */
 .cart__list{ display:block; }
 .cart-item{
   display: grid;
-  grid-template-columns: var(--thumb) 1fr;      /* 왼쪽: 썸네일, 오른쪽: 내용 */
-  grid-template-rows: auto auto auto;           /* 위: 타이틀, 중간: 수량, 아래: 가격 */
+  grid-template-columns: var(--thumb) 1fr; 
+  grid-template-rows: auto auto auto;   /* ✅ 2줄 → 3줄 */
   grid-template-areas:
     "thumb title"
-    "thumb price"
-    "thumb qty";
-
+    "thumb title"
+    "thumb qty"; 
   align-items: start;
-  gap: 10px 14px;                                /* 행 간격 / 열 간격 */
-  position: relative;  
-  padding:15px 0;
-  border-bottom:1px dashed var(--border);
+  gap: 10px 14px;
+  position: relative;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--border);
 }
+
 .cart-item .thumb{ grid-area: thumb; line-height: 0; }
+
 .cart-item .thumb img{
   inline-size: var(--thumb);
   block-size : var(--thumb);
@@ -111,17 +128,34 @@
   background:#f4f4f6; 
   display:block;
 }
-.cart-item .meta{ grid-area: title; display: grid; gap: 4px; min-width: 0; }
-.cart-item .title{
-  font-size:.7rem;   padding:10px 10px;
-  font-weight:400; color:#111; 
-  text-decoration:none;
-  overflow:hidden; 
-  text-overflow:ellipsis; 
-  white-space:nowrap;
+.cart-item .meta{
+  grid-area: title;
+  display: grid;
+  gap: 4px;
+  min-width: 0;
 }
-.cart-item .variant{ font-size:.82rem; color:var(--muted); }
 
+.cart-item .title{
+  font-size: .75rem;
+  padding: 9px 10px 0 10px;
+  font-weight: 400;
+  color: #111;
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cart-item .price{
+  /* grid-area 필요 없음! meta 안에서 아래로 쌓이게 */
+  font-size: .7rem;
+  font-weight: 100;
+  padding: 0px 10px 0 12px;
+  color: #111;
+  white-space: nowrap;
+}
+
+.cart-item .variant{ font-size:.82rem; color:var(--muted); }
 
 
 /* Qty & remove */
@@ -131,40 +165,97 @@
   border:0px solid #dedfe2; background:transparent; display:grid; place-items:center;
   cursor:pointer; line-height:0;
 }
-.qty .btn:hover{ background:transparent; }
 
-.qty .num{ min-width:26px; text-align:center; font-size:.7rem; }
+.qty .num{ min-width:10px; text-align:center; font-size:.7rem; }
 /* 2행: 수량 */
 .cart-item .qty{
   grid-area: qty;
-  justify-self: start;          /* 왼쪽 정렬 */
-  display: inline-flex; gap: 10px; align-items: center;
-}
-.cart-item .price {
-  grid-area: price;
-  font-size: .75rem;
-  padding: 4px 10px 0 10px; /* 🔥 제목과 적당히 간격 */
-  color: var(--muted);
-  white-space: nowrap;
   justify-self: start;
+  display: inline-flex;
+  gap: 12px;
+  align-items: center;
+  margin-top: 60px;   /* ✅ 추가 */
+}
+
+/* ------------------------------
+   💔 Remove Button
+------------------------------ */
+.cart-item .remove {
+  position: absolute;
+  right: 20px;
+  bottom: 17px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: #9c578a;
+  transition: color .2s ease;
+}
+
+.cart-item .remove:hover {
+  color: #f0ebed;
+}
+
+/* 하트 기본 크기 업 */
+.cart-item .remove svg {
+  width: 25px;
+  height: 25px;
+}
+.heart-split path {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.cart-item .remove svg {
+  overflow: visible;
 }
 
 
+/* ------------------------------
+   💔 Split Animation on Remove
+------------------------------ */
+
+/* 조각 초기 상태 */
+.heart-split .left,
+.heart-split .right {
+  transform-origin: center;
+}
+
+/* 제거 버튼이 removing 상태일 때 */
+.remove.removing .left {
+  animation: split-left .48s forwards cubic-bezier(.3,.7,0,1);
+}
+
+.remove.removing .right {
+  animation: split-right .48s forwards cubic-bezier(.3,.7,0,1);
+}
+
+@keyframes split-left {
+  0%   { transform: translate(0,0) rotate(0) scale(1); opacity:1; }
+  100% { transform: translate(-14px, 6px) rotate(-28deg) scale(.55); opacity:0; }
+}
+
+@keyframes split-right {
+  0%   { transform: translate(0,0) rotate(0) scale(1); opacity:1; }
+  100% { transform: translate(14px, 6px) rotate(28deg) scale(.55); opacity:0; }
+}
 
 
-.cart-item .remove{
-  position: absolute;
-  right: 6px; top: 6px;
-  margin-left:8px; 
-  inline-size: 28px; block-size: 28px;
-  box-shadow: 0 0px 0px rgba(0,0,0,.12);
-  border-radius: 999px;
-  border:0px solid #e8e8ea; 
-  background:#fff; 
-  cursor:pointer; 
-  display: grid;
-  place-items:center;
-  font-size: .6rem;
+/* ------------------------------
+   📦 Item Vanish Animation
+------------------------------ */
+
+@keyframes vanish {
+  0%   { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-12px); }
+}
+
+/* 아이템은 하트 깨진 뒤 사라지게 딜레이 */
+.cart-item.removing {
+  animation: vanish .32s forwards cubic-bezier(.3,.7,0,1);
+  animation-delay: .2s;   /* ✅ 핵심: 하트 먼저 보여주기 */
+  pointer-events: none;
 }
 
 /* ---------- Footer ---------- */
@@ -216,7 +307,6 @@
 
   #cart{ --pad-x:18px; inline-size:min(480px, 100vw); }
   .cart-item{gap: 8px 10px; grid-template-columns:60px 1fr auto; }
-  .cart-item .price{ justify-self:end; }
   .qty{ margin-left:auto; }
 }
 
@@ -224,3 +314,5 @@
 @media (prefers-reduced-motion: reduce){
   #cart, #cart-backdrop, #search-backdrop{ transition:none !important; backdrop-filter:none !important; }
 }
+
+
