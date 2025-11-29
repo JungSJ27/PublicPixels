@@ -5,8 +5,8 @@
   --backdrop-dim: rgba(0,0,0,.38);
   --backdrop-blur: 3px;
   --thumb: 120px;           /* 썸네일 살짝 줄임 */
-  --pad-x: 24px;
-  --gap: 14px;
+  --pad-x: 20px;
+  --gap: 8px;
   --muted:#686a70;
   --border:#ececee;
   --ghost:#f7f7f8;
@@ -95,7 +95,7 @@
   cursor:pointer;
   display:grid;
   place-items:center;
-  margin-top: 14px;
+  margin-top: 10px;
   margin-right: -10px;
 }
 
@@ -239,8 +239,8 @@
 /* ---------- Remove Heart 버튼 ---------- */
 .cart-item .remove{
   position:absolute;
-  right:14px;
-  bottom:10px;
+  right:2px;
+  bottom:7px;
   background:transparent;
   border:none;
   cursor:pointer;
@@ -429,7 +429,7 @@
     -webkit-overflow-scrolling: touch;
 
     /* footer가 가리지 않도록 여백 추가 */
-    padding-bottom: 120px;
+    padding-bottom: 70px;
   }
 
   /* footer 고정 */
@@ -442,3 +442,18 @@
   }
 }
 
+/* iOS Safari 기본 버튼 스타일 제거 */
+button,
+.btn,
+.qty .btn {
+  color: inherit !important;
+  -webkit-text-fill-color: currentColor !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+}
+
+/* Primary 버튼은 흰색 유지 */
+.btn--primary {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
