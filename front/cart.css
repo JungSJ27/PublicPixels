@@ -443,24 +443,36 @@
 }
 
 
-/* ===== iOS ONLY FIX — 적용 범위: 카트 내부의 4개 버튼만 ===== */
+/* ===== iOS Safari blue button fix — exact buttons only ===== */
 
-/* 수량조절 - / + 버튼 */
+/* 1) - / + 버튼 */
 #cart .qty .btn {
-  -webkit-text-fill-color: currentColor !important;
+  color: #111 !important;
+  -webkit-text-fill-color: #111 !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
 }
 
-/* Order status */
-#cart .btn-orderstatus {
-  -webkit-text-fill-color: currentColor !important;
+/* 2) Request invoice 버튼 */
+#cart [data-cart-request] {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
 }
 
-/* Clear cart */
-#cart .btn-clearcart {
-  -webkit-text-fill-color: currentColor !important;
+/* 3) Order status 버튼 */
+#cart [data-cart-status] {
+  color: #111 !important;
+  -webkit-text-fill-color: #111 !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
 }
 
-/* 만약 footer의 Request invoice 버튼도 iOS 버그 있으면 */
-#cart .btn--primary {
-  -webkit-text-fill-color: #ffffff !important;
+/* 4) Clear cart 버튼 */
+#cart [data-cart-clear] {
+  color: #111 !important;
+  -webkit-text-fill-color: #111 !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
 }
