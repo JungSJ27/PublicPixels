@@ -442,12 +442,25 @@
   }
 }
 
-/* Request 화면 버튼 스타일만 초기화 */
-.wrap button,
-.wrap .btn,
-.wrap .qty .btn {
-  color: inherit !important;
+
+/* ===== iOS ONLY FIX — 적용 범위: 카트 내부의 4개 버튼만 ===== */
+
+/* 수량조절 - / + 버튼 */
+#cart .qty .btn {
   -webkit-text-fill-color: currentColor !important;
-  appearance: none !important;
-  -webkit-appearance: none !important;
+}
+
+/* Order status */
+#cart .btn-orderstatus {
+  -webkit-text-fill-color: currentColor !important;
+}
+
+/* Clear cart */
+#cart .btn-clearcart {
+  -webkit-text-fill-color: currentColor !important;
+}
+
+/* 만약 footer의 Request invoice 버튼도 iOS 버그 있으면 */
+#cart .btn--primary {
+  -webkit-text-fill-color: #ffffff !important;
 }
