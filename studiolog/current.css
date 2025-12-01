@@ -514,3 +514,49 @@ body[data-page="news"] .btn--primary:hover {
 body[data-page="news"] .cart__empty {
   color: var(--news-muted);
 }
+
+/* ============================
+   NEWS PAGE — iOS BLUE BUTTON FIX (Dark Mode)
+   ============================ */
+
+/* 1) - / + 버튼 */
+body[data-page="news"] #cart .qty .btn {
+  color: var(--news-fg-strong) !important;
+  -webkit-text-fill-color: var(--news-fg-strong) !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  background: var(--news-bg) !important;
+  border-color: #2d2f34 !important;
+}
+
+body[data-page="news"] #cart .qty .btn:hover {
+  background: #1c1d22 !important;
+}
+
+/* 2) Order status 버튼 */
+body[data-page="news"] #cart [data-cart-status] {
+  color: var(--news-fg-strong) !important;
+  -webkit-text-fill-color: var(--news-fg-strong) !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  background: var(--news-bg) !important;
+  border-color: #2d2f34 !important;
+}
+
+body[data-page="news"] #cart [data-cart-status]:hover {
+  background: #1c1d22 !important;
+}
+
+/* 3) Clear cart 버튼 */
+body[data-page="news"] #cart [data-cart-clear] {
+  color: var(--news-fg-strong) !important;
+  -webkit-text-fill-color: var(--news-fg-strong) !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  background: var(--news-bg) !important;
+  border-color: #2d2f34 !important;
+}
+
+body[data-page="news"] #cart [data-cart-clear]:hover {
+  background: #1c1d22 !important;
+}

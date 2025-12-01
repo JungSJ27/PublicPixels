@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Heart Necklace — Pixelshop</title>
+
+  <!-- 공통 스타일 -->
+  <link rel="stylesheet" href="/front/styles.css" />
+  <link rel="stylesheet" href="/front/header.css" />
+  <link rel="stylesheet" href="/pixelshop/shop.css" />
+
+  <!-- 상세페이지 전용 -->
+  <link rel="stylesheet" href="./heart-necklace.css" />
+</head>
+
+<body data-page="product">
+
+  <div data-include="header"></div>
+  <div data-include="cart"></div>
+
+  <main class="product-page">
+
+    <!-- LEFT: 스크롤 이미지 갤러리 -->
+    <section class="gallery">
+      <img src="/media/heart-necklace/1.jpg" alt="">
+      <img src="/media/heart-necklace/2.jpg" alt="">
+      <img src="/media/heart-necklace/3.jpg" alt="">
+      <img src="/media/heart-necklace/4.jpg" alt="">
+    </section>
+
+    <!-- RIGHT: 정보 패널 -->
+    <aside class="info-panel">
+
+      <h1 class="product-title">Heart Necklace</h1>
+      <p class="product-price">$15.50</p>
+
+      <!-- ★ 여기 중요 — shop.json과 동일한 구조로 통일됨 -->
+      <button 
+        class="btn btn--primary add-to-cart"
+        data-id="Heart Necklace"
+        data-name="Heart Necklace"
+        data-price="15.50"
+        data-media="/pixelshop/secass3/THN.png">
+        Add to Cart
+      </button>
+
+      <p class="desc">
+        A handcrafted heart necklace created for PublicPixels collectors.
+      </p>
+
+      <!-- 아코디언 -->
+      <div class="accordion">
+
+        <div class="acc-item">
+          <button class="acc-header">Material</button>
+          <div class="acc-body">
+            <p>Resin, Stainless steel chain, Hand-finished.</p>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-header">Shipping</button>
+          <div class="acc-body">
+            <p>Ships worldwide within 7–14 days. Tracking included.</p>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-header">Care</button>
+          <div class="acc-body">
+            <p>Keep away from heat, alcohol, and chemicals.</p>
+          </div>
+        </div>
+
+      </div>
+
+    </aside>
+
+  </main>
+
+  <script defer src="/front/headerLoader.js"></script>
+  <script defer src="/front/cartpanel.js" type="module"></script>
+  <script defer src="/front/cart.js" type="module"></script>
+  <script defer src="./heart-necklace.js" type="module"></script>
+
+</body>
+</html>

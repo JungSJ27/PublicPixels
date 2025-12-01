@@ -34,6 +34,11 @@ html { scroll-behavior: smooth; }
   color: #544b4b;
 }
 
+.shop-title a {
+  color: inherit;
+  text-decoration: none;
+}
+
 /* 트랙: 좌우 여백과 마스크를 clamp로 계산 */
 #s3-track{
   /* 가장자리 여백: 폰 작은 화면 16px → 큰 화면 200px */
