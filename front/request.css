@@ -1,137 +1,175 @@
-.wrap {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 40px 20px;
+body {
+  margin: 0;
+  padding: 40px;
+  font-family: system-ui, sans-serif;
+  background: #fafafa;
+  color: #111;
 }
 
 .page-title {
-  font-size: 28px;
-  margin-bottom: 20px;
+  font-size: 1.8rem;
+  margin-bottom: 6px;
 }
 
-.top-hint {
-  text-align: right;
-  font-size: 13px;
-  color: #777;
-  margin-bottom: 30px;
+.page-desc {
+  font-size: .9rem;
+  opacity: .7;
+  margin-bottom: 40px;
+  text-align: center;
 }
 
-/* GRID */
-.grid {
+.req-wrap {
   display: grid;
-  grid-template-columns: 1fr 360px;
+  grid-template-columns: 1fr 320px;
   gap: 40px;
+  max-width: 1200px;
+  margin: auto;
 }
 
-/* ITEMS */
-.items-box {
-  padding: 16px;
-  border: 1px solid #eee;
-  background: #fff;
-  border-radius: 14px;
+/* LEFT */
+.left h2 {
+  margin-bottom: 16px;
+}
+
+.left-box .empty {
+  opacity: .6;
+  margin: 20px 0;
 }
 
 .req-item-row {
   display: grid;
   grid-template-columns: 70px 1fr;
-  gap: 14px;
+  gap: 12px;
   padding: 14px 0;
   border-bottom: 1px solid #eee;
-}
-
-.req-item-row:last-child {
-  border-bottom: none;
 }
 
 .thumb {
   width: 70px;
   height: 70px;
-  border-radius: 10px;
   object-fit: cover;
+  background: #eee;
 }
 
-.info {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+.info .title {
+  font-size: .85rem;
+  font-weight: 600;
+}
+
+.info .price {
+  font-size: .8rem;
+  opacity: .7;
+  margin: 4px 0 6px;
 }
 
 .qty-box {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 6px;
 }
 
 .qty-box button {
-  width: 26px;
-  height: 26px;
-  border-radius: 6px;
+  width: 20px;
+  height: 20px;
+  font-size: 14px;
   border: 1px solid #ccc;
-  background: #fff;
+  background: transparent;
   cursor: pointer;
 }
 
 .remove {
-  color: #d33;
-  font-size: 12px;
-  margin-top: 4px;
-  text-align: left;
-  background: none;
-  border: none;
+  margin-top: 6px;
+  font-size: .75rem;
+  color: #b00;
   cursor: pointer;
 }
 
-/* BILLING */
-.row2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  margin-bottom: 16px;
+/* FORM */
+form label {
+  display: block;
+  margin: 16px 0;
+  font-size: .8rem;
 }
 
-input, textarea {
+form input,
+form select {
   width: 100%;
-  padding: 10px 12px;
-  font-size: 14px;
-  border-radius: 8px;
+  margin-top: 4px;
+  padding: 10px;
   border: 1px solid #ddd;
-}
-
-/* SUMMARY */
-.sum-card {
   background: #fff;
-  border: 1px solid #eee;
-  border-radius: 14px;
-  padding: 20px;
 }
 
-.sum-line {
+/* RIGHT SUMMARY */
+.right {
+  background: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #eee;
+}
+
+.sum-box .sum-line {
   display: flex;
   justify-content: space-between;
-  padding: 8px 0;
+  padding: 6px 0;
+  font-size: .85rem;
 }
 
-.sum-line.total {
-  margin-top: 10px;
-  border-top: 1px solid #ddd;
+.sum-total-wrap {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0 10px;
+  font-size: .9rem;
+}
+
+.sub-alpha {
+  font-size: .95rem;
+  font-weight: 700;
+}
+
+.sub-plus {
+  font-size: .9rem;
+  opacity: .6;
+  margin: 0 4px;
+}
+
+.sub-price {
   font-weight: 600;
 }
 
+.sub-req {
+  font-weight: 600;
+  font-style: italic;
+  opacity: .85;
+}
+
 /* BUTTONS */
-.btn-row {
-  margin-top: 20px;
-  display: flex;
-  gap: 10px;
-}
-
-.btn {
-  padding: 10px 20px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  background: #fff;
-}
-
-.btn-black {
-  background: #000;
+.btn-submit {
+  width: 100%;
+  padding: 12px;
+  background: #111;
   color: #fff;
+  border: none;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.btn-back {
+  width: 100%;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #aaa;
+  margin-top: 6px;
+  cursor: pointer;
+}
+
+/* MOBILE */
+@media (max-width: 800px) {
+  .req-wrap {
+    grid-template-columns: 1fr;
+  }
+
+  .right {
+    order: -1;
+  }
 }

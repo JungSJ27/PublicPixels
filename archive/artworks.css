@@ -776,3 +776,51 @@ body[data-page="artworks"] .btn--primary:hover {
 body[data-page="artworks"] .cart__empty {
   color: #b5b5b8;
 }
+
+/* ============================
+   ARTWORKS PAGE — iOS BLUE BUTTON FIX (다크모드)
+   ============================ */
+
+/* 1) - / + 버튼 */
+body[data-page="artworks"] #cart .qty .btn {
+  color: #f2f2f4 !important;               /* 밝은 글자색 (다크모드용) */
+  -webkit-text-fill-color: #f2f2f4 !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  background: #17181b !important;
+}
+
+/* hover */
+body[data-page="artworks"] #cart .qty .btn:hover {
+  background: #1c1d22 !important;          /* 아주 약한 hover */
+}
+
+/* 3) Order status 버튼 */
+body[data-page="artworks"] #cart [data-cart-status] {
+  color: #e5e5e7 !important;
+  -webkit-text-fill-color: #e5e5e7 !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  background: #17181b !important;
+  border-color: #2d2f34 !important;
+}
+
+/* hover */
+body[data-page="artworks"] #cart [data-cart-status]:hover {
+  background: #1c1d22 !important;
+}
+
+/* 4) Clear cart 버튼 */
+body[data-page="artworks"] #cart [data-cart-clear] {
+  color: #e5e5e7 !important;
+  -webkit-text-fill-color: #e5e5e7 !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  background: #17181b !important;
+  border-color: #2d2f34 !important;
+}
+
+/* hover */
+body[data-page="artworks"] #cart [data-cart-clear]:hover {
+  background: #1c1d22 !important;
+}

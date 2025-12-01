@@ -447,32 +447,32 @@
 
 /* 1) - / + 버튼 */
 #cart .qty .btn {
-  color: #111 !important;
-  -webkit-text-fill-color: #111 !important;
-  appearance: none !important;
-  -webkit-appearance: none !important;
+  color: #111;
+  -webkit-text-fill-color: #111;
+  appearance: none;
+  -webkit-appearance: none;
 }
 
 /* 2) Request invoice 버튼 */
 #cart [data-cart-request] {
-  color: #fff !important;
-  -webkit-text-fill-color: #fff !important;
-  appearance: none !important;
-  -webkit-appearance: none !important;
+  color: #fff;
+  -webkit-text-fill-color: #fff;
+  appearance: none;
+  -webkit-appearance: none;
 }
 
 /* 3) Order status 버튼 */
 #cart [data-cart-status] {
-  color: #111 !important;
-  -webkit-text-fill-color: #111 !important;
-  appearance: none !important;
-  -webkit-appearance: none !important;
+  color: #111;
+  -webkit-text-fill-color: #111;
+  appearance: none;
+  -webkit-appearance: none;
 }
 
 /* 4) Clear cart 버튼 */
 #cart [data-cart-clear] {
-  color: #111 !important;
-  -webkit-text-fill-color: #111 !important;
-  appearance: none !important;
-  -webkit-appearance: none !important;
+  color: #111;
+  -webkit-text-fill-color: #111;
+  appearance: none;
+  -webkit-appearance: none;
 }

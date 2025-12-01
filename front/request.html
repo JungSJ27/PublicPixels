@@ -1,100 +1,77 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Purchase Request</title>
-
-  <!-- 공통 스타일 -->
-  <link rel="stylesheet" href="/front/styles.css" />
-  <link rel="stylesheet" href="/front/header.css" />
-  <link rel="stylesheet" href="/front/global.css" />
-
-  <!-- 페이지 전용 -->
-  <link rel="stylesheet" href="/front/request.css" />
+  <link rel="stylesheet" href="request.css"/>
 </head>
 
 <body>
-  <!-- 헤더 자동 주입 -->
-  <script type="module" src="/front/headerLoader.js"></script>
 
-  <main class="wrap">
+  <h1 class="page-title">Purchase Request</h1>
+  <p class="page-desc">
+    No payment now. We will email an invoice after confirming availability and shipping.
+  </p>
 
-    <h1 class="page-title">Purchase Request</h1>
+  <main class="req-wrap">
 
-    <p class="top-hint">
-      No payment now. We will email an invoice after confirming availability and shipping.
-    </p>
+    <!-- Left Items -->
+    <section class="left">
+      <h2>Your Items</h2>
+      <div id="leftItems" class="left-box"></div>
 
-    <div class="grid">
+      <h3>Billing Details</h3>
 
-      <!-- LEFT SIDE -->
-      <section class="left">
-        <h3>Your Items</h3>
-        <div id="leftItems" class="items-box"></div>
+      <form id="reqForm">
+        <label>Name
+          <input type="text" required>
+        </label>
 
-        <h3 class="billing-title">Billing Details</h3>
+        <label>Email
+          <input type="email" required>
+        </label>
 
-        <form id="rqp-form" novalidate>
+        <label>Phone (optional)
+          <input type="text">
+        </label>
 
-          <div class="row2">
-            <div>
-              <label>Name</label>
-              <input name="name" placeholder="Jane Doe" required />
-            </div>
-            <div>
-              <label>Email</label>
-              <input name="email" type="email" placeholder="you@example.com" required />
-            </div>
-          </div>
+        <label>Preferred contact
+          <select>
+            <option>Email</option>
+            <option>Phone</option>
+            <option>Kakao</option>
+          </select>
+        </label>
 
-          <div class="row2">
-            <div>
-              <label>Phone (optional)</label>
-              <input name="phone" placeholder="+1 555 000 0000" />
-            </div>
-            <div>
-              <label>Preferred contact</label>
-              <input name="contact" placeholder="Email / Phone / Kakao" />
-            </div>
-          </div>
+        <label>Shipping address (optional)
+          <input type="text">
+        </label>
+      </form>
+    </section>
 
-          <label>Shipping address (optional)</label>
-          <textarea name="address" placeholder="Street, City, State, ZIP, Country"></textarea>
+    <!-- Right Summary -->
+    <aside class="right">
+      <h2>Your selection</h2>
 
-          <label>Notes</label>
-          <textarea name="note" placeholder="Requests or questions"></textarea>
+      <div id="rightList" class="sum-box"></div>
 
-          <p class="small-info">
-            We will email you an invoice after confirming availability and shipping.
-          </p>
-        </form>
-      </section>
+      <div class="sum-total-wrap">
+        <div class="sum-label">Subtotal</div>
+        <div id="sumTotal" class="sum-total"></div>
+      </div>
 
-      <!-- RIGHT SUMMARY -->
-      <aside class="right">
-        <div class="sum-card">
-          <h3>Your selection</h3>
-          <div id="rightList"></div>
+      <p class="note">
+        We will email an invoice after confirming availability and shipping.
+        Submitting a request does not charge you.
+      </p>
 
-          <div class="sum-line total">
-            <span>Subtotal</span>
-            <span id="sumTotal">$0.00</span>
-          </div>
+      <button id="submitBtn" class="btn-submit">Submit request</button>
+      <button onclick="history.back()" class="btn-back">Back</button>
+    </aside>
 
-          <p class="small-info">We will email an invoice after confirming availability and shipping.</p>
-          <p class="small-info">Submitting a request does not charge you.</p>
-
-          <div class="btn-row">
-            <button class="btn" onclick="history.back()">Back</button>
-            <button class="btn btn-black" id="submitBtn" form="rqp-form">Send request</button>
-          </div>
-        </div>
-      </aside>
-
-    </div>
   </main>
 
-  <script type="module" src="/front/request.js"></script>
+  <script type="module" src="request.js"></script>
 </body>
 </html>

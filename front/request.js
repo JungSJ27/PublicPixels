@@ -28,7 +28,10 @@ function renderLeft(items) {
 
       <div class="info">
         <div class="title">${item.name}</div>
-        <div class="price">$${item.price.toFixed(2)}</div>
+
+        <div class="price">
+          ${Number(item.price) > 0 ? `$${item.price}` : `Req.`}
+        </div>
 
         <div class="qty-box">
           <button class="minus">−</button>
@@ -72,21 +75,52 @@ function renderRight(items) {
     const div = document.createElement("div");
     div.className = "sum-line";
 
+    const isArt = Number(item.price) <= 0;
+    const priceText = isArt
+      ? `<span class="sub-req">Req.</span>`
+      : `$${(item.price * item.qty).toFixed(2)}`;
+
     div.innerHTML = `
-      <span>${item.name}</span>
-      <span>$${(item.price * item.qty).toFixed(2)}</span>
+      <span>${item.name} × ${item.qty}</span>
+      <span>${priceText}</span>
     `;
 
     rightBox.appendChild(div);
   }
 }
 
-/* SUBTOTAL */
+/* SUBTOTAL — (작품 + 상품 규칙) */
 function updateSubtotal() {
-  sumTotal.textContent = `$${getSubtotal().toFixed(2)}`;
+  const items = getItems();
+  const total = getSubtotal();
+  const el = document.querySelector("#sumTotal");
+
+  if (!items.length) {
+    el.textContent = "";
+    return;
+  }
+
+  const hasArt = items.some(x => Number(x.price) <= 0);
+  const hasProduct = items.some(x => Number(x.price) > 0);
+
+  const subtotal = `$${total.toFixed(2)}`;
+
+  if (hasArt && hasProduct) {
+    el.innerHTML = `
+      <span class="sub-alpha">α</span>
+      <span class="sub-plus">+</span>
+      <span class="sub-price">${subtotal}</span>
+    `;
+  }
+  else if (hasArt && !hasProduct) {
+    el.innerHTML = `<span class="sub-req">Req.</span>`;
+  }
+  else {
+    el.textContent = subtotal;
+  }
 }
 
-/* RENDER */
+/* RENDER ALL */
 function renderAll() {
   const items = getItems();
   renderLeft(items);
