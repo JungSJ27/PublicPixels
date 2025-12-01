@@ -1,74 +1,26 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Order status</title>
-  <link rel="stylesheet" href="/front/orderstatus.css" />
-  <link rel="stylesheet" href="/front/header.css" />
-  <script defer src="/front/headerLoader.js"></script>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Order Status</title>
+  <link rel="stylesheet" href="orderstatus.css"/>
 </head>
+
 <body>
-  <div class="wrap">
-    <div class="head">
-      <h1>Order status</h1>
-      <div class="hint">Track your request and download the invoice when it is ready.</div>
-    </div>
 
-    <div id="status" class="status">
-      <div class="steps">
-        <div class="step" data-step="requested"><span>1</span> Requested</div>
-        <div class="step" data-step="reviewing"><span>2</span> Reviewing</div>
-        <div class="step" data-step="invoiced"><span>3</span> Invoiced</div>
-        <div class="step" data-step="paid"><span>4</span> Paid</div>
-      </div>
+  <main class="status-wrap">
+    <h1>Order Status</h1>
 
-      <div class="card">
-        <div class="row">
-          <div>
-            <div class="label">Request code</div>
-            <div class="code" id="os_code">—</div>
-          </div>
-          <div class="right">
-            <button id="copy" class="btn">Copy code</button>
-          </div>
-        </div>
+    <p>Enter your Order ID to check your request.</p>
 
-        <div class="row">
-          <div>
-            <div class="label">Status</div>
-            <div id="os_badge" class="badge">Unknown</div>
-          </div>
-          <div class="right">
-            <a id="openInvoice" class="btn btn--primary" href="#" hidden>Open invoice</a>
-          </div>
-        </div>
+    <input id="orderIDinput" placeholder="PP-2025xxxx-xxxxx"/>
 
-        <div class="row">
-          <div class="label">Your selection</div>
-          <div id="os_list" class="list"></div>
-        </div>
+    <button id="checkBtn">Check</button>
 
-        <div class="row total">
-          <div>Subtotal</div>
-          <div id="os_total">$0.00</div>
-        </div>
-      </div>
+    <section id="result" class="result hidden"></section>
+  </main>
 
-      <div class="actions">
-        <a class="btn" href="/index.html">Back to site</a>
-      </div>
-    </div>
-
-    <div id="empty" class="empty" hidden>
-      <p>We could not find a request. Try again from the cart or paste a valid code.</p>
-      <div class="actions">
-        <a class="btn" href="/index.html">Back to site</a>
-      </div>
-    </div>
-  </div>
-
-  <div id="toast" hidden></div>
-  <script type="module" src="/front/orderstatus.js"></script>
+  <script src="orderstatus.js"></script>
 </body>
 </html>

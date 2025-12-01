@@ -1,85 +1,42 @@
-// ===== keys and tiny utils =====
-const REQ_LIST = "pp_requests_v1";
-const LAST_REQ = "pp_last_request";
-const $ = (s, r=document) => r.querySelector(s);
-const esc = s => String(s ?? "").replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-const parse = (s,d) => { try { return JSON.parse(s ?? ""); } catch { return d; } };
-const money = n => new Intl.NumberFormat(undefined,{ style:"currency", currency:"USD" }).format(Number(n||0));
-
-// read code from ?code=, or fallback to last
-function readCode(){
-  const u = new URL(location.href);
-  return u.searchParams.get("code") || localStorage.getItem(LAST_REQ) || "";
+function loadOrders() {
+  return JSON.parse(localStorage.getItem("pp_orders") || "[]");
 }
 
-function findRequest(code){
-  const list = parse(localStorage.getItem(REQ_LIST), []);
-  return list.find(x => String(x.code) === String(code));
-}
+const input = document.querySelector("#orderIDinput");
+const result = document.querySelector("#result");
+const checkBtn = document.querySelector("#checkBtn");
 
-function markSteps(status){
-  const order = ["requested","reviewing","invoiced","paid"];
-  const idx = Math.max(0, order.indexOf(status));
-  document.querySelectorAll(".step").forEach((el, i) => {
-    el.classList.toggle("on", i <= idx);
-  });
-}
+checkBtn.onclick = () => {
+  const id = input.value.trim();
+  if (!id) return;
 
-function render(req){
-  $("#os_code").textContent = req.code;
-  $("#os_badge").textContent = req.status || "requested";
-  markSteps(req.status || "requested");
+  const orders = loadOrders();
+  const found = orders.find(o => o.orderID === id);
 
-  // items
-  const box = $("#os_list");
-  box.innerHTML = req.items.map(it => `
-    <div class="item">
-      <div>
-        <div>${esc(it.title || it.name || "Untitled")}</div>
-        <div class="meta">${esc(it.id || "")}${Number(it.qty||1) > 1 ? ` · qty ${Number(it.qty)}` : ""}</div>
-      </div>
-      <div>${money(Number(it.price||0) * Number(it.qty||1))}</div>
-    </div>
-  `).join("");
-
-  $("#os_total").textContent = money(req.subtotal || 0);
-
-  // invoice open
-  const openBtn = $("#openInvoice");
-  if (typeof window.openInvoicePanel === "function" && (req.status === "invoiced" || req.status === "paid")){
-    openBtn.hidden = false;
-    openBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      window.openInvoicePanel({ readonly:true, requestId: req.code });
-    });
-  }
-}
-
-function toast(msg){
-  const t = $("#toast"); if (!t) return;
-  t.textContent = msg; t.hidden = false;
-  requestAnimationFrame(()=> t.classList.add("show"));
-  clearTimeout(toast._t);
-  toast._t = setTimeout(()=>{ t.classList.remove("show"); setTimeout(()=> t.hidden = true, 200); }, 1600);
-}
-
-function boot(){
-  const code = readCode();
-  const req = code && findRequest(code);
-
-  if (!req){
-    $("#status").hidden = true;
-    $("#empty").hidden = false;
+  if (!found) {
+    result.classList.remove("hidden");
+    result.innerHTML = `<p>No order found.</p>`;
     return;
   }
 
-  render(req);
+  const itemHTML = found.items.map(i => `
+    <li>${i.name} × ${i.qty}</li>
+  `).join("");
 
-  // copy
-  $("#copy")?.addEventListener("click", async ()=>{
-    try { await navigator.clipboard.writeText(req.code); toast("Copied"); }
-    catch { toast("Copy failed"); }
-  });
-}
+  result.classList.remove("hidden");
+  result.innerHTML = `
+    <h2>Order ${found.orderID}</h2>
 
-document.addEventListener("DOMContentLoaded", boot);
+    <p><strong>Status:</strong> ${found.status}</p>
+
+    <p><strong>Items:</strong></p>
+    <ul>${itemHTML}</ul>
+
+    <p><strong>Subtotal:</strong> ${found.subtotal <= 0 ? "Req." : "$" + found.subtotal.toFixed(2)}</p>
+
+    <p><strong>Notes:</strong> ${found.notes || "(none)"}</p>
+
+    <p><strong>Shipping method:</strong> ${found.shipping || "-"}</p>
+    <p><strong>Tracking code:</strong> ${found.tracking || "-"}</p>
+  `;
+};

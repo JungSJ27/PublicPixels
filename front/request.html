@@ -11,19 +11,22 @@
 
   <h1 class="page-title">Purchase Request</h1>
   <p class="page-desc">
-    No payment now. We will email an invoice after confirming availability and shipping.
+    No payment now. We will email an invoice after confirming availability and shipping.<br>
+    After invoice is issued, payment will be completed securely via PayPal.
   </p>
 
   <main class="req-wrap">
 
-    <!-- Left Items -->
+    <!-- LEFT -->
     <section class="left">
       <h2>Your Items</h2>
+
       <div id="leftItems" class="left-box"></div>
 
       <h3>Billing Details</h3>
 
       <form id="reqForm">
+
         <label>Name
           <input type="text" required>
         </label>
@@ -36,38 +39,40 @@
           <input type="text">
         </label>
 
-        <label>Preferred contact
-          <select>
-            <option>Email</option>
-            <option>Phone</option>
-            <option>Kakao</option>
-          </select>
-        </label>
-
         <label>Shipping address (optional)
           <input type="text">
         </label>
+
+        <label>Notes (optional)
+          <textarea rows="3" placeholder="Any additional requests…"></textarea>
+        </label>
+
       </form>
     </section>
 
-    <!-- Right Summary -->
+    <!-- RIGHT -->
     <aside class="right">
-      <h2>Your selection</h2>
+      <div class="right-box">
 
-      <div id="rightList" class="sum-box"></div>
+        <h2>Your selection</h2>
 
-      <div class="sum-total-wrap">
-        <div class="sum-label">Subtotal</div>
-        <div id="sumTotal" class="sum-total"></div>
+        <div id="rightList" class="sum-box"></div>
+
+        <div class="sum-total-wrap">
+          <span>Subtotal</span>
+          <span id="sumTotal"></span>
+        </div>
+
+        <p class="note">
+          This is a purchase request form.<br>
+          You will receive a PayPal invoice after confirmation.<br>
+          Submitting this form does not charge you.
+        </p>
+
+        <button id="submitBtn" class="btn-submit">Submit request</button>
+        <button onclick="history.back()" class="btn-back">Back</button>
+
       </div>
-
-      <p class="note">
-        We will email an invoice after confirming availability and shipping.
-        Submitting a request does not charge you.
-      </p>
-
-      <button id="submitBtn" class="btn-submit">Submit request</button>
-      <button onclick="history.back()" class="btn-back">Back</button>
     </aside>
 
   </main>
