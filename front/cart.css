@@ -442,18 +442,12 @@
   }
 }
 
-/* iOS Safari 기본 버튼 스타일 제거 */
-button,
-.btn,
-.qty .btn {
+/* Request 화면 버튼 스타일만 초기화 */
+.wrap button,
+.wrap .btn,
+.wrap .qty .btn {
   color: inherit !important;
   -webkit-text-fill-color: currentColor !important;
   appearance: none !important;
   -webkit-appearance: none !important;
-}
-
-/* Primary 버튼은 흰색 유지 */
-.btn--primary {
-  color: #ffffff !important;
-  -webkit-text-fill-color: #ffffff !important;
 }

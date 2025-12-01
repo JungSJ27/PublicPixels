@@ -5,92 +5,96 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Purchase Request</title>
 
+  <!-- 공통 스타일 -->
+  <link rel="stylesheet" href="/front/styles.css" />
+  <link rel="stylesheet" href="/front/header.css" />
+  <link rel="stylesheet" href="/front/global.css" />
+
+  <!-- 페이지 전용 -->
   <link rel="stylesheet" href="/front/request.css" />
 </head>
+
 <body>
-  <!-- 헤더는 headerLoader.js가 있으면 자동 주입됨 -->
+  <!-- 헤더 자동 주입 -->
+  <script type="module" src="/front/headerLoader.js"></script>
 
   <main class="wrap">
-    <div class="head">
-      <h1>Purchase Request</h1>
-      <div class="hint">No payment now. We will email an invoice after confirming availability and shipping.</div>
-    </div>
+
+    <h1 class="page-title">Purchase Request</h1>
+
+    <p class="top-hint">
+      No payment now. We will email an invoice after confirming availability and shipping.
+    </p>
 
     <div class="grid">
-      <!-- 폼 -->
-      <section>
+
+      <!-- LEFT SIDE -->
+      <section class="left">
+        <h3>Your Items</h3>
+        <div id="leftItems" class="items-box"></div>
+
+        <h3 class="billing-title">Billing Details</h3>
+
         <form id="rqp-form" novalidate>
-          <div class="row">
-            <div>
-              <label for="rq_name">Name</label>
-              <input id="rq_name" name="name" placeholder="Jane Doe" required />
-              <div class="err" data-err="name">Please enter your name.</div>
-            </div>
-            <div>
-              <label for="rq_email">Email</label>
-              <input id="rq_email" name="email" type="email" placeholder="you@example.com" required />
-              <div class="err" data-err="email">Please enter a valid email.</div>
-            </div>
-          </div>
 
-          <div class="row">
+          <div class="row2">
             <div>
-              <label for="rq_phone">Phone (optional)</label>
-              <input id="rq_phone" name="phone" inputmode="tel" placeholder="+1 555 000 0000" />
+              <label>Name</label>
+              <input name="name" placeholder="Jane Doe" required />
             </div>
             <div>
-              <label for="rq_contact">Preferred contact</label>
-              <input id="rq_contact" name="contact" placeholder="Email / Phone / Kakao" />
+              <label>Email</label>
+              <input name="email" type="email" placeholder="you@example.com" required />
             </div>
           </div>
 
-          <div>
-            <label for="rq_addr">Shipping address (optional)</label>
-            <textarea id="rq_addr" name="address" placeholder="Street, City, State, ZIP, Country"></textarea>
-          </div>
-
-          <div>
-            <label for="rq_note">Notes</label>
-            <textarea id="rq_note" name="note" placeholder="Requests or questions"></textarea>
-            <div class="hint small">We will email you an invoice after confirming availability and shipping cost.</div>
-          </div>
-
-          <div class="foot">
-            <div class="small">Submitting a request does not charge you</div>
+          <div class="row2">
             <div>
-              <button type="button" class="btn" onclick="history.back()">Back</button>
-              <button type="submit" class="btn btn--primary">Send request</button>
+              <label>Phone (optional)</label>
+              <input name="phone" placeholder="+1 555 000 0000" />
+            </div>
+            <div>
+              <label>Preferred contact</label>
+              <input name="contact" placeholder="Email / Phone / Kakao" />
             </div>
           </div>
-        </form>
 
-        <!-- 성공 뷰 -->
-        <div class="done" id="reqDone">
-          <h3>Request received</h3>
-          <p>Your request code</p>
-          <p class="code" id="reqCode">PP-</p>
-          <p class="hint small">You can check status later with this code</p>
-          <p class="btns">
-            <a id="goStatus" class="btn" href="/front/orderstatus.html">Open status</a>
-            <button class="btn btn--primary" id="copyCode">Copy code</button>
+          <label>Shipping address (optional)</label>
+          <textarea name="address" placeholder="Street, City, State, ZIP, Country"></textarea>
+
+          <label>Notes</label>
+          <textarea name="note" placeholder="Requests or questions"></textarea>
+
+          <p class="small-info">
+            We will email you an invoice after confirming availability and shipping.
           </p>
-        </div>
+        </form>
       </section>
 
-      <!-- 오른쪽 요약 -->
-      <aside>
-        <div class="sum">
+      <!-- RIGHT SUMMARY -->
+      <aside class="right">
+        <div class="sum-card">
           <h3>Your selection</h3>
-          <div id="sumItems"></div>
-          <div class="total"><span>Subtotal</span><span id="sumTotal">$0.00</span></div>
+          <div id="rightList"></div>
+
+          <div class="sum-line total">
+            <span>Subtotal</span>
+            <span id="sumTotal">$0.00</span>
+          </div>
+
+          <p class="small-info">We will email an invoice after confirming availability and shipping.</p>
+          <p class="small-info">Submitting a request does not charge you.</p>
+
+          <div class="btn-row">
+            <button class="btn" onclick="history.back()">Back</button>
+            <button class="btn btn-black" id="submitBtn" form="rqp-form">Send request</button>
+          </div>
         </div>
       </aside>
+
     </div>
   </main>
 
-  <div id="toast" hidden>Saved</div>
-
-  <!-- 페이지 전용 스크립트 하나만 사용 -->
   <script type="module" src="/front/request.js"></script>
 </body>
 </html>
