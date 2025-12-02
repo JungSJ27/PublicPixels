@@ -3,7 +3,7 @@ import {
   setQty,
   remove,
   getSubtotal
-} from "/front/cartstore.js";
+} from "./cartstore.js";   // ← ★★ /front 제거 (로컬에서도 동작하게 수정)
 
 /* -----------------------------
    AUTO ORDER ID 생성
@@ -14,28 +14,27 @@ function generateOrderID() {
   const m = String(now.getMonth() + 1).padStart(2, "0");
   const d = String(now.getDate()).padStart(2, "0");
   const r = Math.floor(Math.random() * 90000) + 10000;
-
   return `PP-${y}${m}${d}-${r}`;
 }
 
 /* -----------------------------
-   GOOGLE SHEET API
+   GOOGLE SHEET API URL
 ------------------------------ */
 const API_URL =
   "https://script.google.com/macros/s/AKfycbyGd9QAnWKZZq7H2kAfymNiiR3mLqLf44QN4VlKHMPwcEWmsTRd80Ou3ELI0vW6VTq8/exec";
 
 /* -----------------------------
-    REQUEST PAGE RENDERING
+    ELEMENTS
 ------------------------------ */
-
 const leftBox = document.querySelector("#leftItems");
 const rightBox = document.querySelector("#rightList");
 const sumTotal = document.querySelector("#sumTotal");
 const form = document.querySelector("#reqForm");
 const submitBtn = document.querySelector("#submitBtn");
 
-
-/* LEFT ITEMS */
+/* -----------------------------
+    LEFT RENDER
+------------------------------ */
 function renderLeft(items) {
   leftBox.innerHTML = "";
 
@@ -83,7 +82,9 @@ function renderLeft(items) {
   }
 }
 
-/* RIGHT SUMMARY */
+/* -----------------------------
+    RIGHT RENDER
+------------------------------ */
 function renderRight(items) {
   rightBox.innerHTML = "";
 
@@ -95,12 +96,13 @@ function renderRight(items) {
       <span>${item.name} × ${item.qty}</span>
       <span>${item.price <= 0 ? "Req." : "$" + (item.price * item.qty).toFixed(2)}</span>
     `;
-
     rightBox.appendChild(div);
   }
 }
 
-/* SUBTOTAL */
+/* -----------------------------
+    SUBTOTAL
+------------------------------ */
 function updateSubtotal() {
   const items = getItems();
   const total = getSubtotal();
@@ -112,10 +114,9 @@ function updateSubtotal() {
   }
 
   const hasArt = items.some(x => Number(x.price) <= 0);
-  const hasProduct = items.some(x => Number(x.price) > 0);
   const subtotal = `$${total.toFixed(2)}`;
 
-  if (hasArt && hasProduct) {
+  if (hasArt && total > 0) {
     el.innerHTML = `α + ${subtotal}`;
   } else if (hasArt) {
     el.textContent = "Req.";
@@ -125,7 +126,7 @@ function updateSubtotal() {
 }
 
 /* -----------------------------
-    LOCAL SAVE BACKUP
+    LOCAL BACKUP SAVE
 ------------------------------ */
 function saveOrderLocal(data) {
   const orders = JSON.parse(localStorage.getItem("pp_orders") || "[]");
@@ -134,13 +135,18 @@ function saveOrderLocal(data) {
 }
 
 /* -----------------------------
-    SUBMIT (Google Sheet 연동)
+    SUBMIT HANDLER
 ------------------------------ */
 submitBtn.addEventListener("click", async (e) => {
   e.preventDefault();
 
+  console.log("Submit clicked");  // ← 디버그용 (반드시 콘솔에 떠야 함)
+
   const items = getItems();
-  if (!items.length) return alert("Your bag is empty.");
+  if (!items.length) {
+    alert("Your bag is empty.");
+    return;
+  }
 
   const orderID = generateOrderID();
 
@@ -159,22 +165,24 @@ submitBtn.addEventListener("click", async (e) => {
     created: new Date().toISOString()
   };
 
-  // 🔥 1) 구글 시트로 전송
-  await fetch(API_URL, {
-    method: "POST",
-    body: JSON.stringify({
-      action: "create",
-      ...orderData
-    }),
-  });
+  // 🔥 Google Sheet 전송
+  try {
+    await fetch(API_URL, {
+      method: "POST",
+      body: JSON.stringify({ action: "create", ...orderData }),
+    });
+  } catch (err) {
+    console.error("Google Sheet ERROR:", err);
+  }
 
-  // 🔥 2) localStorage 백업 저장 (선택)
+  // 🔥 로컬 백업
   saveOrderLocal(orderData);
 
-  // 🔥 3) 클라이언트에 표시
-  alert(`Request submitted!\nYour order ID: ${orderID}`);
+  // 🔥 자동 ID 복사
+  navigator.clipboard.writeText(orderID).catch(() => {});
 
-  // 🔥 4) 상태 페이지로 이동
+  alert(`Your request has been submitted!\nOrder ID copied:\n${orderID}`);
+
   location.href = `/front/orderstatus.html?id=${orderID}`;
 });
 
