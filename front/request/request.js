@@ -157,8 +157,9 @@ submitBtn.addEventListener("click", async (e) => {
   codeBox.textContent = orderID;
   modal.hidden = false;
 
-  const goToStatus = () =>
-    (location.href = `orderstatus.html?id=${encodeURIComponent(orderID)}`);
+  const goToStatus = () => {
+  location.href = `../status/?id=${encodeURIComponent(orderID)}`;};
+
 
   copyBtn.onclick = () =>
     navigator.clipboard.writeText(orderID).finally(goToStatus);

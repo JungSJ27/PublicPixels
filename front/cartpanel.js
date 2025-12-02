@@ -320,14 +320,18 @@ function handleRequest(){
   location.href = "/front/request/";
 }
 
-function handleStatus(){
+function handleStatus() {
   const last = localStorage.getItem("pp_last_request");
+  
   if (last) {
-    location.href = `/front/orderstatus.html?id=${encodeURIComponent(last)}`;
+    // 마지막 주문 ID가 있으면 자동으로 status 조회 페이지로 이동
+    location.href = `/front/status/?id=${encodeURIComponent(last)}`;
   } else {
-    location.href = "/front/orderstatus.html";
+    // 주문 ID 없으면 기본 status 페이지로
+    location.href = `/front/status/`;
   }
 }
+
 
 // optional
 function handleInvoice(){
