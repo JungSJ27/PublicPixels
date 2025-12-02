@@ -9,74 +9,72 @@
 
 <body>
 
-  <h1 class="page-title">Purchase Request</h1>
-  <p class="page-desc">
-    No payment now. We will email an invoice after confirming availability and shipping.<br>
-    After invoice is issued, payment will be completed securely via PayPal.
-  </p>
+  <!-- 공통 컨테이너 -->
+  <div class="req-container">
 
-  <main class="req-wrap">
+    <h1 class="page-title">Purchase Request</h1>
 
-    <!-- LEFT -->
-    <section class="left">
-      <h2>Your Items</h2>
+    <p class="page-desc">
+      No payment now. We will email an invoice after confirming availability and shipping.
+      After invoice is issued, payment will be completed securely via PayPal.
+    </p>
 
-      <div id="leftItems" class="left-box"></div>
+    <div class="title-divider"></div>
 
-      <h3>Billing Details</h3>
+    <!-- LEFT + RIGHT -->
+    <main class="req-wrap">
 
-      <form id="reqForm">
+      <section class="left">
+        <h2>Your Collection</h2>
+        <div id="leftItems" class="left-box"></div>
+        
+        
+        <div class="section-divider"></div>
 
-        <label>Name
-          <input type="text" required>
-        </label>
+        <h3>Billing Details</h3>
+        <form id="reqForm">
+          <label>Name</label>
+          <input id="name" type="text" required>
 
-        <label>Email
-          <input type="email" required>
-        </label>
+          <label>Email</label>
+          <input id="email" type="email" required>
 
-        <label>Phone (optional)
-          <input type="text">
-        </label>
+          <label>Phone</label>
+          <input id="phone" type="text">
 
-        <label>Shipping address (optional)
-          <input type="text">
-        </label>
+          <label>Shipping address</label>
+          <input id="address" type="text">
 
-        <label>Notes (optional)
-          <textarea rows="3" placeholder="Any additional requests…"></textarea>
-        </label>
+          <label>Notes</label>
+          <textarea id="notes" rows="3" placeholder="Any additional requests…"></textarea>
+        </form>
+      </section>
 
-      </form>
-    </section>
+      <aside class="right">
+        <div class="right-box">
+          <h2>Order summary</h2>
+          <div id="rightList" class="sum-box"></div>
 
-    <!-- RIGHT -->
-    <aside class="right">
-      <div class="right-box">
+          <div class="sum-total-wrap">
+            <span>Subtotal</span>
+            <span id="sumTotal"></span>
+          </div>
 
-        <h2>Your selection</h2>
+          <p class="note">This is a purchase request form.<br>
+            You will receive a PayPal invoice after confirmation.<br>
+            Submitting this form does not charge you.
+          </p>
 
-        <div id="rightList" class="sum-box"></div>
-
-        <div class="sum-total-wrap">
-          <span>Subtotal</span>
-          <span id="sumTotal"></span>
+          <button id="submitBtn" class="btn-submit">Submit request</button>
+          <button onclick="history.back()" class="btn-back">Back</button>
         </div>
+      </aside>
 
-        <p class="note">
-          This is a purchase request form.<br>
-          You will receive a PayPal invoice after confirmation.<br>
-          Submitting this form does not charge you.
-        </p>
+    </main>
 
-        <button id="submitBtn" class="btn-submit">Submit request</button>
-        <button onclick="history.back()" class="btn-back">Back</button>
-
-      </div>
-    </aside>
-
-  </main>
+  </div>
 
   <script type="module" src="request.js"></script>
 </body>
+
 </html>

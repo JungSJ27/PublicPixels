@@ -5,30 +5,49 @@ body {
   color: #111;
 }
 
+/* 공통 컨테이너 */
+.req-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;   /* 작은 화면에서도 여백 유지 */
+}
+
+/* Title */
 .page-title {
-  text-align: center;
+  text-align: left;
   margin-top: 40px;
-  margin-left: 40px;
-  font-size: 1.5rem;
-  font-weight: 400;
+  font-size: 1.2rem;
+  font-weight: 600;
 }
 
+/* Description */
 .page-desc {
-  text-align: center;
-  opacity: .7;
-  margin-bottom: 40px;
+  text-align: left;
+  opacity: 1;
+  margin-top: 1px;
+  margin-bottom: 13px;
   line-height: 1.4;
-  font-size: .9rem;
+  font-size: .75rem;
 }
 
+/* Divider */
+.title-divider {
+  width: 100%;
+  height: 1px;
+  background: #e4e4e4;
+  margin: 12px 0 32px;
+}
+
+/* Main layout */
 .req-wrap {
   display: grid;
-  grid-template-columns: 1fr 360px;
-  gap: 40px;
-  max-width: 1500px;
-  margin: 0 auto 80px;
+  grid-template-columns: 1fr 360px; /* 왼쪽은 자동 확장, 오른쪽은 고정 */
+  gap: 52px; /* 원하는 간격으로 조절 가능 */
+  max-width: 1200px;
+  margin: 0 auto;
   padding: 0 20px;
 }
+
 
 /* LEFT */
 .left h2,
@@ -36,12 +55,18 @@ body {
   margin-bottom: 12px;
 }
 
+.left h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
 .left-box {
   background: #fff;
   border-radius: 0px;
   padding: 15px;
   border: 0px solid #e6e6e6;
-  max-height: 400px;
+  max-height: 500px;
   overflow-y: auto;
 }
 
@@ -68,33 +93,32 @@ body {
 
 .remove {
   position: absolute;
-  top: 8px;
+  top: 15px;
   right: 8px;
   background: none;
   border: none;
-  font-size: 18px;
+  font-size: 15px;
   cursor: pointer;
-  opacity: .5;
+  opacity: .7;
 }
 
-.remove:hover {
-  opacity: 1;
-}
+
 
 .info .title {
-  font-weight: 500;
+  font-weight: 400;
   margin-bottom: 4px;
+  font-size: 13px;
 }
 
 .price {
-  font-size: .85rem;
-  opacity: .6;
+  font-size: .77rem;
+  opacity: 1;
 }
 
 .qty-box {
   display: inline-flex;
-  gap: 6px;
-  margin-top: 6px;
+  gap: 10px;
+  margin-top: 16px;
   align-items: center;
 }
 
@@ -105,50 +129,88 @@ body {
   padding: 2px 7px;
   cursor: pointer;
   border-radius: 4px;
+  font-size: 12px;
+
 }
 
 .qty {
-  font-weight: 500;
+  font-weight: 300;
+  font-size: 12px;
 }
 
-/* FORM */
+.left h3 {
+  font-size: 1rem;   /* 원하는 크기로 조절 */
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 15px;
+}
+
+
+.section-divider {
+  width: 102%;
+  height: 1px;
+  background: #e4e4e4;
+  margin: 64px 0 45px;
+}
+
+
+/* LABEL */
 label {
   display: block;
-  margin: 18px 0 8px;
-  font-size: .9rem;
+  margin-bottom: 4px;   /* 라벨 아래 간격 */
+  font-size: .8rem;
+  opacity: .85;
 }
 
+/* INPUT + TEXTAREA */
 input,
 textarea,
 select {
-  width: 100%;
-  padding: 12px;
-  border-radius: 8px;
+  width: 93%;          /* 항상 부모 기준으로 100%를 유지 */
+  padding: 8px 10px;
+  border-radius: 0px;
   border: 1px solid #ddd;
-  font-size: .9rem;
+  font-size: .8rem;
+
+  margin-top: 0;
+  margin-bottom: 14px;  /* input끼리 간격 조절 (원하는 대로 바꾸면 됨) */
 }
+
+#notes {
+  margin-bottom: 100px;  /* 원하는 만큼 숫자 조절 */
+}
+
 
 /* RIGHT */
 .right-box {
-  background: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  border: 1px solid #e6e6e6;
+  background: #f3f3f3;
+  padding: 15px 20px 20px;
+  border-radius: 0px;
+  border: 0px solid #e6e6e6;
   position: sticky;
-  top: 20px;
+  top: 40px;
 }
 
 .sum-box {
   max-height: 260px;
   overflow-y: auto;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
+
+.right-box h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #111;
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
 
 .sum-line {
   display: flex;
   justify-content: space-between;
-  padding: 6px 0;
-  font-size: .9rem;
+  padding: 8px 0;
+  font-size: .8rem;
 }
 
 .sum-total-wrap {
@@ -157,13 +219,14 @@ select {
   border-top: 1px solid #eee;
   padding-top: 10px;
   font-weight: 600;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
+  font-size: 0.95rem;
 }
 
 .note {
-  font-size: .8rem;
+  font-size: .65rem;
   line-height: 1.4;
-  opacity: .7;
+  opacity: .8;
   margin-bottom: 20px;
 }
 
@@ -174,7 +237,7 @@ select {
   background: #111;
   color: #fff;
   border: none;
-  border-radius: 8px;
+  border-radius: 0px;
   cursor: pointer;
   margin-bottom: 10px;
 }
@@ -188,10 +251,32 @@ select {
   padding: 12px;
   border: 1px solid #ccc;
   background: #fff;
-  border-radius: 8px;
+  border-radius: 0px;
   cursor: pointer;
 }
 
-.btn-back:hover {
-  background: #f5f5f5;
+
+
+/* 모바일 환경에서 오른쪽 칼럼이 아래로 내려가게 */
+@media (max-width: 768px) {
+
+#notes {
+  margin-bottom: 10px;  /* 원하는 만큼 숫자 조절 */
 }
+
+  .req-wrap {
+    grid-template-columns: 1fr;  /* 하나의 컬럼 */
+  }
+
+  .right {
+    margin-top: 20px;
+    margin-bottom: 60px; /* ← 여기! 아래 여백 */
+  }
+
+  .right-box {
+    width: 90%;
+  }
+}
+
+
+
