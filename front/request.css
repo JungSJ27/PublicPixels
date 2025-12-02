@@ -336,12 +336,31 @@ select {
 
   /* Order summary 제목 간격 */
   .right-box h2 {
-    font-size: 1.15rem;
+    font-size: 1rem;
     margin-bottom: 15px;
     margin-top: 10px;
   }
 
+  .sum-line {
+    font-size: .7rem;
+  }
 
+  .sum-total-wrap {
+    font-size: 0.85rem;
+  }
+
+  .note {
+    font-size: .6rem;
+  }
+
+  /* BUTTONS */
+.btn-submit {
+  padding: 12px;
+}
+
+.btn-back {
+  padding: 10px;
+}
 
   /* Back 버튼 색상 고정 */
   .btn-back {
