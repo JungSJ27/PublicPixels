@@ -9,13 +9,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="/front/styles.css">
   <link rel="stylesheet" href="orderstatus.css">
+  <script defer src="/front/favicons.js"></script>
 </head>
 
 <body>
   <main class="os-wrap">
-
     <h1>Order Status</h1>
     <p class="os-desc">Enter your Order ID to check your request.</p>
 
@@ -25,55 +24,54 @@
     </div>
 
     <div id="orderArea" class="order-area hidden">
+      <!-- Order Info -->
+      <div class="os-card" id="orderInfoCard">
+        <h2>Order Information</h2>
+        <div id="orderInfo"></div>
+      </div>
 
-      <!-- 2-Column Layout -->
-      <div class="os-grid">
-
-        <!-- LEFT ---- ORDER INFO ONLY -->
-        <div class="left-col">
-
-          <div id="orderInfoCard" class="os-card">
-            <h2>Order Information</h2>
-            <div id="orderInfo"></div>
-          </div>
-
+      <!-- Order Progress with inline details -->
+      <div class="os-card">
+        <h2>Order Progress</h2>
+        
+        <div id="statusSteps">
+        <div class="step-with-detail" data-step="0">
+          <div class="step"><span class="dot"></span> Order Received</div>
         </div>
 
-        <!-- RIGHT ---- PROGRESS + INVOICE + SHIPPING -->
-        <div class="right-col">
+        <div class="step-with-detail" data-step="1">
+          <div class="step"><span class="dot"></span> Order Confirmed</div>
+        </div>
 
-          <!-- Progress -->
-          <div class="os-card">
-            <h2>Order Progress</h2>
-            <div id="statusSteps" class="status-steps">
-              <div class="step" data-step="0"><span class="dot"></span> Order Received</div>
-              <div class="step" data-step="1"><span class="dot"></span> Order Confirmed</div>
-              <div class="step" data-step="2"><span class="dot"></span> Invoice Issued</div>
-              <div class="step" data-step="3"><span class="dot"></span> Payment Completed</div>
-              <div class="step" data-step="4"><span class="dot"></span> Preparing Shipment</div>
-              <div class="step" data-step="5"><span class="dot"></span> Shipped</div>
-              <div class="step" data-step="6"><span class="dot"></span> Delivered</div>
-            </div>
-          </div>
-
-          <!-- Invoice BELOW progress -->
-          <div id="invoiceCard" class="os-card sub-card">
-            <h2>Invoice</h2>
+        <div class="step-with-detail" data-step="2">
+          <div class="step"><span class="dot"></span> Invoice Issued</div>
+          <div class="inline-detail" id="invoiceCard">
             <div id="invoiceInfo"></div>
           </div>
-
-          <!-- Shipping BELOW invoice -->
-          <div id="shippingCard" class="os-card sub-card">
-            <h2>Shipping Info</h2>
-            <div id="shippingInfo"></div>
-          </div>
-
         </div>
 
+        <div class="step-with-detail" data-step="3">
+          <div class="step"><span class="dot"></span> Payment Completed</div>
+        </div>
+
+        <div class="step-with-detail" data-step="4">
+          <div class="step"><span class="dot"></span> Preparing Shipment</div>
+        </div>
+
+        <div class="step-with-detail" data-step="5">
+          <div class="step"><span class="dot"></span> Shipped</div>
+          <div class="inline-detail" id="shippingCard">
+            <div id="shippingInfo"></div>
+          </div>
+        </div>
+
+        <div class="step-with-detail" data-step="6">
+          <div class="step"><span class="dot"></span> Delivered</div>
+        </div>
       </div>
     </div>
 
-    <button id="backBtn" class="back-btn">Back</button>
+  <button id="backBtn" class="back-btn">Back to P.P. Studio</button>
   </main>
 
   <script type="module" src="orderstatus.js"></script>

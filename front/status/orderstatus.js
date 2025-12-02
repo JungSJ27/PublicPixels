@@ -83,42 +83,50 @@ function renderOrderInfo(d) {
 
 // === 배송 정보 ===
 function renderShipping(d) {
+  const shippingCard = document.getElementById("shippingCard");
+
   if (!d.tracking_method && !d.tracking_number && !d.tracking_link) {
-    shippingInfo.innerHTML = "<p>No shipping information yet.</p>";
+    shippingCard.innerHTML = ""; // 비움
     return;
   }
 
-  shippingInfo.innerHTML = `
-    ${d.tracking_method ? `<p><strong>Carrier:</strong> ${d.tracking_method}</p>` : ""}
-    ${d.tracking_number ? `<p><strong>Tracking Number:</strong> ${d.tracking_number}</p>` : ""}
-    ${
-      d.tracking_link
-        ? `<p><a href="${d.tracking_link}" target="_blank">Track Package</a></p>`
-        : ""
-    }
-  `;
+  shippingCard.innerHTML = `<h3>Shipping Info</h3>`;
+  if (d.tracking_method) {
+    shippingCard.innerHTML += `<p><strong>Carrier:</strong> ${d.tracking_method}</p>`;
+  }
+  if (d.tracking_number) {
+    shippingCard.innerHTML += `<p><strong>Tracking Number:</strong> ${d.tracking_number}</p>`;
+  }
+  if (d.tracking_link) {
+    shippingCard.innerHTML += `<p><a href="${d.tracking_link}" target="_blank">Track Package</a></p>`;
+  }
 }
 
 
 // === 인보이스 ===
 function renderInvoice(d) {
+  const invoiceCard = document.getElementById("invoiceCard");
+
   if (!d.invoice_link) {
-    invoiceInfo.innerHTML = "<p>No invoice yet.</p>";
+    invoiceCard.innerHTML = ""; // 비움
     return;
   }
 
-  invoiceInfo.innerHTML = `
+  invoiceCard.innerHTML = `
+    <h3>Invoice</h3>
     <p><a href="${d.invoice_link}" target="_blank">Download Invoice (PDF)</a></p>
   `;
 }
 
 
-// === 상태 단계 ===
-function renderSteps(stepNum) {
-  const stepItems = document.querySelectorAll("#statusSteps .step");
 
-  stepItems.forEach(step => {
-    const n = Number(step.dataset.step);
+// ✅ 이 방식이 가장 확실하고 안전해
+function renderSteps(stepNum) {
+  const stepWrappers = document.querySelectorAll("#statusSteps .step-with-detail");
+
+  stepWrappers.forEach(wrapper => {
+    const n = Number(wrapper.dataset.step);
+    const step = wrapper.querySelector(".step");
     const dot = step.querySelector(".dot");
 
     if (n <= stepNum) {
@@ -132,6 +140,7 @@ function renderSteps(stepNum) {
 }
 
 
+
 // === 단계 초기화 ===
 function clearSteps() {
   const dots = stepsBox.querySelectorAll(".dot");
@@ -139,7 +148,7 @@ function clearSteps() {
 }
 
 
-// === 뒤로가기 ===
 backBtn.onclick = () => {
-  location.href = "index.html";
+  location.href = "/";
+  // 또는 location.href = "/front/index.html"; 등 메인 경로로
 };
