@@ -4,6 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Purchase Request</title>
+
   <link rel="stylesheet" href="request.css"/>
   <script defer src="/front/favicons.js"></script>
 </head>
@@ -25,15 +26,16 @@
     <!-- LEFT + RIGHT -->
     <main class="req-wrap">
 
+      <!-- LEFT -->
       <section class="left">
         <h2>Your Collection</h2>
         <div id="leftItems" class="left-box"></div>
-        
-        
+
         <div class="section-divider"></div>
 
         <h3>Billing Details</h3>
         <form id="reqForm">
+
           <label>Name</label>
           <input id="name" type="text" required>
 
@@ -48,9 +50,11 @@
 
           <label>Notes</label>
           <textarea id="notes" rows="3" placeholder="Any additional requests…"></textarea>
+
         </form>
       </section>
 
+      <!-- RIGHT -->
       <aside class="right">
         <div class="right-box">
           <h2>Order summary</h2>
@@ -61,7 +65,8 @@
             <span id="sumTotal"></span>
           </div>
 
-          <p class="note">This is a purchase request form.<br>
+          <p class="note">
+            This is a purchase request form.<br>
             You will receive a PayPal invoice after confirmation.<br>
             Submitting this form does not charge you.
           </p>
@@ -75,7 +80,22 @@
 
   </div>
 
-  <script type="module" src="request.js"></script>
-</body>
 
+  <!-- 🔥 Order ID Modal -->
+  <div id="copyModal" class="copy-modal" hidden>
+    <div class="copy-box">
+      <p>Your request has been submitted.</p>
+      
+      <p>Your Order ID:</p>
+      <h3 id="copyCode"></h3>
+
+      <button id="copyBtn">Copy</button>
+      <button id="closeCopy">Close</button>
+    </div>
+  </div>
+
+  <!-- JS -->
+  <script type="module" src="request.js"></script>
+
+</body>
 </html>

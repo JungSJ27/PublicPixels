@@ -255,6 +255,64 @@ select {
   cursor: pointer;
 }
 
+/* -----------------------------
+   ORDER ID MODAL
+------------------------------ */
+.copy-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+}
+
+.copy-modal[hidden] {
+  display: none !important;
+}
+
+.copy-box {
+  background: #fff;
+  padding: 30px;
+  border-radius: 0px;
+  text-align: center;
+  width: 300px;
+  box-shadow: 0 10px 25px rgba(0,0,0,.18);
+}
+
+.copy-box p {
+  margin: 0 0 8px;
+  font-size: 12px;
+}
+
+.copy-box h3 {
+  margin: 0 0 10px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+#copyBtn,
+#closeCopy {
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  border: none;
+  background: #000;
+  color: #fff;
+  font-size: 13px;
+  cursor: pointer;
+  border-radius: 0px;
+}
+
+#closeCopy {
+  background: #ddd;
+  color: #333;
+}
 
 
 /* =========================================================
