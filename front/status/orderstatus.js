@@ -38,7 +38,7 @@ async function loadOrder() {
   const id = input.value.trim();
   if (!id) return;
 
-  orderInfo.innerHTML = "Loading...";
+  orderInfo.innerHTML = "<p>Loading...</p>";
   shippingInfo.innerHTML = "";
   invoiceInfo.innerHTML = "";
   orderArea.classList.remove("hidden");
@@ -48,7 +48,7 @@ async function loadOrder() {
     const data = await res.json();
 
     if (!data.success) {
-      orderInfo.innerHTML = "No order found.";
+      orderInfo.innerHTML = `<p>No order found.</p>`;
       clearSteps();
       return;
     }
@@ -60,7 +60,7 @@ async function loadOrder() {
 
   } catch (err) {
     console.error("Error:", err);
-    orderInfo.innerHTML = "Error loading order...";
+    orderInfo.innerHTML = "<p>Error loading order...</p>";
   }
 }
 
