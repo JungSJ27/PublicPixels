@@ -265,8 +265,8 @@ select {
   /* 전체 패딩을 반응형으로 일정하게 (24px rule) */
   .req-wrap {
     grid-template-columns: 1fr; /* 한 컬럼 */
-    padding-left: 24px;
-    padding-right: 24px;
+    padding-left: 15px;
+    padding-right: 15px;
     gap: 32px;
   }
 
@@ -302,8 +302,8 @@ select {
   textarea,
   select {
     width: 100% !important;        /* 폭 완전 맞춰주기 */
-    padding-left: 12px;
-    padding-right: 12px;
+    padding-left: 10px;
+    padding-right: 10px;
     box-sizing: border-box;        /* padding 포함 */
     font-size: 16px;               /* 🔥 확대 방지 (iOS) */
   }
@@ -331,6 +331,7 @@ select {
     padding: 20px 24px 30px;
     margin-bottom: 40px;
     box-sizing: border-box;
+    font-size: 0.9rem;
   }
 
   /* Order summary 제목 간격 */
