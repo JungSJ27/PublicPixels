@@ -335,22 +335,12 @@ select {
 
   /* Order summary 제목 간격 */
   .right-box h2 {
-    font-size: 1.3rem;
-    margin-bottom: 16px;
-    margin-top: 0;
+    font-size: 1.15rem;
+    margin-bottom: 15px;
+    margin-top: 10px;
   }
 
-  /* summary 항목 줄 간격 */
-  .sum-line {
-    padding: 10px 0;
-    font-size: .9rem;
-  }
 
-  /* Subtotal 간격 */
-  .sum-total-wrap {
-    padding-top: 12px;
-    font-size: 1rem;
-  }
 
   /* Back 버튼 색상 고정 */
   .btn-back {
