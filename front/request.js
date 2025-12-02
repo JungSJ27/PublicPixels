@@ -1,13 +1,6 @@
-import {
-  getItems,
-  setQty,
-  remove,
-  getSubtotal
-} from "./cartstore.js";   // ← /front 제거한 상대 경로 유지
+import { getItems, setQty, remove, getSubtotal } from "./cartstore.js";
 
-/* -----------------------------
-   AUTO ORDER ID 생성
------------------------------- */
+/* ---------- ORDER ID ---------- */
 function generateOrderID() {
   const now = new Date();
   const y = now.getFullYear();
@@ -17,24 +10,18 @@ function generateOrderID() {
   return `PP-${y}${m}${d}-${r}`;
 }
 
-/* -----------------------------
-   GOOGLE SHEET API URL
------------------------------- */
+/* ---------- API URL ---------- */
 const API_URL =
-  "https://script.google.com/macros/s/AKfycbxNCJ0fee0pUqNYitMrU5diZRJxh9WNviREQM1DZJaRyD3_5J1dmSyaQdHL82uFPx3z/exec";
+  "https://script.google.com/macros/s/AKfycbxPbQao3UoQ81mZlf4ADfbPE7qMj6IncQh_s_eZ3TlKbYH9uF4x601OlQ2eVls8y17x/exec";
 
-/* -----------------------------
-    ELEMENTS
------------------------------- */
+/* ---------- ELEMENTS ---------- */
 const leftBox   = document.getElementById("leftItems");
 const rightBox  = document.getElementById("rightList");
 const sumTotal  = document.getElementById("sumTotal");
 const form      = document.getElementById("reqForm");
 const submitBtn = document.getElementById("submitBtn");
 
-/* -----------------------------
-    LEFT RENDER
------------------------------- */
+/* ------------ RENDER LEFT -------------- */
 function renderLeft(items) {
   leftBox.innerHTML = "";
 
@@ -65,12 +52,11 @@ function renderLeft(items) {
       </div>
     `;
 
-    // 수량 조절
+    // 수량 조정
     row.querySelector(".minus").onclick = () => {
       if (item.qty > 1) setQty(item.id, item.qty - 1);
       renderAll();
     };
-
     row.querySelector(".plus").onclick = () => {
       setQty(item.id, item.qty + 1);
       renderAll();
@@ -86,31 +72,24 @@ function renderLeft(items) {
   }
 }
 
-/* -----------------------------
-    RIGHT RENDER
------------------------------- */
+/* ------------ RENDER RIGHT -------------- */
 function renderRight(items) {
   rightBox.innerHTML = "";
 
   for (const item of items) {
     const div = document.createElement("div");
     div.className = "sum-line";
-
     div.innerHTML = `
       <span>${item.name} × ${item.qty}</span>
       <span>${
-        item.price <= 0
-          ? "Req."
-          : "$" + (item.price * item.qty).toFixed(2)
+        item.price <= 0 ? "Req." : "$" + (item.price * item.qty).toFixed(2)
       }</span>
     `;
     rightBox.appendChild(div);
   }
 }
 
-/* -----------------------------
-    SUBTOTAL
------------------------------- */
+/* ------------ SUBTOTAL -------------- */
 function updateSubtotal() {
   const items = getItems();
   const total = getSubtotal();
@@ -120,132 +99,77 @@ function updateSubtotal() {
     return;
   }
 
-  const hasArt = items.some(x => Number(x.price) <= 0);
-  const subtotal = `$${total.toFixed(2)}`;
-
-  if (hasArt && total > 0) {
-    sumTotal.innerHTML = `α + ${subtotal}`;
-  } else if (hasArt) {
-    sumTotal.textContent = "Req.";
-  } else {
-    sumTotal.textContent = subtotal;
-  }
+  const subtotalStr = "$" + total.toFixed(2);
+  sumTotal.textContent = subtotalStr;
 }
 
-/* -----------------------------
-    LOCAL BACKUP SAVE
------------------------------- */
-function saveOrderLocal(data) {
-  const orders = JSON.parse(localStorage.getItem("pp_orders") || "[]");
-  orders.push(data);
-  localStorage.setItem("pp_orders", JSON.stringify(orders));
-}
-
-/* -----------------------------
-    SUBMIT HANDLER
------------------------------- */
+/* ------------ SUBMIT HANDLER -------------- */
 submitBtn.addEventListener("click", async (e) => {
   e.preventDefault();
 
   const items = getItems();
-  if (!items.length) {
-    alert("Your bag is empty.");
-    return;
-  }
+  if (!items.length) return alert("Your bag is empty.");
 
-  // 기본 폼 체크 (이름/이메일)
-  const name  = form.querySelector("#name").value.trim();
+  const name = form.querySelector("#name").value.trim();
   const email = form.querySelector("#email").value.trim();
-
-  if (!name || !email) {
-    alert("Please fill in at least Name and Email.");
-    return;
-  }
+  if (!name || !email) return alert("Please fill in Name and Email.");
 
   const orderID = generateOrderID();
 
+  /* 🔥 slimItems: id, qty, price ONLY */
+  const slimItems = items.map(x => ({
+    id: x.id,
+    qty: x.qty,
+    price: x.price
+  }));
+
   const orderData = {
+    action: "create",
     orderID,
-    items,
-    subtotal: getSubtotal(),
-    notes: form.querySelector("#notes").value || "",
     name,
     email,
-    phone:   form.querySelector("#phone").value,
+    phone: form.querySelector("#phone").value,
     address: form.querySelector("#address").value,
-    status:  "Pending",
-    shipping: "",
-    tracking: "",
-    created: new Date().toISOString()
+    items: JSON.stringify(slimItems),
+    subtotal: getSubtotal(),
+    notes: form.querySelector("#notes").value,
+    status: "Pending",
+    tracking: ""
   };
 
-  // 1) Google Sheet 전송
+  /* ----- SEND TO GOOGLE SHEET ----- */
   try {
     await fetch(API_URL, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ action: "create", ...orderData })
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams(orderData)
     });
   } catch (err) {
     console.error("Google Sheet ERROR:", err);
-    // 실패해도 주문은 계속 진행
   }
 
-  // 2) 로컬 백업
-  saveOrderLocal(orderData);
-
-  // 3) 모달 열기 + 코드 채우기
-  const modal   = document.getElementById("copyModal");
+  /* ---------- MODAL ---------- */
+  const modal = document.getElementById("copyModal");
   const codeBox = document.getElementById("copyCode");
   const copyBtn = document.getElementById("copyBtn");
   const closeBtn = document.getElementById("closeCopy");
 
-  const goToStatus = () => {
-    if (modal) modal.hidden = true;
-    // request.html과 같은 폴더에 있다고 가정
-    location.href = "orderstatus.html?id=" + encodeURIComponent(orderID);
-  };
+  codeBox.textContent = orderID;
+  modal.hidden = false;
 
-  if (modal && codeBox && copyBtn && closeBtn) {
-    codeBox.textContent = orderID;
-    modal.hidden = false;
+  const goToStatus = () =>
+    (location.href = `orderstatus.html?id=${encodeURIComponent(orderID)}`);
 
-    // 자동 복사 시도 (실패해도 무시)
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(orderID).catch(() => {});
-    }
-
-    // Copy 버튼: 다시 한 번 복사 + 이동
-    copyBtn.onclick = () => {
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(orderID)
-          .catch(() => {})
-          .finally(goToStatus);
-      } else {
-        goToStatus();
-      }
-    };
-
-    // Close 버튼: 복사 없이 바로 이동
-    closeBtn.onclick = goToStatus;
-
-  } else {
-    // 모달 엘리먼트가 없으면 옛날 방식으로
-    alert(`Your request has been submitted.\nOrder ID: ${orderID}`);
-    goToStatus();
-  }
+  copyBtn.onclick = () =>
+    navigator.clipboard.writeText(orderID).finally(goToStatus);
+  closeBtn.onclick = goToStatus;
 });
 
-/* -----------------------------
-    INIT RENDER
------------------------------- */
+/* ---------- INIT ---------- */
 function renderAll() {
   const items = getItems();
   renderLeft(items);
   renderRight(items);
   updateSubtotal();
 }
-
 renderAll();
