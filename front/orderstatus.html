@@ -1,26 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8" />
   <title>Order Status</title>
-  <link rel="stylesheet" href="orderstatus.css"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="orderstatus.css" />
 </head>
-
 <body>
 
-  <main class="status-wrap">
+  <main class="os-wrap">
     <h1>Order Status</h1>
+    <p class="os-desc">Enter your Order ID to check your request.</p>
 
-    <p>Enter your Order ID to check your request.</p>
+    <div class="os-form">
+      <input
+        id="orderIDinput"
+        type="text"
+        placeholder="PP 2025xxxx xxxxx"
+      />
+      <button id="checkBtn">Check</button>
+    </div>
 
-    <input id="orderIDinput" placeholder="PP-2025xxxx-xxxxx"/>
+    <!-- 진행 단계 표시 -->
+    <div class="status-steps" id="statusSteps">
+      <div class="step" data-step="0">
+        <span class="dot"></span>
+        <span class="label">0 Order Received</span>
+      </div>
+      <div class="step" data-step="1">
+        <span class="dot"></span>
+        <span class="label">1 Order Confirmed</span>
+      </div>
+      <div class="step" data-step="2">
+        <span class="dot"></span>
+        <span class="label">2 Invoice Issued</span>
+      </div>
+      <div class="step" data-step="3">
+        <span class="dot"></span>
+        <span class="label">3 Payment Completed</span>
+      </div>
+      <div class="step" data-step="4">
+        <span class="dot"></span>
+        <span class="label">4 Preparing Shipment</span>
+      </div>
+      <div class="step" data-step="5">
+        <span class="dot"></span>
+        <span class="label">5 Shipped</span>
+      </div>
+      <div class="step" data-step="6">
+        <span class="dot"></span>
+        <span class="label">6 Delivered</span>
+      </div>
+    </div>
 
-    <button id="checkBtn">Check</button>
-
-    <section id="result" class="result hidden"></section>
+    <div id="result" class="os-result"></div>
   </main>
 
-  <script src="orderstatus.js"></script>
+  <script type="module" src="orderstatus.js"></script>
 </body>
 </html>

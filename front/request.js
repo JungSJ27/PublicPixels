@@ -12,7 +12,7 @@ function generateOrderID() {
 
 /* ---------- API URL ---------- */
 const API_URL =
-  "https://script.google.com/macros/s/AKfycbxPbQao3UoQ81mZlf4ADfbPE7qMj6IncQh_s_eZ3TlKbYH9uF4x601OlQ2eVls8y17x/exec";
+  "https://script.google.com/macros/s/AKfycbwq_l6uQkcJt1iKLhn4_e4J9Q4eTCK628W49nP6rdRuFbUHwqlg2RZq7irkuQQDgXeS/exec";
 
 /* ---------- ELEMENTS ---------- */
 const leftBox   = document.getElementById("leftItems");
