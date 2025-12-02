@@ -258,87 +258,103 @@ select {
 
 
 /* =========================================================
-   📱 MOBILE RESPONSIVE (max-width: 768px)
+   📱 MOBILE LAYOUT (max-width: 768px)
    ========================================================= */
 @media (max-width: 768px) {
 
-  /* 전체 그리드 → 단일 column, 양옆 패딩 유지 */
+  /* 전체 패딩을 반응형으로 일정하게 (24px rule) */
   .req-wrap {
-    grid-template-columns: 1fr;
-    gap: 32px;
+    grid-template-columns: 1fr; /* 한 컬럼 */
     padding-left: 24px;
     padding-right: 24px;
+    gap: 32px;
   }
 
-  /* 🔥 Your Collection 제목 여백 */
+  /* Your Collection (제목 간격) */
   .left h2 {
     margin-top: 8px;
     margin-bottom: 16px;
+    padding-left: 0;
   }
 
-  /* 아이템 리스트 패딩 균일하게 */
+  /* 아이템 리스트 좌우 패딩 완전 통일 */
   .left-box {
     padding: 0;
     border: none;
   }
 
-  /* 각 아이템 줄 간격 */
+  /* 아이템 구조 공간 맞추기 */
   .req-item-row {
     grid-template-columns: 80px 1fr;
+    gap: 16px;
     padding: 16px 0;
   }
 
-  /* X 버튼, -, + 색상 검정으로 통일 */
+  /* 수량 + x 버튼 검정색 고정 */
   .remove,
   .minus,
   .plus {
     color: #111 !important;
   }
 
-  /* Billing Details input 영역 */
+  /* Billing 섹션 좌우 여백 수정 */
   input,
   textarea,
   select {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 18px;
-
-    /* 🔥 Safari zoom 방지 (아이폰 확대 금지) */
-    font-size: 16px;
+    width: 100% !important;        /* 폭 완전 맞춰주기 */
+    padding-left: 12px;
+    padding-right: 12px;
+    box-sizing: border-box;        /* padding 포함 */
+    font-size: 16px;               /* 🔥 확대 방지 (iOS) */
   }
 
+  /* Notes 아래 공간 */
   #notes {
-    margin-bottom: 30px;
+    margin-bottom: 28px;
   }
 
-  /* 오른쪽 Order Summary를 아래로 보내기 */
+  /* Billing 전체 정렬 */
+  .left {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  /* Order Summary 모바일로 내리기 */
   .right {
     margin-top: 20px;
+    margin-bottom: 60px;
   }
 
-  /* Order Summary 박스 모바일 크기 */
+  /* 오른쪽 박스 넓이 반응형 맞추기 */
   .right-box {
     width: 100%;
+    padding: 20px 24px 30px;
     margin-bottom: 40px;
-    padding: 20px;
-    box-sizing: border-box; /* 내부 패딩 포함 */
+    box-sizing: border-box;
   }
 
-  /* Order Summary 제목 */
+  /* Order summary 제목 간격 */
   .right-box h2 {
     font-size: 1.3rem;
     margin-bottom: 16px;
+    margin-top: 0;
   }
 
-  /* 각 주문 항목 줄 */
+  /* summary 항목 줄 간격 */
   .sum-line {
     padding: 10px 0;
-    font-size: 0.9rem;
+    font-size: .9rem;
   }
 
-  /* Subtotal 라인 */
+  /* Subtotal 간격 */
   .sum-total-wrap {
     padding-top: 12px;
     font-size: 1rem;
+  }
+
+  /* Back 버튼 색상 고정 */
+  .btn-back {
+    color: #111 !important;
+    border-color: #aaa !important;
   }
 }
