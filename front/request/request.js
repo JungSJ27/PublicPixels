@@ -1,4 +1,4 @@
-import { getItems, setQty, remove, getSubtotal } from "./cartstore.js";
+import { getItems, setQty, remove, getSubtotal } from "/front/cartstore.js";
 
 /* ---------- ORDER ID ---------- */
 function generateOrderID() {

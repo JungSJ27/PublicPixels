@@ -312,12 +312,12 @@ function saveRequestSnapshot(){
 function handleRequest(){
   const items = safeGetItems();
   if (!items.length){
-    alert("Your bag is empty.");
+    alert("Your collection is empty.");
     return;
   }
   saveRequestSnapshot();
   try { window.closeCart?.(); } catch {}
-  location.href = "/front/request.html";
+  location.href = "/front/request/";
 }
 
 function handleStatus(){
