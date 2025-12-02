@@ -257,26 +257,114 @@ select {
 
 
 
-/* 모바일 환경에서 오른쪽 칼럼이 아래로 내려가게 */
+/* =========================================
+   📱 MOBILE (max-width: 768px)
+   ========================================= */
 @media (max-width: 768px) {
 
-#notes {
-  margin-bottom: 10px;  /* 원하는 만큼 숫자 조절 */
-}
-
+  /* 전체 페이지 좌우 여백 통일 (24px rule) */
   .req-wrap {
-    grid-template-columns: 1fr;  /* 하나의 컬럼 */
+    grid-template-columns: 1fr;
+    padding-left: 24px;
+    padding-right: 24px;
+    gap: 32px;
   }
+
+  /* Your Collection 제목 간격 */
+  .left h2 {
+    margin-top: 8px;
+    margin-bottom: 16px;
+    font-size: 1.1rem;
+  }
+
+  /* 아이템 리스트 좌우 여백 균형 */
+  .left-box {
+    padding: 0;
+    border: none;
+  }
+
+  .req-item-row {
+    grid-template-columns: 80px 1fr;
+    padding: 16px 0;
+  }
+
+  /* X 버튼, 수량 버튼 색상 통일 */
+  .remove,
+  .minus,
+  .plus {
+    color: #111 !important;
+  }
+
+
+  /* ===========================
+     Billing Details
+     =========================== */
+  label {
+    font-size: 0.85rem;
+  }
+
+  input,
+  textarea,
+  select {
+    width: 90%;     /* 모바일에서는 100%가 정답 */
+    font-size: .85rem;
+    padding: 10px 12px;
+  }
+
+  #notes {
+    margin-bottom: 20px;
+  }
+
+
+  /* ===========================
+     ORDER SUMMARY
+     =========================== */
 
   .right {
-    margin-top: 20px;
-    margin-bottom: 60px; /* ← 여기! 아래 여백 */
+    margin-top: 12px;
+    margin-bottom: 60px;
   }
 
+  /* Order Summary 박스도 좌우 여백 동일하게 */
   .right-box {
-    width: 90%;
+    width: 100%;
+    padding: 20px 20px 30px;
+    background: #f3f3f3;
+    box-sizing: border-box;
+    margin-bottom: 48px;
+  }
+
+  /* 제목 */
+  .right-box h2 {
+    font-size: 1.3rem;
+    margin-bottom: 16px;
+  }
+
+  /* 라인 */
+  .sum-line {
+    font-size: 0.9rem;
+    padding: 10px 0;
+  }
+
+  /* subtotal spacing */
+  .sum-total-wrap {
+    padding-top: 12px;
+    margin-bottom: 20px;
+  }
+
+
+  /* ===========================
+     BUTTONS
+     =========================== */
+
+  .btn-submit {
+    background: #111;
+    color: #fff !important;
+    border: none;
+  }
+
+  .btn-back {
+    border: 1px solid #ccc;
+    color: #111 !important;
   }
 }
-
-
-
