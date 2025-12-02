@@ -1,89 +1,167 @@
+/* =========================================
+   GLOBAL
+========================================= */
 body {
+  font-family: 'Poppins', sans-serif;
+  background: #f6f6f6;
+  color: #222;
   margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
-    sans-serif;
-  background: #fff;
-  color: #111;
 }
 
 .os-wrap {
-  max-width: 900px;
-  margin: 40px auto;
-  padding: 0 20px;
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 50px 22px;
 }
 
 .os-desc {
-  margin-bottom: 24px;
-  font-size: 14px;
-  color: #555;
+  color: #777;
+  margin-bottom: 32px;
+  font-size: 15px;
 }
 
+/* =========================================
+   FORM
+========================================= */
 .os-form {
   display: flex;
-  gap: 8px;
-  margin-bottom: 24px;
+  gap: 10px;
+  margin-bottom: 36px;
 }
 
-#orderIDinput {
+.os-form input {
   flex: 1;
-  padding: 10px 12px;
-  border: 1px solid #ccc;
-  font-size: 14px;
-}
-
-#checkBtn {
-  padding: 10px 20px;
-  border: none;
-  background: #000;
-  color: #fff;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-/* 진행 단계 */
-
-.status-steps {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 24px;
-}
-
-.status-steps .step {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  color: #888;
-}
-
-.status-steps .dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 999px;
-  border: 1px solid #aaa;
+  padding: 14px 16px;
+  border: 1px solid #d2d2d2;
+  border-radius: 8px;
+  font-size: 15px;
   background: #fff;
 }
 
-.status-steps .step.active {
-  color: #111;
-}
-
-.status-steps .step.active .dot {
+.os-form button {
+  padding: 14px 20px;
+  border: none;
   background: #000;
-  border-color: #000;
+  color: white;
+  cursor: pointer;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: opacity .2s;
+}
+.os-form button:hover {
+  opacity: .8;
 }
 
-.os-result {
-  margin-top: 10px;
+/* =========================================
+   CARD STYLE
+========================================= */
+.os-card {
+  background: white;
+  padding: 26px 30px;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.07);
+  margin-bottom: 30px;
+}
+
+.os-card h2 {
+  font-size: 18px;
+  margin-bottom: 14px;
+  font-weight: 600;
+}
+
+/* =========================================
+   GRID LAYOUT (Progress + Summary)
+========================================= */
+.os-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 26px;
+  margin-top: 28px;
+}
+
+@media (max-width: 820px) {
+  .os-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================
+   PROGRESS STEPS
+========================================= */
+.status-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 6px;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #999;
+  font-size: 15px;
+}
+
+.step.active-text {
+  color: #222;
+  font-weight: 500;
+}
+
+.dot {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #dcdcdc;
+  transition: background .22s ease, transform .22s ease;
+}
+
+.dot.active {
+  background: #4A62FF;
+  transform: scale(1.05);
+}
+
+/* =========================================
+   SHIPPING / INVOICE TEXT
+========================================= */
+#shippingInfo p,
+#invoiceInfo p,
+#orderInfo p {
+  margin: 5px 0;
+  font-size: 14.5px;
+}
+
+#shippingInfo strong,
+#invoiceInfo strong {
+  font-weight: 600;
+}
+
+/* 링크 스타일 */
+.os-card a {
+  color: #4A62FF;
+  text-decoration: none;
+  font-weight: 500;
+}
+.os-card a:hover {
+  text-decoration: underline;
+}
+
+/* =========================================
+   BACK BUTTON
+========================================= */
+.back-btn {
+  margin-top: 26px;
+  padding: 11px 18px;
+  border: 1px solid #444;
+  background: #fff;
+  color: #222;
+  cursor: pointer;
+  border-radius: 8px;
   font-size: 14px;
+  transition: background .2s, color .2s;
 }
 
-.os-result h2 {
-  font-size: 16px;
-  margin: 0 0 8px;
-}
-
-.os-result ul {
-  padding-left: 18px;
+.back-btn:hover {
+  background: #222;
+  color: #fff;
 }
