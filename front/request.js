@@ -19,6 +19,12 @@ function generateOrderID() {
 }
 
 /* -----------------------------
+   GOOGLE SHEET API
+------------------------------ */
+const API_URL =
+  "https://script.google.com/macros/s/AKfycbyGd9QAnWKZZq7H2kAfymNiiR3mLqLf44QN4VlKHMPwcEWmsTRd80Ou3ELI0vW6VTq8/exec";
+
+/* -----------------------------
     REQUEST PAGE RENDERING
 ------------------------------ */
 
@@ -34,7 +40,7 @@ function renderLeft(items) {
   leftBox.innerHTML = "";
 
   if (!items.length) {
-    leftBox.innerHTML = `<p class="empty">Your bag is empty.</p>`;
+    leftBox.innerHTML = `<p class="empty">Your collection is empty.</p>`;
     return;
   }
 
@@ -119,19 +125,18 @@ function updateSubtotal() {
 }
 
 /* -----------------------------
-    SAVE ORDER TO LOCALSTORAGE
+    LOCAL SAVE BACKUP
 ------------------------------ */
-
-function saveOrder(data) {
+function saveOrderLocal(data) {
   const orders = JSON.parse(localStorage.getItem("pp_orders") || "[]");
   orders.push(data);
   localStorage.setItem("pp_orders", JSON.stringify(orders));
 }
 
 /* -----------------------------
-    SUBMIT
+    SUBMIT (Google Sheet 연동)
 ------------------------------ */
-submitBtn.addEventListener("click", (e) => {
+submitBtn.addEventListener("click", async (e) => {
   e.preventDefault();
 
   const items = getItems();
@@ -139,7 +144,7 @@ submitBtn.addEventListener("click", (e) => {
 
   const orderID = generateOrderID();
 
-  const formData = {
+  const orderData = {
     orderID,
     items,
     subtotal: getSubtotal(),
@@ -148,17 +153,29 @@ submitBtn.addEventListener("click", (e) => {
     email: form.querySelector("#email").value,
     phone: form.querySelector("#phone").value,
     address: form.querySelector("#address").value,
-    status: "Pending", // 기본값
+    status: "Pending",
     shipping: "",
     tracking: "",
     created: new Date().toISOString()
   };
 
-  saveOrder(formData);
+  // 🔥 1) 구글 시트로 전송
+  await fetch(API_URL, {
+    method: "POST",
+    body: JSON.stringify({
+      action: "create",
+      ...orderData
+    }),
+  });
 
+  // 🔥 2) localStorage 백업 저장 (선택)
+  saveOrderLocal(orderData);
+
+  // 🔥 3) 클라이언트에 표시
   alert(`Request submitted!\nYour order ID: ${orderID}`);
 
-  location.href = "/front/orderstatus.html";
+  // 🔥 4) 상태 페이지로 이동
+  location.href = `/front/orderstatus.html?id=${orderID}`;
 });
 
 /* ----------------------------- */
