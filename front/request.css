@@ -265,8 +265,8 @@ select {
   /* 전체 패딩을 반응형으로 일정하게 (24px rule) */
   .req-wrap {
     grid-template-columns: 1fr; /* 한 컬럼 */
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
     gap: 32px;
   }
 
