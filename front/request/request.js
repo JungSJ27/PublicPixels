@@ -92,23 +92,49 @@ function renderRight(items) {
 /* ------------ SUBTOTAL -------------- */
 function updateSubtotal() {
   const items = getItems();
-  const total = getSubtotal();
 
   if (!items.length) {
     sumTotal.textContent = "";
     return;
   }
 
-  const subtotalStr = "$" + total.toFixed(2);
-  sumTotal.textContent = subtotalStr;
+  let total = 0;
+  let hasReq = false;
+
+  for (const item of items) {
+    if (item.price > 0) {
+      total += item.price * item.qty;
+    } else {
+      hasReq = true;   // Req 상품이 하나라도 있으면 true
+    }
+  }
+
+  let result = "";
+
+  if (hasReq && total > 0) {
+    // 혼합: Req + 가격
+    result = `α + $${total.toFixed(2)}`;
+  }
+  else if (hasReq && total === 0) {
+    // Req 상품만 있음
+    result = `Req.`;
+  }
+  else {
+    // 가격만 있음
+    result = `$${total.toFixed(2)}`;
+  }
+
+  sumTotal.textContent = result;
 }
+
+
 
 /* ------------ SUBMIT HANDLER -------------- */
 submitBtn.addEventListener("click", async (e) => {
   e.preventDefault();
 
   const items = getItems();
-  if (!items.length) return alert("Your bag is empty.");
+  if (!items.length) return alert("Your collection is empty.");
 
   const name = form.querySelector("#name").value.trim();
   const email = form.querySelector("#email").value.trim();
