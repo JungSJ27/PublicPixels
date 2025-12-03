@@ -1,0 +1,26 @@
+{
+  "id": "robe.n2",
+  "title": "Women’s Night Robe",
+  "price": 69.90,
+  "category": "Wearable",
+
+  "colors": ["Red"],
+  "sizes": ["Free"],
+
+  "images": [
+    "/pixelshop/assets/robe.n2/robe1.jpg",
+    "/pixelshop/assets/robe.n2/robe2.jpg",
+    "/pixelshop/assets/robe.n2/robe3.jpg"
+  ],
+
+  "notes": [
+    "Handcrafted item.",
+    "Soft cotton texture.",
+    "Avoid bleaching."
+  ],
+
+  "material": "Turkish cotton.",
+  "shipping": "Ships within 3–5 business days.",
+  "care": "Wash gently in cold water.",
+  "desc": "A premium red Turkish night robe designed with comfort in mind."
+}

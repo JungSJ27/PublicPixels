@@ -1,0 +1,25 @@
+{
+  "id": "scrunchie.n2",
+  "title": "Scrunchie",
+  "price": 19.90,
+  "category": "Accessories",
+
+  "colors": ["Red"],
+  "sizes": ["One Size"],
+
+  "images": [
+    "/pixelshop/assets/scrunchie.n2/1.jpg",
+    "/pixelshop/assets/scrunchie.n2/2.jpg"
+  ],
+
+  "notes": [
+    "Elastic band is handmade.",
+    "Color may vary slightly.",
+    "Do not bleach."
+  ],
+
+  "material": "Polyester blend.",
+  "shipping": "Ships within 3 days.",
+  "care": "Spot clean only.",
+  "desc": "A handcrafted red scrunchie made with soft fabric and durable elastic."
+}

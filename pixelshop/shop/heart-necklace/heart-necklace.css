@@ -1,72 +1,85 @@
 .product-page {
+  max-width: 1280px;
+  margin: 120px auto 80px;
+  padding: 0 24px;
   display: grid;
-  grid-template-columns: 1fr 420px;
+  grid-template-columns: 1fr 1fr;
   gap: 60px;
-  padding: 80px 60px;
 }
 
-.gallery img {
+/* 이미지 */
+.prod-images img {
   width: 100%;
-  margin-bottom: 20px;
+  height: auto;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  background: #f6f6f6;
+}
+
+.color-area button,
+.size-area button {
+  cursor: pointer;
+  border: 1px solid #ccc;
+  background: #fff;
+  padding: 6px 12px;
+  margin-right: 8px;
   border-radius: 4px;
 }
 
-.info-panel {
-  position: sticky;
-  top: 90px;
-  height: fit-content;
+.size-area button.active {
+  background: #000;
+  color: #fff;
 }
 
-.label {
-  display: block;
-  margin-top: 20px;
-  font-size: 14px;
-  color: #444;
+.color-circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  display: inline-block;
+  margin-right: 8px;
 }
 
-.select {
-  width: 100%;
-  padding: 10px;
-  margin-top: 4px;
-  font-size: 15px;
+.color-circle.active {
+  border-color: #000;
 }
 
 .qty-box {
   display: flex;
   align-items: center;
-  margin-top: 20px;
-  gap: 14px;
+  gap: 8px;
 }
 
-.qty-btn {
-  padding: 6px 14px;
-  border: 1px solid #ccc;
+.add-cart-btn {
+  width: 100%;
+  background: #000;
+  color: #fff;
+  padding: 12px;
+  margin: 30px 0;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+}
+
+.add-cart-btn:hover {
+  opacity: 0.9;
+}
+.size-btn {
+  padding: 6px 10px;
+  border: 1px solid #aaa;
   background: #fff;
   cursor: pointer;
+  border-radius: 4px;
+  margin-right: 6px;
 }
 
-#qtyNum {
-  font-size: 16px;
+.size-btn.active {
+  background: black;
+  color: white;
+  border-color: black;
 }
 
-.accordion .acc-header {
-  width: 100%;
-  text-align: left;
-  padding: 12px 0;
-  font-size: 15px;
-  border: none;
-  background: none;
-  cursor: pointer;
-  border-bottom: 1px solid #ddd;
-}
-
-.acc-body {
-  padding: 10px 0 20px;
-  font-size: 14px;
-  color: #555;
-  display: none;
-}
-
-.acc-item.active .acc-body {
-  display: block;
+.color-circle.active {
+  outline: 2px solid black;
+  outline-offset: 2px;
 }

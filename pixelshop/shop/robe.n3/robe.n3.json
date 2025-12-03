@@ -1,0 +1,26 @@
+{
+  "id": "robe.n3",
+  "title": "Women’s Night Robe",
+  "price": 69.90,
+  "category": "Wearable",
+
+  "colors": ["Blue", "Red"],
+  "sizes": ["Free"],
+
+  "images": [
+    "/pixelshop/assets/robe.n3/robe1.jpg",
+    "/pixelshop/assets/robe.n3/robe2.jpg",
+    "/pixelshop/assets/robe.n3/robe3.jpg"
+  ],
+
+  "notes": [
+    "Soft and breathable.",
+    "Dyed using eco-friendly textile dyes.",
+    "Dry in shade."
+  ],
+
+  "material": "100% cotton.",
+  "shipping": "Worldwide shipping available.",
+  "care": "Hand wash recommended.",
+  "desc": "A soft, breathable blue night robe inspired by Turkish traditional wear."
+}

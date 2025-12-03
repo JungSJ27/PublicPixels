@@ -1,0 +1,24 @@
+{
+  "id": "rent-a-jjchat",
+  "title": "Rent-a-JJ Chat",
+  "price": 39.90,
+  "category": "Objects",
+
+  "colors": ["Transparent"],
+  "sizes": ["Digital"],
+
+  "images": [
+    "/pixelshop/assets/rent-a-jjchat/1.jpg"
+  ],
+
+  "notes": [
+    "Digital service item.",
+    "No physical delivery.",
+    "Time slots may be limited."
+  ],
+
+  "material": "Digital product.",
+  "shipping": "Delivered via email.",
+  "care": "No care needed.",
+  "desc": "A time-limited chat experience with JJ."
+}

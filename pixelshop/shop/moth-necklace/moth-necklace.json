@@ -1,0 +1,25 @@
+{
+  "id": "moth-necklace",
+  "title": "Moth Necklace",
+  "price": 39.90,
+  "category": "Accessories",
+
+  "colors": ["Silver"],
+  "sizes": ["One Size"],
+
+  "images": [
+    "/pixelshop/assets/moth-necklace/1.jpg",
+    "/pixelshop/assets/moth-necklace/2.jpg"
+  ],
+
+  "notes": [
+    "Resin pattern varies naturally.",
+    "Metal chain may darken over time.",
+    "Avoid wearing while showering."
+  ],
+
+  "material": "Resin & stainless steel.",
+  "shipping": "Ships in 3–5 business days.",
+  "care": "Store in dry place.",
+  "desc": "A silver-tone moth necklace inspired by nocturnal creatures."
+}

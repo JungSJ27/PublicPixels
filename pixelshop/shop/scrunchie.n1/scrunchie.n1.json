@@ -1,0 +1,25 @@
+{
+  "id": "scrunchie.n1",
+  "title": "Scrunchie",
+  "price": 19.90,
+  "category": "Accessories",
+
+  "colors": ["Blue"],
+  "sizes": ["One Size"],
+
+  "images": [
+    "/pixelshop/assets/scrunchie.n1/1.jpg",
+    "/pixelshop/assets/scrunchie.n1/2.jpg"
+  ],
+
+  "notes": [
+    "Elastic band may vary slightly.",
+    "Handmade fabric.",
+    "Avoid overstretching."
+  ],
+
+  "material": "Polyester blend.",
+  "shipping": "Ships within 3 days.",
+  "care": "Spot clean only.",
+  "desc": "A soft blue scrunchie handmade with durable elastic."
+}

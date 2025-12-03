@@ -1,0 +1,26 @@
+{
+  "id": "robe.n1",
+  "title": "Men’s Night Robe",
+  "price": 69.90,
+  "category": "Wearable",
+
+  "colors": ["Red"],
+  "sizes": ["Free"],
+
+  "images": [
+    "/pixelshop/assets/robe.n1/robe1.jpg",
+    "/pixelshop/assets/robe.n1/robe2.jpg",
+    "/pixelshop/assets/robe.n1/robe3.jpg"
+  ],
+
+  "notes": [
+    "Handmade textile product.",
+    "Color may vary slightly depending on lighting.",
+    "Do not tumble dry."
+  ],
+
+  "material": "100% Turkish cotton.",
+  "shipping": "Ships within 3–5 business days.",
+  "care": "Cold wash recommended.",
+  "desc": "A comfortable Turkish red night robe designed for at-home relaxation."
+}
