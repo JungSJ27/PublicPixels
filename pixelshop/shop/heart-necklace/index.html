@@ -3,43 +3,57 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Heart Necklace</title>
+  <title>Heart Necklace – PublicPixels</title>
 
-  <!-- 공통 스타일 (루트에서 시작) -->
+  <link rel="icon" href="/front/favicon.ico" />
+
+  <!-- 공통 스타일 -->
   <link rel="stylesheet" href="/front/styles.css" />
   <link rel="stylesheet" href="/front/header.css" />
+  <link rel="stylesheet" href="/front/cart.css" />
 
-  <!-- shop 공통 스타일 -->
-  <link rel="stylesheet" href="../shop.css">
-
-  <!-- PDP 전용 스타일 -->
+  <!-- Product page style -->
   <link rel="stylesheet" href="./heart-necklace.css" />
+
+  <!-- include system -->
+  <script defer src="/front/headerLoader.js"></script>
+
+  <!-- cart system -->
+  <script type="module" src="/front/cartstore.js"></script>
+  <script type="module" src="/front/cart.js"></script>
 </head>
 
-<body data-page="shop">
-  <!-- 공통 header / cart include -->
+<body data-page="product">
+
+  <!-- Header + Cart -->
   <div data-include="header"></div>
   <div data-include="cart"></div>
 
-  <main class="product-page" data-product-id="heart-necklace">
-    <section id="prod-images" class="prod-images"></section>
+  <main class="prod-wrap">
 
-    <section class="prod-info">
-      <h1 id="prod-title"></h1>
-      <p id="prod-price" class="price"></p>
+    <section class="prod-left">
+      <div id="img-area" class="img-area"></div>
+    </section>
 
-      <div class="opt-block">
-        <label>Color</label>
-        <div id="color-area"></div>
+    <section class="prod-right">
+      <h1 id="title"></h1>
+      <p id="price" class="prod-price"></p>
+
+      <!-- Color -->
+      <div class="block">
+        <p class="label">Color</p>
+        <div id="colors" class="opt-colors"></div>
       </div>
 
-      <div class="opt-block">
-        <label>Size</label>
-        <div id="size-area"></div>
+      <!-- Size -->
+      <div class="block">
+        <p class="label">Size</p>
+        <div id="sizes" class="opt-sizes"></div>
       </div>
 
-      <div class="opt-block">
-        <label>Quantity</label>
+      <!-- Quantity -->
+      <div class="block">
+        <p class="label">Quantity</p>
         <div class="qty-box">
           <button id="qty-minus">−</button>
           <span id="qty-num">1</span>
@@ -47,27 +61,22 @@
         </div>
       </div>
 
-      <button id="addCartBtn" class="add-cart-btn">Add to Cart</button>
+      <button id="btnAdd" class="btn-add">Add to Cart</button>
 
-      <p id="prod-desc" class="prod-desc"></p>
+      <p id="desc" class="desc"></p>
 
-      <section class="notes-wrap">
-        <h3>Notes</h3>
-        <ul id="notes-area"></ul>
-      </section>
+      <h3>Notes</h3>
+      <ul id="notes"></ul>
 
-      <details><summary>Material</summary><p id="mat-area"></p></details>
-      <details><summary>Shipping</summary><p id="ship-area"></p></details>
-      <details><summary>Care</summary><p id="care-area"></p></details>
+      <details><summary>Material</summary><p id="mat"></p></details>
+      <details><summary>Shipping</summary><p id="ship"></p></details>
+      <details><summary>Care</summary><p id="care"></p></details>
     </section>
+
   </main>
 
-  <!-- 공통 JS (무조건 절대 경로로!) -->
-  <script defer src="/front/favicons.js"></script>
-  <script defer src="/front/headerLoader.js"></script>
-  <script defer src="/front/cart.js"></script>
+  <!-- product logic (모듈 버전) -->
+  <script type="module" src="./heart-necklace.js"></script>
 
-  <!-- PDP 전용 -->
-  <script defer src="./heart-necklace.js"></script>
 </body>
 </html>

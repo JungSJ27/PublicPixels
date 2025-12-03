@@ -1,85 +1,89 @@
-.product-page {
-  max-width: 1280px;
-  margin: 120px auto 80px;
-  padding: 0 24px;
+.prod-wrap {
+  max-width: 1100px;
+  margin: 80px auto;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 60px;
+  gap: 50px;
+  padding: 0 20px;
 }
 
-/* 이미지 */
-.prod-images img {
+.img-area img {
   width: 100%;
-  height: auto;
   margin-bottom: 12px;
-  border-radius: 8px;
-  background: #f6f6f6;
+  border-radius: 0px;
 }
 
-.color-area button,
-.size-area button {
-  cursor: pointer;
-  border: 1px solid #ccc;
-  background: #fff;
-  padding: 6px 12px;
-  margin-right: 8px;
-  border-radius: 4px;
+.prod-price {
+  margin-top: 4px;
+  margin-bottom: 14px;
+  font-size: 18px;
 }
 
-.size-area button.active {
-  background: #000;
-  color: #fff;
+.block {
+  margin-bottom: 18px;
 }
 
-.color-circle {
-  width: 20px;
-  height: 20px;
+.label {
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.color-btn {
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
-  border: 2px solid transparent;
-  display: inline-block;
-  margin-right: 8px;
-}
-
-.color-circle.active {
-  border-color: #000;
-}
-
-.qty-box {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.add-cart-btn {
-  width: 100%;
-  background: #000;
-  color: #fff;
-  padding: 12px;
-  margin: 30px 0;
-  cursor: pointer;
   border: none;
-  border-radius: 4px;
+  margin-right: 8px;
+  cursor: pointer;
 }
 
-.add-cart-btn:hover {
-  opacity: 0.9;
+.color-btn.active {
+  outline: 2px solid #000;
 }
+
 .size-btn {
   padding: 6px 10px;
-  border: 1px solid #aaa;
-  background: #fff;
+  background: #f2f2f2;
+  border: none;
+  margin-right: 8px;
   cursor: pointer;
-  border-radius: 4px;
-  margin-right: 6px;
 }
 
 .size-btn.active {
-  background: black;
-  color: white;
-  border-color: black;
+  background: #111;
+  color: #fff;
 }
 
-.color-circle.active {
-  outline: 2px solid black;
-  outline-offset: 2px;
+.qty-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.qty-box button {
+  padding: 4px 10px;
+  border: 1px solid #ccc;
+  background: #fff;
+  cursor: pointer;
+}
+
+.btn-add {
+  width: 100%;
+  padding: 14px;
+  background: #111;
+  color: #fff;
+  border: none;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.desc {
+  margin-top: 20px;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .prod-wrap {
+    grid-template-columns: 1fr;
+  }
 }

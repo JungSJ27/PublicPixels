@@ -1,113 +1,117 @@
-let quantity = 1;
-let selectedColor = null;
-let selectedSize = null;
-let productData = null;
+// Heart Necklace Product Page — fixed id + media
+import { add } from "/front/cartstore.js";
 
-async function loadProduct() {
+let data = null;
+let qty = 1;
+let selColor = null;
+let selSize = null;
+let mainImage = "";   // 썸네일 절대 경로 저장용
+
+async function load() {
   const res = await fetch("./heart-necklace.json");
-  const data = await res.json();
+  data = await res.json();
 
-  productData = data; // ⭐ cart에 넣기 위해 전역 저장
+  const base = document.baseURI;
 
-  /* Title, Price */
-  document.getElementById("prod-title").textContent = data.title;
-  document.getElementById("prod-price").textContent = `$${data.price}`;
-  document.getElementById("prod-desc").textContent = data.desc;
+  // ✅ 첫 이미지를 절대경로로 만들어서 저장
+  mainImage = new URL(data.images[0], base).href;
 
-  /* Images */
-  const imgWrap = document.getElementById("prod-images");
+  document.getElementById("title").textContent = data.title;
+  document.getElementById("price").textContent =
+    data.price === 0 ? "Req." : "$" + data.price;
+  document.getElementById("desc").textContent = data.desc;
+
+  // ✅ 페이지에 표시되는 이미지들도 절대경로로
+  const imgArea = document.getElementById("img-area");
   data.images.forEach(src => {
     const img = document.createElement("img");
-    img.src = src;
-    imgWrap.appendChild(img);
+    img.src = new URL(src, base).href;
+    imgArea.appendChild(img);
   });
 
-  /* Colors */
-  const colorArea = document.getElementById("color-area");
-  data.colors.forEach(color => {
-    const c = document.createElement("button");
-    c.className = "color-circle";
-    c.style.background = color;
-
-    c.onclick = () => {
-      document.querySelectorAll(".color-circle").forEach(x => x.classList.remove("active"));
-      c.classList.add("active");
-      selectedColor = color;
+  // colors
+  const cl = document.getElementById("colors");
+  data.colors.forEach(c => {
+    const b = document.createElement("button");
+    b.className = "color-btn";
+    b.style.background = c;
+    b.onclick = () => {
+      document.querySelectorAll(".color-btn").forEach(x => x.classList.remove("active"));
+      b.classList.add("active");
+      selColor = c;
     };
-
-    colorArea.appendChild(c);
+    cl.appendChild(b);
   });
 
-  /* Sizes */
-  const sizeArea = document.getElementById("size-area");
-  data.sizes.forEach(size => {
-    const btn = document.createElement("button");
-    btn.className = "size-btn";
-    btn.textContent = size;
-
-    btn.onclick = () => {
-      document.querySelectorAll(".size-btn").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      selectedSize = size;
+  // sizes
+  const sz = document.getElementById("sizes");
+  data.sizes.forEach(s => {
+    const b = document.createElement("button");
+    b.className = "size-btn";
+    b.textContent = s;
+    b.onclick = () => {
+      document.querySelectorAll(".size-btn").forEach(x => x.classList.remove("active"));
+      b.classList.add("active");
+      selSize = s;
     };
-
-    sizeArea.appendChild(btn);
+    sz.appendChild(b);
   });
 
-  /* Notes */
-  const notesArea = document.getElementById("notes-area");
+  // notes
+  const notes = document.getElementById("notes");
   data.notes.forEach(n => {
     const li = document.createElement("li");
     li.textContent = n;
-    notesArea.appendChild(li);
+    notes.appendChild(li);
   });
 
-  document.getElementById("mat-area").textContent = data.material;
-  document.getElementById("ship-area").textContent = data.shipping;
-  document.getElementById("care-area").textContent = data.care;
+  document.getElementById("mat").textContent = data.material;
+  document.getElementById("ship").textContent = data.shipping;
+  document.getElementById("care").textContent = data.care;
 }
 
-loadProduct();
+// 수량은 그대로
+load();
 
-/* Quantity */
 document.getElementById("qty-plus").onclick = () => {
-  quantity++;
-  document.getElementById("qty-num").textContent = quantity;
+  qty++;
+  document.getElementById("qty-num").textContent = qty;
 };
-
 document.getElementById("qty-minus").onclick = () => {
-  if (quantity > 1) quantity--;
-  document.getElementById("qty-num").textContent = quantity;
+  if (qty > 1) qty--;
+  document.getElementById("qty-num").textContent = qty;
 };
 
-/* Add to Cart */
-document.getElementById("addCartBtn").onclick = () => {
-  if (!selectedColor || !selectedSize) {
-    alert("Please select a color and size.");
+// ✅ ADD TO CART
+document.getElementById("btnAdd").onclick = () => {
+  if (!selColor || !selSize) {
+    alert("Please select color and size.");
     return;
   }
 
-  if (!productData) {
-    alert("Product data not loaded yet.");
-    return;
+const item = {
+  id: data.id,
+  name: data.title,
+  price: data.price,
+  qty: qty,
+  url: location.href,
+
+  // thumbnail을 목록 페이지와 동일하게
+  media: "/pixelshop/secass3/THN.png",
+
+  // variant는 목록 페이지와 동일하게 "없음"
+  variant: "",
+
+  type: "product",
+};
+
+
+  add(item, qty);
+
+  // 카트 열기
+  if (window.openCart) {
+    window.openCart();
+  } else {
+    window.dispatchEvent(new CustomEvent("cart:add", { detail: item }));
   }
-
-  let cart = JSON.parse(localStorage.getItem("pp-cart") || "[]");
-
-  cart.push({
-    id: productData.id,
-    title: productData.title,
-    price: productData.price,
-    qty: quantity,
-    thumb: productData.thumb, // JSON에서 제공하는 대표 이미지
-    options: {
-      color: selectedColor,
-      size: selectedSize
-    }
-  });
-
-  localStorage.setItem("pp-cart", JSON.stringify(cart));
-
-  // cart.js에서 받는 open-cart 이벤트
-  window.dispatchEvent(new CustomEvent("open-cart"));
 };

@@ -2,21 +2,20 @@
   "id": "heart-necklace",
   "title": "Heart Necklace",
   "price": 15.5,
-  "thumb": "img/main.jpg",
-  "images": [
-    "img/main.jpg",
-    "img/detail1.jpg",
-    "img/detail2.jpg"
-  ],
-  "colors": ["red", "blue"],
-  "sizes": ["S", "M", "L"],
   "desc": "A handcrafted heart necklace created for PublicPixels collectors.",
+  "images": [
+    "../heart-necklace/img1.png",
+    "../heart-necklace/img2.png",
+    "../heart-necklace/img3.png"
+  ],
+  "colors": ["#ff0000", "#0000ff", "#111111"],
+  "sizes": ["S", "M", "L"],
   "notes": [
     "Handcrafted item.",
     "May include small imperfections.",
     "Avoid long exposure to sunlight."
   ],
-  "material": "Resin, metal",
+  "material": "Resin, metal chain.",
   "shipping": "Ships in 3–5 business days.",
-  "care": "Store in a dry place."
+  "care": "Wipe gently with soft cloth."
 }
