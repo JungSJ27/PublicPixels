@@ -2,20 +2,22 @@
   "id": "heart-necklace",
   "title": "Heart Necklace",
   "price": 15.5,
-  "desc": "A handcrafted heart necklace created for PublicPixels collectors.",
+  "desc": "Individually 3D printed and hand-finished heart necklace created for PublicPixels collectors. Approximately 2.5cm in size with a semi-translucent resin heart that shifts subtly under different lighting. Small surface variations are part of its handmade character.",
   "images": [
-    "../heart-necklace/img1.png",
-    "../heart-necklace/img2.png",
-    "../heart-necklace/img3.png"
+    "../heart-necklace/THN.png"
   ],
-  "colors": ["#ff0000", "#0000ff", "#111111"],
-  "sizes": ["S", "M", "L"],
+
+  "colors": [
+    { "color": "#ff0000", "href": "/pixelshop/shop/heart-necklace/" }
+  ],
+
+  "sizes": null,
+
   "notes": [
-    "Handcrafted item.",
-    "May include small imperfections.",
-    "Avoid long exposure to sunlight."
+    "Chain length typically reaches the collarbone when worn.",
+    "Packaged in a protective box with cushioning for safe delivery."
   ],
-  "material": "Resin, metal chain.",
-  "shipping": "Ships in 3–5 business days.",
-  "care": "Wipe gently with soft cloth."
+  "material": "3D printed resin with a semi-translucent finish, paired with a lightweight metal chain.",
+  "shipping": "Each piece is made to order. Production and shipping times may vary depending on my studio location and workload.",
+  "care": "Handle gently to preserve the clarity. Keep away from high heat and harsh chemicals."
 }

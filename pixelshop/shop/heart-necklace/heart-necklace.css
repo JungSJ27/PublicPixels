@@ -1,89 +1,245 @@
+/* =========================================
+   DETAIL PAGE — HALF LAYOUT (LEFT BIG IMAGE)
+   ========================================= */
+
+/* 전체 레이아웃: 화면 50% / 50% */
 .prod-wrap {
-  max-width: 1100px;
-  margin: 80px auto;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 50px;
-  padding: 0 20px;
+  grid-template-columns: 50% 50%;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 1600px;
+  margin: 80px auto;          /* 페이지 상하 여백 */
+  padding: 0 40px;
+}
+
+/* 왼쪽 이미지 영역 */
+.prod-left {
+  /* sticky, height 제한, overflow 없음 */
+}
+
+.img-area {
+  width: 100%;
+  max-width: 600px;           /* 이미지 최대 너비 */
 }
 
 .img-area img {
   width: 100%;
-  margin-bottom: 12px;
-  border-radius: 0px;
+  height: auto;
+  display: block;
+  margin-bottom: 20px;        /* 이미지 여러 장일 때 간격 */
 }
 
+/* 오른쪽 상품 정보 영역 */
+.prod-right {
+  max-width: 600px;
+  padding: 150px 80px 60px;       /* 오른쪽 여백 */
+}
+
+/* 제목 */
+.prod-right h1 {
+  font-size: 20px;
+  margin: 0 0 4px;
+  font-weight: 300;
+}
+
+/* 가격 */
 .prod-price {
-  margin-top: 4px;
-  margin-bottom: 14px;
-  font-size: 18px;
+  margin: 0 0 30px;
+  font-size: 14px;
+  font-weight: 300;
 }
 
+/* ===========================
+   옵션 / 수량
+   =========================== */
+
+/* 옵션 / 수량 공통 컨테이너 */
 .block {
-  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
 }
 
+/* 레이블 (Color, Quantity) */
 .label {
-  font-size: 13px;
-  margin-bottom: 6px;
+  font-size: 12px;
+  color: #000000;
+  min-width: 60px;   /* 동일 정렬 유지 */
 }
 
+/* 색상 버튼 영역 */
+.opt-colors {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 색상 버튼 */
 .color-btn {
-  width: 22px;
-  height: 22px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
-  border: none;
-  margin-right: 8px;
+  border: 0px solid rgba(0,0,0,0.15);
   cursor: pointer;
 }
 
-.color-btn.active {
-  outline: 2px solid #000;
+/* 수량 박스 */
+.qty-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 0px solid #ddd;
+  padding: 4px 10px;
+  font-size: 12px;
+  width: fit-content;
+}
+
+/* 수량 버튼 */
+.qty-box button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+/* 사이즈 버튼 (미래용) 
+.opt-sizes {
+  display: flex;
+  gap: 8px;
 }
 
 .size-btn {
-  padding: 6px 10px;
-  background: #f2f2f2;
-  border: none;
-  margin-right: 8px;
-  cursor: pointer;
-}
-
-.size-btn.active {
-  background: #111;
-  color: #fff;
-}
-
-.qty-box {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.qty-box button {
-  padding: 4px 10px;
+  min-width: 34px;
+  padding: 4px 8px;
+  font-size: 12px;
   border: 1px solid #ccc;
   background: #fff;
   cursor: pointer;
 }
 
+.size-btn.active {
+  border-color: #000;
+  background: #000;
+  color: #fff;
+}
+*/
+
+/* ===========================
+   버튼 / 텍스트 / 노트
+   =========================== */
+
 .btn-add {
+  margin-top: 20px;
   width: 100%;
-  padding: 14px;
-  background: #111;
+  padding: 14px 18px;
+  background: #000;
   color: #fff;
   border: none;
-  margin-top: 10px;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   cursor: pointer;
 }
 
 .desc {
-  margin-top: 20px;
+  margin-top: 25px;
+  margin-bottom: 40px;
+  line-height: 1.5;
+  font-size: 12px;
+}
+
+/* 이전 Notes 제목 / 목록 스타일은 더 이상 사용 X */
+/* main h3, #notes ul, #notes li 관련 코드는 제거 */
+
+/* Details 드롭다운 (Notes / Material / Shipping / Care 공통) */
+details {
+  font-size: 12px;
+  margin: 0;
+  padding: 8px 0;
+  border-bottom: 1px solid #e2e2e2;   /* 실선 */
+}
+
+/* 마지막 항목은 실선 제거 */
+details:last-of-type {
+  border-bottom: none;
+}
+
+/* summary 한 줄 전체 + 오른쪽 끝 화살표 */
+details summary {
+  list-style: none;                 /* 기본 화살표 제거 */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;   /* 왼쪽 텍스트 / 오른쪽 화살표 */
+  cursor: pointer;
+  font-size: 12px;
+  margin: 0;
+  padding: 4px 0;
+}
+
+/* 일부 브라우저용 기본 마커 제거 */
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+/* 커스텀 화살표 (닫힘 상태) */
+details summary::after {
+  content: "▾";
+  font-size: 10px;
+}
+
+/* 열린 상태일 때 화살표 반대로 */
+details[open] summary::after {
+  content: "▴";
+}
+
+/* details 안의 본문 텍스트 (Notes / Material / Shipping / Care 공통) */
+details p {
+  position: relative;
+  padding-left: 14px;
+  margin: 6px 0 8px;
+  font-size: 12px;
   line-height: 1.5;
 }
 
-@media (max-width: 768px) {
+/* 모든 p 앞에 하이픈 붙이기 */
+details p::before {
+  content: "-";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #444;
+}
+
+
+/* ===========================
+   모바일 레이아웃
+   =========================== */
+@media (max-width: 900px) {
   .prod-wrap {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr;   /* 한 줄로 */
+    min-height: auto;
+    padding: 0 20px;
+    margin: 40px auto;
+  }
+
+  .prod-left {
+    position: static;
+    height: auto;
+  }
+
+  .img-area {
+    height: auto;
+    max-width: 100%;
+  }
+
+  .img-area img {
+    height: auto;
+  }
+
+  .prod-right {
+    max-width: 100%;
+    padding: 24px 0 60px;
   }
 }
