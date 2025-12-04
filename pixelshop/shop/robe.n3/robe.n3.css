@@ -1,0 +1,395 @@
+/* =========================================
+   DETAIL PAGE — HALF LAYOUT (LEFT BIG IMAGE)
+   ========================================= */
+
+/* 전체 레이아웃 */
+.prod-wrap {
+  display: grid;
+  grid-template-columns: 1fr 0.9fr;
+  align-items: center;          /* ✅ 위로 붙지 않도록 중앙 정렬 */
+  width: 100%;
+  max-width: 3000px;
+  margin: 0 auto;
+  padding: 0 0px;
+}
+
+/* 왼쪽 이미지 영역 */
+.prod-left {
+  display: flex;
+  justify-content: center;
+  align-items: center;          /* ✅ 진짜 중앙 정렬 */
+}
+
+.img-area {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;               /* ✅ 수평 중앙 */
+}
+
+.img-area img {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin-top: -20px;
+}
+
+/* 🔥 문제를 일으키던 마이너스 margin-top 제거 */
+.product-wrap, 
+.product-page, 
+#img-area {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* 오른쪽 상품 정보 */
+.prod-right {
+  max-width: 600px;
+  padding: 0px 70px 0px;       /* ⛔ 230px → 80px로 줄여 이미지 밀림 방지 */
+  margin-top: -50px;     /* 원하는 만큼 조정! */
+  margin-left: 80px;
+}
+
+
+/* 제목 */ 
+.prod-right h1 { 
+  font-size: 20px; 
+  margin: 0 0 4px; 
+  font-weight: 300; 
+} 
+
+/* 가격 */ 
+.prod-price { 
+  margin: 0 0 40px; 
+  font-size: 15px; 
+  font-weight: 300; 
+}
+
+@media (max-width: 1200px) {
+  .prod-right {
+    padding-top: 120px;
+  }
+  .img-area img {
+    transform: translateY(40px);
+  }
+}
+
+
+
+/* ===========================
+   옵션 / 수량
+   =========================== */
+
+/* 옵션 / 수량 공통 컨테이너 */
+.block {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  font-weight: 300;
+}
+
+/* 레이블 (Color, Quantity) */
+.label {
+  font-size: 12px;
+  color: #000000;
+  min-width: 60px;   /* 동일 정렬 유지 */
+}
+
+/* 색상 버튼 영역 */
+.opt-colors {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 0px;
+}
+
+/* 색상 버튼 */
+.color-btn {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border: 0px solid rgba(0,0,0,0.15);
+  cursor: pointer;
+}
+
+/* 수량 박스 */
+.qty-box {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  border: 0px solid #ddd;
+  padding: 4px 10px;
+  font-size: 12px;
+  width: fit-content;
+}
+
+/* 수량 버튼 */
+.qty-box button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+/* 사이즈 버튼 (미래용) 
+.opt-sizes {
+  display: flex;
+  gap: 8px;
+}
+
+.size-btn {
+  min-width: 34px;
+  padding: 4px 8px;
+  font-size: 12px;
+  border: 1px solid #ccc;
+  background: #fff;
+  cursor: pointer;
+}
+
+.size-btn.active {
+  border-color: #000;
+  background: #000;
+  color: #fff;
+}
+*/
+
+/* ===========================
+   버튼 / 텍스트 / 노트
+   =========================== */
+
+.btn-add {
+  margin-top: 20px;
+  width: 100%;
+  padding: 14px 18px;
+  background: #000;
+  color: #fff;
+  border: none;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.desc {
+  margin-top: 25px;
+  margin-bottom: 40px;
+  line-height: 1.5;
+  font-size: 12px;
+  font-weight: 300;
+}
+
+/* 이전 Notes 제목 / 목록 스타일은 더 이상 사용 X */
+/* main h3, #notes ul, #notes li 관련 코드는 제거 */
+
+/* Details 드롭다운 (Notes / Material / Shipping / Care 공통) */
+details {
+  font-size: 12px;
+  margin: 0;
+  padding: 8px 0;
+  border-bottom: 1px solid #e2e2e2;   /* 실선 */
+  font-weight: 300;
+}
+
+/* 마지막 항목은 실선 제거 */
+details:last-of-type {
+  border-bottom: none;
+}
+
+/* summary 한 줄 전체 + 오른쪽 끝 화살표 */
+details summary {
+  list-style: none;                 /* 기본 화살표 제거 */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;   /* 왼쪽 텍스트 / 오른쪽 화살표 */
+  cursor: pointer;
+  font-size: 12px;
+  margin: 0;
+  padding: 4px 0;
+}
+
+/* 일부 브라우저용 기본 마커 제거 */
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+/* 커스텀 화살표 (닫힘 상태) */
+details summary::after {
+  content: "▾";
+  font-size: 10px;
+}
+
+/* 열린 상태일 때 화살표 반대로 */
+details[open] summary::after {
+  content: "▴";
+}
+
+/* details 안의 본문 텍스트 (Notes / Material / Shipping / Care 공통) */
+details p {
+  position: relative;
+  padding-left: 20px;
+  margin: 6px 0 8px;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+/* 모든 p 앞에 하이픈 붙이기 */
+details p::before {
+  content: "-";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #444;
+}
+
+
+/* ===========================
+   모바일 레이아웃
+   =========================== */
+@media (max-width: 900px) {
+
+  .prod-wrap {
+    display: block;
+    padding: 0;
+    background: transparent;
+  }
+
+  .prod-left {
+    padding: 40px 16px 0;     /* ⬅ 목걸이 체인 보이도록 추가 */
+    height: 70vh;             /* ⬅ 반드시 고정 높이로 유지해야 상/하 분리됨 */
+    overflow-y: auto;         /* ⬅ 상단만 스크롤 */
+    margin-bottom: 0;
+  }
+
+  .img-area {
+    padding: 10px 0 20px;
+  }
+
+  .img-area img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  /* ==========================
+     하단 카드 (FULL WIDTH)
+     ========================== */
+  .prod-right {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto; /* 가운데 */
+    background: #fff;
+    border-radius: 16px 16px 0 0;
+    padding: 20px 25px 40px;
+    overflow: visible; /* 중요 */
+  }
+
+  /* ==========================
+     상단 ONLY 그라데이션 그림자
+     ========================== */
+  .prod-right::before {
+    content: "";
+    position: absolute;
+    top: -40px;
+    left: 0;
+    width: 100%;
+    height: 40px;
+
+    /* 위에서 아래로 은은하게 사라지는 그라데이션 */
+    background: linear-gradient(
+      to bottom,
+      rgba(0,0,0,0.0) 0%,
+      rgba(0,0,0,0.02) 40%,
+      rgba(0,0,0,0.04) 70%,
+      rgba(0,0,0,0.06) 100%
+    );
+
+    pointer-events: none;
+  }
+
+  .prod-right h1 {
+    margin-top: 20px;
+  }
+}
+
+
+@media (max-width: 900px) {
+
+    /* 타이틀 크기 & 간격 줄이기 */
+  .prod-right h1 {
+    font-size: 15px;    /* 기존 20px → 줄이기 */
+    font-weight: 300;
+    margin-bottom: 2px;
+    margin-top: 12px;   /* 조금 더 위로 붙이기 */
+  }
+
+  /* 가격 크기 & 여백 조정 */
+  .prod-price {
+    font-size: 12px;    /* 기존 15px → 줄이기 */
+    font-weight: 300;
+    margin-bottom: 24px; /* 기존보다 더 간결하게 */
+  }
+
+  /* 설명 문단 (desc) 간격 줄이기 */
+  .desc {
+    font-size: 11px;
+    line-height: 1.35;
+    margin-top: 18px;
+    margin-bottom: 28px;
+  }
+
+  /* details summary 줄 높이 & 패딩 줄이기 */
+  details summary {
+    font-size: 11px;
+    padding: 2px 0;
+    line-height: 1.3;
+  }
+
+  /* details 본문 간격 줄이기 */
+  details p {
+    font-size: 10px;
+    line-height: 1.35;
+    margin: 4px 0 6px;
+    padding-left: 16px;
+  }
+
+  /* p 앞 하이픈 위치 조정 */
+  details p::before {
+    left: 0;
+    top: 2px;
+  }
+
+  /* 옵션 블록 간격 줄이기 */
+  .block {
+    margin-bottom: 14px;
+    gap: 8px;
+  }
+
+  .label {
+    font-size: 11px;
+    min-width: 50px;
+  }
+
+  /* 수량 박스 축소 */
+  .qty-box {
+    gap: 12px;
+    padding: 2px 8px;
+    font-size: 11px;
+  }
+
+  /* Add to cart 버튼 위 여백 줄이기 */
+  .btn-add {
+    margin-top: 16px;
+    padding: 12px 14px;
+    font-size: 10px;
+  }
+
+  /* Details 전체 여백 줄이기 */
+  details {
+    padding: 6px 0;
+  }
+
+  .qty-box button {
+    color: #000 !important;   /* 글씨색 강제 */
+    -webkit-text-fill-color: #000 !important; /* iOS Safari 강제 */
+  }
+}

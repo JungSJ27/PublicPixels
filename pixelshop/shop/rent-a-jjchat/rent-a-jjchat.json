@@ -1,28 +1,26 @@
 {
   "id": "rent-a-jjchat",
-  "title": "Rent a JJ chat",
+  "title": "Rent a JJ Chat",
   "price": 39.90,
 
-  "desc": "A cast metal moth necklace inspired by the moth’s fearless instinct to follow light. The piece reflects the delicate but bold nature of pursuing one’s impulses — even when the path feels uncertain. Its clean cast form preserves the symbolic simplicity of the moth while carrying a quiet strength.",
+  "desc": "A one-on-one call with JJ — honest, warm, a little funny, and never superficial. This isn't a flirty service or small talk session. It's more like a mini confession booth, a safe space to speak openly about what's really going on in your life. You can talk, vent, ask for advice, or even practice Korean. JJ listens without judgment and tells you the truth gently, the way a friend would — but better.",
 
   "images": [
     "./TRJ.png"
   ],
 
-"colors": [
-  { "color": "#c0c0c0", "name": "Silver", "href":"" }],
-
   "sizes": null,
 
   "notes": [
-    "The pendant design is original and created exclusively for PublicPixels.",
-    "Produced through a custom metal casting process, ensuring durability and a refined finish.",
-    "Chain length generally sits around the collarbone."
+    "This is a scheduled one-hour call with JJ.",
+    "Voice call only — scheduled separately after purchase.",
+    "No romantic or sexual content. This is a genuine conversation and support space.",
+    "Great for honest talk, life questions, venting, or Korean practice."
   ],
 
-  "material": "Cast metal alloy pendant with a fine lightweight chain.",
+  "material": "Digital conversation service (voice call).",
 
-  "shipping": "This item is made to order through a casting studio. Production may take 2–3 weeks, and delivery time varies by location. Please allow up to 4 weeks in total.",
+  "shipping": "A call time will be arranged within 3–5 days after your order. No physical shipment involved.",
 
-  "care": "Keep away from moisture and chemicals. Wipe gently after wear and store in a dry place to maintain the finish."
+  "care": "Make sure you’re in a comfortable, quiet place during the call. JJ will do the same."
 }

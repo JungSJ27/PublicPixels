@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Women’s night robe | Pixelshop</title>
+
+  <link rel="icon" href="/front/favicon.ico" />
+
+  <!-- 공통 스타일 -->
+  <link rel="stylesheet" href="/front/styles.css" />
+  <link rel="stylesheet" href="/front/header.css" />
+  <link rel="stylesheet" href="/front/cart.css" />
+
+  <!-- Product page style -->
+  <link rel="stylesheet" href="./robe.n3.css" />
+
+  <!-- include system -->
+  <script defer src="/front/headerLoader.js"></script>
+
+  <!-- cart system -->
+  <script type="module" src="/front/cartstore.js"></script>
+  <script type="module" src="/front/cart.js"></script>
+</head>
+
+<body data-page="product">
+
+  <!-- Header + Cart -->
+  <div data-include="header"></div>
+  <div data-include="cart"></div>
+
+  <main class="prod-wrap">
+
+    <section class="prod-left">
+      <div id="img-area" class="img-area"></div>
+    </section>
+
+    <section class="prod-right">
+      <h1 id="title"></h1>
+      <p id="price" class="prod-price"></p>
+
+      <!-- Color -->
+      <div class="block">
+        <p class="label">Color</p>
+        <div id="colors" class="opt-colors"></div>
+      </div>
+
+      <!-- Size -->
+      <div class="block">
+        <p class="label">Size</p>
+        <div id="sizes" class="opt-sizes"></div>
+      </div>
+
+      <!-- Quantity -->
+      <div class="block">
+        <p class="label">Quantity</p>
+        <div class="qty-box">
+          <button id="qty-minus">−</button>
+          <span id="qty-num">1</span>
+          <button id="qty-plus">+</button>
+        </div>
+      </div>
+
+      <button id="btnAdd" class="btn-add">Add to Cart</button>
+
+      <p id="desc" class="desc"></p>
+      
+        <details>
+          <summary>Notes</summary>
+          <div id="notes"></div>
+        </details>
+
+        <details>
+          <summary>Material</summary>
+          <p id="mat"></p>
+        </details>
+
+        <details>
+          <summary>Shipping</summary>
+          <p id="ship"></p>
+        </details>
+
+        <details>
+          <summary>Care</summary>
+          <p id="care"></p>
+        </details>
+
+    </section>
+
+  </main>
+
+  <!-- product logic (모듈 버전) -->
+  <script type="module" src="./robe.n3.js"></script>
+
+</body>
+</html>
