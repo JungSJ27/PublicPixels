@@ -1,6 +1,6 @@
 [
   {
-    "id": "Turkish men’s red night robe",
+    "id": "robe.n1",
     "title": "Men’s night robe",
     "price": 69.90,
     "category": "Wearable",
@@ -10,7 +10,7 @@
     "created": "2023-05"
   },
   {
-    "id": "Turkish women’s red night robe",
+    "id": "robe.n2",
     "title": "Women’s night robe",
     "price": 69.90,
     "category": "Wearable",

@@ -11,14 +11,15 @@
 
   "colors": [
     {
-      "color": "#8B0000",
-      "name": "Dark Red",
-      "href": "/pixelshop/shop/robe.n1/"
-    },
-    {
       "color": "#001A66",
       "name": "Navy",
       "href": "/pixelshop/shop/robe.n3/"
+    },
+
+    {
+      "color": "#8B0000",
+      "name": "Dark Red",
+      "href": "/pixelshop/shop/robe.n2/"
     }
   ],
 

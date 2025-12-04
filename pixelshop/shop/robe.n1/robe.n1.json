@@ -2,25 +2,33 @@
   "id": "robe.n1",
   "title": "Men’s Night Robe",
   "price": 69.90,
-  "category": "Wearable",
 
-  "colors": ["Red"],
-  "sizes": ["Free"],
+  "desc": "A Turquerie-inspired night robe featuring an original butterfly motif. Made from a lightweight synthetic silk that dries remarkably fast, the robe offers a soft sheen and fluid movement. Its wide sleeves, shorter-than-expected length, and deep neckline create a relaxed yet bold silhouette suitable for both lounging and styling.",
 
   "images": [
-    "/pixelshop/assets/robe.n1/robe1.jpg",
-    "/pixelshop/assets/robe.n1/robe2.jpg",
-    "/pixelshop/assets/robe.n1/robe3.jpg"
+    "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/pixelshop/robe.n1/IMG_8739.jpg",
+    "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/pixelshop/robe.n1/IMG_8740.jpg",
+    "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/pixelshop/robe.n1/IMG_8727.jpg"
   ],
+
+  "colors": [
+    {
+      "color": "#8B0000",
+      "name": "Dark Red",
+      "href": "/pixelshop/shop/robe.n1/"
+    }
+  ],
+
+  "sizes": null,
 
   "notes": [
-    "Handmade textile product.",
-    "Color may vary slightly depending on lighting.",
-    "Do not tumble dry."
+    "Original butterfly-pattern robe inspired by traditional Turkish motifs.",
+    "Made from a lightweight synthetic silk designed for quick drying."
   ],
 
-  "material": "100% Turkish cotton.",
-  "shipping": "Ships within 3–5 business days.",
-  "care": "Cold wash recommended.",
-  "desc": "A comfortable Turkish red night robe designed for at-home relaxation."
+  "material": "Lightweight synthetic silk with a soft, fluid drape and fast-drying performance.",
+
+  "shipping": "Orders are prepared and shipped from my studio. Processing and shipping times may vary depending on demand and location.",
+
+  "care": "Machine washable. To prevent the inner tie from tangling, place the robe in a washing net. Safe to use in both washing machines and dryers."
 }
