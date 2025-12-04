@@ -44,8 +44,8 @@
 /* 오른쪽 상품 정보 */
 .prod-right {
   max-width: 600px;
-  padding: 0px 60px 0px;       /* ⛔ 230px → 80px로 줄여 이미지 밀림 방지 */
-  margin-top: -30px;     /* 원하는 만큼 조정! */
+  padding: 0px 70px 0px;       /* ⛔ 230px → 80px로 줄여 이미지 밀림 방지 */
+  margin-top: -50px;     /* 원하는 만큼 조정! */
 }
 
 
@@ -278,7 +278,7 @@ details p::before {
     margin: 0 auto; /* 가운데 */
     background: #fff;
     border-radius: 16px 16px 0 0;
-    padding: 32px 44px 48px;
+    padding: 20px 25px 40px;
     overflow: visible; /* 중요 */
   }
 
@@ -315,7 +315,7 @@ details p::before {
 
     /* 타이틀 크기 & 간격 줄이기 */
   .prod-right h1 {
-    font-size: 16px;    /* 기존 20px → 줄이기 */
+    font-size: 15px;    /* 기존 20px → 줄이기 */
     font-weight: 300;
     margin-bottom: 2px;
     margin-top: 12px;   /* 조금 더 위로 붙이기 */
@@ -323,7 +323,7 @@ details p::before {
 
   /* 가격 크기 & 여백 조정 */
   .prod-price {
-    font-size: 13px;    /* 기존 15px → 줄이기 */
+    font-size: 12px;    /* 기존 15px → 줄이기 */
     font-weight: 300;
     margin-bottom: 24px; /* 기존보다 더 간결하게 */
   }
