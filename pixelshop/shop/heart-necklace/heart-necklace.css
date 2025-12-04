@@ -41,7 +41,7 @@
 /* 오른쪽 칼럼은 그대로 sticky 유지 */
 .prod-right {
   position: sticky;
-  top: 200px;
+  top: 170px;
   max-width: 600px;
   padding: 70px;
   margin-left: 90px;
@@ -67,7 +67,6 @@
 /* ===========================
    옵션 / 수량
    =========================== */
-
 /* 옵션 / 수량 공통 컨테이너 */
 .block {
   display: flex;
@@ -76,6 +75,21 @@
   margin-bottom: 20px;
   font-weight: 300;
 }
+
+  /* 타이틀 크기 & 간격 줄이기 */
+  .prod-right h1 {
+    font-size: 18px;    /* 기존 20px → 줄이기 */
+    font-weight: 300;
+    margin-bottom: 2px;
+    margin-top: 12px;   /* 조금 더 위로 붙이기 */
+  }
+
+  /* 가격 크기 & 여백 조정 */
+  .prod-price {
+    font-size: 14px;    /* 기존 15px → 줄이기 */
+    font-weight: 300;
+    margin-bottom: 35px; /* 기존보다 더 간결하게 */
+  }
 
 /* 레이블 (Color, Quantity) */
 .label {
