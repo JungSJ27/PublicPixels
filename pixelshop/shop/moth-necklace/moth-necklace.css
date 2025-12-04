@@ -46,6 +46,7 @@
   max-width: 600px;
   padding: 0px 70px 0px;       /* ⛔ 230px → 80px로 줄여 이미지 밀림 방지 */
   margin-top: -50px;     /* 원하는 만큼 조정! */
+  margin-left: 80px;
 }
 
 
