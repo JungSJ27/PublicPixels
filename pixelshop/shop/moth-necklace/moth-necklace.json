@@ -2,24 +2,27 @@
   "id": "moth-necklace",
   "title": "Moth Necklace",
   "price": 39.90,
-  "category": "Accessories",
 
-  "colors": ["Silver"],
-  "sizes": ["One Size"],
+  "desc": "A cast metal moth necklace inspired by the moth’s fearless instinct to follow light. The piece reflects the delicate but bold nature of pursuing one’s impulses — even when the path feels uncertain. Its clean cast form preserves the symbolic simplicity of the moth while carrying a quiet strength.",
 
   "images": [
-    "/pixelshop/assets/moth-necklace/1.jpg",
-    "/pixelshop/assets/moth-necklace/2.jpg"
+    "./TMN.png"
   ],
+
+"colors": [
+  { "color": "#c0c0c0", "name": "Silver", "href":"" }],
+
+  "sizes": null,
 
   "notes": [
-    "Resin pattern varies naturally.",
-    "Metal chain may darken over time.",
-    "Avoid wearing while showering."
+    "The pendant design is original and created exclusively for PublicPixels.",
+    "Produced through a custom metal casting process, ensuring durability and a refined finish.",
+    "Chain length generally sits around the collarbone."
   ],
 
-  "material": "Resin & stainless steel.",
-  "shipping": "Ships in 3–5 business days.",
-  "care": "Store in dry place.",
-  "desc": "A silver-tone moth necklace inspired by nocturnal creatures."
+  "material": "Cast metal alloy pendant with a fine lightweight chain.",
+
+  "shipping": "This item is made to order through a casting studio. Production may take 2–3 weeks, and delivery time varies by location. Please allow up to 4 weeks in total.",
+
+  "care": "Keep away from moisture and chemicals. Wipe gently after wear and store in a dry place to maintain the finish."
 }
