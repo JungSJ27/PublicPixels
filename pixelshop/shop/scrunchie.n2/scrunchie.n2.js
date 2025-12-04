@@ -7,7 +7,7 @@ let selSize = null;
 let mainImage = "";
 
 async function load() {
-  const res = await fetch("./scrunchie.n1.json");
+  const res = await fetch("./scrunchie.n2.json");
   data = await res.json();
 
   const base = document.baseURI;

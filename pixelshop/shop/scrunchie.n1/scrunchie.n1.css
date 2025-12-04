@@ -1,79 +1,68 @@
 /* =========================================
    DETAIL PAGE — HALF LAYOUT (LEFT BIG IMAGE)
    ========================================= */
-
 /* 전체 레이아웃 */
 .prod-wrap {
   display: grid;
   grid-template-columns: 1fr 0.9fr;
-  align-items: center;          /* ✅ 위로 붙지 않도록 중앙 정렬 */
   width: 100%;
-  max-width: 3000px;
+  max-width: 2000px;
   margin: 0 auto;
-  padding: 0 0px;
+  align-items: start;
 }
 
-/* 왼쪽 이미지 영역 */
+/* 왼쪽 전체 칼럼 — 여백 제거 */
 .prod-left {
-  display: flex;
-  justify-content: center;
-  align-items: center;          /* ✅ 진짜 중앙 정렬 */
+  width: 100%;
+  padding: 0 !important;
+  margin: 0 !important;
 }
 
+/* 이미지 컨테이너 — 여백 제거 */
 .img-area {
   width: 100%;
-  max-width: 800px;
-  margin: 0 auto;               /* ✅ 수평 중앙 */
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
+/* 이미지 — 칼럼에 꽉 차게 */
 .img-area img {
   width: 100%;
   height: auto;
   display: block;
-  margin-top: -20px;
+  margin: 0; /* 기본 여백 제거 */
 }
 
-/* 🔥 문제를 일으키던 마이너스 margin-top 제거 */
-.product-wrap, 
-.product-page, 
-#img-area {
-  margin-top: 0 !important;
-  padding-top: 0 !important;
+/* 🟦 이미지 사이 간격만 조절 */
+.img-area img + img {
+  margin-top: 15px; /* 승진이 원하는 값으로 조절 */
 }
 
-/* 오른쪽 상품 정보 */
+/* 오른쪽 칼럼은 그대로 sticky 유지 */
 .prod-right {
+  position: sticky;
+  top: 200px;
   max-width: 600px;
-  padding: 0px 70px 0px;       /* ⛔ 230px → 80px로 줄여 이미지 밀림 방지 */
-  margin-top: -50px;     /* 원하는 만큼 조정! */
-  margin-left: 80px;
+  padding: 70px;
+  margin-left: 90px;
 }
 
+/* 모바일 */
+@media (max-width: 900px) {
+  .prod-wrap {
+    grid-template-columns: 1fr;   /* 세로 배치 */
+  }
 
-/* 제목 */ 
-.prod-right h1 { 
-  font-size: 20px; 
-  margin: 0 0 4px; 
-  font-weight: 300; 
-} 
-
-/* 가격 */ 
-.prod-price { 
-  margin: 0 0 40px; 
-  font-size: 15px; 
-  font-weight: 300; 
-}
-
-@media (max-width: 1200px) {
   .prod-right {
-    padding-top: 120px;
+    position: relative;
+    top: 0;
+    padding: 20px;
   }
+
   .img-area img {
-    transform: translateY(40px);
+    margin-bottom: 0px;
   }
 }
-
-
 
 /* ===========================
    옵션 / 수량
