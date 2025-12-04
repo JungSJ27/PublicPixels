@@ -386,4 +386,9 @@ details p::before {
   details {
     padding: 6px 0;
   }
+
+  .qty-box button {
+    color: #000 !important;   /* 글씨색 강제 */
+    -webkit-text-fill-color: #000 !important; /* iOS Safari 강제 */
+  }
 }
