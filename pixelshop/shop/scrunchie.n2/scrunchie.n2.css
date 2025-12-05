@@ -42,10 +42,11 @@
 .prod-right {
   position: sticky;
   top: 170px;
-  max-width: 600px;
-  padding-top: clamp(40px, 2.1vw, 300px);
+  max-width: 550px;
+  padding-top: clamp(40px, 3vw, 300px);
   margin-left: clamp(0px, 6vw, 350px); /* 👈 반응형 간격 */
 }
+
 
 /* 모바일 */
 @media (max-width: 900px) {
