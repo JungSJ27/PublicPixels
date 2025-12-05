@@ -82,7 +82,7 @@ section:first-of-type {
 /* 바코드 블록 */
 #section1 .code-stamp {
   position: absolute;
-  left: 60px;      /* h2/subtitle의 padding-left와 동일 */
+  left: 50px;      /* h2/subtitle의 padding-left와 동일 */
   bottom: 27px;    /* 섹션 하단 padding 값과 동일 */
   display: flex;
   align-items: center;
