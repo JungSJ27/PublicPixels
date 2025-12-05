@@ -43,8 +43,8 @@
   position: sticky;
   top: 170px;
   max-width: 600px;
-  padding: 70px;
-  margin-left: 90px;
+  padding-top: clamp(40px, 2.1vw, 300px);
+  margin-left: clamp(0px, 6vw, 350px); /* 👈 반응형 간격 */
 }
 
 /* 모바일 */
@@ -244,6 +244,10 @@ details p::before {
   color: #444;
 }
 
+  .qty-box button {
+    color: #000 !important;   /* 글씨색 강제 */
+    -webkit-text-fill-color: #000 !important; /* iOS Safari 강제 */
+  }
 
 /* ===========================
    모바일 레이아웃
@@ -389,10 +393,5 @@ details p::before {
   /* Details 전체 여백 줄이기 */
   details {
     padding: 6px 0;
-  }
-
-  .qty-box button {
-    color: #000 !important;   /* 글씨색 강제 */
-    -webkit-text-fill-color: #000 !important; /* iOS Safari 강제 */
   }
 }
