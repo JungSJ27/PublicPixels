@@ -75,25 +75,23 @@
 
   <!-- ===== Section 2: Pixel Gate Scene ===== -->
   <section id="section2" class="canvas-wrap">
+
+    <!-- CRT FRAME (section2의 최상단 레이어) -->
+    <img id="crt-frame" src="archive/secass2/tvframe.png" alt="CRT Frame">
+
     <canvas id="c" aria-label="Pixel Gate Scene"></canvas>
 
     <div id="intro-pixel-overlay" class="intro-pixel-overlay"></div>
 
-    <!-- ⭐ INTRO START SCREEN (added) -->
+    <!-- ⭐ INTRO START SCREEN -->
     <div id="intro-screen" class="intro-screen">
       <div class="intro-box">
         <h2 class="intro-title">PRESS START</h2>
 
-        <button id="btn-artworks" class="intro-btn pink">
-          GO TO ARCHIVE
-        </button>
-
-        <button id="btn-explore" class="intro-btn blue">
-          EXPLORE THE MAP
-        </button>
+        <button id="btn-artworks" class="intro-btn pink">GO TO ARCHIVE</button>
+        <button id="btn-explore" class="intro-btn blue">EXPLORE THE MAP</button>
       </div>
     </div>
-    <!-- ⭐ END INTRO -->
 
     <div class="hud" id="s2-controls">
       <ul class="s2-help">
@@ -101,12 +99,16 @@
         <li><b>Mouse</b> to look, <b>ESC</b> to unlock</li>
         <li><b>R</b> random view, <b>Enter</b> go to highlighted portal</li>
       </ul>
-      <div id="hint" aria-live="polite">The crosshair highlights the portal in focus.</div>
+      <div id="hint" aria-live="polite">
+        The crosshair highlights the portal in focus.
+      </div>
+
       <div class="s2-actions">
         <a href="archive/" class="s2-btn" id="artworkBtn">See all works</a>
         <a href="#section3" class="next-sec">Next section</a>
       </div>
     </div>
+
   </section>
 
   <section id="section3" class="s3 scroll-shop" data-allow-horizontal="true">

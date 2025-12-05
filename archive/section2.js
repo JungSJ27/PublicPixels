@@ -10,29 +10,24 @@ if (!wrap || !canvas) throw new Error('[section2] #section2 or #c not found');
 const intro = document.getElementById('intro-screen');
 const btnArt = document.getElementById('btn-artworks');
 const btnExplore = document.getElementById('btn-explore');
+const crtFrame = document.getElementById('crt-frame');
 
-// 인트로가 살아 있는지 전역 플래그
-let introActive = !!intro;
+// GO TO ARTWORKS
+btnArt.addEventListener('click', (e) => {
+  e.stopPropagation();
+  window.location.href = 'archive/';
+});
 
-if (intro) {
+// EXPLORE THE MAP
+btnExplore.addEventListener('click', (e) => {
+  e.stopPropagation();
 
-  // GO TO ARTWORKS
-  if (btnArt) {
-    btnArt.addEventListener('click', (e) => {
-      e.stopPropagation();
-      window.location.href = 'archive/';
-    });
-  }
+  // 인트로 숨기기
+  intro.style.display = 'none';
 
-  // EXPLORE THE MAP
-  if (btnExplore) {
-    btnExplore.addEventListener('click', (e) => {
-      e.stopPropagation();
-      intro.style.display = 'none';
-      introActive = false;
-    });
-  }
-}
+  // CRT 프레임도 부드럽게 사라짐
+  crtFrame.classList.add('hidden');
+});
 
 /* ---------- 데이터: 문(작품) 목록 ---------- */
 const projects = [
