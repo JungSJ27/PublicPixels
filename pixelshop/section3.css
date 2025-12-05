@@ -8,7 +8,7 @@ html { scroll-behavior: smooth; }
   min-height: auto !important;
   height: auto !important;
   margin-bottom: clamp(100px, 9vw, 170px);
-  margin-top: clamp(50px, 8.9svh, 130px);
+  margin-top: clamp(60px, 9vw, 110px);
 
 }
 
