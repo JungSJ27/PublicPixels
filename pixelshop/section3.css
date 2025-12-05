@@ -141,16 +141,6 @@ html { scroll-behavior: smooth; }
 
 /* Section3 모바일 전용: 카드 크기와 상하 여백 노브 */
 @media (max-width: 700px){
-  /* 섹션 위아래 여백 */
-
-  /* 트랙 좌우 여백과 카드 간격 */
-  #s3-track{
-    --edge: clamp(16px, 8vw, 32px);    /* 좌우 패딩 */
-    --gap:  clamp(2px, 2.2vw, 3px);   /* 카드 사이 간격 */
-
-    padding: 0 var(--edge) clamp(6px, 1.6vw, 10px);
-    gap: var(--gap);
-  }
 
   /* 카드 크기 노브 */
   .s3-item{
