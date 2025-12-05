@@ -44,7 +44,7 @@
   top: 170px;
   max-width: 600px;
   padding: clamp(0px, 3vw, 90px);
-  margin-left: clamp(0px, 7vw, 200px); /* 👈 반응형 간격 */
+  margin-left: clamp(0px, 6vw, 200px); /* 👈 반응형 간격 */
 }
 
 /* 모바일 */
