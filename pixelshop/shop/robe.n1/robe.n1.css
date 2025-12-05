@@ -43,7 +43,7 @@
   position: sticky;
   top: 170px;
   max-width: 600px;
-  padding: clamp(0px, 2.6vw, 90px);
+  padding: clamp(0px, 2.1vw, 140px);
   margin-left: clamp(0px, 6vw, 250px); /* 👈 반응형 간격 */
 }
 
