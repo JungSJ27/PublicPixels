@@ -5,151 +5,106 @@
   position: relative;
   overflow: hidden;
   height: 100vh;
+  background: linear-gradient(#090014, #130022, #05000e);
 }
 
-/* ============================
-   CRT FRAME
-============================ */
-#crt-frame{
-  position: absolute;
-  inset: 0;
+/* Canvas */
+#c {
+  display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center;
-  z-index: 1000; /* 가장 위 */
-  pointer-events: none;
-  transition: opacity .6s ease;
-  opacity: 1;
-}
-#crt-frame.hidden{
-  opacity: 0;
+  z-index: 1;
+  position: relative;
 }
 
 /* ============================
    INTRO SCREEN
 ============================ */
-#intro-screen {
+.intro-screen{
   position: absolute;
   inset: 0;
-  z-index: 900;
+  z-index: 50;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: rgba(0,0,0,0.25);
-  backdrop-filter: blur(3px);
-}
-
-.intro-box {
-  width: 520px;
-  padding: 36px 40px;
-  text-align: center;
-  border-radius: 12px;
-  background: transparent;
-  box-shadow: 0 4px 30px rgba(0,0,0,0.45);
-}
-
-/* 타이틀 이미지 */
-.intro-title-img {
-  width: 480px;
-  max-width: 100%;
-  height: auto;
-  display: block;
-  margin: 0 auto 26px;
-  image-rendering: crisp-edges;
-  image-rendering: pixelated;
-}
-
-
-/* 버튼 스타일 */
-.intro-btn {
-  width: 100%;
-  margin: 12px 0;
-  padding: 14px;
-  border-radius: 8px;
-  font-size: 18px;
-  color: white;
-  border: 1px solid rgba(255,255,255,.3);
-  background: rgba(255,255,255,0.05);
+  background: rgba(0,0,0,0.45);
   backdrop-filter: blur(4px);
+}
+
+/* TITLE IMAGE */
+.title-img {
+  width: 520px;
+  margin-bottom: 60px;
+  pointer-events: none;
+}
+
+/* BUTTONS */
+.menu-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+}
+
+.menu-btn {
+  width: 240px;
   cursor: pointer;
-  transition: transform .2s ease, background .2s ease;
+  transition: transform .2s ease, filter .2s ease;
 }
 
-.intro-btn:hover {
-  background: rgba(255,255,255,0.15);
-}
-
-.intro-btn:active {
-  transform: scale(.97);
+.menu-btn:hover {
+  transform: scale(1.05);
+  filter: brightness(1.2);
 }
 
 /* ============================
-   Pixel overlay (CRT 느낌)
+   Floating Animations
 ============================ */
-.intro-pixel-overlay{
-  position:absolute;
-  inset:0;
-  z-index:850;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px);
-  background-size: 10px 10px;
-  mix-blend-mode: soft-light;
-  opacity:.9;
-  pointer-events:none;
+.floating {
+  animation: floatY 3s ease-in-out infinite;
+}
+
+.floating-small {
+  animation: floatYSmall 2.4s ease-in-out infinite;
+}
+
+@keyframes floatY {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-14px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes floatYSmall {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0px); }
 }
 
 /* ============================
-   CANVAS
+   HUD (controls 설명)
 ============================ */
-.canvas-wrap {
-  width: 100%;
-  height: 100vh;
-  position: relative;
-  background: #000;
-}
-#c{
-  position:relative;
-  width:100%;
-  height:100%;
-  display:block;
+#section2 .hud {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  z-index: 10;
+  color: #dcdcdc;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: rgba(40, 0, 63, 0.25);
+  backdrop-filter: blur(6px);
 }
 
-/* ============================
-   HUD
-============================ */
-#section2 .hud{
-  position:absolute;
-  bottom:16px;
-  left:16px;
-  right:16px;
-  z-index:100;
-  color:#eaeaea;
-  padding:12px 14px;
-  border-radius:10px;
-  background:rgba(160,104,154,0.2);
-  backdrop-filter:blur(8px);
-}
-#section2 .s2-help{
-  list-style:none;
-  margin:0 0 10px;
-  padding:0;
-}
-#section2 .s2-btn,
-#section2 .next-sec{
-  display:inline-block;
-  padding:6px 10px;
-  border:1px solid white;
-  border-radius:6px;
-  margin-top:10px;
-  background:rgba(255,255,255,.08);
-  color:white;
+#section2 .hud .s2-help {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 13px;
+  line-height: 1.4;
 }
 
-/* 모바일 HUD 숨김 */
-@media (max-width: 840px){
-  #section2 .hud{
-    display:none !important;
-  }
+/* 모바일에서 HUD 숨김 */
+@media (max-width: 840px) {
+  #section2 .hud { display: none !important; }
 }

@@ -73,49 +73,37 @@
   </section>
 
 
-  <!-- ===== Section 2: Pixel Gate Scene ===== -->
-  <section id="section2" class="canvas-wrap">
+<!-- ===== Section 2: Pixel Gate Scene ===== -->
+<section id="section2" class="canvas-wrap">
 
-    <!-- CRT FRAME (최상단 레이어) -->
-    <img id="crt-frame" src="archive/secass2/tvframe.png" alt="CRT Frame" />
+  <canvas id="c" aria-label="Pixel Gate Scene"></canvas>
 
-    <canvas id="c" aria-label="Pixel Gate Scene"></canvas>
+  <!-- ⭐ INTRO START SCREEN -->
+  <div id="intro-screen" class="intro-screen">
+    
+    <!-- TITLE 이미지 -->
+    <img src="archive/secass2/title.png" class="title-img floating" />
 
-    <div id="intro-pixel-overlay" class="intro-pixel-overlay"></div>
-
-    <!-- ⭐ INTRO START SCREEN -->
-    <div id="intro-screen" class="intro-screen">
-  <div class="intro-box">
-
-    <!-- ⭐ 텍스트 대신 타이틀 PNG 삽입 -->
-    <img src="archive/secass2/title.png" class="intro-title-img" alt="A HOUSE THAT IS NOT LONELY">
-
-    <button id="btn-play" class="intro-btn pink">PLAY</button>
-    <button id="btn-archive" class="intro-btn blue">GO TO ARCHIVE</button>
-
-  </div>
-</div>
-
-
-    <!-- HUD 영역 -->
-    <div class="hud" id="s2-controls">
-      <ul class="s2-help">
-        <li><b>W A S D</b> to move</li>
-        <li><b>Mouse</b> to look, <b>ESC</b> to unlock</li>
-        <li><b>R</b> random view, <b>Enter</b> go to highlighted portal</li>
-      </ul>
-
-      <div id="hint" aria-live="polite">
-        The crosshair highlights the portal in focus.
-      </div>
-
-      <div class="s2-actions">
-        <a href="archive/" class="s2-btn" id="artworkBtn">See all works</a>
-        <a href="#section3" class="next-sec">Next section</a>
-      </div>
+    <!-- BUTTONS -->
+    <div class="menu-wrap">
+      <img id="btn-play" src="archive/secass2/play.png" class="menu-btn floating-small"/>
+      <img id="btn-archive" src="archive/secass2/gotoarchive.png" class="menu-btn floating-small"/>
     </div>
 
-  </section>
+  </div>
+
+  <!-- HUD (움직임 설명) -->
+  <div class="hud" id="s2-controls">
+    <ul class="s2-help">
+      <li><b>W A S D</b> to move</li>
+      <li><b>Mouse</b> to look</li>
+      <li><b>ESC</b> unlock cursor</li>
+      <li><b>R</b> random view</li>
+      <li><b>Enter</b> go portal</li>
+    </ul>
+  </div>
+
+</section>
 
 
 

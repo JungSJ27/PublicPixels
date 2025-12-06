@@ -6,27 +6,25 @@ const wrap = document.getElementById('section2');
 const canvas = document.getElementById('c');
 if (!wrap || !canvas) throw new Error('[section2] #section2 or #c not found');
 
-/* ===== Intro Start Screen ===== */
-const intro = document.getElementById('intro-screen');
-const btnPlay = document.getElementById('btn-play');
-const btnArchive = document.getElementById('btn-archive');
-const crtFrame = document.getElementById('crt-frame');
+// ========== INTRO & BUTTON LOGIC ==========
+const intro = document.getElementById("intro-screen");
+const playBtn = document.getElementById("btn-play");
+const archiveBtn = document.getElementById("btn-archive");
+const hud = document.getElementById("s2-controls");
 
-let introActive = true;
+playBtn.addEventListener("click", () => {
+  intro.style.display = "none";
+  hud.style.display = "block";
 
-// PLAY → 인트로 사라지고 TV 프레임도 사라짐
-btnPlay.addEventListener('click', (e)=>{
-  e.stopPropagation();
-  intro.style.display = 'none';
-  crtFrame.classList.add('hidden');
-  introActive = false;
+  // pointer lock 활성화
+  const canvas = document.getElementById("c");
+  canvas.requestPointerLock();
 });
 
-// ARCHIVE 이동
-btnArchive.addEventListener('click', (e)=>{
-  e.stopPropagation();
-  window.location.href = 'archive/';
+archiveBtn.addEventListener("click", () => {
+  window.location.href = "archive/";
 });
+
 
 /* ---------- 데이터: 문(작품) 목록 ---------- */
 const projects = [
