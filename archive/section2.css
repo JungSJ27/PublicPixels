@@ -1,110 +1,107 @@
-/* ============================
-   SECTION2 BASE
-============================ */
-#section2 {
+/* ===== SECTION 2 WRAP ===== */
+#section2.canvas-wrap {
   position: relative;
-  overflow: hidden;
+  width: 100%;
   height: 100vh;
-  background: linear-gradient(#090014, #130022, #05000e);
+  overflow: hidden;
+  background: #05020c;
 }
 
-/* Canvas */
-#c {
-  display: block;
+
+/* ===== CANVAS ===== */
+#section2 #c {
   width: 100%;
   height: 100%;
-  z-index: 1;
-  position: relative;
-}
-
-/* ============================
-   INTRO SCREEN
-============================ */
-.intro-screen{
+  display: block;
   position: absolute;
   inset: 0;
-  z-index: 50;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: rgba(0,0,0,0.45);
-  backdrop-filter: blur(4px);
+  z-index: 1;
 }
 
-/* TITLE IMAGE */
+
+/* ===== INTRO UI ===== */
+#intro-ui {
+  position: absolute;
+  z-index: 5;
+  inset: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  /* 🔥 배경 블러 (문은 흐려지고 UI는 선명) */
+  backdrop-filter: blur(8px) brightness(0.6);
+  -webkit-backdrop-filter: blur(8px) brightness(0.6);
+
+  pointer-events: auto;
+    transform: translateY(0%);
+
+}
+
+
+
+/* TITLE IMAGE (반응형) */
 .title-img {
-  width: 520px;
-  margin-bottom: 60px;
+  width: clamp(200px, 60vw, 500px);
+  margin-bottom: 170px;
   pointer-events: none;
 }
 
-/* BUTTONS */
-.menu-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 28px;
-}
 
-.menu-btn {
-  width: 240px;
+/* ===== BUTTON IMAGE ===== */
+.btn-img {
   cursor: pointer;
-  transition: transform .2s ease, filter .2s ease;
+  pointer-events: auto;
+  user-select: none;
+
+  /* 기본 버튼 크기(각각 따로 조정 가능) */
+  width: auto;
+  height: auto;
 }
 
-.menu-btn:hover {
-  transform: scale(1.05);
-  filter: brightness(1.2);
+/* PLAY 버튼 개별 컨트롤 */
+.btn-play {
+  width: min(180px, 40vw);
+  margin-bottom: 25px;
 }
 
-/* ============================
-   Floating Animations
-============================ */
-.floating {
-  animation: floatY 3s ease-in-out infinite;
+/* ARCHIVE 버튼 개별 컨트롤 */
+.btn-archive {
+  width: min(420px, 60vw);
 }
 
-.floating-small {
-  animation: floatYSmall 2.4s ease-in-out infinite;
-}
 
-@keyframes floatY {
+/* ===== FLOAT ANIMATION ===== */
+@keyframes bob {
   0% { transform: translateY(0px); }
-  50% { transform: translateY(-14px); }
+  50% { transform: translateY(-6px); }
   100% { transform: translateY(0px); }
 }
 
-@keyframes floatYSmall {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); }
-  100% { transform: translateY(0px); }
+.bob-float {
+  animation: bob 3s ease-in-out infinite;
 }
 
-/* ============================
-   HUD (controls 설명)
-============================ */
-#section2 .hud {
+.bob-float-slow {
+  animation: bob 4.8s ease-in-out infinite;
+}
+
+
+/* ===== HUD (게임 UI) ===== */
+#s2-controls {
   position: absolute;
-  left: 16px;
-  bottom: 16px;
   z-index: 10;
-  color: #dcdcdc;
-  padding: 10px 12px;
-  border-radius: 8px;
-  background: rgba(40, 0, 63, 0.25);
-  backdrop-filter: blur(6px);
+  bottom: 30px;
+  left: 20px;
+  color: white;
+  opacity: 0;       /* 🔥 인트로에서는 보이지 않음 */
+  pointer-events: none;
+  transition: opacity 0.6s ease;
 }
 
-#section2 .hud .s2-help {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  font-size: 13px;
-  line-height: 1.4;
-}
-
-/* 모바일에서 HUD 숨김 */
-@media (max-width: 840px) {
-  #section2 .hud { display: none !important; }
+/* 플레이 시작하면 JS에서 opacity = 1 적용됨 */
+#s2-controls.active {
+  opacity: 1;
+  pointer-events: auto;
 }

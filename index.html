@@ -73,38 +73,42 @@
   </section>
 
 
-<!-- ===== Section 2: Pixel Gate Scene ===== -->
-<section id="section2" class="canvas-wrap">
+ <!-- ===== Section 2: Pixel Gate Scene ===== -->
+  <section id="section2" class="canvas-wrap">
 
-  <canvas id="c" aria-label="Pixel Gate Scene"></canvas>
+    <!-- Blur Overlay for Intro -->
+    <div id="intro-blur"></div>
 
-  <!-- ⭐ INTRO START SCREEN -->
-  <div id="intro-screen" class="intro-screen">
-    
-    <!-- TITLE 이미지 -->
-    <img src="archive/secass2/title.png" class="title-img floating" />
+    <canvas id="c"></canvas>
 
-    <!-- BUTTONS -->
-    <div class="menu-wrap">
-      <img id="btn-play" src="archive/secass2/play.png" class="menu-btn floating-small"/>
-      <img id="btn-archive" src="archive/secass2/gotoarchive.png" class="menu-btn floating-small"/>
+    <!-- INTRO UI -->
+    <div id="intro-ui">
+
+      <img src="archive/secass2/title.png" class="title-img bob-float" alt="Title">
+
+      <!-- PLAY 버튼 -->
+      <img src="archive/secass2/play.png" class="btn-img btn-play bob-float-slow" alt="PLAY">
+
+      <!-- ARCHIVE 버튼 -->
+      <img src="archive/secass2/gotoarchive.png" class="btn-img btn-archive bob-float-slow" alt="Go to archive">
+
     </div>
 
-  </div>
+    <!-- HUD (플레이 후에만 나타남) -->
+    <div class="hud" id="s2-controls">
+      <ul class="s2-help">
+        <li><b>W A S D</b> to move</li>
+        <li><b>Mouse</b> to look, <b>ESC</b> to unlock</li>
+        <li><b>R</b> random view, Enter go to highlighted portal</li>
+      </ul>
+      <div id="hint" aria-live="polite">The crosshair highlights the portal in focus.</div>
+      <div class="s2-actions">
+        <a href="archive/" class="s2-btn">See all works</a>
+        <a href="#section3" class="next-sec">Next section</a>
+      </div>
+    </div>
 
-  <!-- HUD (움직임 설명) -->
-  <div class="hud" id="s2-controls">
-    <ul class="s2-help">
-      <li><b>W A S D</b> to move</li>
-      <li><b>Mouse</b> to look</li>
-      <li><b>ESC</b> unlock cursor</li>
-      <li><b>R</b> random view</li>
-      <li><b>Enter</b> go portal</li>
-    </ul>
-  </div>
-
-</section>
-
+  </section>
 
 
   <section id="section3" class="s3 scroll-shop" data-allow-horizontal="true">
