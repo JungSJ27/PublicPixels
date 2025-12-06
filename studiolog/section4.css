@@ -142,7 +142,7 @@
 
 #section4.s4{ background:#0a0a0a; } /* 기본 */
 #section4.s4.is-first{
-  background: linear-gradient(180deg, #0a0a0a 0%, #1f2534 40%, #1a211a 100%);
+  background: linear-gradient(180deg, #0a0a0a 0%, #121620 40%, #080c08 100%);
 }
 /* 첫 슬라이드만 투명 처리해서 섹션 그라데이션이 비치도록 */
 #section4.s4.is-first .s4__slide:first-child{ background: transparent !important; }

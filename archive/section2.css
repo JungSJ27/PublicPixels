@@ -43,7 +43,7 @@
 
 /* TITLE IMAGE (반응형) */
 .title-img {
-  width: clamp(200px, 60vw, 500px);
+  width: clamp(200px, 60vw, 480px);
   margin-bottom: 170px;
   pointer-events: none;
 }
@@ -104,4 +104,25 @@
 #s2-controls.active {
   opacity: 1;
   pointer-events: auto;
+}
+
+#section2.intro-active::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,0.04) 0px,
+      rgba(255,255,255,0) 2px,
+      rgba(0,0,0,0) 4px
+    );
+  mix-blend-mode: overlay;
+  opacity: 0.4;
+}
+
+#section2.intro-active canvas {
+  filter: blur(6px) brightness(0.6) saturate(1.15);
 }
