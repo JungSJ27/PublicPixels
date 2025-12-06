@@ -76,8 +76,8 @@
   <!-- ===== Section 2: Pixel Gate Scene ===== -->
   <section id="section2" class="canvas-wrap">
 
-    <!-- CRT FRAME (section2의 최상단 레이어) -->
-    <img id="crt-frame" src="archive/secass2/tvframe.png" alt="CRT Frame">
+    <!-- CRT FRAME (최상단 레이어) -->
+    <img id="crt-frame" src="archive/secass2/tvframe.png" alt="CRT Frame" />
 
     <canvas id="c" aria-label="Pixel Gate Scene"></canvas>
 
@@ -85,25 +85,26 @@
 
     <!-- ⭐ INTRO START SCREEN -->
     <div id="intro-screen" class="intro-screen">
-      <div class="intro-box">
-        <h1 class="intro-title">A HOUSE THAT IS NOT LONELY</h1>
+  <div class="intro-box">
 
-        <button id="btn-play" class="intro-btn pink">
-          PLAY
-        </button>
+    <!-- ⭐ 텍스트 대신 타이틀 PNG 삽입 -->
+    <img src="archive/secass2/title.png" class="intro-title-img" alt="A HOUSE THAT IS NOT LONELY">
 
-        <button id="btn-archive" class="intro-btn blue">
-          GO TO ARCHIVE
-        </button>
-      </div>
-    </div>
+    <button id="btn-play" class="intro-btn pink">PLAY</button>
+    <button id="btn-archive" class="intro-btn blue">GO TO ARCHIVE</button>
 
+  </div>
+</div>
+
+
+    <!-- HUD 영역 -->
     <div class="hud" id="s2-controls">
       <ul class="s2-help">
         <li><b>W A S D</b> to move</li>
         <li><b>Mouse</b> to look, <b>ESC</b> to unlock</li>
         <li><b>R</b> random view, <b>Enter</b> go to highlighted portal</li>
       </ul>
+
       <div id="hint" aria-live="polite">
         The crosshair highlights the portal in focus.
       </div>
@@ -115,7 +116,9 @@
     </div>
 
   </section>
-ㄴ
+
+
+
   <section id="section3" class="s3 scroll-shop" data-allow-horizontal="true">
     <h2 class="shop-title">
       <a href="/pixelshop/">Pixelshop</a>

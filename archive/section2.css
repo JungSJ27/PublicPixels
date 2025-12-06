@@ -8,33 +8,31 @@
 }
 
 /* ============================
-   CRT FRAME (FULL COVER)
+   CRT FRAME
 ============================ */
-#crt-frame {
+#crt-frame{
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  z-index: 1000;             /* 가장 위 */
-  pointer-events: none;
-  object-fit: cover;       /* 항상 화면 꽉 채움 */
+  object-fit: cover;
   object-position: center;
-  transition: opacity 0.5s ease;
-  opacity: 0.98;
+  z-index: 1000; /* 가장 위 */
+  pointer-events: none;
+  transition: opacity .6s ease;
+  opacity: 1;
 }
-
-/* 숨길 때 */
-#crt-frame.hidden {
+#crt-frame.hidden{
   opacity: 0;
 }
 
 /* ============================
    INTRO SCREEN
 ============================ */
-#intro-screen{
+#intro-screen {
   position: absolute;
   inset: 0;
-  z-index: 100; /* CRT 위 */
+  z-index: 900;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -42,124 +40,116 @@
   backdrop-filter: blur(3px);
 }
 
-.intro-box{
-  width: 480px;
-  padding: 30px 34px;
-  border-radius: 10px;
-  background: #f9f9f9ee;
+.intro-box {
+  width: 520px;
+  padding: 36px 40px;
   text-align: center;
-  box-shadow: 0 4px 25px rgba(0,0,0,0.35);
+  border-radius: 12px;
+  background: transparent;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.45);
 }
 
-.intro-title{
-  font-size: 32px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  color: #222;
-  margin-bottom: 24px;
-  text-transform: uppercase;
+/* 타이틀 이미지 */
+.intro-title-img {
+  width: 480px;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto 26px;
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
 }
 
-/* 버튼 */
-.intro-btn{
+
+/* 버튼 스타일 */
+.intro-btn {
   width: 100%;
-  margin: 10px 0;
-  padding: 14px 0;
+  margin: 12px 0;
+  padding: 14px;
+  border-radius: 8px;
   font-size: 18px;
-  font-weight: 600;
-  border: none;
-  border-radius: 6px;
+  color: white;
+  border: 1px solid rgba(255,255,255,.3);
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(4px);
   cursor: pointer;
-  transition: transform .2s ease;
+  transition: transform .2s ease, background .2s ease;
 }
 
-.intro-btn:active{
-  transform: scale(0.97);
+.intro-btn:hover {
+  background: rgba(255,255,255,0.15);
 }
 
-.intro-btn.pink{
-  background: #ff86cf;
-  color: #fff;
+.intro-btn:active {
+  transform: scale(.97);
 }
-
-.intro-btn.blue{
-  background: #a0cff9;
-  color: #fff;
-}
-
 
 /* ============================
-   Intro Pixel Overlay
+   Pixel overlay (CRT 느낌)
 ============================ */
-.intro-pixel-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 9050;         /* intro-screen보다 위, CRT보다 아래 */
-  pointer-events: none;
-
+.intro-pixel-overlay{
+  position:absolute;
+  inset:0;
+  z-index:850;
   background-image:
-    linear-gradient(rgba(255,255,255,0.09) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.09) 1px, transparent 1px);
+    linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px);
   background-size: 10px 10px;
-
   mix-blend-mode: soft-light;
-  opacity: 0.9;
+  opacity:.9;
+  pointer-events:none;
 }
 
 /* ============================
-   Canvas Wrapper (whole section)
+   CANVAS
 ============================ */
 .canvas-wrap {
-  position: relative;
   width: 100%;
   height: 100vh;
-  background: linear-gradient(#14064a, #836c8c);
-  overflow: hidden;
-}
-
-#c {
-  display: block;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
   position: relative;
+  background: #000;
+}
+#c{
+  position:relative;
+  width:100%;
+  height:100%;
+  display:block;
 }
 
 /* ============================
-   HUD Overlay
+   HUD
 ============================ */
-#section2 .hud {
-  position: absolute;
-  left: 16px;
-  right: 16px;
-  bottom: 16px;
-  z-index: 100;        /* CRT/intro 아래 */
-  color: #eaeaea;
-  padding: 10px 12px;
-  border-radius: 10px;
-  background: rgba(160, 104, 154, 0.2);
-  backdrop-filter: blur(8px);
+#section2 .hud{
+  position:absolute;
+  bottom:16px;
+  left:16px;
+  right:16px;
+  z-index:100;
+  color:#eaeaea;
+  padding:12px 14px;
+  border-radius:10px;
+  background:rgba(160,104,154,0.2);
+  backdrop-filter:blur(8px);
+}
+#section2 .s2-help{
+  list-style:none;
+  margin:0 0 10px;
+  padding:0;
+}
+#section2 .s2-btn,
+#section2 .next-sec{
+  display:inline-block;
+  padding:6px 10px;
+  border:1px solid white;
+  border-radius:6px;
+  margin-top:10px;
+  background:rgba(255,255,255,.08);
+  color:white;
 }
 
-#section2 .hud .s2-help {
-  list-style: none;
-  margin: 0 0 8px;
-  padding: 0;
-}
-
-#section2 .hud .next-sec,
-#section2 .hud .s2-btn {
-  display: inline-block;
-  margin-top: 10px;
-  padding: 6px 10px;
-  font-size: 13px;
-  border-radius: 6px;
-  border: 1px solid #fff;
-  background: rgba(255,255,255,.08);
-  color: #eaeaea;
-}
-
-/* 모바일에서 HUD 숨기기 */
-@media (max-width: 840px) {
-  #section2 .hud { display: none !important; }
+/* 모바일 HUD 숨김 */
+@media (max-width: 840px){
+  #section2 .hud{
+    display:none !important;
+  }
 }
