@@ -34,58 +34,57 @@
 #intro-screen{
   position: absolute;
   inset: 0;
-  z-index: 100;           /* 프레임보다 위 */
-  background: rgba(0,0,0,0.35);
+  z-index: 100; /* CRT 위 */
   display: flex;
   justify-content: center;
   align-items: center;
+  background: rgba(0,0,0,0.25);
   backdrop-filter: blur(3px);
 }
 
 .intro-box{
-  width: 320px;
-  padding: 24px 28px;
-  border-radius: 6px;
-  background: #f8f7f7ee;
+  width: 480px;
+  padding: 30px 34px;
+  border-radius: 10px;
+  background: #f9f9f9ee;
   text-align: center;
-  box-shadow: 0 4px 25px rgba(0,0,0,0.25);
+  box-shadow: 0 4px 25px rgba(0,0,0,0.35);
 }
 
 .intro-title{
-  font-size: 26px;
+  font-size: 32px;
   font-weight: 700;
-  margin-bottom: 18px;
+  letter-spacing: 0.5px;
   color: #222;
+  margin-bottom: 24px;
+  text-transform: uppercase;
 }
 
+/* 버튼 */
 .intro-btn{
-  display: block;
   width: 100%;
-  margin: 8px 0;
-  padding: 12px;
-  font-size: 16px;
+  margin: 10px 0;
+  padding: 14px 0;
+  font-size: 18px;
   font-weight: 600;
-  border-radius: 6px;
   border: none;
+  border-radius: 6px;
   cursor: pointer;
+  transition: transform .2s ease;
 }
 
-.intro-btn.pink{ background: #ff86cf; color: #fff; }
-.intro-btn.blue{ background: #a0cff9; color: #fff; }
+.intro-btn:active{
+  transform: scale(0.97);
+}
 
-/* pixel overlay */
-.intro-pixel-overlay{
-  position: absolute;
-  inset: 0;
-  z-index: 101;
-  pointer-events: none;
+.intro-btn.pink{
+  background: #ff86cf;
+  color: #fff;
+}
 
-  background-image:
-    linear-gradient(rgba(255,255,255,0.09) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.09) 1px, transparent 1px);
-  background-size: 10px 10px;
-  mix-blend-mode: soft-light;
-  opacity: 0.9;
+.intro-btn.blue{
+  background: #a0cff9;
+  color: #fff;
 }
 
 
