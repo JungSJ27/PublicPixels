@@ -2,8 +2,11 @@
 const introUI = document.getElementById("intro-ui");
 const playBtn = document.getElementById("btn-play");
 const archiveBtn = document.getElementById("btn-archive");
-const rippleOverlay = document.getElementById("ripple-overlay");
+const introVideo = document.getElementById("intro-video");
 const hud = document.getElementById("hud");
+
+/* ⭐ VIDEO LOAD */
+introVideo.src = "archive/secass2/water.webm";
 
 /* ======================================================
    THREE.JS SCENE
@@ -40,7 +43,7 @@ const d = new THREE.DirectionalLight(0xffffff, 2);
 d.position.set(15, 25, 15);
 scene.add(d);
 
-/* Ocean Plane */
+/* Ocean */
 const oceanGeo = new THREE.PlaneGeometry(300, 300);
 const oceanMat = new THREE.MeshPhongMaterial({ color: 0x001b34 });
 const ocean = new THREE.Mesh(oceanGeo, oceanMat);
@@ -58,7 +61,7 @@ loader.load("/models/house.glb", (gltf)=>{
   scene.add(house);
 });
 
-/* RANDOM FRAMES */
+/* Floating Frames */
 let frames = [];
 
 for (let i=0; i<8; i++){
@@ -67,7 +70,7 @@ for (let i=0; i<8; i++){
 
     f.position.set(
       (Math.random()-0.5)*80,
-      1 + Math.random()*1.5,
+      1.1 + Math.random()*1.5,
       (Math.random()-0.5)*80
     );
     f.scale.set(0.9,0.9,0.9);
@@ -78,7 +81,6 @@ for (let i=0; i<8; i++){
   });
 }
 
-/* Float Animation */
 function animateFrames(t){
   frames.forEach((f, i)=>{
     f.position.y = f.userData.baseY + Math.sin(t*0.001 + i)*0.25;
@@ -101,10 +103,9 @@ document.addEventListener("mousemove", e=>{
   }
 });
 
-/* MAIN LOOP */
+/* Anim Loop */
 function animate(t){
   requestAnimationFrame(animate);
-
   animateFrames(t);
 
   const sp = 0.16;
@@ -137,15 +138,18 @@ window.addEventListener("resize", ()=>{
    PLAY BUTTON
 ====================================================== */
 playBtn.addEventListener("click", () => {
-
+  
+  /* INTRO UI 숨김 */
   introUI.style.display = "none";
 
-  rippleOverlay.classList.add("hidden");
-  setTimeout(()=> rippleOverlay.remove(), 1000);
+  /* ⭐ VIDEO FADE OUT */
+  introVideo.classList.add("hidden");
 
+  /* HUD 등장 */
   hud.hidden = false;
   setTimeout(()=> hud.classList.add("visible"), 50);
 
+  /* Pointer Lock */
   canvas.requestPointerLock();
 });
 

@@ -4,7 +4,24 @@
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  background: #071b3f;
+  background: #041122;
+}
+
+/* ⭐ Intro Video Overlay */
+#intro-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.08;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 5;
+  transition: opacity 1.2s ease;
+}
+#intro-video.hidden {
+  opacity: 0;
 }
 
 /* 3D Canvas */
@@ -17,16 +34,6 @@
   z-index: 1;
 }
 
-
-@keyframes waveMove {
-  0% { transform: translateY(-10px); }
-  100% { transform: translateY(12px); }
-}
-
-#ripple-overlay.hidden {
-  opacity: 0;
-}
-
 /* INTRO UI */
 #intro-ui {
   position: absolute;
@@ -37,11 +44,10 @@
   justify-content: center;
   align-items: center;
   gap: 34px;
-  transform: translateY(-10px);
 }
 
 .title-img {
-  width: min(700px, 70vw);
+  width: min(600px, 70vw);
   animation: floatTitle 3s ease-in-out infinite alternate;
   margin-bottom: 50px;
 }
@@ -83,34 +89,19 @@
   text-align: right;
 }
 
-
-/* ======================================================
-   MOBILE FIXES (승진이 원하는 비율 유지)
-====================================================== */
+/* MOBILE IMPROVEMENTS */
 @media (max-width: 600px) {
-  
-  /* 타이틀 너무 작아지는 문제 해결 */
   .title-img {
-    width: 85vw;          /* 모바일은 좀 더 크게 */
-    max-width: none;      
-    min-width: 300px;     /* 최소 300px 이하로 절대 줄어들지 않음 */
+    width: 85vw;
+    min-width: 300px;
   }
 
-  /* 버튼 크기 업 */
   .btn-img {
-    height: 34px;         /* 기본 44px → 모바일 54px */
-    transform: scale(1.1);
+    height: 38px;
   }
 
-  .btn-img:hover {
-    transform: scale(1.18);
-  }
-
-  /* 인트로 전체 간격 보정 */
   #intro-ui {
-    gap: 22px;            /* 기본 34px → 모바일은 조금 좁게 */
-    padding-bottom: 40px; /* 화면 하단에서 떠 있는 느낌 제거 */
+    gap: 22px;
+    padding-bottom: 40px;
   }
 }
-
-

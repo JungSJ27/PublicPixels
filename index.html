@@ -76,37 +76,32 @@
    <!-- ******************************************************************
      SECTION 2 : INTRO + 3D WORLD + WATER FX
   ******************************************************************* -->
-  <section id="section2" class="canvas-wrap intro-active">
+  <section id="section2">
 
-    <!-- Three.js Scene -->
-    <canvas id="c"></canvas>
-
-    <!-- Water Ripple Overlay (인트로 전용) -->
-    <canvas id="ripple-overlay"></canvas>
+    <!-- ⭐ Intro Video Overlay -->
+    <video id="intro-video" autoplay muted playsinline loop></video>
 
     <!-- INTRO UI -->
     <div id="intro-ui">
-      <img id="intro-title" class="title-img"
-          src="archive/secass2/Lonely_Title.png"
-          alt="A HOUSE THAT IS NOT LONELY">
+      <img class="title-img" src="archive/secass2/Lonely_Title.png" alt="" />
 
-      <img id="btn-play" class="btn-img"
-          src="archive/secass2/play.png" alt="PLAY">
-
-      <img id="btn-archive" class="btn-img"
-          src="archive/secass2/gotoarchive.png" alt="GO TO ARCHIVE">
+      <img id="btn-play" class="btn-img" src="archive/secass2/play.png" alt="play" />
+      <img id="btn-archive" class="btn-img" src="archive/secass2/gotoarchive.png" alt="archive" />
     </div>
 
-    <!-- HUD (맵 들어간 다음 나타나는 것) -->
+    <!-- 3D Canvas -->
+    <canvas id="c"></canvas>
+
+    <!-- HUD -->
     <div id="hud" class="hud" hidden>
       <ul class="s2-help">
-        <li><b>W A S D</b> move</li>
-        <li><b>Mouse</b> look</li>
-        <li><b>ESC</b> unlock</li>
+        <li>WASD to move</li>
+        <li>Mouse to look</li>
       </ul>
     </div>
 
   </section>
+
 
 
   <section id="section3" class="s3 scroll-shop" data-allow-horizontal="true">
