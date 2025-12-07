@@ -1,74 +1,72 @@
-/* ======================================================
-   SECTION 2 BASE LAYOUT
-====================================================== */
+/* SECTION 2 LAYOUT */
 #section2 {
   position: relative;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  background: #000;
+  background: #10203c;
 }
 
+/* 3D Canvas */
 #section2 canvas#c {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   display: block;
+  z-index: 1;
 }
 
-/* ======================================================
-   INTRO UI
-====================================================== */
+
+@keyframes waveMove {
+  0% { transform: translateY(-10px); }
+  100% { transform: translateY(12px); }
+}
+
+#ripple-overlay.hidden {
+  opacity: 0;
+}
+
+/* INTRO UI */
 #intro-ui {
   position: absolute;
   inset: 0;
+  z-index: 10;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 32px;
-  text-align: center;
-  z-index: 10;
-  pointer-events: auto;
-  opacity: 1;
-  transition: opacity 0.8s ease;
+  gap: 34px;
 }
 
-#intro-ui.hidden {
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* TITLE */
 .title-img {
-  width: min(700px, 70vw); /* responsive */
-  max-width: 700px;
-  min-width: 150px;
-  pointer-events: none;
+  width: min(700px, 70vw);
+  animation: floatTitle 3s ease-in-out infinite alternate;
+  margin-bottom: 50px;
 }
 
-/* BUTTONS */
+@keyframes floatTitle {
+  0% { transform: translateY(-6px); }
+  100% { transform: translateY(6px); }
+}
+
 .btn-img {
-  height: 40px;
+  height: 44px;
   cursor: pointer;
-  user-select: none;
-  transition: transform .2s ease;
+  transition: transform .2s;
 }
 .btn-img:hover {
-  transform: scale(1.05);
+  transform: scale(1.06);
 }
 
-/* ======================================================
-   HUD (3D Controls)
-====================================================== */
+/* HUD */
 .hud {
   position: absolute;
   inset: 0;
+  z-index: 20;
   pointer-events: none;
   opacity: 0;
   transition: opacity .6s ease;
-  z-index: 12;
 }
 .hud.visible {
   opacity: 1;
@@ -76,31 +74,40 @@
 
 .s2-help {
   position: absolute;
-  right: 30px;
   bottom: 30px;
-  font-size: 14px;
+  right: 30px;
   color: white;
+  font-size: 14px;
   list-style: none;
   text-align: right;
-  pointer-events: none;
 }
+
 
 /* ======================================================
-   RIPPLE OVERLAY
+   MOBILE FIXES (승진이 원하는 비율 유지)
 ====================================================== */
-#ripple-overlay {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 5;
-  pointer-events: none;
+@media (max-width: 600px) {
+  
+  /* 타이틀 너무 작아지는 문제 해결 */
+  .title-img {
+    width: 85vw;          /* 모바일은 좀 더 크게 */
+    max-width: none;      
+    min-width: 300px;     /* 최소 300px 이하로 절대 줄어들지 않음 */
+  }
 
-  /* 기본적으로 보이게 */
-  opacity: 1;
-  transition: opacity 1s ease-out;
-}
+  /* 버튼 크기 업 */
+  .btn-img {
+    height: 34px;         /* 기본 44px → 모바일 54px */
+    transform: scale(1.1);
+  }
 
-#ripple-overlay.hidden {
-  opacity: 0;
+  .btn-img:hover {
+    transform: scale(1.18);
+  }
+
+  /* 인트로 전체 간격 보정 */
+  #intro-ui {
+    gap: 22px;            /* 기본 34px → 모바일은 조금 좁게 */
+    padding-bottom: 40px; /* 화면 하단에서 떠 있는 느낌 제거 */
+  }
 }

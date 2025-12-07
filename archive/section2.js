@@ -1,100 +1,155 @@
-/* ======================================================
-   BASIC SELECTORS
-====================================================== */
+/* INTRO ELEMENTS */
 const introUI = document.getElementById("intro-ui");
 const playBtn = document.getElementById("btn-play");
 const archiveBtn = document.getElementById("btn-archive");
-const hud = document.getElementById("s2-controls");
-const rippleCanvas = document.getElementById("ripple-overlay");
-const rippleCtx = rippleCanvas.getContext("2d");
+const rippleOverlay = document.getElementById("ripple-overlay");
+const hud = document.getElementById("hud");
 
 /* ======================================================
-   RIPPLE CANVAS SETUP
+   THREE.JS SCENE
 ====================================================== */
-function resizeRipple() {
-  rippleCanvas.width = window.innerWidth;
-  rippleCanvas.height = window.innerHeight;
+import * as THREE from "three";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+
+/* Renderer */
+const canvas = document.getElementById("c");
+const renderer = new THREE.WebGLRenderer({
+  canvas,
+  antialias: true
+});
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(window.devicePixelRatio);
+renderer.setClearColor(0x000010, 1);
+
+/* Scene */
+const scene = new THREE.Scene();
+scene.fog = new THREE.Fog(0x000010, 10, 180);
+
+/* Camera */
+const camera = new THREE.PerspectiveCamera(
+  70,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  500
+);
+camera.position.set(0, 2.8, 8);
+
+/* Lights */
+scene.add(new THREE.AmbientLight(0x95b2ff, 1.2));
+const d = new THREE.DirectionalLight(0xffffff, 2);
+d.position.set(15, 25, 15);
+scene.add(d);
+
+/* Ocean Plane */
+const oceanGeo = new THREE.PlaneGeometry(300, 300);
+const oceanMat = new THREE.MeshPhongMaterial({ color: 0x001c39 });
+const ocean = new THREE.Mesh(oceanGeo, oceanMat);
+ocean.rotation.x = -Math.PI/2;
+scene.add(ocean);
+
+/* MODEL LOADER */
+const loader = new GLTFLoader();
+
+/* Load House */
+loader.load("/models/house.glb", (gltf)=>{
+  const house = gltf.scene;
+  house.position.set(0,0,0);
+  house.scale.set(1.2,1.2,1.2);
+  scene.add(house);
+});
+
+/* RANDOM FRAMES */
+let frames = [];
+
+for (let i=0; i<8; i++){
+  loader.load("/models/frame.glb", (gltf)=>{
+    const f = gltf.scene;
+
+    f.position.set(
+      (Math.random()-0.5)*80,
+      1 + Math.random()*1.5,
+      (Math.random()-0.5)*80
+    );
+    f.scale.set(0.9,0.9,0.9);
+    f.userData.baseY = f.position.y;
+
+    scene.add(f);
+    frames.push(f);
+  });
 }
-resizeRipple();
-window.addEventListener("resize", resizeRipple);
 
-/* ======================================================
-   GENERATE WATER RIPPLE EFFECT
-====================================================== */
-let t = 0;
-function drawRipple() {
-  const w = rippleCanvas.width;
-  const h = rippleCanvas.height;
+/* Float Animation */
+function animateFrames(t){
+  frames.forEach((f, i)=>{
+    f.position.y = f.userData.baseY + Math.sin(t*0.001 + i)*0.25;
+    f.rotation.y += 0.002;
+  });
+}
 
-  rippleCtx.clearRect(0, 0, w, h);
+/* Controls */
+let keys = {};
+document.addEventListener("keydown", e => keys[e.key] = true);
+document.addEventListener("keyup", e => keys[e.key] = false);
 
-  const imgData = rippleCtx.createImageData(w, h);
-  const data = imgData.data;
+let lx=0, ly=0;
 
-  // 얇은 하얀 선 느낌 + 비정형 패턴
-  for (let y = 0; y < h; y++) {
-    for (let x = 0; x < w; x++) {
-      const i = (y * w + x) * 4;
-
-      const nx = x / w;
-      const ny = y / h;
-
-      // 불규칙 wave
-      const wave =
-        Math.sin((nx * 14 + t) * 3) * 0.5 +
-        Math.sin((ny * 20 - t * 0.9) * 4) * 0.5 +
-        Math.sin((nx * 50 - ny * 30 + t * 1.3)) * 0.2;
-
-      const v = (wave + 1) * 0.5;
-
-      // contrast 더 강하게
-      let bright = Math.pow(v, 8) * 255;
-
-      // 얇은 하이라인 강조
-      if (v > 0.92) bright = 255;
-
-      data[i] = 180 + bright * 0.3;
-      data[i + 1] = 200 + bright * 0.4;
-      data[i + 2] = 255;
-      data[i + 3] = 60 + bright * 0.5;
-    }
+document.addEventListener("mousemove", e=>{
+  if (document.pointerLockElement === canvas){
+    lx -= e.movementX * 0.0025;
+    ly -= e.movementY * 0.0025;
+    ly = Math.max(-1.1, Math.min(1.1, ly));
   }
+});
 
-  rippleCtx.putImageData(imgData, 0, 0);
-  t += 0.01;
+/* MAIN LOOP */
+function animate(t){
+  requestAnimationFrame(animate);
 
-  requestAnimationFrame(drawRipple);
+  animateFrames(t);
+
+  const sp = 0.16;
+  const dir = new THREE.Vector3();
+
+  if (keys["w"]) dir.z -= sp;
+  if (keys["s"]) dir.z += sp;
+  if (keys["a"]) dir.x -= sp;
+  if (keys["d"]) dir.x += sp;
+
+  dir.applyAxisAngle(new THREE.Vector3(0,1,0), lx);
+  camera.position.add(dir);
+
+  camera.rotation.set(ly, lx, 0);
+
+  renderer.render(scene, camera);
 }
-drawRipple();
+animate();
+
+/* Resize */
+window.addEventListener("resize", ()=>{
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+  camera.aspect = w/h;
+  camera.updateProjectionMatrix();
+  renderer.setSize(w,h);
+});
 
 /* ======================================================
-   INTRO BUTTON LOGIC
+   PLAY BUTTON
 ====================================================== */
 playBtn.addEventListener("click", () => {
+
   introUI.style.display = "none";
 
-  // HUD 켜기
-  hud.classList.add("visible");
-  hud.style.pointerEvents = "auto";
+  rippleOverlay.classList.add("hidden");
+  setTimeout(()=> rippleOverlay.remove(), 1000);
 
-  // 물결 페이드아웃 → hidden
-  rippleCanvas.classList.add("hidden");
-  setTimeout(() => {
-    rippleCanvas.style.display = "none";
-  }, 1600);
+  hud.hidden = false;
+  setTimeout(()=> hud.classList.add("visible"), 50);
 
-  // 3D map pointer lock 활성화
-  const canvas = document.getElementById("c");
   canvas.requestPointerLock();
 });
 
-archiveBtn.addEventListener("click", () => {
-  window.location.href = "archive/";
+/* ARCHIVE */
+archiveBtn.addEventListener("click", ()=>{
+  window.location.href = "/archive/";
 });
-
-/* ======================================================
-   KEEP THREE.JS RENDER LOOP ALIVE
-====================================================== */
-// 네가 기존에 갖고 있었던 THREE.js 코드의 animate()는 그대로 유지해야 함.
-// 절대 이 파일에서 animate()를 덮어쓰지 않음.
-// 이 파일은 ripple overlay + intro UI만 담당.
