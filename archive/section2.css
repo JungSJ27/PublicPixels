@@ -1,128 +1,216 @@
-/* ===== SECTION 2 WRAP ===== */
+/* ============================
+   SECTION 2 WRAP
+============================ */
 #section2.canvas-wrap {
   position: relative;
   width: 100%;
   height: 100vh;
   overflow: hidden;
-  background: #05020c;
+  background: radial-gradient(circle at center, #09041f 0%, #050013 55%, #000 100%);
 }
 
-
-/* ===== CANVAS ===== */
+/* three.js canvas */
 #section2 #c {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   display: block;
-  position: absolute;
-  inset: 0;
   z-index: 1;
 }
 
-
-/* ===== INTRO UI ===== */
+/* ============================
+   INTRO UI
+============================ */
 #intro-ui {
   position: absolute;
-  z-index: 5;
   inset: 0;
+  z-index: 5;
 
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 
-  /* 🔥 배경 블러 (문은 흐려지고 UI는 선명) */
-  backdrop-filter: blur(8px) brightness(0.6);
-  -webkit-backdrop-filter: blur(8px) brightness(0.6);
-
   pointer-events: auto;
-    transform: translateY(0%);
-
 }
 
+/* 인트로일 때 섹션 전체에 CRT/블러 필터 */
+#section2.intro-active::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
 
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,0.06) 0px,
+      rgba(255,255,255,0.0) 2px,
+      rgba(0,0,0,0) 4px
+    );
+  mix-blend-mode: overlay;
+  opacity: 0.45;
+}
 
-/* TITLE IMAGE (반응형) */
+/* 인트로일 때 캔버스 흐리게 + 어둡게 */
+#section2.intro-active canvas {
+  filter: blur(7px) brightness(0.65) saturate(1.1);
+}
+
+/* ============================
+   TITLE IMAGE (반응형)
+============================ */
 .title-img {
-  width: clamp(200px, 60vw, 480px);
-  margin-bottom: 170px;
+  width: clamp(160px, 42vw, 520px);  /* 160~520 사이에서 반응형 */
+  margin-bottom: 130px;
   pointer-events: none;
 }
 
-
-/* ===== BUTTON IMAGE ===== */
+/* ============================
+   BUTTON IMAGES
+============================ */
 .btn-img {
   cursor: pointer;
   pointer-events: auto;
   user-select: none;
-
-  /* 기본 버튼 크기(각각 따로 조정 가능) */
-  width: auto;
-  height: auto;
 }
 
-/* PLAY 버튼 개별 컨트롤 */
+/* PLAY 버튼 */
 .btn-play {
-  width: min(180px, 40vw);
-  margin-bottom: 25px;
+  width: clamp(120px, 14vw, 220px);
+  margin-bottom: 18px;
 }
 
-/* ARCHIVE 버튼 개별 컨트롤 */
+/* GO TO ARCHIVE 버튼 */
 .btn-archive {
-  width: min(420px, 60vw);
+  width: clamp(220px, 22vw, 360px);
 }
 
-
-/* ===== FLOAT ANIMATION ===== */
-@keyframes bob {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-6px); }
+/* 살짝 둥둥 뜨는 애니메이션 */
+@keyframes bobPlay {
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-6px); }
+  100% { transform: translateY(0px); }
+}
+@keyframes bobArchive {
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-4px); }
   100% { transform: translateY(0px); }
 }
 
-.bob-float {
-  animation: bob 3s ease-in-out infinite;
+.btn-play   { animation: bobPlay 3.0s ease-in-out infinite; }
+.btn-archive{ animation: bobArchive 3.6s ease-in-out infinite; }
+
+.btn-img:hover {
+  transform: translateY(-2px) scale(1.03);
 }
 
-.bob-float-slow {
-  animation: bob 4.8s ease-in-out infinite;
+/* =======================================================
+   INTRO 전용 잔물결(Water Ripple) 효과
+   ======================================================= */
+#intro-ripple {
+  position: absolute;
+  inset: 0;
+  z-index: 4; /* intro-title(5) 바로 아래 */
+  pointer-events: none;
+  opacity: 1;
+
+  background: radial-gradient(
+      circle at 50% 40%,
+      rgba(40,60,120,0.12) 0%,
+      rgba(10,15,30,0.07) 30%,
+      rgba(5,8,16,0.05) 60%,
+      rgba(0,0,0,0) 100%
+    );
+  
+  /* 🔥 핵심: 수면 일렁임처럼 보이는 필터 애니메이션 */
+  backdrop-filter: blur(18px) brightness(0.8) saturate(1.1);
+  animation: rippleMove 6s ease-in-out infinite alternate;
 }
 
+@keyframes rippleMove {
+  0% {
+    backdrop-filter: blur(14px) brightness(0.7) saturate(1.1)
+                     contrast(1.03);
+    transform: translateY(0px) scale(1.02);
+  }
+  50% {
+    backdrop-filter: blur(20px) brightness(0.82) saturate(1.2)
+                     contrast(1.05);
+    transform: translateY(-3px) scale(1.025);
+  }
+  100% { 
+    backdrop-filter: blur(16px) brightness(0.75) saturate(1.15)
+                     contrast(1.03);
+    transform: translateY(1px) scale(1.018);
+  }
+}
 
-/* ===== HUD (게임 UI) ===== */
+/* 인트로가 종료되면 자연스럽게 사라지기 */
+#intro-ripple.hide {
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+/* ============================
+   HUD (게임 설명)
+============================ */
 #s2-controls {
   position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 20px;
   z-index: 10;
-  bottom: 30px;
-  left: 20px;
-  color: white;
-  opacity: 0;       /* 🔥 인트로에서는 보이지 않음 */
+
+  color: #f0e9ff;
+  font-size: 13px;
+  line-height: 1.4;
+
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: rgba(14, 4, 30, 0.88);
+  backdrop-filter: blur(10px);
+
+  opacity: 0;
   pointer-events: none;
-  transition: opacity 0.6s ease;
+  transition: opacity 0.5s ease;
 }
 
-/* 플레이 시작하면 JS에서 opacity = 1 적용됨 */
+/* 플레이 시작 후 활성화 */
 #s2-controls.active {
   opacity: 1;
   pointer-events: auto;
 }
 
-#section2.intro-active::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 5;
-  background:
-    repeating-linear-gradient(
-      to bottom,
-      rgba(255,255,255,0.04) 0px,
-      rgba(255,255,255,0) 2px,
-      rgba(0,0,0,0) 4px
-    );
-  mix-blend-mode: overlay;
-  opacity: 0.4;
+#s2-controls .s2-help {
+  margin: 0 0 6px;
+  padding-left: 18px;
 }
 
-#section2.intro-active canvas {
-  filter: blur(6px) brightness(0.6) saturate(1.15);
+#hint {
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+.s2-actions {
+  margin-top: 6px;
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  font-size: 12px;
+}
+
+.s2-btn,
+.next-sec {
+  color: #f0e9ff;
+  text-decoration: underline;
+}
+
+/* 모바일에서는 HUD 숨김 */
+@media (max-width: 840px) {
+  #s2-controls {
+    display: none;
+  }
 }

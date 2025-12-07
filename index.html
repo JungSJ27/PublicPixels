@@ -73,42 +73,55 @@
   </section>
 
 
- <!-- ===== Section 2: Pixel Gate Scene ===== -->
-  <section id="section2" class="canvas-wrap">
+  <!-- ******************************************************************
+     SECTION 2 : 3D WORLD + INTRO OVERLAY + WATER GLASS FX
+******************************************************************* -->
+<section id="section2" class="canvas-wrap intro-active">
 
-    <!-- Blur Overlay for Intro -->
-    <div id="intro-blur"></div>
+  <!-- 3D Scene -->
+  <canvas id="c"></canvas>
 
-    <canvas id="c"></canvas>
+  <!-- Water Ripple Overlay (Intro only) -->
+  <canvas id="ripple-overlay"></canvas>
 
-    <!-- INTRO UI -->
-    <div id="intro-ui">
+  <!-- INTRO UI -->
+  <div id="intro-ui">
 
-      <img src="archive/secass2/title.png" class="title-img bob-float" alt="Title">
+    <!-- Title -->
+    <img id="intro-title"
+         class="title-img"
+         src="archive/secass2/Lonely_Title.png"
+         alt="A HOUSE THAT IS NOT LONELY">
 
-      <!-- PLAY 버튼 -->
-      <img src="archive/secass2/play.png" class="btn-img btn-play bob-float-slow" alt="PLAY">
+    <!-- Play -->
+    <img id="btn-play"
+         class="btn-img btn-play bob-float"
+         src="archive/secass2/play.png"
+         alt="PLAY">
 
-      <!-- ARCHIVE 버튼 -->
-      <img src="archive/secass2/gotoarchive.png" class="btn-img btn-archive bob-float-slow" alt="Go to archive">
+    <!-- Go to Archive -->
+    <img id="btn-archive"
+         class="btn-img btn-archive bob-float-slow"
+         src="archive/secass2/gotoarchive.png"
+         alt="GO TO ARCHIVE">
+  </div>
 
+  <!-- HUD -->
+  <div id="s2-controls" class="hud">
+    <ul class="s2-help">
+      <li><b>W A S D</b> to move</li>
+      <li><b>Mouse</b> to look, <b>ESC</b> to unlock</li>
+      <li><b>R</b> random view, <b>Enter</b> go to portal</li>
+    </ul>
+
+    <div class="s2-actions">
+      <a href="archive/" class="s2-btn">See all works</a>
+      <a href="#section3" class="next-sec">Next section</a>
     </div>
+  </div>
 
-    <!-- HUD (플레이 후에만 나타남) -->
-    <div class="hud" id="s2-controls">
-      <ul class="s2-help">
-        <li><b>W A S D</b> to move</li>
-        <li><b>Mouse</b> to look, <b>ESC</b> to unlock</li>
-        <li><b>R</b> random view, Enter go to highlighted portal</li>
-      </ul>
-      <div id="hint" aria-live="polite">The crosshair highlights the portal in focus.</div>
-      <div class="s2-actions">
-        <a href="archive/" class="s2-btn">See all works</a>
-        <a href="#section3" class="next-sec">Next section</a>
-      </div>
-    </div>
+</section>
 
-  </section>
 
 
   <section id="section3" class="s3 scroll-shop" data-allow-horizontal="true">
