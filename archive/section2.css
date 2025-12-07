@@ -1,216 +1,106 @@
-/* ============================
-   SECTION 2 WRAP
-============================ */
-#section2.canvas-wrap {
+/* ======================================================
+   SECTION 2 BASE LAYOUT
+====================================================== */
+#section2 {
   position: relative;
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   overflow: hidden;
-  background: radial-gradient(circle at center, #09041f 0%, #050013 55%, #000 100%);
+  background: #000;
 }
 
-/* three.js canvas */
-#section2 #c {
+#section2 canvas#c {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   display: block;
-  z-index: 1;
 }
 
-/* ============================
+/* ======================================================
    INTRO UI
-============================ */
+====================================================== */
 #intro-ui {
   position: absolute;
   inset: 0;
-  z-index: 5;
-
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-
-  pointer-events: auto;
-}
-
-/* 인트로일 때 섹션 전체에 CRT/블러 필터 */
-#section2.intro-active::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-
-  background:
-    repeating-linear-gradient(
-      to bottom,
-      rgba(255,255,255,0.06) 0px,
-      rgba(255,255,255,0.0) 2px,
-      rgba(0,0,0,0) 4px
-    );
-  mix-blend-mode: overlay;
-  opacity: 0.45;
-}
-
-/* 인트로일 때 캔버스 흐리게 + 어둡게 */
-#section2.intro-active canvas {
-  filter: blur(7px) brightness(0.65) saturate(1.1);
-}
-
-/* ============================
-   TITLE IMAGE (반응형)
-============================ */
-.title-img {
-  width: clamp(160px, 42vw, 520px);  /* 160~520 사이에서 반응형 */
-  margin-bottom: 130px;
-  pointer-events: none;
-}
-
-/* ============================
-   BUTTON IMAGES
-============================ */
-.btn-img {
-  cursor: pointer;
-  pointer-events: auto;
-  user-select: none;
-}
-
-/* PLAY 버튼 */
-.btn-play {
-  width: clamp(120px, 14vw, 220px);
-  margin-bottom: 18px;
-}
-
-/* GO TO ARCHIVE 버튼 */
-.btn-archive {
-  width: clamp(220px, 22vw, 360px);
-}
-
-/* 살짝 둥둥 뜨는 애니메이션 */
-@keyframes bobPlay {
-  0%   { transform: translateY(0px); }
-  50%  { transform: translateY(-6px); }
-  100% { transform: translateY(0px); }
-}
-@keyframes bobArchive {
-  0%   { transform: translateY(0px); }
-  50%  { transform: translateY(-4px); }
-  100% { transform: translateY(0px); }
-}
-
-.btn-play   { animation: bobPlay 3.0s ease-in-out infinite; }
-.btn-archive{ animation: bobArchive 3.6s ease-in-out infinite; }
-
-.btn-img:hover {
-  transform: translateY(-2px) scale(1.03);
-}
-
-/* =======================================================
-   INTRO 전용 잔물결(Water Ripple) 효과
-   ======================================================= */
-#intro-ripple {
-  position: absolute;
-  inset: 0;
-  z-index: 4; /* intro-title(5) 바로 아래 */
-  pointer-events: none;
-  opacity: 1;
-
-  background: radial-gradient(
-      circle at 50% 40%,
-      rgba(40,60,120,0.12) 0%,
-      rgba(10,15,30,0.07) 30%,
-      rgba(5,8,16,0.05) 60%,
-      rgba(0,0,0,0) 100%
-    );
-  
-  /* 🔥 핵심: 수면 일렁임처럼 보이는 필터 애니메이션 */
-  backdrop-filter: blur(18px) brightness(0.8) saturate(1.1);
-  animation: rippleMove 6s ease-in-out infinite alternate;
-}
-
-@keyframes rippleMove {
-  0% {
-    backdrop-filter: blur(14px) brightness(0.7) saturate(1.1)
-                     contrast(1.03);
-    transform: translateY(0px) scale(1.02);
-  }
-  50% {
-    backdrop-filter: blur(20px) brightness(0.82) saturate(1.2)
-                     contrast(1.05);
-    transform: translateY(-3px) scale(1.025);
-  }
-  100% { 
-    backdrop-filter: blur(16px) brightness(0.75) saturate(1.15)
-                     contrast(1.03);
-    transform: translateY(1px) scale(1.018);
-  }
-}
-
-/* 인트로가 종료되면 자연스럽게 사라지기 */
-#intro-ripple.hide {
-  opacity: 0;
-  transition: opacity 1.2s ease;
-}
-
-/* ============================
-   HUD (게임 설명)
-============================ */
-#s2-controls {
-  position: absolute;
-  left: 18px;
-  right: 18px;
-  bottom: 20px;
+  align-items: center;
+  gap: 32px;
+  text-align: center;
   z-index: 10;
+  pointer-events: auto;
+  opacity: 1;
+  transition: opacity 0.8s ease;
+}
 
-  color: #f0e9ff;
-  font-size: 13px;
-  line-height: 1.4;
-
-  padding: 10px 14px;
-  border-radius: 10px;
-  background: rgba(14, 4, 30, 0.88);
-  backdrop-filter: blur(10px);
-
+#intro-ui.hidden {
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.5s ease;
 }
 
-/* 플레이 시작 후 활성화 */
-#s2-controls.active {
+/* TITLE */
+.title-img {
+  width: min(700px, 70vw); /* responsive */
+  max-width: 700px;
+  min-width: 150px;
+  pointer-events: none;
+}
+
+/* BUTTONS */
+.btn-img {
+  height: 40px;
+  cursor: pointer;
+  user-select: none;
+  transition: transform .2s ease;
+}
+.btn-img:hover {
+  transform: scale(1.05);
+}
+
+/* ======================================================
+   HUD (3D Controls)
+====================================================== */
+.hud {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .6s ease;
+  z-index: 12;
+}
+.hud.visible {
   opacity: 1;
-  pointer-events: auto;
 }
 
-#s2-controls .s2-help {
-  margin: 0 0 6px;
-  padding-left: 18px;
+.s2-help {
+  position: absolute;
+  right: 30px;
+  bottom: 30px;
+  font-size: 14px;
+  color: white;
+  list-style: none;
+  text-align: right;
+  pointer-events: none;
 }
 
-#hint {
-  font-size: 12px;
-  opacity: 0.9;
+/* ======================================================
+   RIPPLE OVERLAY
+====================================================== */
+#ripple-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  pointer-events: none;
+
+  /* 기본적으로 보이게 */
+  opacity: 1;
+  transition: opacity 1s ease-out;
 }
 
-.s2-actions {
-  margin-top: 6px;
-  display: flex;
-  gap: 14px;
-  flex-wrap: wrap;
-  font-size: 12px;
-}
-
-.s2-btn,
-.next-sec {
-  color: #f0e9ff;
-  text-decoration: underline;
-}
-
-/* 모바일에서는 HUD 숨김 */
-@media (max-width: 840px) {
-  #s2-controls {
-    display: none;
-  }
+#ripple-overlay.hidden {
+  opacity: 0;
 }

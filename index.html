@@ -75,52 +75,39 @@
 
   <!-- ******************************************************************
      SECTION 2 : 3D WORLD + INTRO OVERLAY + WATER GLASS FX
-******************************************************************* -->
-<section id="section2" class="canvas-wrap intro-active">
+  ******************************************************************* -->
+  <section id="section2" class="canvas-wrap intro-active">
 
-  <!-- 3D Scene -->
-  <canvas id="c"></canvas>
+    <!-- Three.js Scene -->
+    <canvas id="c"></canvas>
 
-  <!-- Water Ripple Overlay (Intro only) -->
-  <canvas id="ripple-overlay"></canvas>
+    <!-- Water Ripple Overlay -->
+    <canvas id="ripple"></canvas>
 
-  <!-- INTRO UI -->
-  <div id="intro-ui">
+    <!-- INTRO UI -->
+    <div id="intro-ui">
+      <img id="intro-title" class="title-img"
+          src="archive/secass2/Lonely_Title.png"
+          alt="A HOUSE THAT IS NOT LONELY">
 
-    <!-- Title -->
-    <img id="intro-title"
-         class="title-img"
-         src="archive/secass2/Lonely_Title.png"
-         alt="A HOUSE THAT IS NOT LONELY">
+      <img id="btn-play" class="btn-img"
+          src="archive/secass2/play.png" alt="PLAY">
 
-    <!-- Play -->
-    <img id="btn-play"
-         class="btn-img btn-play bob-float"
-         src="archive/secass2/play.png"
-         alt="PLAY">
-
-    <!-- Go to Archive -->
-    <img id="btn-archive"
-         class="btn-img btn-archive bob-float-slow"
-         src="archive/secass2/gotoarchive.png"
-         alt="GO TO ARCHIVE">
-  </div>
-
-  <!-- HUD -->
-  <div id="s2-controls" class="hud">
-    <ul class="s2-help">
-      <li><b>W A S D</b> to move</li>
-      <li><b>Mouse</b> to look, <b>ESC</b> to unlock</li>
-      <li><b>R</b> random view, <b>Enter</b> go to portal</li>
-    </ul>
-
-    <div class="s2-actions">
-      <a href="archive/" class="s2-btn">See all works</a>
-      <a href="#section3" class="next-sec">Next section</a>
+      <img id="btn-archive" class="btn-img"
+          src="archive/secass2/gotoarchive.png" alt="GO TO ARCHIVE">
     </div>
-  </div>
 
-</section>
+    <!-- HUD (맵 들어간 다음 나타나는 것) -->
+    <div id="hud" class="hud" hidden>
+      <ul class="s2-help">
+        <li><b>W A S D</b> move</li>
+        <li><b>Mouse</b> look</li>
+        <li><b>ESC</b> unlock</li>
+      </ul>
+    </div>
+
+  </section>
+
 
 
 
