@@ -42,7 +42,7 @@ scene.add(d);
 
 /* Ocean Plane */
 const oceanGeo = new THREE.PlaneGeometry(300, 300);
-const oceanMat = new THREE.MeshPhongMaterial({ color: 0x001c39 });
+const oceanMat = new THREE.MeshPhongMaterial({ color: 0x001b34 });
 const ocean = new THREE.Mesh(oceanGeo, oceanMat);
 ocean.rotation.x = -Math.PI/2;
 scene.add(ocean);
