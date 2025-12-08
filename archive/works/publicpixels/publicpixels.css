@@ -1,0 +1,428 @@
+/* RESET */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 기본 배경 + 폰트 */
+body {
+  background: #e7e7e7;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #111;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ambient moths 캔버스는 이미 global JS에서 그림 */
+#ambient-moths {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ===============================
+   HEADER (전시 페이지 모드)
+   =============================== */
+
+body[data-page="log"] header {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: transparent !important;
+  color: white !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  padding-top: 10px !important;
+  z-index: 3000;
+}
+
+body[data-page="log"] header .logo-brand,
+body[data-page="log"] header .logo-roman,
+body[data-page="log"] header .logo-korean {
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+
+/* 검색, 카트 아이콘 숨기기 */
+body[data-page="log"] header .search-icon,
+body[data-page="log"] header .shop-toggle {
+  display: none !important;
+}
+
+/* 스크롤에 따라 숨길 때 쓸 클래스 */
+header,
+.pp-header {
+  transition: opacity 0.35s ease;
+}
+
+.header-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ===============================
+   LIST TOGGLE (목록으로 돌아가기)
+   =============================== */
+
+.list-toggle {
+  position: fixed;
+  top: 12px;
+  right: 24px;
+  width: 28px;
+  height: 28px;
+  z-index: 3500;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.9);
+  opacity: 0.9;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.list-toggle:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.ic-list {
+  width: 24px;
+  height: 24px;
+}
+
+/* 헤더 숨길 때 같이 사라지도록 */
+.list-toggle.header-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ===============================
+   MAIN LAYOUT
+   =============================== */
+
+.pp-main {
+  position: relative;
+  z-index: 10;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 140px 28px 120px;
+}
+
+/* subtle grid 배경 느낌 (body 위에 ambient랑 섞임) */
+.pp-main::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(148,163,184,0.16) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(148,163,184,0.16) 1px, transparent 1px);
+  background-size: 88px 88px;
+  opacity: 0.45;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ===============================
+   HERO
+   =============================== */
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 60px;
+  align-items: center;
+  margin-bottom: 90px;
+}
+
+.hero-left {
+  max-width: 560px;
+}
+
+.hero-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: #6b7280;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.hero h1 {
+  font-size: 40px;
+  letter-spacing: 0.03em;
+  margin-bottom: 12px;
+}
+
+.hero-sub {
+  font-size: 17px;
+  color: #4b5563;
+  margin-bottom: 18px;
+}
+
+.hero-body {
+  font-size: 14px;
+  line-height: 1.8;
+  color: #555;
+}
+
+/* 오른쪽 디지털 프레임 */
+.hero-right {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.hero-frame {
+  border-radius: 22px;
+  padding: 12px;
+  background: radial-gradient(circle at top left, #dbeafe, #f5f5f5);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
+}
+
+.hero-frame-inner {
+  position: relative;
+  width: 280px;
+  height: 210px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(156, 163, 175, 0.4);
+  overflow: hidden;
+}
+
+/* 랜덤하게 떠다니는 pixel들 */
+.pixel {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #3b82f6;
+  opacity: 0.75;
+}
+
+.pixel-1 {
+  top: 26%;
+  left: 18%;
+  animation: floatPixel 7s infinite ease-in-out;
+}
+
+.pixel-2 {
+  top: 62%;
+  left: 70%;
+  animation: floatPixel 9s infinite ease-in-out;
+}
+
+.pixel-3 {
+  top: 14%;
+  left: 64%;
+  animation: floatPixel 6s infinite ease-in-out;
+}
+
+@keyframes floatPixel {
+  0%   { transform: translate(0, 0); opacity: 0.6; }
+  50%  { transform: translate(12px, -10px); opacity: 1; }
+  100% { transform: translate(-4px, 6px); opacity: 0.6; }
+}
+
+.hero-caption {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #6b7280;
+  text-align: center;
+  padding: 0 24px;
+}
+
+/* ===============================
+   STORY
+   =============================== */
+
+.story {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  gap: 32px;
+  margin-bottom: 90px;
+}
+
+.story-tag {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: #6b7280;
+  padding-top: 4px;
+}
+
+.story-text p {
+  font-size: 14px;
+  line-height: 1.9;
+  color: #4b5563;
+}
+
+.story-text p + p {
+  margin-top: 14px;
+}
+
+/* ===============================
+   PRINCIPLES
+   =============================== */
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.section-head h2 {
+  font-size: 22px;
+}
+
+.section-head p {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.principles {
+  margin-bottom: 90px;
+}
+
+.principle-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.principle-card {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 14px;
+  padding: 18px 16px 16px;
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  box-shadow: 0 12px 26px rgba(15, 23, 42, 0.08);
+  position: relative;
+  overflow: hidden;
+  transform: translateY(0) rotate(-0.4deg);
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.principle-card:nth-child(2) {
+  transform: translateY(8px) rotate(0.2deg);
+}
+
+.principle-card:nth-child(3) {
+  transform: translateY(4px) rotate(-0.15deg);
+}
+
+.principle-card:hover {
+  transform: translateY(-4px) rotate(0deg);
+  box-shadow: 0 18px 32px rgba(15, 23, 42, 0.16);
+}
+
+.p-index {
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #9ca3af;
+  margin-bottom: 6px;
+}
+
+.p-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.principle-card p {
+  font-size: 13px;
+  line-height: 1.7;
+  color: #4b5563;
+}
+
+/* ===============================
+   SYSTEM DIAGRAM
+   =============================== */
+
+.system {
+  margin-bottom: 60px;
+}
+
+.system-diagram {
+  position: relative;
+  margin-top: 18px;
+  padding: 34px 24px 40px;
+  border-radius: 20px;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  background: radial-gradient(circle at top left, rgba(219,234,254,0.6), rgba(249,250,251,0.9));
+  overflow: hidden;
+}
+
+.node {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.88);
+  color: white;
+  font-size: 11px;
+  margin-bottom: 8px;
+}
+
+.node + .node {
+  margin-left: 10px;
+}
+
+.node-label {
+  font-weight: 500;
+}
+
+.node-desc {
+  opacity: 0.7;
+}
+
+/* 노드 위치 조금씩 어긋나게 */
+.node-a { transform: translate(2px, 6px); }
+.node-b { transform: translate(80px, 46px); }
+.node-c { transform: translate(210px, -10px); }
+
+.system-lines {
+  position: absolute;
+  inset: 0;
+  stroke: rgba(37, 99, 235, 0.65);
+  stroke-width: 1.3;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+/* ===============================
+   반응형
+   =============================== */
+
+@media (max-width: 960px) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .hero-right {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 720px) {
+  .pp-main {
+    padding-top: 120px;
+  }
+
+  .story {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .principle-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .system-diagram {
+    padding: 28px 18px 32px;
+  }
+}

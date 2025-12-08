@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ㄱㄴㄷ | Archive</title>
+
+  <!-- Global header + styles -->
+  <link rel="stylesheet" href="/front/styles.css" />
+  <link rel="stylesheet" href="/front/header.css" />
+
+  <!-- Page-specific CSS -->
+  <link rel="stylesheet" href="abc.css" />
+
+  <!-- Header loader -->
+  <script src="/front/headerLoader.js" defer></script>
+
+  <!-- Ambient Moths -->
+  <script src="/highlight/ambient-moths.js" defer></script>
+
+  <!-- 3D Viewer -->
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+  <!-- Page JS -->
+  <script src="abc.js" defer></script>
+</head>
+
+<body data-page="log">
+
+  <!-- HEADER INCLUDE -->
+  <div data-include="header"></div>
+
+  <!-- LIST / BACK BUTTON -->
+  <div class="list-toggle" onclick="history.back()">
+    <svg viewBox="0 0 24 24" class="ic-list">
+      <g fill="none" stroke="currentColor" stroke-width="1.6">
+        <line x1="4" y1="6" x2="20" y2="6"/>
+        <line x1="4" y1="12" x2="20" y2="12"/>
+        <line x1="4" y1="18" x2="20" y2="18"/>
+      </g>
+    </svg>
+  </div>
+
+  <canvas id="ambient-moths"></canvas>
+
+  <!-- MAIN -->
+  <main class="page">
+
+    <section class="hero">
+      <div class="img-wrap">
+        <img src="./metalwork-main.jpg" class="main-img" />
+      </div>
+
+      <div class="meta">
+        <h1>Metalwork</h1>
+        <p class="year">2025</p>
+
+        <p class="desc">
+          A metal structure balancing tension and weight.<br>
+          Later scanned into a 3D object to explore the shift between physical and digital.
+        </p>
+
+        <div class="tags">
+          <span class="tag">Sculpture</span>
+          <span class="tag">Metalwork</span>
+          <span class="tag">3D Scan</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="model-block">
+      <h2>3D Scan Model</h2>
+      <model-viewer 
+        src="./metalwork-model.glb"
+        ar
+        auto-rotate
+        camera-controls
+        shadow-intensity="1"
+      ></model-viewer>
+    </section>
+
+  </main>
+
+  <!-- LIGHTBOX -->
+  <div id="lightbox" class="lightbox">
+    <img id="lightbox-img"/>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PublicPixels | Brand</title>
+
+  <!-- Global Styles -->
+  <link rel="stylesheet" href="/front/styles.css">
+  <link rel="stylesheet" href="/front/header.css">
+
+  <!-- BRAND page styles -->
+  <link rel="stylesheet" href="./publicpixels.css">
+
+  <!-- Ambient moths (이미 쓰고 있던 전역 스크립트) -->
+  <script src="/highlight/ambient-moths.js" defer></script>
+
+  <!-- Header loader -->
+  <script src="/front/headerLoader.js" defer></script>
+
+  <!-- Brand page JS (헤더 스크롤 동작 등) -->
+  <script src="./publicpixels.js" defer></script>
+</head>
+
+<!-- 전시 페이지용 헤더 스타일 쓰려고 -->
+<body data-page="log">
+
+  <!-- HEADER INCLUDE (기존과 동일) -->
+  <div data-include="header"></div>
+
+  <!-- 리스트 아이콘: Studiolog로 돌아가기 -->
+  <div class="list-toggle" onclick="location.href='/archive/'">
+    <svg viewBox="0 0 24 24" class="ic-list">
+      <g fill="none" stroke="currentColor" stroke-width="1.6">
+        <line x1="4" y1="6" x2="20" y2="6"/>
+        <line x1="4" y1="12" x2="20" y2="12"/>
+        <line x1="4" y1="18" x2="20" y2="18"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- Ambient moths canvas (전역 스크립트에서 그려줌) -->
+  <canvas id="ambient-moths"></canvas>
+
+  <!-- 메인 콘텐츠 -->
+  <main class="pp-main">
+
+    <!-- HERO: 왼쪽 텍스트 / 오른쪽 디지털 프레임 -->
+    <section class="hero">
+      <div class="hero-left">
+        <span class="hero-label">brand / system</span>
+        <h1>PublicPixels</h1>
+        <p class="hero-sub">
+          A light archive where code, motion, and material leave traces instead of being erased.
+        </p>
+        <p class="hero-body">
+          PublicPixels is not a single work. It is a field where sketches, patches,
+          sensors, and fabric structures keep updating each other. What looks like
+          a website is actually a log of systems learning to move together.
+        </p>
+      </div>
+
+      <div class="hero-right">
+        <div class="hero-frame">
+          <div class="hero-frame-inner">
+            <div class="pixel pixel-1"></div>
+            <div class="pixel pixel-2"></div>
+            <div class="pixel pixel-3"></div>
+            <div class="hero-caption">
+              brand still / or a looped<br>video from a digital work
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BRAND STORY: 살짝 오프셋된 2단 레이아웃 -->
+    <section class="story">
+      <div class="story-tag">brand story</div>
+      <div class="story-text">
+        <p>
+          PublicPixels started as a refusal to hide test files and half-finished ideas.
+          Instead of cleaning the folder, I treat every failed render and broken sketch
+          as part of the piece.
+        </p>
+        <p>
+          Coming from textiles and moving into code-based installations, I see each work
+          as a woven system: light, motion, and material threaded together. PublicPixels
+          is the place where these systems stay visible, even when they glitch.
+        </p>
+        <p>
+          This page is a front door, not a summary. It just marks the tone of the archive:
+          soft grids, small motions, and structures that keep reconfiguring.
+        </p>
+      </div>
+    </section>
+
+    <!-- PRINCIPLES: 살짝 카드 겹치는 느낌 -->
+    <section class="principles">
+      <div class="section-head">
+        <h2>Principles</h2>
+        <p>Loose rules that shape how PublicPixels behaves.</p>
+      </div>
+
+      <div class="principle-row">
+        <article class="principle-card">
+          <div class="p-index">01</div>
+          <div class="p-title">Openness</div>
+          <p>
+            Code, process images, and system sketches remain reachable.
+            Nothing is polished out of existence.
+          </p>
+        </article>
+
+        <article class="principle-card">
+          <div class="p-index">02</div>
+          <div class="p-title">Motion as language</div>
+          <p>
+            Movement and repetition describe moods that text cannot.
+            Many pieces in the archive speak through motion first.
+          </p>
+        </article>
+
+        <article class="principle-card">
+          <div class="p-index">03</div>
+          <div class="p-title">Human + system</div>
+          <p>
+            Handcraft, sensors, and algorithms sit on the same level.
+            PublicPixels tracks how these layers negotiate each other.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- SYSTEM VIEW: 조금 더 실험적인 다이어그램 느낌 -->
+    <section class="system">
+      <div class="section-head">
+        <h2>System view</h2>
+        <p>How elements inside PublicPixels tend to connect.</p>
+      </div>
+
+      <div class="system-diagram">
+        <div class="node node-a">
+          <span class="node-label">archive</span>
+          <span class="node-desc">years, mediums, logs</span>
+        </div>
+        <div class="node node-b">
+          <span class="node-label">engine</span>
+          <span class="node-desc">code, sensors, rules</span>
+        </div>
+        <div class="node node-c">
+          <span class="node-label">artifacts</span>
+          <span class="node-desc">prints, objects, screens</span>
+        </div>
+
+        <svg class="system-lines" viewBox="0 0 400 180" preserveAspectRatio="none">
+          <line x1="40" y1="40" x2="200" y2="90" />
+          <line x1="200" y1="90" x2="360" y2="50" />
+          <line x1="200" y1="90" x2="360" y2="150" />
+        </svg>
+      </div>
+    </section>
+
+  </main>
+
+</body>
+</html>
