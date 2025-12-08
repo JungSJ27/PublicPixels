@@ -79,17 +79,36 @@
   pointer-events: none;
 }
 
-.top-left { 
-  top: 90px; 
-  left: 70px;
-}
-
 .title-desc {
   top: calc(50% + 160px);
   width: 100%;
   text-align: center;
   font-size: 12px;
 }
+
+.top-left { 
+  top: 30px;   /* ← 더 위로 올림 (기존 90px → 40px) */
+  left: 40px;
+   opacity: 0.7;
+  font-size: 9px;
+}
+
+.top-left2 { 
+  top: 30px;   /* ← 더 위로 올림 (기존 90px → 40px) */
+  left: 180px;
+  opacity: 0.7;
+  font-size: 9px;
+}
+
+
+.top-right {
+  text-align: right;
+  top: 30px;   /* ← 동일하게 위로 */
+  right: 40px;
+  opacity: 0.7;
+  font-size: 9px;
+}
+
 
 .bottom-left {
   bottom: 35px; 
