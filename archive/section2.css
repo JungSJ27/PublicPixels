@@ -1,4 +1,4 @@
-/* SECTION 2 LAYOUT */
+/* SECTION 2 BASE */
 #section2 {
   position: relative;
   width: 100vw;
@@ -7,49 +7,52 @@
   background: #041122;
 }
 
-/* ⭐ Intro Video Overlay */
+/* ★ INTRO VIDEO — 인트로 동안만 보임 */
 #intro-video {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.08;
+  opacity: 0.1;
+  filter: blur(6px);
   mix-blend-mode: screen;
   pointer-events: none;
-  z-index: 5;
-  transition: opacity 1.2s ease;
-}
-#intro-video.hidden {
-  opacity: 0;
+  z-index: 1;
+  transition: opacity 1.2s ease, filter 1.2s ease;
 }
 
-/* 3D Canvas */
+#intro-video.hidden {
+  opacity: 0;
+  filter: blur(0px);
+}
+
+/* CANVAS — 항상 맨 뒤 */
 #section2 canvas#c {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  display: block;
-  z-index: 1;
+  z-index: 0;
 }
 
-/* INTRO UI */
+/* INTRO UI — 제목 + 버튼 */
 #intro-ui {
   position: absolute;
   inset: 0;
-  z-index: 10;
+  z-index: 20;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 34px;
+  gap: 35px;
+  transform: translateY(-10px);
 }
 
 .title-img {
   width: min(600px, 70vw);
   animation: floatTitle 3s ease-in-out infinite alternate;
-  margin-bottom: 50px;
+  margin-bottom: 60px;
 }
 
 @keyframes floatTitle {
@@ -62,44 +65,66 @@
   cursor: pointer;
   transition: transform .2s;
 }
-.btn-img:hover {
-  transform: scale(1.06);
+.btn-img:hover { transform: scale(1.06); }
+
+/* INTRO META — 인트로용 작은 텍스트 */
+.intro-meta {
+  position: absolute;
+  z-index: 25; /* UI보다 위, 비디오보다 훨 위 */
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,.65);
+  font-weight: 300;
+  line-height: 1.5;
+  pointer-events: none;
 }
 
-/* HUD */
+.top-left { 
+  top: 90px; 
+  left: 70px;
+}
+
+.title-desc {
+  top: calc(50% + 160px);
+  width: 100%;
+  text-align: center;
+  font-size: 12px;
+}
+
+.bottom-left {
+  bottom: 35px; 
+  left: 40px;
+  opacity: 0.7;
+  font-size: 10px;
+}
+
+.bottom-right {
+  bottom: 35px; 
+  right: 40px;
+  text-align: right;
+  opacity: 0.7;
+  font-size: 10px;
+}
+
+/* HUD — Play 이후 등장 */
 .hud {
   position: absolute;
   inset: 0;
-  z-index: 20;
+  z-index: 40;
   pointer-events: none;
   opacity: 0;
   transition: opacity .6s ease;
 }
-.hud.visible {
-  opacity: 1;
-}
+.hud.visible { opacity: 1; }
 
-.s2-help {
-  position: absolute;
-  bottom: 30px;
-  right: 30px;
-  color: white;
-  font-size: 14px;
-  list-style: none;
-  text-align: right;
-}
-
-/* MOBILE IMPROVEMENTS */
+/* MOBILE */
 @media (max-width: 600px) {
   .title-img {
     width: 85vw;
-    min-width: 300px;
   }
-
   .btn-img {
     height: 38px;
   }
-
   #intro-ui {
     gap: 22px;
     padding-bottom: 40px;

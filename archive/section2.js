@@ -5,6 +5,9 @@ const archiveBtn = document.getElementById("btn-archive");
 const introVideo = document.getElementById("intro-video");
 const hud = document.getElementById("hud");
 
+/* ⭐ INTRO META TEXT (모두 숨기기용) */
+const introMetaElements = document.querySelectorAll(".intro-meta");
+
 /* ⭐ VIDEO LOAD */
 introVideo.src = "archive/secass2/water.webm";
 
@@ -47,33 +50,33 @@ scene.add(d);
 const oceanGeo = new THREE.PlaneGeometry(300, 300);
 const oceanMat = new THREE.MeshPhongMaterial({ color: 0x001b34 });
 const ocean = new THREE.Mesh(oceanGeo, oceanMat);
-ocean.rotation.x = -Math.PI/2;
+ocean.rotation.x = -Math.PI / 2;
 scene.add(ocean);
 
 /* MODEL LOADER */
 const loader = new GLTFLoader();
 
 /* Load House */
-loader.load("/models/house.glb", (gltf)=>{
+loader.load("/models/house.glb", (gltf) => {
   const house = gltf.scene;
-  house.position.set(0,0,0);
-  house.scale.set(1.2,1.2,1.2);
+  house.position.set(0, 0, 0);
+  house.scale.set(1.2, 1.2, 1.2);
   scene.add(house);
 });
 
 /* Floating Frames */
 let frames = [];
 
-for (let i=0; i<8; i++){
-  loader.load("/models/frame.glb", (gltf)=>{
+for (let i = 0; i < 8; i++) {
+  loader.load("/models/frame.glb", (gltf) => {
     const f = gltf.scene;
 
     f.position.set(
-      (Math.random()-0.5)*80,
-      1.1 + Math.random()*1.5,
-      (Math.random()-0.5)*80
+      (Math.random() - 0.5) * 80,
+      1.1 + Math.random() * 1.5,
+      (Math.random() - 0.5) * 80
     );
-    f.scale.set(0.9,0.9,0.9);
+    f.scale.set(0.9, 0.9, 0.9);
     f.userData.baseY = f.position.y;
 
     scene.add(f);
@@ -81,22 +84,24 @@ for (let i=0; i<8; i++){
   });
 }
 
-function animateFrames(t){
-  frames.forEach((f, i)=>{
-    f.position.y = f.userData.baseY + Math.sin(t*0.001 + i)*0.25;
+function animateFrames(t) {
+  frames.forEach((f, i) => {
+    f.position.y = f.userData.baseY + Math.sin(t * 0.001 + i) * 0.25;
     f.rotation.y += 0.002;
   });
 }
 
 /* Controls */
 let keys = {};
-document.addEventListener("keydown", e => keys[e.key] = true);
-document.addEventListener("keyup", e => keys[e.key] = false);
+document.addEventListener("keydown", (e) => (keys[e.key] = true));
+document.addEventListener("keyup", (e) => (keys[e.key] = false));
 
-let lx=0, ly=0;
+let lx = 0,
+  ly = 0;
 
-document.addEventListener("mousemove", e=>{
-  if (document.pointerLockElement === canvas){
+/* Mouse Look */
+document.addEventListener("mousemove", (e) => {
+  if (document.pointerLockElement === canvas) {
     lx -= e.movementX * 0.0025;
     ly -= e.movementY * 0.0025;
     ly = Math.max(-1.1, Math.min(1.1, ly));
@@ -104,7 +109,7 @@ document.addEventListener("mousemove", e=>{
 });
 
 /* Anim Loop */
-function animate(t){
+function animate(t) {
   requestAnimationFrame(animate);
   animateFrames(t);
 
@@ -116,7 +121,7 @@ function animate(t){
   if (keys["a"]) dir.x -= sp;
   if (keys["d"]) dir.x += sp;
 
-  dir.applyAxisAngle(new THREE.Vector3(0,1,0), lx);
+  dir.applyAxisAngle(new THREE.Vector3(0, 1, 0), lx);
   camera.position.add(dir);
 
   camera.rotation.set(ly, lx, 0);
@@ -126,34 +131,36 @@ function animate(t){
 animate();
 
 /* Resize */
-window.addEventListener("resize", ()=>{
+window.addEventListener("resize", () => {
   const w = window.innerWidth;
   const h = window.innerHeight;
-  camera.aspect = w/h;
+  camera.aspect = w / h;
   camera.updateProjectionMatrix();
-  renderer.setSize(w,h);
+  renderer.setSize(w, h);
 });
 
 /* ======================================================
-   PLAY BUTTON
+   ⭐ PLAY BUTTON — INTRO 종료
 ====================================================== */
 playBtn.addEventListener("click", () => {
-  
-  /* INTRO UI 숨김 */
+  /* 1) INTRO UI 숨김 */
   introUI.style.display = "none";
 
-  /* ⭐ VIDEO FADE OUT */
+  /* 2) 작은 메타 텍스트 다 숨기기 */
+  introMetaElements.forEach(el => el.style.opacity = 0);
+
+  /* 3) 물결 비디오 페이드아웃 + 블러 제거 */
   introVideo.classList.add("hidden");
 
-  /* HUD 등장 */
+  /* 4) HUD 등장 */
   hud.hidden = false;
-  setTimeout(()=> hud.classList.add("visible"), 50);
+  setTimeout(() => hud.classList.add("visible"), 50);
 
-  /* Pointer Lock */
+  /* 5) Pointer Lock */
   canvas.requestPointerLock();
 });
 
 /* ARCHIVE */
-archiveBtn.addEventListener("click", ()=>{
+archiveBtn.addEventListener("click", () => {
   window.location.href = "/archive/";
 });
