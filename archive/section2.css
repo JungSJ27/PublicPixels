@@ -130,3 +130,43 @@
     padding-bottom: 40px;
   }
 }
+
+/* =========================================================
+   MOBILE INTRO META FIX  (max-width: 600px)
+========================================================= */
+@media (max-width: 600px) {
+
+  /* 상단 타이틀-desc는 조금 아래로 */
+  .title-desc {
+    top: calc(60% + 80px);
+    font-size: 11px;
+    padding: 0 26px;
+    line-height: 1.4;
+  }
+
+  /* 좌하단 글씨는 더 아래 & 더 좌측으로 */
+  .bottom-left {
+    bottom: 40px;
+    left: 18px;
+    font-size: 10px;
+    line-height: 1.3;
+  }
+
+  /* 우하단 글씨 — 모바일에서는 완전 왼쪽 아래로 */
+  .bottom-right {
+    bottom: 25px;
+    left: 18px;      /* ← 오른쪽 대신 왼쪽 기준 */
+    right: auto;     /* ← 기존 right 값 무효화 */
+    font-size: 10px;
+    line-height: 1.3;
+    text-align: left; 
+    max-width: calc(100% - 36px); /* 양쪽 여백 유지 */
+  }
+
+
+
+  /* 전체 meta 두께 줄임 */
+  .intro-meta {
+    letter-spacing: 0.08em;
+  }
+}
