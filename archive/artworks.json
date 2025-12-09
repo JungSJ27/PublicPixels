@@ -8,7 +8,7 @@
     "medium": ["Generative Art", "Interactive Art"],
     "tags": ["Creative Coding", "Branding"],
     "dimensions": "variable",
-    "status": "published",
+    "status": "private",
     "password": "1234",
     "featured": true,
     "themeColor": "#0a1322",

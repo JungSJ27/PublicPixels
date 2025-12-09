@@ -98,6 +98,29 @@ header,
 }
 
 /* ===============================
+   HEADER SLIDE ANIMATION
+   =============================== */
+
+/* 기본 상태: 보임 + 제자리 */
+body[data-page="log"] header {
+  transform: translateY(0);
+  transition: opacity 0.35s ease, transform 0.4s ease;
+}
+
+/* 숨김 상태: 살짝 위로 올려서 사라지는 느낌 */
+header.header-hidden {
+  opacity: 0;
+  transform: translateY(-28px);
+  pointer-events: none;
+}
+
+/* 리스트 버튼도 같이 위로 올라가게 */
+.list-toggle.header-hidden {
+  opacity: 0;
+  transform: translateY(-28px);
+}
+
+/* ===============================
    MAIN LAYOUT
    =============================== */
 
@@ -426,3 +449,5 @@ header,
     padding: 28px 18px 32px;
   }
 }
+
+

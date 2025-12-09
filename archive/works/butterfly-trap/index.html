@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Butterfly Trap | PublicPixels Archive</title>
+
+  <!-- Global Styles -->
+  <link rel="stylesheet" href="/front/styles.css">
+  <link rel="stylesheet" href="/front/header.css">
+
+  <!-- Artwork page uses same style base -->
+  <link rel="stylesheet" href="./publicpixels.css">
+
+  <!-- ambient moths -->
+  <script src="/highlight/ambient-moths.js" defer></script>
+
+  <!-- header include -->
+  <script src="/front/headerLoader.js" defer></script>
+
+  <!-- header scroll behavior -->
+  <script src="./publicpixels.js" defer></script>
+</head>
+
+<body data-page="log">
+
+  <!-- HEADER -->
+  <div data-include="header"></div>
+
+  <!-- LIST ICON: back to archive -->
+  <div class="list-toggle" onclick="location.href='/archive/'">
+    <svg viewBox="0 0 24 24" class="ic-list">
+      <g fill="none" stroke="currentColor" stroke-width="1.6">
+        <line x1="4" y1="6" x2="20" y2="6"/>
+        <line x1="4" y1="12" x2="20" y2="12"/>
+        <line x1="4" y1="18" x2="20" y2="18"/>
+      </g>
+    </svg>
+  </div>
+
+  <canvas id="ambient-moths"></canvas>
+
+  <main class="pp-main">
+
+    <!-- TITLE -->
+    <section class="hero" style="margin-bottom: 40px; grid-template-columns: 1fr;">
+      <div class="hero-left">
+        <span class="hero-label">installation / kinetic</span>
+        <h1>Butterfly Trap</h1>
+        <p class="hero-sub">Video documentation · 2024</p>
+      </div>
+    </section>
+
+
+    <!-- VIDEO -->
+    <section style="margin-bottom: 70px;">
+      <div style="position: relative; border-radius: 18px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.18);">
+        <iframe 
+          src="https://www.youtube.com/embed/0ALvS8t-azo"
+          frameborder="0"
+          allowfullscreen
+          style="width: 100%; aspect-ratio: 16/9;">
+        </iframe>
+      </div>
+    </section>
+
+
+    <!-- INFO SECTION -->
+    <section class="story" style="margin-bottom: 120px;">
+      <div class="story-tag">info</div>
+
+      <div class="story-text" style="font-size: 15px;">
+        <p><strong>Year</strong> · 2024</p>
+        <p><strong>Medium</strong> · kinetic sculpture, microcontroller system, LED, acrylic, fabric, metal frame</p>
+        <p><strong>Dimensions</strong> · variable installation size</p>
+        <p><strong>Description</strong> · 
+          A study of behavioral loops and containment. 
+          The motion of the “moth” mechanism creates a tension between attraction and escape, 
+          echoing the way living systems respond to traps—both physical and psychological.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+</body>
+</html>
