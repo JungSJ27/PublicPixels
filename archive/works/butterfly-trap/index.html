@@ -3,31 +3,29 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Butterfly Trap | PublicPixels Archive</title>
+  <title>PublicPixels | Archive</title>
 
   <!-- Global Styles -->
   <link rel="stylesheet" href="/front/styles.css">
   <link rel="stylesheet" href="/front/header.css">
 
-  <!-- Artwork page uses same style base -->
-  <link rel="stylesheet" href="./publicpixels.css">
+  <!-- BRAND page styles -->
+  <link rel="stylesheet" href="./butterfly-trap.css">
 
-  <!-- ambient moths -->
-  <script src="/highlight/ambient-moths.js" defer></script>
-
-  <!-- header include -->
+  <!-- Header loader -->
   <script src="/front/headerLoader.js" defer></script>
 
-  <!-- header scroll behavior -->
-  <script src="./publicpixels.js" defer></script>
+  <!-- Brand page JS (헤더 스크롤 동작 등) -->
+  <script src="./butterfly-trap.css" defer></script>
 </head>
 
+<!-- 전시 페이지용 헤더 스타일 쓰려고 -->
 <body data-page="log">
 
-  <!-- HEADER -->
+  <!-- HEADER INCLUDE (기존과 동일) -->
   <div data-include="header"></div>
 
-  <!-- LIST ICON: back to archive -->
+  <!-- 리스트 아이콘: Studiolog로 돌아가기 -->
   <div class="list-toggle" onclick="location.href='/archive/'">
     <svg viewBox="0 0 24 24" class="ic-list">
       <g fill="none" stroke="currentColor" stroke-width="1.6">
@@ -38,12 +36,11 @@
     </svg>
   </div>
 
-  <canvas id="ambient-moths"></canvas>
-
-  <main class="pp-main">
+  <!-- CHANGED FROM pp-main → art-main -->
+  <main class="art-main">
 
     <!-- TITLE -->
-    <section class="hero" style="margin-bottom: 40px; grid-template-columns: 1fr;">
+    <section class="hero">
       <div class="hero-left">
         <span class="hero-label">installation / kinetic</span>
         <h1>Butterfly Trap</h1>
@@ -51,32 +48,28 @@
       </div>
     </section>
 
-
     <!-- VIDEO -->
-    <section style="margin-bottom: 70px;">
-      <div style="position: relative; border-radius: 18px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.18);">
+    <section class="video-wrap">
+      <div class="video-frame">
         <iframe 
           src="https://www.youtube.com/embed/0ALvS8t-azo"
           frameborder="0"
-          allowfullscreen
-          style="width: 100%; aspect-ratio: 16/9;">
+          allowfullscreen>
         </iframe>
       </div>
     </section>
 
+    <!-- INFO -->
+    <section class="info">
+      <div class="info-tag">info</div>
 
-    <!-- INFO SECTION -->
-    <section class="story" style="margin-bottom: 120px;">
-      <div class="story-tag">info</div>
-
-      <div class="story-text" style="font-size: 15px;">
+      <div class="info-text">
         <p><strong>Year</strong> · 2024</p>
-        <p><strong>Medium</strong> · kinetic sculpture, microcontroller system, LED, acrylic, fabric, metal frame</p>
-        <p><strong>Dimensions</strong> · variable installation size</p>
+        <p><strong>Medium</strong> · kinetic sculpture, microcontroller, LED, acrylic, fabric, metal frame</p>
+        <p><strong>Dimensions</strong> · variable</p>
         <p><strong>Description</strong> · 
-          A study of behavioral loops and containment. 
-          The motion of the “moth” mechanism creates a tension between attraction and escape, 
-          echoing the way living systems respond to traps—both physical and psychological.
+          The motion of the “moth” mechanism creates tension between attraction and escape, 
+          echoing behavioral loops and containment.
         </p>
       </div>
     </section>

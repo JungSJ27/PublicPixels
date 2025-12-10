@@ -1,0 +1,185 @@
+/* ===============================================
+   FIX PUBLICPIXELS DEFAULT LAYOUT EFFECTS
+=============================================== */
+
+/* PublicPixels 고정 overlay 제거 */
+body[data-page="log"] .pp-main::before,
+body[data-page="log"] .art-main::before {
+  display: none !important;
+}
+
+/* art-main 독립 레이아웃 */
+.art-main {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 40px 28px 120px; /* 상단 확 줄임 */
+  position: relative;
+  z-index: 5;
+}
+
+/* ===============================
+   HEADER (전시 페이지 모드)
+   =============================== */
+
+body[data-page="log"] header {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: transparent !important;
+  color: white !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  padding-top: 10px !important;
+  z-index: 3000;
+}
+
+body[data-page="log"] header .logo-brand,
+body[data-page="log"] header .logo-roman,
+body[data-page="log"] header .logo-korean {
+  color: rgba(192, 197, 205, 0.95) !important;
+}
+
+/* 검색, 카트 아이콘 숨기기 */
+body[data-page="log"] header .search-icon,
+body[data-page="log"] header .shop-toggle {
+  display: none !important;
+}
+
+/* 스크롤에 따라 숨길 때 쓸 클래스 */
+header,
+.pp-header {
+  transition: opacity 0.35s ease;
+}
+
+.header-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ===============================
+   LIST TOGGLE (목록으로 돌아가기)
+   =============================== */
+
+.list-toggle {
+  position: fixed;
+  top: 12px;
+  right: 24px;
+  width: 28px;
+  height: 28px;
+  z-index: 3500;
+  cursor: pointer;
+  color: rgba(192, 197, 205, 0.95);
+  opacity: 0.9;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.list-toggle:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.ic-list {
+  width: 24px;
+  height: 24px;
+}
+
+/* 헤더 숨길 때 같이 사라지도록 */
+.list-toggle.header-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ===============================
+   HEADER SLIDE ANIMATION
+   =============================== */
+
+/* 기본 상태: 보임 + 제자리 */
+body[data-page="log"] header {
+  transform: translateY(0);
+  transition: opacity 0.35s ease, transform 0.4s ease;
+}
+
+/* 숨김 상태: 살짝 위로 올려서 사라지는 느낌 */
+header.header-hidden {
+  opacity: 0;
+  transform: translateY(-28px);
+  pointer-events: none;
+}
+
+/* 리스트 버튼도 같이 위로 올라가게 */
+.list-toggle.header-hidden {
+  opacity: 0;
+  transform: translateY(-28px);
+}
+
+/* ===============================================
+   HERO
+=============================================== */
+
+.hero {
+  margin-top: 70px;  /* 헤더 높이 고려해서 적당한 여백 */
+  margin-bottom: 40px;
+}
+
+.hero-label {
+  font-size: 12px;
+  opacity: 0.6;
+  letter-spacing: 0.12em;
+}
+
+.hero h1 {
+  font-size: 40px;
+  margin: 8px 0;
+}
+
+.hero-sub {
+  font-size: 15px;
+  opacity: 0.7;
+}
+
+/* ===============================================
+   VIDEO
+=============================================== */
+
+.video-frame {
+  width: 100%;
+  aspect-ratio: 16/9;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+}
+
+.video-frame iframe {
+  width: 100%;
+  height: 100%;
+}
+
+/* ===============================================
+   INFO
+=============================================== */
+
+.info {
+  margin-top: 80px;
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 32px;
+}
+
+.info-tag {
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  opacity: 0.6;
+}
+
+.info-text p {
+  margin-bottom: 14px;
+  line-height: 1.6;
+}
+
+/* mobile */
+@media (max-width: 700px) {
+  .info {
+    grid-template-columns: 1fr;
+  }
+}

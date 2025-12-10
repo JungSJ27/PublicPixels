@@ -16,13 +16,6 @@ body {
   position: relative;
 }
 
-/* ambient moths 캔버스는 이미 global JS에서 그림 */
-#ambient-moths {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-}
 
 /* ===============================
    HEADER (전시 페이지 모드)
