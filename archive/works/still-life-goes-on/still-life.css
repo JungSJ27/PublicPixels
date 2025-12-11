@@ -1,121 +1,230 @@
-:root{
-  --text:#111;
-  --muted:#555;
-  --border:#e4e4e4;
-  --bg:#ffffff;
+/* ===============================================
+   FIX PUBLICPIXELS DEFAULT LAYOUT EFFECTS
+=============================================== */
+
+body[data-page="log"] .pp-main::before,
+body[data-page="log"] .art-main::before {
+  display: none !important;
 }
 
-body{
-  margin:0;
-  font-family: "Inter",-apple-system, BlinkMacSystemFont, sans-serif;
-  background:var(--bg);
-  color:var(--text);
+/* ===============================================
+   GLOBAL PAGE BODY
+=============================================== */
+body {
+  margin: 0;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #fff;
+  color: #111;
 }
 
-.art-wrap{
-  max-width:900px;
-  margin:0 auto;
-  padding:60px 20px 120px;
+/* ===============================
+   HEADER (전시 페이지 모드)
+   =============================== */
+
+body[data-page="log"] header {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: transparent !important;
+  color: white !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  padding-top: 10px !important;
+  z-index: 3000;
 }
 
-/* Video */
-.video-container{
-  position:relative;
-  width:100%;
-  padding-top:56.25%; /* 16:9 */
-  background:#000;
-  border-radius:0px;
-  overflow:hidden;
-  box-shadow:0 10px 40px rgba(0,0,0,0.1);
+body[data-page="log"] header .logo-brand,
+body[data-page="log"] header .logo-roman,
+body[data-page="log"] header .logo-korean {
+  color: rgba(192, 197, 205, 0.95) !important;
 }
 
-.video-container iframe{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  border:0;
+/* 검색, 카트 아이콘 숨기기 */
+body[data-page="log"] header .search-icon,
+body[data-page="log"] header .shop-toggle {
+  display: none !important;
 }
 
-/* Title */
-.art-head{
-  margin-top:30px;
-  margin-bottom:30px;
+/* 스크롤에 따라 숨길 때 쓸 클래스 */
+header,
+.pp-header {
+  transition: opacity 0.35s ease;
 }
 
-.art-title{
-  margin:0 0 10px;
-  font-size:32px;
-  font-weight:600;
+.header-hidden {
+  opacity: 0;
+  pointer-events: none;
 }
 
-.art-meta{
-  font-size:14px;
-  color:var(--muted);
-  line-height:1.6;
+/* ===============================
+   LIST TOGGLE (목록으로 돌아가기)
+   =============================== */
+
+.list-toggle {
+  position: fixed;
+  top: 12px;
+  right: 24px;
+  width: 28px;
+  height: 28px;
+  z-index: 3500;
+  cursor: pointer;
+  color: rgba(192, 197, 205, 0.95);
+  opacity: 0.9;
+  transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
-/* Tags */
-.art-tags{
-  list-style:none;
-  padding:0;
-  margin:14px 0 0;
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
+.list-toggle:hover {
+  opacity: 1;
+  transform: translateY(-1px);
 }
 
-.art-tags li{
-  font-size:11px;
-  letter-spacing:0.08em;
-  padding:6px 10px;
-  border-radius:999px;
-  background:#f5f5f5;
-  border:1px solid var(--border);
+.ic-list {
+  width: 24px;
+  height: 24px;
 }
 
-/* Sections */
-.art-section{
-  margin-top:40px;
+/* 헤더 숨길 때 같이 사라지도록 */
+.list-toggle.header-hidden {
+  opacity: 0;
+  pointer-events: none;
 }
 
-.art-section h2{
-  font-size:15px;
-  font-weight:600;
-  margin:0 0 10px;
-  letter-spacing:0.08em;
-  text-transform:uppercase;
-  color:var(--muted);
+/* ===============================
+   HEADER SLIDE ANIMATION
+   =============================== */
+
+/* 기본 상태: 보임 + 제자리 */
+body[data-page="log"] header {
+  transform: translateY(0);
+  transition: opacity 0.35s ease, transform 0.4s ease;
 }
 
-.art-section p{
-  line-height:1.7;
-  margin:0 0 12px;
+/* 숨김 상태: 살짝 위로 올려서 사라지는 느낌 */
+header.header-hidden {
+  opacity: 0;
+  transform: translateY(-28px);
+  pointer-events: none;
 }
 
-/* Stills */
-.stills-grid{
-  display:grid;
-  gap:12px;
-  grid-template-columns:repeat(2,1fr);
+/* 리스트 버튼도 같이 위로 올라가게 */
+.list-toggle.header-hidden {
+  opacity: 0;
+  transform: translateY(-28px);
 }
 
-.stills-grid img{
-  width:100%;
-  height:auto;
-  border-radius:10px;
-  border:1px solid var(--border);
+
+/* ===============================================
+   ART WRAP
+=============================================== */
+.art-wrap {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 100px 20px 120px;
 }
 
-/* 3D Viewer Box */
-.viewer-box{
-  margin-top:20px;
-  width:100%;
-  padding:60px;
-  background:#000;
-  border-radius:12px;
-  color:#fff;
-  text-align:center;
-  font-size:14px;
-  letter-spacing:0.05em;
+/* ===============================================
+   VIDEO
+=============================================== */
+.video-container {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+  background: #000;
+  border-radius: 0px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+}
+
+.video-container iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* ===============================================
+   TITLE + META
+=============================================== */
+.art-head {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.art-title {
+  margin: 0 0 10px;
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.art-meta {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* TAGS */
+.art-tags {
+  list-style: none;
+  padding: 0;
+  margin: 14px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.art-tags li {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #f5f5f5;
+  border: 1px solid #e4e4e4;
+}
+
+/* SECTIONS */
+.art-section {
+  margin-top: 40px;
+}
+
+.art-section h2 {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #555;
+}
+
+.art-section p {
+  line-height: 1.7;
+  margin: 0 0 12px;
+}
+
+/* STILLS */
+.stills-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.stills-grid img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  border: 1px solid #e4e4e4;
+}
+
+/* 3D VIEWER */
+.viewer-box {
+  margin-top: 20px;
+  width: 100%;
+  padding: 60px;
+  background: #000;
+  border-radius: 12px;
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+  letter-spacing: 0.05em;
 }

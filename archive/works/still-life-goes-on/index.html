@@ -3,99 +3,124 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Still, Life Goes On — PublicPixels</title>
-  <link rel="stylesheet" href="still-life.css" />
+
+  <title>Still, Life Goes On | Archive</title>
+
+  <!-- Global PublicPixels CSS -->
+  <link rel="stylesheet" href="/front/styles.css">
+  <link rel="stylesheet" href="/front/header.css">
+
+  <!-- Page CSS -->
+  <link rel="stylesheet" href="still-life.css">
+
+  <!-- Header Loader -->
+  <script src="/front/headerLoader.js" defer></script>
+
+  <!-- Header Scroll JS -->
+  <script src="still-life.js" defer></script>
 </head>
 
-<body>
+<body data-page="log">
 
-<div class="art-wrap">
+  <!-- HEADER INCLUDE -->
+  <div data-include="header"></div>
 
-  <!-- Video Hero -->
-  <section class="hero-video">
-    <div class="video-container">
-      <iframe 
-        src="https://www.youtube.com/embed/NB8XGl2i_3g?autoplay=0&mute=1&controls=1"
-        allowfullscreen>
-      </iframe>
-    </div>
-  </section>
+  <!-- LIST BUTTON -->
+  <div class="list-toggle" onclick="location.href='/archive/'">
+    <svg viewBox="0 0 24 24" class="ic-list">
+      <g fill="none" stroke="currentColor" stroke-width="1.6">
+        <line x1="4" y1="6"  x2="20" y2="6"/>
+        <line x1="4" y1="12" x2="20" y2="12"/>
+        <line x1="4" y1="18" x2="20" y2="18"/>
+      </g>
+    </svg>
+  </div>
 
-  <!-- Title + Basic Info -->
-  <section class="art-head">
-    <h1 class="art-title">Still, Life Goes On</h1>
+  <!-- MAIN ART WRAP -->
+  <main class="art-wrap">
 
-    <p class="art-meta">
-      2025 · Kinetic installation, 3D printed PLA, motors, Arduino, sensor, metal, mixed media<br>
-      Dimensions: 90 × 70 × 70 cm<br>
-    </p>
+    <!-- Video Hero -->
+    <section class="hero-video">
+      <div class="video-container">
+        <iframe 
+          src="https://www.youtube.com/embed/NB8XGl2i_3g?autoplay=0&mute=1&controls=1"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </section>
 
-    <ul class="art-tags">
-      <li>Kinetic</li>
-      <li>Spinning Wheel</li>
-      <li>Moth</li>
-      <li>Interactive</li>
-      <li>Motor Control</li>
-      <li>3D Printing</li>
-    </ul>
-  </section>
+    <!-- Title + Basic Info -->
+    <section class="art-head">
+      <h1 class="art-title">Still, Life Goes On</h1>
 
-  <!-- Overview -->
-  <section class="art-section">
-    <h2>Overview</h2>
-    <p>
-      A kinetic installation that reflects on the quiet persistence of life through a spinning wheel 
-      and a robotic moth. The work focuses on repetition, transformation, and the act of continuing.
-    </p>
-  </section>
+      <p class="art-meta">
+        2025 · Kinetic installation, 3D printed PLA, motors, Arduino, sensor, metal, mixed media<br>
+        Dimensions: 90 × 70 × 70 cm<br>
+      </p>
 
-  <!-- Concept -->
-  <section class="art-section">
-    <h2>Concept</h2>
-    <p>
-      At the center of the piece, a mechanical spinning wheel turns in a steady rhythm. When a viewer approaches, 
-      its speed and direction shift in an unstable way before slowly returning to its original motion. 
-      Above the wheel, a robotic moth moves with a small but constant motion, as if driven by instinct.
-    </p>
-  </section>
+      <ul class="art-tags">
+        <li>Kinetic</li>
+        <li>Spinning Wheel</li>
+        <li>Moth</li>
+        <li>Interactive</li>
+        <li>Motor Control</li>
+        <li>3D Printing</li>
+      </ul>
+    </section>
 
-  <!-- Stills -->
-  <section class="art-section">
-    <h2>Stills</h2>
-    <div class="stills-grid">
-      <img src="still1.jpg" alt="">
-      <img src="still2.jpg" alt="">
-      <img src="still3.jpg" alt="">
-      <img src="still4.jpg" alt="">
-    </div>
-  </section>
+    <!-- Overview -->
+    <section class="art-section">
+      <h2>Overview</h2>
+      <p>
+        A kinetic installation that reflects on the quiet persistence of life through a spinning wheel 
+        and a robotic moth. The work focuses on repetition, transformation, and the act of continuing.
+      </p>
+    </section>
 
-  <!-- Process -->
-  <section class="art-section">
-    <h2>Process</h2>
-    <p>
-      The project combines research, 3D modeling, printing, wiring, and motion tests. 
-      The spinning wheel and support structure were refined through multiple iterations 
-      to create a motion that feels both controlled and unstable.
-    </p>
+    <!-- Concept -->
+    <section class="art-section">
+      <h2>Concept</h2>
+      <p>
+        At the center of the piece, a mechanical spinning wheel turns in a steady rhythm. When a viewer approaches, 
+        its speed and direction shift in an unstable way before slowly returning to its original motion. 
+        Above the wheel, a robotic moth moves with a subtle but constant motion, as if driven by instinct.
+      </p>
+    </section>
 
-    <!-- 3D Viewer Placeholder -->
-    <div class="viewer-box">
-      <p>3D Model Viewer Coming Soon</p>
-    </div>
-  </section>
+    <!-- Stills -->
+    <section class="art-section">
+      <h2>Stills</h2>
+      <div class="stills-grid">
+        <img src="still1.jpg" alt="">
+        <img src="still2.jpg" alt="">
+        <img src="still3.jpg" alt="">
+        <img src="still4.jpg" alt="">
+      </div>
+    </section>
 
-  <!-- Hardware -->
-  <section class="art-section">
-    <h2>Hardware and Software</h2>
-    <p>
-      Stepper motors, DM542T driver, Arduino Uno, ultrasonic distance sensor, 
-      PLA components, LED lighting, custom motor logic, behavior programming.
-    </p>
-  </section>
+    <!-- Process -->
+    <section class="art-section">
+      <h2>Process</h2>
+      <p>
+        The project combines research, 3D modeling, printing, wiring, and motion tests. 
+        The spinning wheel and support structure were refined through multiple iterations 
+        to create a motion that feels controlled yet unpredictable.
+      </p>
 
-</div>
+      <div class="viewer-box">
+        <p>3D Model Viewer Coming Soon</p>
+      </div>
+    </section>
 
-<script src="still-life.js"></script>
+    <!-- Hardware -->
+    <section class="art-section">
+      <h2>Hardware and Software</h2>
+      <p>
+        Stepper motors, DM542T driver, Arduino Uno, ultrasonic sensor, 
+        PLA components, LED lighting, custom control logic, programmed behavior.
+      </p>
+    </section>
+
+  </main>
 </body>
 </html>

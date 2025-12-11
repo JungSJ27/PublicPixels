@@ -16,16 +16,15 @@
   <script src="/front/headerLoader.js" defer></script>
 
   <!-- Brand page JS (헤더 스크롤 동작 등) -->
-  <script src="./butterfly-trap.css" defer></script>
+  <script src="./butterfly-trap.js" defer></script>
 </head>
 
-<!-- 전시 페이지용 헤더 스타일 쓰려고 -->
 <body data-page="log">
 
-  <!-- HEADER INCLUDE (기존과 동일) -->
+  <!-- HEADER INCLUDE -->
   <div data-include="header"></div>
 
-  <!-- 리스트 아이콘: Studiolog로 돌아가기 -->
+  <!-- LIST BUTTON -->
   <div class="list-toggle" onclick="location.href='/archive/'">
     <svg viewBox="0 0 24 24" class="ic-list">
       <g fill="none" stroke="currentColor" stroke-width="1.6">
@@ -36,7 +35,6 @@
     </svg>
   </div>
 
-  <!-- CHANGED FROM pp-main → art-main -->
   <main class="art-main">
 
     <!-- TITLE -->
@@ -53,6 +51,7 @@
       <div class="video-frame">
         <iframe 
           src="https://www.youtube.com/embed/0ALvS8t-azo"
+          allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
           frameborder="0"
           allowfullscreen>
         </iframe>
