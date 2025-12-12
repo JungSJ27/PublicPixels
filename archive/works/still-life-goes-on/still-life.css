@@ -148,18 +148,19 @@ header.header-hidden {
    TITLE + META
 =============================================== */
 .art-head {
-  margin-top: 30px;
-  margin-bottom: 30px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  margin-left: 10px;
 }
 
 .art-title {
   margin: 0 0 10px;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
 }
 
 .art-meta {
-  font-size: 14px;
+  font-size: 13px;
   color: #555;
   line-height: 1.6;
 }
