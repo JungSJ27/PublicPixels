@@ -39,7 +39,7 @@
   <!-- MAIN ART WRAP -->
   <main class="art-wrap">
 
-    <!-- Video Hero -->
+    <!-- VIDEO -->
     <section class="hero-video">
       <div class="video-container">
         <iframe 
@@ -54,77 +54,66 @@
       <h1 class="art-title">Still, Life Goes On</h1>
 
       <p class="art-meta">
-        2025 · Kinetic installation, 3D printed PLA, motors, Arduino, sensor, metal, mixed media<br>
-        Dimensions: 90 × 70 × 70 cm<br>
+        2025<br>
+        3D-printed PLA, servo & stepper motors, Arduino, DM542T motor driver, ultrasonic sensor, welded metal, mixed media
       </p>
-      
-    <!--
-      <ul class="art-tags">
-        <li>Kinetic</li>
-        <li>Spinning Wheel</li>
-        <li>Moth</li>
-        <li>Interactive</li>
-        <li>Motor Control</li>
-        <li>3D Printing</li>
-      </ul>
     </section>
-    -->
 
     <!-- Overview -->
     <section class="art-section">
-      <h2>Overview</h2>
       <p>
-        A kinetic installation that reflects on the quiet persistence of life through a spinning wheel 
-        and a robotic moth. The work focuses on repetition, transformation, and the act of continuing.
-      </p>
-    </section>
-
-    <!-- Concept -->
-    <section class="art-section">
-      <h2>Concept</h2>
+        <i>Still, Life Goes On</i> invites viewers to step back from the intensity of the present moment and recognize
+        that no emotion, no circumstance, is ever final. Everything passes. The wheel keeps turning.
+      </p><br>
       <p>
-        At the center of the piece, a mechanical spinning wheel turns in a steady rhythm. When a viewer approaches, 
-        its speed and direction shift in an unstable way before slowly returning to its original motion. 
-        Above the wheel, a robotic moth moves with a subtle but constant motion, as if driven by instinct.
+        At the center of the piece is a mechanical spinning wheel that usually rotates in a steady rhythm. When a
+        viewer is detected, the wheel’s speed and direction shift unpredictably, only to gradually return to its
+        original motion. This subtle transformation reflects how life reacts to outside forces but ultimately finds
+        its way back to balance.
+      </p><br>
+      <p>
+        Mounted above the wheel is a robotic moth that moves with quiet regularity, as if animated by its own
+        internal drive. Its presence suggests vulnerability and persistence, mirroring the cycles of change below.
+      </p><br>
+      <p>
+        This work is deeply personal. One of my earliest memories is of my great-grandmother raising silkworms.
+        I studied textiles in Korea and silk has remained a central material in my practice. The cocoon, the wheel,
+        the transformation—these elements are part of my own lineage. In <i>Still, Life Goes On</i>, I connect that
+        memory with contemporary new media art, using sensors, motors, 3D printing, and real-time interaction to
+        create a work that is both intimate and dynamic.
+      </p><br>
+      <p>
+        The work exists in the space between tradition and technology, between personal memory and shared
+        experience. It speaks to the soft persistence of life—that even in moments of disruption, we continue to
+        move forward, quietly, steadily, becoming.
       </p>
     </section>
 
     <!-- Stills -->
     <section class="art-section">
-      <h2>Stills</h2>
-      <div class="stills-grid">
-        <img src="still1.jpg" alt="">
-        <img src="still2.jpg" alt="">
-        <img src="still3.jpg" alt="">
-        <img src="still4.jpg" alt="">
+
+    <div class="stills-slider">
+      <div class="still-frame"></div>
+
+      <div class="slider-controls">
+        <span class="slider-btn left">‹</span>
+        <span class="page-indicator">1 / 5</span>
+        <span class="slider-btn right">›</span>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Process -->
-    <section class="art-section">
-      <h2>Process</h2>
-      <p>
-        The project combines research, 3D modeling, printing, wiring, and motion tests. 
-        The spinning wheel and support structure were refined through multiple iterations 
-        to create a motion that feels controlled yet unpredictable.
-      </p>
+  <!-- FULLSCREEN POPUP -->
+  <div id="popup" class="popup">
+    <span class="popup-arrow left">‹</span>
+    <img id="popup-img" src="">
+    <span class="popup-arrow right">›</span>
+    <button class="popup-close">×</button>
+  </div>
 
-      <div class="viewer-box">
-        <p>3D Model Viewer Coming Soon</p>
-      </div>
-    </section>
-
-    <!-- Hardware -->
-    <section class="art-section">
-      <h2>Hardware and Software</h2>
-      <p>
-        Stepper motors, DM542T driver, Arduino Uno, ultrasonic sensor, 
-        PLA components, LED lighting, custom control logic, programmed behavior.
-      </p>
-    </section>
 
   </main>
-  
+
 <script defer src="/front/favicons.js"></script>
 </body>
 </html>
