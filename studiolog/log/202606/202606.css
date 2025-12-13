@@ -10,7 +10,7 @@ body {
   align-items: center;
   justify-content: center;
   background: #e7e7e7;
-  font-family: "Playfair Display", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Poppins', sans-serif;
   color: #1a1a1a;
   position: relative;
   overflow-x: hidden;
