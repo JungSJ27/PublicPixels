@@ -217,6 +217,58 @@ header.header-hidden {
   letter-spacing: 0.05em;
 }
 
+/* =======================================================
+   ABOVE SLIDER LINK
+   ======================================================= */
+/* 공통 박스 스타일 */
+.above-slider-link1 {
+  text-align: center;
+  margin: 100px auto 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.above-slider-link2 {
+  text-align: center;
+  margin: px auto 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* 공통 링크 스타일 — 최중요! */
+.above-slider-link1 a,
+.above-slider-link2 a {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  color: #000000;
+  font-size: 10px;
+  text-decoration: none;
+  opacity: 0.7;
+  transition: opacity 0.25s ease, color 0.25s ease;
+}
+
+/* hover 효과 */
+.above-slider-link1 a:hover,
+.above-slider-link2 a:hover {
+  color: #320bc0;
+  opacity: 1;
+}
+
+/* 아이콘 */
+.ic-arrow,
+.ic-insta {
+  width: 11px;
+  height: 11px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
+
 /* ===============================================
    STILLS SLIDER
 =============================================== */
