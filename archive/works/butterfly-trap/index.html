@@ -1,22 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>PublicPixels | Archive</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Global Styles -->
+  <title>Butterfly Trap | Archive</title>
+
+  <!-- Global PublicPixels CSS -->
   <link rel="stylesheet" href="/front/styles.css">
   <link rel="stylesheet" href="/front/header.css">
 
-  <!-- BRAND page styles -->
-  <link rel="stylesheet" href="./butterfly-trap.css">
+  <!-- Page CSS -->
+  <link rel="stylesheet" href="butterfly-trap.css">
 
-  <!-- Header loader -->
+  <!-- Header Loader -->
   <script src="/front/headerLoader.js" defer></script>
 
-  <!-- Brand page JS (헤더 스크롤 동작 등) -->
-  <script src="./butterfly-trap.js" defer></script>
+  <!-- Header Scroll JS -->
+  <script src="butterfly-trap.js" defer></script>
 </head>
 
 <body data-page="log">
@@ -28,52 +29,101 @@
   <div class="list-toggle" onclick="location.href='/archive/'">
     <svg viewBox="0 0 24 24" class="ic-list">
       <g fill="none" stroke="currentColor" stroke-width="1.6">
-        <line x1="4" y1="6" x2="20" y2="6"/>
+        <line x1="4" y1="6"  x2="20" y2="6"/>
         <line x1="4" y1="12" x2="20" y2="12"/>
         <line x1="4" y1="18" x2="20" y2="18"/>
       </g>
     </svg>
   </div>
 
-  <main class="art-main">
-
-    <!-- TITLE -->
-    <section class="hero">
-      <div class="hero-left">
-        <span class="hero-label">installation / kinetic</span>
-        <h1>Butterfly Trap</h1>
-        <p class="hero-sub">Video documentation · 2024</p>
-      </div>
-    </section>
+  <!-- MAIN ART WRAP -->
+  <main class="art-wrap">
 
     <!-- VIDEO -->
-    <section class="video-wrap">
-      <div class="video-frame">
+    <section class="hero-video">
+      <div class="video-container">
         <iframe 
-          src="https://www.youtube.com/embed/0ALvS8t-azo"
-          allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
-          frameborder="0"
-          allowfullscreen>
-        </iframe>
+          src="https://youtu.be/0ALvS8t-azo"
+          allowfullscreen
+        ></iframe>
       </div>
     </section>
 
-    <!-- INFO -->
-    <section class="info">
-      <div class="info-tag">info</div>
+    <!-- Title + Basic Info -->
+    <section class="art-head">
+      <h1 class="art-title">Butterfly Trap</h1>
 
-      <div class="info-text">
-        <p><strong>Year</strong> · 2024</p>
-        <p><strong>Medium</strong> · kinetic sculpture, microcontroller, LED, acrylic, fabric, metal frame</p>
-        <p><strong>Dimensions</strong> · variable</p>
-        <p><strong>Description</strong> · 
-          The motion of the “moth” mechanism creates tension between attraction and escape, 
-          echoing behavioral loops and containment.
-        </p>
-      </div>
+      <p class="art-meta">
+        2025<br>
+        3D-printed PLA, servo & stepper motors, Arduino, DM542T motor driver, ultrasonic sensor, welded metal, mixed media
+      </p>
     </section>
+
+    <!-- Overview -->
+    <section class="art-section">
+      <p>
+        <i>Still, Life goes on</i> invites viewers to step back from the intensity of the present moment and recognize
+        that no emotion, no circumstance, is ever final. Everything passes. The wheel keeps turning.
+      </p><br>
+      <p>
+        At the center of the piece is a mechanical spinning wheel that usually rotates in a steady rhythm. When a
+        viewer is detected, the wheel’s speed and direction shift unpredictably, only to gradually return to its
+        original motion. This subtle transformation reflects how life reacts to outside forces but ultimately finds
+        its way back to balance.
+      </p><br>
+      <p>
+        Mounted above the wheel is a robotic moth that moves with quiet regularity, as if animated by its own
+        internal drive. Its presence suggests vulnerability and persistence, mirroring the cycles of change below.
+      </p><br>
+      <p>
+        This work is deeply personal. One of my earliest memories is of my great-grandmother raising silkworms.
+        I studied textiles in Korea and silk has remained a central material in my practice. The cocoon, the wheel,
+        the transformation—these elements are part of my own lineage. In <i>Still, Life Goes On</i>, I connect that
+        memory with contemporary new media art, using sensors, motors, 3D printing, and real-time interaction to
+        create a work that is both intimate and dynamic.
+      </p><br>
+      <p>
+        The work exists in the space between tradition and technology, between personal memory and shared
+        experience. It speaks to the soft persistence of life—that even in moments of disruption, we continue to
+        move forward, quietly, steadily, becoming.
+      </p>
+    </section>
+
+    <div class="above-slider-link1">
+      <a href="/studiolog/log/202501/">
+        <svg class="ic-arrow" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M7 17 L17 7" stroke="currentColor" stroke-width="1.5" fill="none"/>
+          <path d="M10 7h7v7" stroke="currentColor" stroke-width="1.5" fill="none"/>
+        </svg>
+        Explore Exhibition
+      </a>
+    </div>
+
+    <!-- Stills -->
+    <section class="art-section">
+
+    <div class="stills-slider">
+      <div class="still-frame"></div>
+
+      <div class="slider-controls">
+        <span class="slider-btn left">‹</span>
+        <span class="page-indicator">1 / 5</span>
+        <span class="slider-btn right">›</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FULLSCREEN POPUP -->
+  <div id="popup" class="popup">
+    <span class="popup-arrow left">‹</span>
+    <img id="popup-img" src="">
+    <span class="popup-arrow right">›</span>
+    <button class="popup-close">×</button>
+  </div>
+
 
   </main>
 
+<script defer src="/front/favicons.js"></script>
 </body>
 </html>

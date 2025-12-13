@@ -2,19 +2,19 @@
    FIX PUBLICPIXELS DEFAULT LAYOUT EFFECTS
 =============================================== */
 
-/* PublicPixels 고정 overlay 제거 */
 body[data-page="log"] .pp-main::before,
 body[data-page="log"] .art-main::before {
   display: none !important;
 }
 
-/* art-main 독립 레이아웃 */
-.art-main {
-  max-width: 1080px;
-  margin: 0 auto;
-  padding: 40px 28px 120px; /* 상단 확 줄임 */
-  position: relative;
-  z-index: 5;
+/* ===============================================
+   GLOBAL PAGE BODY
+=============================================== */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;  /* styles.css 기준 */
+  background: #fff;
+  color: #111;
 }
 
 /* ===============================
@@ -37,7 +37,7 @@ body[data-page="log"] header {
 body[data-page="log"] header .logo-brand,
 body[data-page="log"] header .logo-roman,
 body[data-page="log"] header .logo-korean {
-  color: rgba(192, 197, 205, 0.95) !important;
+  color: rgba(217, 218, 221, 0.95) !important;
 }
 
 /* 검색, 카트 아이콘 숨기기 */
@@ -69,7 +69,7 @@ header,
   height: 28px;
   z-index: 3500;
   cursor: pointer;
-  color: rgba(192, 197, 205, 0.95);
+  color:  rgba(217, 218, 221, 0.95);
   opacity: 0.9;
   transition: opacity 0.25s ease, transform 0.25s ease;
 }
@@ -114,72 +114,314 @@ header.header-hidden {
 }
 
 /* ===============================================
-   HERO
+   ART WRAP
 =============================================== */
-
-.hero {
-  margin-top: 70px;  /* 헤더 높이 고려해서 적당한 여백 */
-  margin-bottom: 40px;
-}
-
-.hero-label {
-  font-size: 12px;
-  opacity: 0.6;
-  letter-spacing: 0.12em;
-}
-
-.hero h1 {
-  font-size: 40px;
-  margin: 8px 0;
-}
-
-.hero-sub {
-  font-size: 15px;
-  opacity: 0.7;
+.art-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 100px 20px 120px;
 }
 
 /* ===============================================
    VIDEO
 =============================================== */
-
-.video-frame {
+.video-container {
+  position: relative;
   width: 100%;
-  aspect-ratio: 16/9;
-  border-radius: 18px;
+  padding-top: 56.25%;
+  background: #000;
+  border-radius: 0px;
   overflow: hidden;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
 }
 
-.video-frame iframe {
+.video-container iframe {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
+  border: 0;
 }
 
 /* ===============================================
-   INFO
+   TITLE + META
 =============================================== */
-
-.info {
-  margin-top: 80px;
-  display: grid;
-  grid-template-columns: 120px 1fr;
-  gap: 32px;
+.art-head {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  margin-left: 10px;
 }
 
-.info-tag {
-  font-size: 12px;
-  letter-spacing: 0.18em;
-  opacity: 0.6;
+.art-title {
+  margin: 0 0 10px;
+  font-size: 16px;
+  font-weight: 600;
 }
 
-.info-text p {
-  margin-bottom: 14px;
+.art-meta {
+  font-size: 13px;
+  color: #000000;
   line-height: 1.6;
 }
 
-/* mobile */
-@media (max-width: 700px) {
-  .info {
-    grid-template-columns: 1fr;
+/* TAGS (지금은 사용 안 해도 남겨둠) */
+.art-tags {
+  list-style: none;
+  padding: 0;
+  margin: 14px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.art-tags li {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #f5f5f5;
+  border: 1px solid #e4e4e4;
+}
+
+/* SECTIONS */
+.art-section {
+  margin-top: 40px;
+}
+
+.art-section h2 {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #555;
+}
+
+.art-section p {
+  line-height: 1.7;
+  margin: 0 10px 12px;
+  font-size: 14px;
+
+}
+
+/* 3D VIEWER (나중에 쓸 수도 있으니 남겨둠) */
+.viewer-box {
+  margin-top: 20px;
+  width: 100%;
+  padding: 60px;
+  background: #000;
+  border-radius: 12px;
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+}
+
+/* =======================================================
+   ABOVE SLIDER LINK
+   ======================================================= */
+/* 공통 박스 스타일 */
+.above-slider-link1 {
+  text-align: center;
+  margin: 100px auto 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.above-slider-link2 {
+  text-align: center;
+  margin: px auto 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* 공통 링크 스타일 — 최중요! */
+.above-slider-link1 a,
+.above-slider-link2 a {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  color: #000000;
+  font-size: 10px;
+  text-decoration: none;
+  opacity: 0.7;
+  transition: opacity 0.25s ease, color 0.25s ease;
+}
+
+/* hover 효과 */
+.above-slider-link1 a:hover,
+.above-slider-link2 a:hover {
+  color: #320bc0;
+  opacity: 1;
+}
+
+/* 아이콘 */
+.ic-arrow,
+.ic-insta {
+  width: 11px;
+  height: 11px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
+
+/* ===============================================
+   STILLS SLIDER
+=============================================== */
+
+.stills-slider {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
+}
+
+/* 이미지 프레임: 너비 기준을 70vw로 통일 */
+.still-frame {
+  width: 70vw;
+  max-width: 900px;
+  height: auto;
+  max-height: 50vh;         /* 세로 제한 추가 → 세로 이미지 과도한 길이 방지 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;         /* contain 효과를 안정적으로 유지 */
+  margin: 0 auto;
+  cursor: zoom-in;
+}
+
+/* 실제 이미지 */
+.still-frame img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;      /* 세로/가로 이미지 안정적으로 표시 */
+  max-height: 60vh;         /* 세로 최대 높이 동일 적용 */
+  border-radius: 0px;
+  border: 0px solid #e4e4e4;
+  transition: transform 0.3s ease;
+}
+
+/* SLIDER CONTROLS */
+.slider-controls {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  font-size: 14px;
+  color: #777;
+}
+
+.slider-btn {
+  cursor: pointer;
+  padding: 4px 10px;
+  font-size: 18px;
+  border-radius: 0px;
+  transition: opacity 0.2s ease;
+  user-select: none;
+}
+
+
+.page-indicator {
+  font-size: 13px;
+  letter-spacing: 0.05em;
+}
+
+
+
+/* ===============================================
+   MOBILE RESPONSIVE
+=============================================== */
+
+@media (max-width: 768px) {
+
+  /* 모바일에서는 좀 더 넓게 */
+  .still-frame {
+    width: 90vw;
+    max-width: 90vw;
+    max-height: 55vh;
   }
+
+  .still-frame img {
+    max-height: 55vh;
+  }
+
+  .slider-controls {
+    margin-top: 8px;
+    gap: 14px;
+  }
+
+  .slider-btn {
+    font-size: 16px;
+  }
+
+  .page-indicator {
+    font-size: 12px;
+  }
+}
+
+
+/* ===============================================
+   FULLSCREEN POPUP
+=============================================== */
+
+.popup {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.popup.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.popup img {
+  width: 90vw;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: 0px;
+}
+
+.popup-close {
+  position: fixed;
+  top: 24px;
+  right: 32px;
+  font-size: 20px;
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 6000;
+}
+
+.popup-arrow {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 30px;
+  color: white;
+  padding: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.popup-arrow.left {
+  left: 20px;
+}
+
+.popup-arrow.right {
+  right: 20px;
 }
