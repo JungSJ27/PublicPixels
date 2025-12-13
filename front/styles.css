@@ -93,7 +93,7 @@ section:first-of-type {
 
 /* 바코드 이미지 — ✨강한 블렌드 모드 적용 */
 #section1 .code-stamp img {
-  width: 0px;
+  width: 300px;
   height: auto;
 
   /* === 원하는 느낌 선택 === */
