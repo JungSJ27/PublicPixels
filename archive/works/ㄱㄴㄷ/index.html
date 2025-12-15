@@ -3,25 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ㄱㄴㄷ | Archive</title>
 
-  <!-- Global header + styles -->
-  <link rel="stylesheet" href="/front/styles.css" />
-  <link rel="stylesheet" href="/front/header.css" />
+  <title>Still, Life goes on | Archive</title>
 
-  <!-- Page-specific CSS -->
-  <link rel="stylesheet" href="abc.css" />
+  <!-- Global PublicPixels CSS -->
+  <link rel="stylesheet" href="/front/styles.css">
+  <link rel="stylesheet" href="/front/header.css">
 
-  <!-- Header loader -->
+  <!-- Page CSS -->
+  <link rel="stylesheet" href="abc.css">
+
+  <!-- Header Loader -->
   <script src="/front/headerLoader.js" defer></script>
 
-  <!-- Ambient Moths -->
-  <script src="/highlight/ambient-moths.js" defer></script>
-
-  <!-- 3D Viewer -->
-  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-
-  <!-- Page JS -->
+  <!-- Header Scroll JS -->
   <script src="abc.js" defer></script>
 </head>
 
@@ -30,61 +25,115 @@
   <!-- HEADER INCLUDE -->
   <div data-include="header"></div>
 
-  <!-- LIST / BACK BUTTON -->
-  <div class="list-toggle" onclick="history.back()">
+  <!-- LIST BUTTON -->
+  <div class="list-toggle" onclick="location.href='/archive/'">
     <svg viewBox="0 0 24 24" class="ic-list">
       <g fill="none" stroke="currentColor" stroke-width="1.6">
-        <line x1="4" y1="6" x2="20" y2="6"/>
+        <line x1="4" y1="6"  x2="20" y2="6"/>
         <line x1="4" y1="12" x2="20" y2="12"/>
         <line x1="4" y1="18" x2="20" y2="18"/>
       </g>
     </svg>
   </div>
 
-  <canvas id="ambient-moths"></canvas>
+  <!-- MAIN ART WRAP -->
+  <main class="art-wrap">
 
-  <!-- MAIN -->
-  <main class="page">
-
-    <section class="hero">
-      <div class="img-wrap">
-        <img src="./metalwork-main.jpg" class="main-img" />
-      </div>
-
-      <div class="meta">
-        <h1>Metalwork</h1>
-        <p class="year">2025</p>
-
-        <p class="desc">
-          A metal structure balancing tension and weight.<br>
-          Later scanned into a 3D object to explore the shift between physical and digital.
-        </p>
-
-        <div class="tags">
-          <span class="tag">Sculpture</span>
-          <span class="tag">Metalwork</span>
-          <span class="tag">3D Scan</span>
-        </div>
+    <!-- VIDEO -->
+    <section class="hero-video">
+      <div class="video-container">
+        <iframe 
+          src="https://www.youtube.com/embed/NB8XGl2i_3g?autoplay=0&mute=1&controls=1"
+          allowfullscreen
+        ></iframe>
       </div>
     </section>
 
-    <section class="model-block">
-      <h2>3D Scan Model</h2>
-      <model-viewer 
-        src="./metalwork-model.glb"
-        ar
-        auto-rotate
-        camera-controls
-        shadow-intensity="1"
-      ></model-viewer>
+    <!-- Title + Basic Info -->
+    <section class="art-head">
+      <h1 class="art-title">Still, Life goes on</h1>
+
+      <p class="art-meta">
+        2025<br>
+        3D-printed PLA, servo & stepper motors, Arduino, DM542T motor driver, ultrasonic sensor, welded metal, mixed media
+      </p>
     </section>
+
+    <!-- Overview -->
+    <section class="art-section">
+      <p>
+        <i>Still, Life goes on</i> invites viewers to step back from the intensity of the present moment and recognize
+        that no emotion, no circumstance, is ever final. Everything passes. The wheel keeps turning.
+      </p><br>
+      <p>
+        At the center of the piece is a mechanical spinning wheel that usually rotates in a steady rhythm. When a
+        viewer is detected, the wheel’s speed and direction shift unpredictably, only to gradually return to its
+        original motion. This subtle transformation reflects how life reacts to outside forces but ultimately finds
+        its way back to balance.
+      </p><br>
+      <p>
+        Mounted above the wheel is a robotic moth that moves with quiet regularity, as if animated by its own
+        internal drive. Its presence suggests vulnerability and persistence, mirroring the cycles of change below.
+      </p><br>
+      <p>
+        This work is deeply personal. One of my earliest memories is of my great-grandmother raising silkworms.
+        I studied textiles in Korea and silk has remained a central material in my practice. The cocoon, the wheel,
+        the transformation—these elements are part of my own lineage. In <i>Still, Life Goes On</i>, I connect that
+        memory with contemporary new media art, using sensors, motors, 3D printing, and real-time interaction to
+        create a work that is both intimate and dynamic.
+      </p><br>
+      <p>
+        The work exists in the space between tradition and technology, between personal memory and shared
+        experience. It speaks to the soft persistence of life—that even in moments of disruption, we continue to
+        move forward, quietly, steadily, becoming.
+      </p>
+    </section>
+
+    <div class="above-slider-link1">
+      <a href="/studiolog/log/202505.N1/">
+        <svg class="ic-arrow" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M7 17 L17 7" stroke="currentColor" stroke-width="1.5" fill="none"/>
+          <path d="M10 7h7v7" stroke="currentColor" stroke-width="1.5" fill="none"/>
+        </svg>
+        Explore Exhibition #1
+      </a>
+    </div>
+
+       <div class="above-slider-link2">
+      <a href="/studiolog/log/202505.N2/">
+        <svg class="ic-arrow" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M7 17 L17 7" stroke="currentColor" stroke-width="1.5" fill="none"/>
+          <path d="M10 7h7v7" stroke="currentColor" stroke-width="1.5" fill="none"/>
+        </svg>
+        Explore Exhibition #2
+      </a>
+    </div>
+
+    <!-- Stills -->
+    <section class="art-section">
+
+    <div class="stills-slider">
+      <div class="still-frame"></div>
+
+      <div class="slider-controls">
+        <span class="slider-btn left">‹</span>
+        <span class="page-indicator">1 / 5</span>
+        <span class="slider-btn right">›</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FULLSCREEN POPUP -->
+  <div id="popup" class="popup">
+    <span class="popup-arrow left">‹</span>
+    <img id="popup-img" src="">
+    <span class="popup-arrow right">›</span>
+    <button class="popup-close">×</button>
+  </div>
+
 
   </main>
 
-  <!-- LIGHTBOX -->
-  <div id="lightbox" class="lightbox">
-    <img id="lightbox-img"/>
-  </div>
-
+<script defer src="/front/favicons.js"></script>
 </body>
 </html>

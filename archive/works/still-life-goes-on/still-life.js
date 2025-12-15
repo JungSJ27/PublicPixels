@@ -1,155 +1,90 @@
 /* =======================================================
-   HEADER SHOW / HIDE  (scroll up = show, scroll down = hide)
+   PAGE INIT
 ======================================================= */
 
-window.addEventListener("load", () => {
-  // headerLoader로 include된 헤더 잡기
+window.addEventListener("DOMContentLoaded", () => {
+  initHeaderScroll();
+  initVideoFade();
+  initImageSlider();
+});
+
+/* =======================================================
+   HEADER SHOW / HIDE
+======================================================= */
+
+function initHeaderScroll() {
   const header =
     document.querySelector("header.pp-header") ||
     document.querySelector(".pp-header") ||
     document.querySelector("header");
   const listToggle = document.querySelector(".list-toggle");
-
   if (!header) return;
 
-  function applyHidden(isHidden) {
-    if (isHidden) {
-      header.classList.add("header-hidden");
-      if (listToggle) listToggle.classList.add("header-hidden");
-    } else {
-      header.classList.remove("header-hidden");
-      if (listToggle) listToggle.classList.remove("header-hidden");
-    }
+  function applyHidden(hide) {
+    header.classList.toggle("header-hidden", hide);
+    listToggle?.classList.toggle("header-hidden", hide);
   }
 
   let lastY = window.scrollY;
-
-  // 첫 로딩 시 상태
-  if (window.scrollY > 10) applyHidden(true);
-  else applyHidden(false);
+  applyHidden(lastY > 10);
 
   window.addEventListener("scroll", () => {
     const y = window.scrollY;
-
-    // 맨 위 근처면 항상 보이게
     if (y < 10) {
       applyHidden(false);
-      lastY = y;
-      return;
-    }
-
-    // 스크롤 방향에 따라 토글
-    if (y < lastY - 2) {
-      // 위로 스크롤 = 보이기
-      applyHidden(false);
     } else if (y > lastY + 2) {
-      // 아래로 스크롤 = 숨기기
       applyHidden(true);
+    } else if (y < lastY - 2) {
+      applyHidden(false);
     }
-
     lastY = y;
   });
-});
-
-/* =======================================================
-   VIDEO FADE-IN
-======================================================= */
-document.addEventListener("DOMContentLoaded", () => {
-  const iframe = document.querySelector("iframe");
-  if (!iframe) return;
-
-  iframe.setAttribute("allow", "autoplay");
-  iframe.style.opacity = 0;
-
-  setTimeout(() => {
-    iframe.style.transition = "opacity 0.8s ease";
-    iframe.style.opacity = 1;
-  }, 200);
-});
-
-/* IMAGE SLIDER + FULLSCREEN VIEWER */
-
-const images = [
-  "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/still%2Clifegoeson/G_25SP_JungS_Image_01.jpg",
-  "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/still%2Clifegoeson/G_25SP_JungS_Image_02.jpg",
-  "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/still%2Clifegoeson/G_25SP_JungS_Image_03.jpg",
-  "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/still%2Clifegoeson/G_25SP_JungS_Image_04.jpg",
-  "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/still%2Clifegoeson/G_25SP_JungS_Image_05.jpg"
-];
-
-let current = 0;
-
-const stillFrame = document.querySelector(".still-frame");
-const displayImg = document.createElement("img");
-stillFrame.appendChild(displayImg);
-
-const pageText = document.querySelector(".page-indicator");
-
-/* initial render */
-function render() {
-  displayImg.src = images[current];
-  pageText.textContent = `${current + 1} / ${images.length}`;
 }
 
-document.querySelector(".slider-btn.left").addEventListener("click", () => {
-  current = (current - 1 + images.length) % images.length;
-  render();
-});
+/* =======================================================
+   VIDEO FADE
+======================================================= */
 
-document.querySelector(".slider-btn.right").addEventListener("click", () => {
-  current = (current + 1) % images.length;
-  render();
-});
+function initVideoFade() {
+  const iframe = document.querySelector(".hero-video iframe");
+  if (!iframe) return;
+  iframe.style.opacity = 0;
+  setTimeout(() => {
+    iframe.style.transition = "opacity .8s ease";
+    iframe.style.opacity = 1;
+  }, 200);
+}
 
-/* click → fullscreen */
-const popup = document.getElementById("popup");
-const popupImg = document.getElementById("popup-img");
-const popupClose = document.querySelector(".popup-close");
+/* =======================================================
+   IMAGE SLIDER
+======================================================= */
 
-stillFrame.addEventListener("click", () => {
-  popup.classList.add("show");
-  popupImg.src = images[current];
-});
+function initImageSlider() {
+  const images = [
+    "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/still%2Clifegoeson/G_25SP_JungS_Image_01.jpg",
+    "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/still%2Clifegoeson/G_25SP_JungS_Image_02.jpg",
+    "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/still%2Clifegoeson/G_25SP_JungS_Image_03.jpg",
+    "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/still%2Clifegoeson/G_25SP_JungS_Image_04.jpg",
+    "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/still%2Clifegoeson/G_25SP_JungS_Image_05.jpg"
+  ];
 
-/* popup close */
-popupClose.addEventListener("click", () => {
-  popup.classList.remove("show");
-});
+  const stillFrame = document.querySelector(".still-frame");
+  const left = document.querySelector(".slider-btn.left");
+  const right = document.querySelector(".slider-btn.right");
+  const page = document.querySelector(".page-indicator");
+  if (!stillFrame || !left || !right || !page) return;
 
-/* popup arrows */
-document.querySelector(".popup-arrow.left").addEventListener("click", () => {
-  current = (current - 1 + images.length) % images.length;
-  popupImg.src = images[current];
-});
+  let idx = 0;
+  const img = document.createElement("img");
+  stillFrame.appendChild(img);
 
-document.querySelector(".popup-arrow.right").addEventListener("click", () => {
-  current = (current + 1) % images.length;
-  popupImg.src = images[current];
-});
-
-/* ESC key closes popup */
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") popup.classList.remove("show");
-});
-
-/* touch swipe for mobile */
-let startX = 0;
-
-popup.addEventListener("touchstart", (e) => {
-  startX = e.touches[0].clientX;
-});
-
-popup.addEventListener("touchend", (e) => {
-  let diff = e.changedTouches[0].clientX - startX;
-
-  if (diff > 50) {
-    current = (current - 1 + images.length) % images.length;
-  } else if (diff < -50) {
-    current = (current + 1) % images.length;
+  function render() {
+    img.src = images[idx];
+    page.textContent = `${idx + 1} / ${images.length}`;
   }
 
-  popupImg.src = images[current];
-});
+  left.onclick = () => { idx = (idx - 1 + images.length) % images.length; render(); };
+  right.onclick = () => { idx = (idx + 1) % images.length; render(); };
 
-/* run initial */
-render();
+  render();
+}
