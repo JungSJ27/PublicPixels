@@ -1,4 +1,18 @@
 /* =======================================================
+   PAGE INIT
+======================================================= */
+
+window.addEventListener("DOMContentLoaded", () => {
+  // headerLoader가 header를 DOM에 넣은 다음 프레임에 실행
+  requestAnimationFrame(() => {
+    initHeaderScroll();
+  });
+
+  initVideoFade();
+  initImageSlider();
+});
+
+/* =======================================================
    HEADER SHOW / HIDE  (scroll up = show, scroll down = hide)
 ======================================================= */
 
@@ -50,6 +64,7 @@ window.addEventListener("load", () => {
     lastY = y;
   });
 });
+
 
 /* =======================================================
    VIDEO FADE-IN

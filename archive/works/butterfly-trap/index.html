@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Butterfly Trap | Archive</title>
+  <title>Still, Life goes on | Archive</title>
 
   <!-- Global PublicPixels CSS -->
   <link rel="stylesheet" href="/front/styles.css">
@@ -12,12 +12,23 @@
 
   <!-- Page CSS -->
   <link rel="stylesheet" href="butterfly-trap.css">
-
+  
+  <!-- ✅ 반드시 추가 -->
+  <script
+    type="module"
+    src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
+  </script>
+  
   <!-- Header Loader -->
   <script src="/front/headerLoader.js" defer></script>
 
-  <!-- Header Scroll JS -->
-  <script src="butterfly-trap.js" defer></script>
+  <!-- ⭐ model-viewer (필수) -->
+  <script type="module"
+    src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
+  </script>
+
+  <!-- Page JS (헤더, 슬라이더만 담당) -->
+  <script type="module" src="butterfly-trap.js"></script>
 </head>
 
 <body data-page="log">
@@ -42,7 +53,7 @@
     <!-- VIDEO -->
     <section class="hero-video">
       <div class="video-container">
-      <iframe width="560" height="315" src="https://www.youtube.com/embed/0ALvS8t-azo?si=X6Z_rN595JBmywNL" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/0ALvS8t-azo?si=z6Gg4MUpFWz0oRfB" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
     </section>
 
@@ -86,6 +97,8 @@
       </p>
     </section>
 
+
+    <!-- Exhibition Links -->
     <div class="above-slider-link1">
       <a href="/studiolog/log/202501/">
         <svg class="ic-arrow" viewBox="0 0 24 24" aria-hidden="true">
@@ -96,31 +109,31 @@
       </a>
     </div>
 
+
     <!-- Stills -->
     <section class="art-section">
+      <div class="stills-slider">
+        <div class="still-frame"></div>
 
-    <div class="stills-slider">
-      <div class="still-frame"></div>
-
-      <div class="slider-controls">
-        <span class="slider-btn left">‹</span>
-        <span class="page-indicator">1 / 5</span>
-        <span class="slider-btn right">›</span>
+        <div class="slider-controls">
+          <span class="slider-btn left">‹</span>
+          <span class="page-indicator">1 / 5</span>
+          <span class="slider-btn right">›</span>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- FULLSCREEN POPUP -->
-  <div id="popup" class="popup">
-    <span class="popup-arrow left">‹</span>
-    <img id="popup-img" src="">
-    <span class="popup-arrow right">›</span>
-    <button class="popup-close">×</button>
-  </div>
+    <!-- FULLSCREEN POPUP -->
+    <div id="popup" class="popup">
+      <span class="popup-arrow left">‹</span>
+      <img id="popup-img" src="">
+      <span class="popup-arrow right">›</span>
+      <button class="popup-close">×</button>
+    </div>
 
 
   </main>
 
-<script defer src="/front/favicons.js"></script>
+  <script defer src="/front/favicons.js"></script>
 </body>
 </html>
