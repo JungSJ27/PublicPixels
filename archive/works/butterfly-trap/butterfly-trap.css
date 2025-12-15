@@ -455,8 +455,8 @@ header.header-hidden {
   .popup-nav {
     display: flex;
     justify-content: center;
-    gap: 15px;
-    margin-top: 12px;   /* 이미지 바로 아래 */
+    gap: 10px;
+    margin-top: 20px;   /* 이미지 바로 아래 */
   }
 
   .popup-arrow {
