@@ -204,75 +204,22 @@ header.header-hidden {
 
 }
 
-/* 3D VIEWER (나중에 쓸 수도 있으니 남겨둠) */
-.viewer-box {
-  margin-top: 20px;
-  width: 100%;
-  padding: 60px;
-  background: #000;
-  border-radius: 12px;
-  color: #fff;
-  text-align: center;
-  font-size: 14px;
-  letter-spacing: 0.05em;
-}
-
-
-/* ============================
-   3D MODEL VIEWER STYLE (FIXED)
-============================ */
-
-.model-viewer-wrap {
-  width: 80%;
-  height: 500px;
-  margin:50px auto 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background:transparent;
-  border: 0px solid #eee;
-  border-radius: 6px;
-  overflow: hidden;
-}
-
-/* ⭐ 여기만 만지면 됨 */
-.model-viewer-wrap model-viewer {
-  width: 100%;   /* ← 좌우 줄이고 싶으면 60~70% */
-  height: 100%;
-  display: block;
-}
-
-
-/* model viewer 자체 위 여백 */
-model-viewer {
-  display: block;
-  margin: 40px auto 20px;
-}
-
 
 /* =======================================================
    ABOVE SLIDER LINK
    ======================================================= */
 /* 공통 박스 스타일 */
-.above-slider-link1 {
+.above-slider-link {
   text-align: center;
-  margin: 60px auto 10px;
+  margin: 70px auto 10px;
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
-.above-slider-link2 {
-  text-align: center;
-  margin: 0 auto 40px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
 
 /* 공통 링크 스타일 — 최중요! */
-.above-slider-link1 a,
-.above-slider-link2 a {
+.above-slider-link a{
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -285,9 +232,8 @@ model-viewer {
 }
 
 /* hover 효과 */
-.above-slider-link1 a:hover,
-.above-slider-link2 a:hover {
-  color: #320bc0;
+.above-slider-link a:hover {
+  color: #0cca9e;
   opacity: 1;
 }
 
@@ -311,7 +257,7 @@ model-viewer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 40px;
+  margin-top: 20px;
 }
 
 /* 이미지 프레임: 너비 기준을 70vw로 통일 */
