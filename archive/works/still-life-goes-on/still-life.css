@@ -448,20 +448,22 @@ model-viewer {
     justify-content: center;
   }
 
-  /* 이미지 프레임 */
   .still-frame {
-    width: 90vw;
-    max-width: 90vw;
-    max-height: 55vh;
-    margin: 0 auto;          /* ⭐ 핵심 */
-  }
+      width: 100%;
+      max-width: none;
+      padding-left: 5vw;
+      padding-right: 5vw;
+      box-sizing: border-box;   /* ⭐⭐⭐ 핵심 */
+      max-height: 55vh;
+      margin: 0 auto;
+    }
 
-  .still-frame img {
-    width: 100%;
-    height: auto;
-    max-height: 55vh;
-    object-fit: contain;
-  }
+    .still-frame img {
+      width: 100%;
+      height: auto;
+      max-height: 55vh;
+      object-fit: contain;
+    }
 
   /* 컨트롤 */
   .slider-controls {
