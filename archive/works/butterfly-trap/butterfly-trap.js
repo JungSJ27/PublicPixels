@@ -85,12 +85,18 @@ document.addEventListener("DOMContentLoaded", () => {
 /* IMAGE SLIDER + FULLSCREEN VIEWER */
 
 const images = [
-  "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/still%2Clifegoeson/G_25SP_JungS_Image_01.jpg",
-  "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/still%2Clifegoeson/G_25SP_JungS_Image_02.jpg",
-  "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/still%2Clifegoeson/G_25SP_JungS_Image_03.jpg",
-  "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/still%2Clifegoeson/G_25SP_JungS_Image_04.jpg",
-  "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/still%2Clifegoeson/G_25SP_JungS_Image_05.jpg"
+  "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/butterfly-trap/IMG_1790.png",
+  "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/butterfly-trap/IMG_1791.JPG",
+  "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/butterfly-trap/IMG_9778.png",
+  "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/butterfly-trap/IMG_9781.png",
+  "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/butterfly-trap/IMG_9860.png",
+  "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/butterfly-trap/IMG_9861.png",
+  "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/butterfly-trap/IMG_9862.png",
+  "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/butterfly-trap/IMG_9875.png",
+  "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/butterfly-trap/IMG_9881.png",
+  "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/butterfly-trap/IMG_9886.png"
 ];
+
 
 let current = 0;
 
