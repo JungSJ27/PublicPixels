@@ -3,13 +3,17 @@
 ======================================================= */
 
 window.addEventListener("DOMContentLoaded", () => {
-  initHeaderScroll();
+  // headerLoader가 header를 DOM에 넣은 다음 프레임에 실행
+  requestAnimationFrame(() => {
+    initHeaderScroll();
+  });
+
   initVideoFade();
   initImageSlider();
 });
 
 /* =======================================================
-   HEADER SHOW / HIDE
+   HEADER SHOW / HIDE (scroll up = show, scroll down = hide)
 ======================================================= */
 
 function initHeaderScroll() {
@@ -17,26 +21,37 @@ function initHeaderScroll() {
     document.querySelector("header.pp-header") ||
     document.querySelector(".pp-header") ||
     document.querySelector("header");
+
   const listToggle = document.querySelector(".list-toggle");
   if (!header) return;
 
-  function applyHidden(hide) {
-    header.classList.toggle("header-hidden", hide);
-    listToggle?.classList.toggle("header-hidden", hide);
+  function applyHidden(isHidden) {
+    header.classList.toggle("header-hidden", isHidden);
+    if (listToggle) {
+      listToggle.classList.toggle("header-hidden", isHidden);
+    }
   }
 
   let lastY = window.scrollY;
+
+  // 초기 상태
   applyHidden(lastY > 10);
 
   window.addEventListener("scroll", () => {
     const y = window.scrollY;
+
     if (y < 10) {
       applyHidden(false);
-    } else if (y > lastY + 2) {
-      applyHidden(true);
-    } else if (y < lastY - 2) {
-      applyHidden(false);
+      lastY = y;
+      return;
     }
+
+    if (y > lastY + 2) {
+      applyHidden(true);   // ↓ 스크롤
+    } else if (y < lastY - 2) {
+      applyHidden(false);  // ↑ 스크롤
+    }
+
     lastY = y;
   });
 }
