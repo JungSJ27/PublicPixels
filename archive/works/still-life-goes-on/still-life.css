@@ -355,6 +355,13 @@ model-viewer {
 /* ===============================================
    FULLSCREEN POPUP
 =============================================== */
+body.popup-open header,
+body.popup-open .pp-header,
+body.popup-open .list-toggle {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: translateY(-40px) !important;
+}
 
 .popup {
   position: fixed;
@@ -421,11 +428,6 @@ model-viewer {
 =============================================== */
 @media (max-width: 768px) {
 
-  /* 전체 섹션 좌우 여백 통제 */
-  .art-section {
-    padding-left: 0;
-    padding-right: 0;
-  }
 
   /* 슬라이더 전체 래퍼 중앙 정렬 */
   .stills-slider {
