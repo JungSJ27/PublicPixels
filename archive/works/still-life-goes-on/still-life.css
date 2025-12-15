@@ -113,6 +113,7 @@ header.header-hidden {
   transform: translateY(-28px);
 }
 
+
 /* ===============================================
    ART WRAP
 =============================================== */
@@ -150,6 +151,7 @@ header.header-hidden {
   margin-top: 10px;
   margin-bottom: 20px;
   margin-left: 10px;
+  margin-right: 10px;
 }
 
 .art-title {
@@ -163,35 +165,24 @@ header.header-hidden {
   color: #000000;
   line-height: 1.6;
 }
-
-/* TAGS (지금은 사용 안 해도 남겨둠) */
-.art-tags {
-  list-style: none;
-  padding: 0;
-  margin: 14px 0 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+.art-meta.medium {
+  padding-bottom: 14px;
+  margin-bottom: 0px;      /* 본문과의 거리 */
+  border-bottom: 1px solid rgba(0,0,0,0.1);
 }
 
-.art-tags li {
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: #f5f5f5;
-  border: 1px solid #e4e4e4;
-}
 
 /* SECTIONS */
 .art-section {
-  margin-top: 40px;
+  margin-top: 0px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .art-section h2 {
   font-size: 15px;
   font-weight: 600;
-  margin: 0 0 10px;
+  margin: 0 0 0px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #555;
@@ -199,23 +190,18 @@ header.header-hidden {
 
 .art-section p {
   line-height: 1.7;
-  margin: 0 10px 12px;
+  margin: 0 0px 72px;
   font-size: 14px;
 
 }
 
-/* 3D VIEWER (나중에 쓸 수도 있으니 남겨둠) */
-.viewer-box {
-  margin-top: 20px;
-  width: 100%;
-  padding: 60px;
-  background: #000;
-  border-radius: 12px;
-  color: #fff;
-  text-align: center;
-  font-size: 14px;
-  letter-spacing: 0.05em;
+
+.art-section p.text.kor {
+  line-height: 1.85;    /* ⭐ 한글 가독성 */
+  font-size: 13px;      /* 살짝 작게 */
+  letter-spacing: -0.01em;
 }
+
 
 
 /* ============================
@@ -225,7 +211,7 @@ header.header-hidden {
 .model-viewer-wrap {
   width: 80%;
   height: 500px;
-  margin:50px auto 20px;
+  margin:00px auto 00px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -311,7 +297,7 @@ model-viewer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 40px;
+  margin-top: 30px;
 }
 
 /* 이미지 프레임: 너비 기준을 70vw로 통일 */
@@ -526,4 +512,14 @@ model-viewer {
   .popup-arrow:hover {
     opacity: 1;
   }
+}
+
+
+#ambient-moths {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 6; /* header보다 낮고 콘텐츠보단 위 */
 }

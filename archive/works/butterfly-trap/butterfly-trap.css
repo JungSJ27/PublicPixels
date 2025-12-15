@@ -204,6 +204,14 @@ header.header-hidden {
 
 }
 
+.art-section p.text.kor {
+  line-height: 1.85;    /* ⭐ 한글 가독성 */
+  font-size: 13px;      /* 살짝 작게 */
+  letter-spacing: -0.01em;
+}
+
+
+
 
 /* =======================================================
    ABOVE SLIDER LINK
