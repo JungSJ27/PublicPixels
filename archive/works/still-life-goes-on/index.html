@@ -103,15 +103,16 @@
     <!-- ============================
          3D MODEL VIEWER (핵심)
     ============================ -->
-    <model-viewer
-      src="./SLG.glb"
-      camera-controls
-      auto-rotate
-      autoplay
-      exposure="1"
-      shadow-intensity="0.4"
-      style="width:100%; height:500px; background:transparent;">
-    </model-viewer>
+    <div class="model-viewer-wrap">
+      <model-viewer
+        src="./SLG.glb"
+        camera-controls
+        auto-rotate
+        autoplay
+        exposure="1"
+        shadow-intensity="0.4">
+      </model-viewer>
+    </div>
 
     <!-- Exhibition Links -->
     <div class="above-slider-link1">
@@ -154,6 +155,7 @@
       <span class="popup-arrow right">›</span>
       <button class="popup-close">×</button>
     </div>
+
 
   </main>
 
