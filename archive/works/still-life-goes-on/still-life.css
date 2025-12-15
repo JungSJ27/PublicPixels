@@ -149,7 +149,7 @@ header.header-hidden {
 =============================================== */
 .art-head {
   margin-top: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 0px;
   margin-left: 10px;
   margin-right: 10px;
 }
@@ -166,7 +166,7 @@ header.header-hidden {
   line-height: 1.6;
 }
 .art-meta.medium {
-  padding-bottom: 14px;
+  padding-bottom: 0px;
   margin-bottom: 0px;      /* 본문과의 거리 */
   border-bottom: 1px solid rgba(0,0,0,0.1);
 }
@@ -232,7 +232,7 @@ header.header-hidden {
 /* model viewer 자체 위 여백 */
 model-viewer {
   display: block;
-  margin: 40px auto 20px;
+  margin: 00px auto 20px;
 }
 
 
