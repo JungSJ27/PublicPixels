@@ -121,17 +121,19 @@ const popup = document.getElementById("popup");
 const popupImg = document.getElementById("popup-img");
 const popupClose = document.querySelector(".popup-close");
 
+/* OPEN */
 stillFrame.addEventListener("click", () => {
   popup.classList.add("show");
   popupImg.src = images[current];
+  document.body.classList.add("popup-open"); // ⭐ header 숨김
 });
 
-/* popup close */
+/* CLOSE (X 버튼) */
 popupClose.addEventListener("click", () => {
-  popup.classList.remove("show");
+  closePopup();
 });
 
-/* popup arrows */
+/* LEFT / RIGHT */
 document.querySelector(".popup-arrow.left").addEventListener("click", () => {
   current = (current - 1 + images.length) % images.length;
   popupImg.src = images[current];
@@ -141,6 +143,20 @@ document.querySelector(".popup-arrow.right").addEventListener("click", () => {
   current = (current + 1) % images.length;
   popupImg.src = images[current];
 });
+
+/* ESC 키로 닫기 */
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && popup.classList.contains("show")) {
+    closePopup();
+  }
+});
+
+/* 공통 닫기 함수 */
+function closePopup() {
+  popup.classList.remove("show");
+  document.body.classList.remove("popup-open"); // ⭐ 꼭 필요
+}
+
 
 /* ESC key closes popup */
 document.addEventListener("keydown", (e) => {

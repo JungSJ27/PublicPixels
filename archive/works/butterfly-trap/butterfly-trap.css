@@ -113,6 +113,7 @@ header.header-hidden {
   transform: translateY(-28px);
 }
 
+
 /* ===============================================
    ART WRAP
 =============================================== */
@@ -148,8 +149,9 @@ header.header-hidden {
 =============================================== */
 .art-head {
   margin-top: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 0px;
   margin-left: 10px;
+  margin-right: 10px;
 }
 
 .art-title {
@@ -161,37 +163,26 @@ header.header-hidden {
 .art-meta {
   font-size: 13px;
   color: #000000;
-  line-height: 1.6;
+  line-height: 1.;
+}
+.art-meta.medium {
+  padding-bottom: 0px;
+  margin-bottom: 20px;      /* 본문과의 거리 */
+  border-bottom: 1px solid rgba(0,0,0,0.1);
 }
 
-/* TAGS (지금은 사용 안 해도 남겨둠) */
-.art-tags {
-  list-style: none;
-  padding: 0;
-  margin: 14px 0 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.art-tags li {
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: #f5f5f5;
-  border: 1px solid #e4e4e4;
-}
 
 /* SECTIONS */
 .art-section {
-  margin-top: 40px;
+  margin-top: 0px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .art-section h2 {
   font-size: 15px;
   font-weight: 600;
-  margin: 0 0 10px;
+  margin: 0 0 0px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #555;
@@ -199,17 +190,17 @@ header.header-hidden {
 
 .art-section p {
   line-height: 1.7;
-  margin: 0 10px 12px;
+  margin: 0 0px 25px;
   font-size: 14px;
 
 }
+
 
 .art-section p.text.kor {
   line-height: 1.85;    /* ⭐ 한글 가독성 */
   font-size: 13px;      /* 살짝 작게 */
   letter-spacing: -0.01em;
 }
-
 
 
 
@@ -227,7 +218,7 @@ header.header-hidden {
 
 
 /* 공통 링크 스타일 — 최중요! */
-.above-slider-link a{
+.above-slider-link a {
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -241,7 +232,7 @@ header.header-hidden {
 
 /* hover 효과 */
 .above-slider-link a:hover {
-  color: #0cca9e;
+  color: #10d2cb;
   opacity: 1;
 }
 
@@ -265,7 +256,7 @@ header.header-hidden {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
 /* 이미지 프레임: 너비 기준을 70vw로 통일 */
@@ -323,6 +314,13 @@ header.header-hidden {
 /* ===============================================
    FULLSCREEN POPUP
 =============================================== */
+body.popup-open header,
+body.popup-open .pp-header,
+body.popup-open .list-toggle {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: translateY(-40px) !important;
+}
 
 .popup {
   position: fixed;
@@ -389,11 +387,6 @@ header.header-hidden {
 =============================================== */
 @media (max-width: 768px) {
 
-  /* 전체 섹션 좌우 여백 통제 */
-  .art-section {
-    padding-left: 0;
-    padding-right: 0;
-  }
 
   /* 슬라이더 전체 래퍼 중앙 정렬 */
   .stills-slider {
@@ -480,4 +473,14 @@ header.header-hidden {
   .popup-arrow:hover {
     opacity: 1;
   }
+}
+
+
+#ambient-moths {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 6; /* header보다 낮고 콘텐츠보단 위 */
 }
