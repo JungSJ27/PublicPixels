@@ -204,6 +204,51 @@ header.header-hidden {
 
 }
 
+/* 3D VIEWER (나중에 쓸 수도 있으니 남겨둠) */
+.viewer-box {
+  margin-top: 20px;
+  width: 100%;
+  padding: 60px;
+  background: #000;
+  border-radius: 12px;
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+}
+
+
+/* ============================
+   3D MODEL VIEWER STYLE (FIXED)
+============================ */
+
+.model-viewer-wrap {
+  width: 80%;
+  height: 500px;
+  margin:50px auto 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background:transparent;
+  border: 0px solid #eee;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+/* ⭐ 여기만 만지면 됨 */
+.model-viewer-wrap model-viewer {
+  width: 100%;   /* ← 좌우 줄이고 싶으면 60~70% */
+  height: 100%;
+  display: block;
+}
+
+
+/* model viewer 자체 위 여백 */
+model-viewer {
+  display: block;
+  margin: 40px auto 20px;
+}
+
 
 /* =======================================================
    ABOVE SLIDER LINK
@@ -211,15 +256,23 @@ header.header-hidden {
 /* 공통 박스 스타일 */
 .above-slider-link1 {
   text-align: center;
-  margin: 78px auto 10px;
+  margin: 60px auto 10px;
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
+.above-slider-link2 {
+  text-align: center;
+  margin: 0 auto 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
 
 /* 공통 링크 스타일 — 최중요! */
-.above-slider-link1 a{
+.above-slider-link1 a,
+.above-slider-link2 a {
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -232,8 +285,9 @@ header.header-hidden {
 }
 
 /* hover 효과 */
-.above-slider-link1 a:hover {
-  color: #11b0d7;
+.above-slider-link1 a:hover,
+.above-slider-link2 a:hover {
+  color: #320bc0;
   opacity: 1;
 }
 
@@ -257,7 +311,7 @@ header.header-hidden {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 40px;
 }
 
 /* 이미지 프레임: 너비 기준을 70vw로 통일 */
@@ -345,20 +399,22 @@ header.header-hidden {
   position: fixed;
   top: 24px;
   right: 32px;
-  font-size: 20px;
+  font-size: 18px;
   color: white;
   background: none;
   border: none;
   cursor: pointer;
   z-index: 6000;
+  opacity: 0.6;
 }
 
 .popup-arrow {
   position: fixed;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 30px;
+  font-size: 25px;
   color: white;
+  opacity: 0.6;
   padding: 10px;
   cursor: pointer;
   user-select: none;
@@ -392,20 +448,22 @@ header.header-hidden {
     justify-content: center;
   }
 
-  /* 이미지 프레임 */
   .still-frame {
-    width: 90vw;
-    max-width: 90vw;
-    max-height: 55vh;
-    margin: 0 auto;          /* ⭐ 핵심 */
-  }
+      width: 100%;
+      max-width: none;
+      padding-left: 5vw;
+      padding-right: 5vw;
+      box-sizing: border-box;   /* ⭐⭐⭐ 핵심 */
+      max-height: 55vh;
+      margin: 0 auto;
+    }
 
-  .still-frame img {
-    width: 100%;
-    height: auto;
-    max-height: 55vh;
-    object-fit: contain;
-  }
+    .still-frame img {
+      width: 100%;
+      height: auto;
+      max-height: 55vh;
+      object-fit: contain;
+    }
 
   /* 컨트롤 */
   .slider-controls {
@@ -420,5 +478,52 @@ header.header-hidden {
 
   .page-indicator {
     font-size: 12px;
+  }
+
+}
+
+@media (max-width: 768px) {
+
+  .popup {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    /* ⭐ 전체를 가운데로 */
+    justify-content: center;
+  }
+
+  /* 이미지 */
+  .popup img {
+    width: 90vw;
+    max-height: 60vh;
+    object-fit: contain;
+    display: block;
+  }
+
+  /* 화살표 줄 */
+  .popup-nav {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 12px;   /* 이미지 바로 아래 */
+  }
+
+  .popup-arrow {
+    position: static;
+    font-size: 20px;
+    color: white;
+    padding: 16px 20px; /* ⬅️ 60px 말고 이 정도가 좋아 */
+    cursor: pointer;
+    user-select: none;
+    opacity: 0.6;
+  }
+
+  .popup-arrow:hover {
+    opacity: 1;
   }
 }
