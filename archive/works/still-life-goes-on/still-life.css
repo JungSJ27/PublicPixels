@@ -439,8 +439,6 @@ body.popup-open .list-toggle {
   .still-frame {
       width: 100%;
       max-width: none;
-      padding-left: 5vw;
-      padding-right: 5vw;
       box-sizing: border-box;   /* ⭐⭐⭐ 핵심 */
       max-height: 55vh;
       margin: 0 auto;
