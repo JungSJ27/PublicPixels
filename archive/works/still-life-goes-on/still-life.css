@@ -167,7 +167,7 @@ header.header-hidden {
 }
 
 .art-meta.medium {
-  padding-bottom: 10px;   /* ⭐ 이 값이 선 위치를 결정 */
+  padding-bottom: 8px;   /* ⭐ 이 값이 선 위치를 결정 */
   margin-bottom: 0px;
   border-bottom: 1px solid rgba(0,0,0,0.1);
 }
