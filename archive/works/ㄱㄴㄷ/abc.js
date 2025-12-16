@@ -9,7 +9,6 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   initVideoFade();
-  initImageSlider();
 });
 
 /* =======================================================
@@ -66,121 +65,72 @@ window.addEventListener("load", () => {
 });
 
 
-/* =======================================================
-   VIDEO FADE-IN
-======================================================= */
+/* =====================================
+   PHOTO COUNTER (image-based, precise)
+===================================== */
+
 document.addEventListener("DOMContentLoaded", () => {
-  const iframe = document.querySelector("iframe");
-  if (!iframe) return;
+  const leftPanel = document.querySelector(".left-panel");
+  const images = Array.from(document.querySelectorAll(".image-track img"));
+  const counter = document.querySelector(".photo-counter");
 
-  iframe.setAttribute("allow", "autoplay");
-  iframe.style.opacity = 0;
+  if (!leftPanel || !counter || images.length === 0) return;
 
-  setTimeout(() => {
-    iframe.style.transition = "opacity 0.8s ease";
-    iframe.style.opacity = 1;
-  }, 200);
-});
+  const total = images.length;
 
-/* IMAGE SLIDER + FULLSCREEN VIEWER */
+  function updateCounter() {
+    const panelRect = leftPanel.getBoundingClientRect();
 
-const images = [
-  "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/still%2Clifegoeson/G_25SP_JungS_Image_01.jpg",
-  "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/still%2Clifegoeson/G_25SP_JungS_Image_02.jpg",
-  "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/still%2Clifegoeson/G_25SP_JungS_Image_03.jpg",
-  "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/still%2Clifegoeson/G_25SP_JungS_Image_04.jpg",
-  "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/still%2Clifegoeson/G_25SP_JungS_Image_05.jpg"
-];
+    let bestRect = null;
+    let bestVisibleWidth = 0;
+    let bestIndex = 0;
 
-let current = 0;
+    // 현재 가장 많이 보이는 이미지 찾기
+    images.forEach((img, index) => {
+      const rect = img.getBoundingClientRect();
 
-const stillFrame = document.querySelector(".still-frame");
-const displayImg = document.createElement("img");
-stillFrame.appendChild(displayImg);
+      const visibleLeft = Math.max(rect.left, panelRect.left);
+      const visibleRight = Math.min(rect.right, panelRect.right);
+      const visibleWidth = Math.max(0, visibleRight - visibleLeft);
 
-const pageText = document.querySelector(".page-indicator");
+      if (visibleWidth > bestVisibleWidth) {
+        bestVisibleWidth = visibleWidth;
+        bestRect = rect;
+        bestIndex = index;
+      }
+    });
 
-/* initial render */
-function render() {
-  displayImg.src = images[current];
-  pageText.textContent = `${current + 1} / ${images.length}`;
-}
+    if (!bestRect) return;
 
-document.querySelector(".slider-btn.left").addEventListener("click", () => {
-  current = (current - 1 + images.length) % images.length;
-  render();
-});
+    // 텍스트 업데이트
+    counter.textContent = `${bestIndex + 1} / ${total}`;
 
-document.querySelector(".slider-btn.right").addEventListener("click", () => {
-  current = (current + 1) % images.length;
-  render();
-});
+    // 위치: 현재 이미지 오른쪽 하단
+    const x = bestRect.right - 16;
+    const y = bestRect.bottom - 12;
 
-/* click → fullscreen */
-const popup = document.getElementById("popup");
-const popupImg = document.getElementById("popup-img");
-const popupClose = document.querySelector(".popup-close");
+    counter.style.left = `${x}px`;
+    counter.style.top = `${y}px`;
 
-/* OPEN */
-stillFrame.addEventListener("click", () => {
-  popup.classList.add("show");
-  popupImg.src = images[current];
-  document.body.classList.add("popup-open"); // ⭐ header 숨김
-});
-
-/* CLOSE (X 버튼) */
-popupClose.addEventListener("click", () => {
-  closePopup();
-});
-
-/* LEFT / RIGHT */
-document.querySelector(".popup-arrow.left").addEventListener("click", () => {
-  current = (current - 1 + images.length) % images.length;
-  popupImg.src = images[current];
-});
-
-document.querySelector(".popup-arrow.right").addEventListener("click", () => {
-  current = (current + 1) % images.length;
-  popupImg.src = images[current];
-});
-
-/* ESC 키로 닫기 */
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && popup.classList.contains("show")) {
-    closePopup();
-  }
-});
-
-/* 공통 닫기 함수 */
-function closePopup() {
-  popup.classList.remove("show");
-  document.body.classList.remove("popup-open"); // ⭐ 꼭 필요
-}
-
-
-/* ESC key closes popup */
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") popup.classList.remove("show");
-});
-
-/* touch swipe for mobile */
-let startX = 0;
-
-popup.addEventListener("touchstart", (e) => {
-  startX = e.touches[0].clientX;
-});
-
-popup.addEventListener("touchend", (e) => {
-  let diff = e.changedTouches[0].clientX - startX;
-
-  if (diff > 50) {
-    current = (current - 1 + images.length) % images.length;
-  } else if (diff < -50) {
-    current = (current + 1) % images.length;
+    // ⭐ left-panel 영역을 벗어나면 숨김
+    if (
+      x < panelRect.left ||
+      x > panelRect.right ||
+      y < panelRect.top ||
+      y > panelRect.bottom
+    ) {
+      counter.style.opacity = "0";
+    } else {
+      counter.style.opacity = "1";
+    }
   }
 
-  popupImg.src = images[current];
-});
+  leftPanel.addEventListener("scroll", () => {
+    requestAnimationFrame(updateCounter);
+  });
 
-/* run initial */
-render();
+  window.addEventListener("resize", updateCounter);
+
+  // 초기 실행
+  updateCounter();
+});

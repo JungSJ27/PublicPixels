@@ -165,9 +165,10 @@ header.header-hidden {
   color: #000000;
   line-height: 1.;
 }
+
 .art-meta.medium {
-  padding-bottom: 0px;
-  margin-bottom: 20px;      /* 본문과의 거리 */
+  padding-bottom: 8px;   /* ⭐ 이 값이 선 위치를 결정 */
+  margin-bottom: 0px;
   border-bottom: 1px solid rgba(0,0,0,0.1);
 }
 

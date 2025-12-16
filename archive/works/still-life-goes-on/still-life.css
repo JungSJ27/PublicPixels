@@ -165,11 +165,13 @@ header.header-hidden {
   color: #000000;
   line-height: 1.6;
 }
+
 .art-meta.medium {
-  padding-bottom: 0px;
-  margin-bottom: 0px;      /* 본문과의 거리 */
+  padding-bottom: 10px;   /* ⭐ 이 값이 선 위치를 결정 */
+  margin-bottom: 0px;
   border-bottom: 1px solid rgba(0,0,0,0.1);
 }
+
 
 
 /* SECTIONS */
@@ -217,7 +219,7 @@ header.header-hidden {
   align-items: center;
   background:transparent;
   border: 0px solid #eee;
-  border-radius: 6px;
+  border-radius: 0px;
   overflow: hidden;
 }
 
@@ -428,6 +430,17 @@ body.popup-open .list-toggle {
 =============================================== */
 @media (max-width: 768px) {
 
+
+    /* 텍스트와 3D 사이 간격 줄이기 */
+  .art-section p {
+    margin-bottom: 32px;   /* 기존 72px → 32px */
+  }
+
+  /* 3D 모델 위 여백 줄이기 */
+  .model-viewer-wrap {
+    margin-top: 12px;      /* 거의 바로 붙게 */
+    height: 360px;         /* 모바일에서 높이도 줄이는 게 좋아 */
+  }
 
   /* 슬라이더 전체 래퍼 중앙 정렬 */
   .stills-slider {
