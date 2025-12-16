@@ -442,6 +442,11 @@ body.popup-open .list-toggle {
     height: 360px;         /* 모바일에서 높이도 줄이는 게 좋아 */
   }
 
+
+  .above-slider-link2 {
+    margin: 0 auto 20px;
+  }
+  
   /* 슬라이더 전체 래퍼 중앙 정렬 */
   .stills-slider {
     width: 100%;
