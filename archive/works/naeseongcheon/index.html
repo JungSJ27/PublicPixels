@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Naeseongcheon | Archive</title>
+
+  <!-- Global CSS -->
+  <link rel="stylesheet" href="/front/styles.css">
+  <link rel="stylesheet" href="/front/header.css">
+
+  <!-- Page CSS -->
+  <link rel="stylesheet" href="naeseongcheon.css">
+
+  <!-- model-viewer (한 번만) -->
+  <script
+    type="module"
+    src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
+  </script>
+
+  <!-- Header Loader -->
+  <script src="/front/headerLoader.js" defer></script>
+
+  <!-- Page JS -->
+  <script type="module" src="naeseongcheon.js"></script>
+</head>
+
+
+<body data-page="log">
+
+  <!-- HEADER INCLUDE -->
+  <div data-include="header"></div>
+
+
+  <!-- LIST BUTTON -->
+  <div class="list-toggle" onclick="location.href='/archive/'">
+    <svg viewBox="0 0 24 24" class="ic-list">
+      <g fill="none" stroke="currentColor" stroke-width="1.6">
+        <line x1="4" y1="6"  x2="20" y2="6"/>
+        <line x1="4" y1="12" x2="20" y2="12"/>
+        <line x1="4" y1="18" x2="20" y2="18"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- MAIN ART WRAP -->
+  <main class="art-wrap">
+
+    <!-- VIDEO -->
+    <section class="hero-video">
+      <div class="video-container">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/uMCc2pFgd_o?si=4qHsBPd02fCaPVJW" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>      </div>
+    </section>
+
+    <!-- Title + Basic Info -->
+    <section class="art-head">
+      <h1 class="art-title">Naeseongcheon</h1>
+
+    <p class="art-meta medium">
+        2025<br>
+        Mixed media (3D-printed PLA, electronics, motors, custom mechanical system)<br>
+        200 × 100 cm  
+      </p>
+    </section>
+
+    <!-- Overview -->
+    <section class="art-section">
+      <p>
+      <i>Butterfly Trap</i> is an installation that explores the tension 
+      between confinement and freedom through a motor-driven butterfly 
+      enclosed in a transparent structure and its digital counterparts displayed on screens.
+       By juxtaposing physical motion with mediated imagery, the work examines the fragile boundary 
+       between reality and simulation, and questions how freedom is constructed within technological systems.
+      </p><br>
+      <p class="text kor">
+      <i>Butterfly Trap</i>은 투명한 박스 안에서 모터로 구동되는 나비와 디지털 스크린을 통해, 
+      갇힌 존재와 자유롭게 비행하는 이미지 사이의 대비를 드러내는 설치 작품이다. 
+      물리적 구조 안에서 반복적으로 움직이는 나비는 보호와 통제라는 이중적 의미를 동시에 지니며, 
+      스크린 속 이미지와 병치되면서 현실과 디지털, 생명과 이미지의 경계를 모호하게 만든다. 
+      이 작업은 우리가 기술을 통해 만들어낸 환경 속에서 자유가 어떻게 규정되고 제한되는지를 질문하며, 감시와 유혹, 탈출 욕망이 교차하는 공간을 형성한다.
+      </p>
+    </section>
+
+  </main>
+
+  <script defer src="/front/favicons.js"></script>
+</body>
+</html>
