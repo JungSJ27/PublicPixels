@@ -44,66 +44,91 @@
 
 
   <!-- MAIN SPLIT LAYOUT -->
-  <main class="split-wrap">
+<main class="split-wrap">
 
-    <!-- LEFT: horizontal scroll images -->
-    <section class="left-panel">
-      <div class="image-track">
-        <img src="https://picsum.photos/800/500?1" alt="">
-        <img src="https://picsum.photos/800/500?2" alt="">
-        <img src="https://picsum.photos/800/500?3" alt="">
-        <img src="https://picsum.photos/800/500?4" alt="">
-      </div>
+  <!-- LEFT: horizontal scroll images -->
+  <section class="left-panel">
+    <div class="image-track">
+      <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/abc/IMG_0150.png" alt="ㄱㄴㄷ">
+    </div>
 
-      <!-- photo counter (caption style) -->
-      <div class="photo-counter">1 / 4</div>
-    </section>
+    <!-- photo counter -->
+    <div class="photo-counter">1 / 4</div>
+  </section>
 
+  <!-- RIGHT: text content -->
+  <section class="right-panel">
 
-    <!-- RIGHT: vertical scroll -->
-    <section class="right-panel">
-      <div class="text-block">
-        <h1>ㄱㄴㄷ</h1>
-        <p class="meta">2024 · Mixed media installation</p>
-        
-    <p>
-    <i>Still, Life Goes On</i> reflects on the quiet persistence of life amid disruption.
-    The work centers on a spinning wheel that normally rotates in a steady rhythm.
-    When a viewer approaches, its movement becomes unstable—changing speed and direction—
-    before gradually returning to its original state.
-    </p>
+    <!-- Title + Basic Info -->
+    <div class="art-head">
+      <h1 class="art-title">ㄱㄴㄷ</h1>
+      <p class="art-meta medium">
+        2025<br>
+        Welded steel<br>
+        9 × 40 × 8 cm
+      </p>
+    </div>
 
-    <p>
-    This momentary disturbance mirrors how life reacts to external forces.
-    We are shaken, redirected, and altered, yet we continue forward.
-    Nothing remains fixed. Motion resumes.
-    </p>
+    <!-- English -->
+    <div class="art-section">
+      <p>
+        This work is constructed from the structural forms of the basic Hangul characters ㄱ, ㄴ, and ㄷ.
+        Hangul was created by King Sejong for the people,
+        yet in the late Joseon dynasty, within a corrupted power structure,
+        the justification of “preserving culture” was transformed into an arrogance
+        that delayed meaningful responses to historical change.
+      </p>
 
-    <p>
-    Above the wheel, a robotic moth moves with subtle regularity.
-    Drawn instinctively toward light, the moth embodies both vulnerability and determination.
-    Its presence suggests an inner drive that persists regardless of outcome.
-    </p>
+      <p>
+        Confronted by foreign powers equipped with modern weaponry,
+        Joseon was forced to respond through outdated systems and ways of thinking.
+        As a result, the very people who were meant to be protected
+        became the direct recipients of violence.
+      </p>
 
-    <p>
-    The work exists between tradition and technology, memory and machinery.
-    It does not offer resolution, but instead lingers in repetition—
-    a reminder that even in stillness, life quietly goes on.
-    </p>
+      <p>
+        The transformation of written form into the shape of an arrow visualizes
+        how symbols of creation and protection
+        can be converted into instruments of oppression and violence.
+      </p>
+    </div>
 
-      </div>
+    <!-- Korean -->
+    <div class="art-section">
+      <p class="kor">
+        이 작품은 한글의 기본 자형인 ㄱ, ㄴ, ㄷ의 구조를 바탕으로 제작되었다.
+        한글은 세종대왕이 국민을 위해 창조한 문자이지만,
+        조선 말기 부패한 권력 구조 속에서 ‘문화를 지킨다’는 명분은
+        시대의 변화에 대한 대응을 지연시키는 오만으로 변질되었다.
+      </p>
 
-      <div class="model-block">
-        <model-viewer
-          src="./abc.glb"
-          camera-controls
-          auto-rotate
-          exposure="1">
-        </model-viewer>
-      </div>
-    </section>
+      <p class="kor">
+        근대적 무기를 갖춘 외세에 맞서 조선은
+        낡은 체계와 인식 속에서 대응할 수밖에 없었고,
+        그 결과 그 보호의 대상이었던 국민은
+        폭력의 직접적인 수용자가 되었다.
+      </p>
 
-  </main>
+      <p class="kor">
+        문자에서 출발한 이 구조물이 화살의 형상으로 귀결되는 것은,
+        보호와 창조의 상징이
+        어떻게 억압과 폭력으로 전환되는지를 드러내기 위함이다.
+      </p>
+    </div>
+
+    <!-- MODEL -->
+    <div class="model-block">
+      <model-viewer
+        src="./abc.glb"
+        camera-controls
+        auto-rotate
+        exposure="1">
+      </model-viewer>
+    </div>
+
+  </section>
+</main>
+
 
 <script defer src="/front/favicons.js"></script>
 </body>

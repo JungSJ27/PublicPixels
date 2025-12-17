@@ -118,13 +118,15 @@ header.header-hidden {
 /* HEADER 아래부터 화면 전체 사용 */
 .split-wrap {
   position: fixed;
-  top: 70px;              /* 헤더 높이에 맞게 조정 */
+  top: 70px;
   left: 0;
   width: 100vw;
   height: calc(100vh - 70px);
   display: flex;
   background: #fff;
+  overflow: hidden; /* ⭐ 추가 */
 }
+
 
 /* =====================
    LEFT PANEL
@@ -137,6 +139,7 @@ header.header-hidden {
   overflow-y: hidden;
   box-sizing: border-box;
 }
+
 
 /* image track */
 .image-track {
@@ -182,37 +185,76 @@ header.header-hidden {
 
 
 
-
 /* =====================
    RIGHT PANEL
 ===================== */
 .right-panel {
   width: 30%;
+  min-width: 360px;
   height: 100%;
   overflow-y: auto;
-  padding: 50px;
+  overflow-x: hidden;
   box-sizing: border-box;
+  padding: 80px 60px;
 }
 
-/* TEXT */
-.text-block h1 {
-  font-size: 18px;
-  margin-bottom: 40px;
-  margin-top: 150px;
+.art-head {
+  margin-top: 10px;
+  margin-bottom: 0px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
-.meta {
-  font-size: 11px;
-  opacity: 0.55;
-  margin-bottom: 32px;
+.art-title {
+  margin: 0 0 10px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.art-meta {
+  font-size: 13px;
+  color: #000000;
+  line-height: 1.6;
+}
+
+.art-meta.medium {
+  padding-bottom: 8px;   /* ⭐ 이 값이 선 위치를 결정 */
+  margin-bottom: 0px;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
 }
 
 
-.text-block p {
-  font-size: 14px;
+
+/* SECTIONS */
+.art-section {
+  margin-top: 0px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.art-section h2 {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 0px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #555;
+}
+
+.art-section p {
   line-height: 1.7;
-  margin-bottom: 20px;
+  margin: 0 0 28px; /* ⭐ 72px → 28px */
+  font-size: 14px;
 }
+
+
+
+.art-section p.text.kor {
+  line-height: 1.85;    /* ⭐ 한글 가독성 */
+  font-size: 13px;      /* 살짝 작게 */
+  letter-spacing: -0.01em;
+}
+
 
 /* MODEL */
 .model-block {
@@ -222,26 +264,25 @@ header.header-hidden {
   height: 500px;
 }
 
-
 .model-block model-viewer {
   width: 100%;
   height: 100%;
 }
 
-
 @media (max-width: 1000px) {
 
+  /* 전체 레이아웃: 세로 스택 */
   .split-wrap {
     position: relative;
     flex-direction: column;
     height: auto;
   }
 
+  /* LEFT: 이미지 영역 */
   .left-panel {
     width: 100%;
     height: auto;
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: visible;
   }
 
   .image-track {
@@ -252,33 +293,22 @@ header.header-hidden {
   .image-track img {
     width: 100%;
     height: auto;
-    margin: 0 0 20px 0;
+    margin: 0 0 20px;
   }
 
+  /* photo counter 제거 */
   .photo-counter {
-    position: fixed;
-    bottom: 16px;
-    right: 16px;
-    left: auto;
-    top: auto;
-    transform: none;
-    background: rgba(255,255,255,0.85);
-    padding: 4px 8px;
-    font-size: 10px;
+    display: none;
   }
 
+  /* RIGHT: 텍스트 영역 */
   .right-panel {
     width: 100%;
     padding: 32px 24px;
   }
 
- 
-
+  /* MODEL */
   .model-block {
     height: 600px;
-  }
-
-    .photo-counter {
-    display: none;
   }
 }
