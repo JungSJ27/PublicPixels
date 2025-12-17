@@ -77,8 +77,6 @@ window.addEventListener("DOMContentLoaded", () => {
   initImageSlider();
 });
 
-
-
 /* =====================================
    PHOTO COUNTER (image-based, precise)
 ===================================== */
