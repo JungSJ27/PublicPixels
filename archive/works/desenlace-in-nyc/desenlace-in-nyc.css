@@ -1,70 +1,297 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* ===============================================
+   FIX PUBLICPIXELS DEFAULT LAYOUT EFFECTS
+=============================================== */
+
+body[data-page="log"] .pp-main::before,
+body[data-page="log"] .art-main::before {
+  display: none !important;
 }
 
+/* ===============================================
+   GLOBAL PAGE BODY
+=============================================== */
 body {
-  font-family: serif;
+  margin: 0;
+  font-family: 'Poppins', sans-serif;  /* styles.css 기준 */
   background: #fff;
   color: #111;
 }
 
-/* ===== HORIZONTAL STRIP ===== */
-.media-strip {
-  height: 65vh;
+/* ===============================
+   HEADER (전시 페이지 모드)
+   =============================== */
+
+body[data-page="log"] header {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: transparent !important;
+  color: rgb(241, 238, 255) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  padding-top: 10px !important;
+  z-index: 3000;
+}
+
+body[data-page="log"] header .logo-brand,
+body[data-page="log"] header .logo-roman,
+body[data-page="log"] header .logo-korean {
+  color: rgba(234, 234, 236, 0.95) !important;
+}
+
+/* 검색, 카트 아이콘 숨기기 */
+body[data-page="log"] header .search-icon,
+body[data-page="log"] header .shop-toggle {
+  display: none !important;
+}
+
+/* 스크롤에 따라 숨길 때 쓸 클래스 */
+header,
+.pp-header {
+  transition: opacity 0.35s ease;
+}
+
+.header-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ===============================
+   LIST TOGGLE (목록으로 돌아가기)
+   =============================== */
+
+.list-toggle {
+  position: fixed;
+  top: 12px;
+  right: 24px;
+  width: 28px;
+  height: 28px;
+  z-index: 3500;
+  cursor: pointer;
+  color:  rgba(234, 234, 236, 0.95);
+  opacity: 0.9;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.list-toggle:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.ic-list {
+  width: 24px;
+  height: 24px;
+}
+
+/* 헤더 숨길 때 같이 사라지도록 */
+.list-toggle.header-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ===============================
+   HEADER SLIDE ANIMATION
+   =============================== */
+
+/* 기본 상태: 보임 + 제자리 */
+body[data-page="log"] header {
+  transform: translateY(0);
+  transition: opacity 0.35s ease, transform 0.4s ease;
+}
+
+/* 숨김 상태: 살짝 위로 올려서 사라지는 느낌 */
+header.header-hidden {
+  opacity: 0;
+  transform: translateY(-28px);
+  pointer-events: none;
+}
+
+/* 리스트 버튼도 같이 위로 올라가게 */
+.list-toggle.header-hidden {
+  opacity: 0;
+  transform: translateY(-28px);
+}
+
+
+body {
+  margin: 0;
+  font-family: serif;
+  overflow: hidden;   /* 🔥 이게 핵심 */
+}
+
+
+/* 가로 스크롤 */
+.media-scroll {
+  height: 75vh;
   overflow-x: auto;
   overflow-y: hidden;
+  background: #e6e6e6;
 }
 
-.media-strip::-webkit-scrollbar {
-  display: none;
+.info {
+  height: 25vh;
+  padding: 40px;
+  box-sizing: border-box;
 }
 
-.media-track {
-  display: flex;
-  height: 100%;
+
+
+.media-canvas {
+  position: relative;
+  width: 2500px;   /* ← 가로 캔버스 */
+  height: 800px;
 }
 
-.media-item {
-  min-width: 60vw;
-  height: 100%;
-  background: #ccc;
-  margin-right: 8px;
-  flex-shrink: 0;
+/* 공통 박스 */
+.box {
+  position: absolute;
+  object-fit: contain;
+  background: black;
 }
 
-/* placeholder looks */
-.media-item.image {
-  background: #d0d0d0;
+/* ======================
+   🔥 여기서 배치 조정
+   Illustrator 좌표처럼
+====================== */
+
+.b1 { left: 0px;  top: 0px;  width: 450px; }
+.b2 { left: 0px;  top: 290px; width: 220px; }
+.b3 { left: 250px; top: 290px; width: 220px; }
+
+.b4 { left: 500px;  top: 0px;  width: 800px; }
+.b5 { left: 500px;  top: 260px;  width: 250px; }
+
+
+.b6 { left: 740px; top: 250px; width: 360px; }
+.b7 { left: 740px; top: 500px; width: 360px; }
+
+.b8 { left: 740px; top: 250px; width: 360px; }
+
+.b9 { left: 1150px; top: 250px; width: 180px; }
+
+.b10 { left: 1150px; top: 500px; width: 800px; }
+
+.b11 { left: 1350px;  top: 0px;  width: 800px; }
+.b12 { left: 1350px; top: 250px; width: 300px; }
+.b13 { left: 1500px; top: 250px; width: 200px; }
+
+.b14 { left: 1850px; top: 250px; width: 300px; }
+.b15 { left: 1850px; top: 500px; width: 200px; }
+
+.info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+
+  padding: 0px 70px;
+  background: white;
+
+  box-sizing: border-box;
 }
 
-.media-item.video {
-  background: #bcbcbc;
+/* 왼쪽 */
+.info-left h1 {
+  font-size: 32px;
+  margin-bottom: 0px;
 }
 
-/* ===== CONTENT ===== */
-.content {
-  padding: 80px 40px;
-  max-width: 900px;
-}
-
-.content h1 {
-  margin-bottom: 16px;
-}
-
-.content p {
-  max-width: 520px;
+.info-left p {
+  max-width: 420px;
   line-height: 1.6;
+  margin-bottom: 20px;
 }
 
-.files {
-  margin-top: 24px;
+.info-links a {
+  display: inline-block;
+  margin-right: 15px;
+  font-size: 14px;
+}
+
+/* 오른쪽 */
+.info-right {
   display: flex;
-  gap: 16px;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 60px;
 }
 
-.files a {
-  color: #111;
-  text-decoration: underline;
+.info-right video {
+  width: 100%;
+  max-width: 520px;
+  background: black;
+}
+
+.caption {
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+.box {
+  cursor: pointer;
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.lightbox.active {
+  display: flex;
+}
+
+.lightbox-content img,
+.lightbox-content video {
+  max-width: 90vw;
+  max-height: 90vh;
+  object-fit: contain;
+}
+
+
+.lb-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 60px;
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 20px;
+  opacity: 0.7;
+  z-index: 10000;
+}
+
+.lb-arrow:hover {
+  opacity: 1;
+}
+
+.lb-arrow.left {
+  left: 20px;
+}
+
+.lb-arrow.right {
+  right: 20px;
+}
+
+.lb-close {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  font-size: 36px;
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 10001;
+  opacity: 0.7;
+}
+
+.lb-close:hover {
+  opacity: 1;
 }

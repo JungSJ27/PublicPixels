@@ -2,40 +2,83 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>NAKWON</title>
-
-  <link rel="stylesheet" href="./desenlace-in-nyc.css">
+  <link rel="stylesheet" href="desenlace-in-nyc.css" />
 </head>
 <body>
 
-  <!-- HORIZONTAL MEDIA STRIP -->
-  <section class="media-strip">
-    <div class="media-track">
-      <div class="media-item image"></div>
-      <div class="media-item image"></div>
-      <div class="media-item video"></div>
-      <div class="media-item image"></div>
-      <div class="media-item video"></div>
-      <div class="media-item image"></div>
-    </div>
-  </section>
+<!-- 가로 스크롤 영역 -->
+<section class="media-scroll">
+  <div class="media-canvas">
 
-  <!-- CONTENT -->
-  <section class="content">
+    <!-- 예시: 전부 absolute / 원본 비율 유지 -->
+    <video src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/IMG_7099.MOV" class="box b1" autoplay muted loop></video>
+    <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/IMG_7107.JPG" class="box b2" />
+    <video src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/IMG_9236.MOV" class="box b3" autoplay muted loop></video>
+
+
+    <video src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/Mc97Scene3.mp4" class="box b4" autoplay muted loop></video>
+    <video src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/IMG_7109.MOV" class="box b5" autoplay muted loop></video>
+
+    <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/mapping_movnyc13.jpg" class="box b6" />
+
+    <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/mapping_movnyc11.jpg" class="box b7" />
+    <video src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/IMG_9239.MOV" class="box b8" autoplay muted loop></video>
+
+    <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/IMG_7105.JPG" class="box b9" />
+    
+    <video src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/Mc97Scene1.mp4" class="box b10" autoplay muted loop></video>
+
+    <video src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/Mc97Scene2.mp4" class="box b11" autoplay muted loop></video>
+
+    <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/mapping_movnyc12.jpg" class="box b12" />
+    <video src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/IMG_9237.MOV" class="box b13" autoplay muted loop></video>
+    
+    <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/mapping_movnyc15.jpg" class="box b14" />
+    <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/mapping_movnyc16.jpg" class="box b15" />
+
+
+  </div>
+</section>
+
+<section class="info">
+  <div class="info-left">
     <h1>NAKWON</h1>
     <p>
       Nakwon documents a living archive of sound, memory, and collective presence.
       This project explores fragments of place through image and moving image.
     </p>
 
-    <div class="files">
+    <div class="info-links">
       <a href="#">Process PDF</a>
       <a href="#">Behind Images</a>
       <a href="#">Documentation Video</a>
     </div>
-  </section>
+  </div>
 
-  <script src="./desenlace-in-nyc.js"></script>
+  <div class="info-right">
+    <video
+      src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/Final_Desenlace.mp4"
+      muted
+      controls
+      playsinline
+    ></video>
+    <span class="caption">Documentation excerpt, 2023</span>
+  </div>
+</section>
+
+
+<!-- Lightbox -->
+<div id="lightbox" class="lightbox">
+  <button class="lb-close">×</button>
+
+  <button class="lb-arrow left">‹</button>
+
+  <div class="lightbox-content"></div>
+
+  <button class="lb-arrow right">›</button>
+</div>
+
+<script src="desenlace-in-nyc.js"></script>
 </body>
 </html>
