@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Desenlace in NYC</title>
+  <title>Desenlace in NYC | Archive</title>
   <link rel="stylesheet" href="desenlace-in-nyc.css" />
 </head>
 
@@ -223,25 +223,57 @@
                 webkit-playsinline
               ></video>
           </div>
-
+        </div>
 
 
         <div class="box b9"
+            data-type="video"
+            data-src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/IMG_9237.MOV">
+
+            <div class="box-inner">
+              <video
+                src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/IMG_9237.MOV"
+                muted
+                autoplay
+                loop
+                playsinline
+                preload="auto"
+                webkit-playsinline
+              ></video>
+          </div>
+        </div>
+
+       <div class="box b10"
           data-type="image"
-          data-src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/mapping_movnyc12.jpg">
+          data-src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/mapping_movnyc15.jpg">
 
           <div class="box-inner">
             <img
-              src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/mapping_movnyc12.jpg"
+              src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/mapping_movnyc15.jpg"
               alt="Desenlace in NYC documentation image"
               loading="lazy"
             />
           </div>
 
-        </div>
+        </div>     
+        
+        
 
-          <div class="box b10"></div>
-          <div class="box b15"></div>
+       <div class="box b15"
+          data-type="image"
+          data-src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/mapping_movnyc16.jpg">
+
+          <div class="box-inner">
+            <img
+              src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/mapping_movnyc16.jpg"
+              alt="Desenlace in NYC documentation image"
+              loading="lazy"
+            />
+          </div>
+
+        </div>  
+        
+    
 
         </div>
       </div>
@@ -264,15 +296,18 @@
       </p>
 
       <a class="info-link" href="/studiolog/log/202409/">
-        ↗ Explore Exhibition / More Info
+        ↗ Explore Exhibition
       </a>
     </div>
 
     <!-- MIDDLE -->
     <div class="info-col middle">
-      <p class="info-col-middle">
-        An ongoing projection mapping project exploring urban memory and collective presence,
-        developed between 2022 to 2024.
+      <p class="info-desc en">
+        Desenlace is an ongoing animation and projection-mapping project that brings together perspectives from the Global South and Asia, culminating in its New York presentation as a reflection on purpose and meaning within the urban landscape.
+      </p>
+
+      <p class="info-desc ko">
+        Desenlace는 글로벌 사우스와 아시아의 시선을 바탕으로 도시 속 의미와 목적을 탐구하는 애니메이션·프로젝션 매핑 프로젝트로, 뉴욕 프레젠테이션을 통해 하나의 여정을 마무리한다.
       </p>
     </div>
 
@@ -295,27 +330,27 @@
      MEDIA MODAL
 ================================ -->
 
-<div id="mediaModal" class="media-modal">
+<div id="mediaModal" class="media-modal hidden">
   <!-- 블러 배경 (클릭 시 닫힘) -->
   <div class="modal-bg" id="mediaModalBg"></div>
 
   <!-- 닫기 버튼 -->
-  <button class="modal-close" id="mediaModalClose">✕</button>
+  <button class="modal-close" id="mediaModalClose" aria-label="Close">✕</button>
 
   <!-- 이전 / 다음 -->
-  <button class="modal-prev" id="mediaModalPrev">‹</button>
-  <button class="modal-next" id="mediaModalNext">›</button>
+  <button class="modal-prev" id="mediaModalPrev" aria-label="Previous">‹</button>
+  <button class="modal-next" id="mediaModalNext" aria-label="Next">›</button>
 
   <!-- 실제 콘텐츠 영역 -->
   <div class="modal-content">
-    <!-- 이미지용 -->
+    <!-- 이미지 -->
     <img
       id="mediaModalImage"
       class="modal-media hidden"
       alt=""
     />
 
-    <!-- 비디오용 -->
+    <!-- 비디오 -->
     <video
       id="mediaModalVideo"
       class="modal-media hidden"
@@ -325,6 +360,7 @@
   </div>
 </div>
 
+<script defer src="/front/favicons.js"></script>
 <script src="desenlace-in-nyc.js"></script>
 </body>
 </html>

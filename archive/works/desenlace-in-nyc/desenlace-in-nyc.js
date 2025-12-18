@@ -78,9 +78,10 @@
     });
   });
 
-  /* =====================================================
-     MEDIA MODAL
-  ===================================================== */
+/* ===============================
+   MEDIA MODAL LOGIC
+================================ */
+
 const modal = document.getElementById("mediaModal");
 const modalBg = document.getElementById("mediaModalBg");
 const modalClose = document.getElementById("mediaModalClose");
@@ -90,55 +91,70 @@ const modalNext = document.getElementById("mediaModalNext");
 const modalImage = document.getElementById("mediaModalImage");
 const modalVideo = document.getElementById("mediaModalVideo");
 
-const mediaBoxes = Array.from(document.querySelectorAll(".box"));
+const mediaBoxes = Array.from(document.querySelectorAll(".box[data-src]"));
 let currentIndex = 0;
 
+/* 열기 */
 function openModal(index) {
-  currentIndex = index;
   const box = mediaBoxes[index];
+  if (!box) return;
+
+  currentIndex = index;
+
   const type = box.dataset.type;
   const src = box.dataset.src;
 
-  // reset
+  // 초기화
   modalImage.classList.add("hidden");
   modalVideo.classList.add("hidden");
   modalVideo.pause();
-  modalVideo.src = "";
+  modalVideo.removeAttribute("src");
 
-  if (type === "video") {
-    modalVideo.src = src;
-    modalVideo.currentTime = 0;
-    modalVideo.muted = false;
-    modalVideo.classList.remove("hidden");
-
-    modalVideo.load();
-    modalVideo.play().catch(() => {});
-  } else {
+  if (type === "image") {
     modalImage.src = src;
     modalImage.classList.remove("hidden");
   }
 
+  if (type === "video") {
+    modalVideo.src = src;
+    modalVideo.load();
+    modalVideo.currentTime = 0;
+    modalVideo.muted = false;
+
+    modalVideo.classList.remove("hidden");
+    modalVideo.play().catch(() => {
+      // autoplay 막혀도 무시
+    });
+  }
+
   modal.classList.remove("hidden");
+  document.body.style.overflow = "hidden";
 }
 
+/* 닫기 */
 function closeModal() {
-  modalVideo.pause();
   modal.classList.add("hidden");
+  modalVideo.pause();
+  modalVideo.removeAttribute("src");
+  document.body.style.overflow = "";
 }
 
+/* 이전 / 다음 */
 function showPrev() {
-  currentIndex = (currentIndex - 1 + mediaBoxes.length) % mediaBoxes.length;
+  currentIndex =
+    (currentIndex - 1 + mediaBoxes.length) % mediaBoxes.length;
   openModal(currentIndex);
 }
 
 function showNext() {
-  currentIndex = (currentIndex + 1) % mediaBoxes.length;
+  currentIndex =
+    (currentIndex + 1) % mediaBoxes.length;
   openModal(currentIndex);
 }
 
-/* EVENTS */
-mediaBoxes.forEach((box, i) => {
-  box.addEventListener("click", () => openModal(i));
+/* 이벤트 연결 */
+mediaBoxes.forEach((box, index) => {
+  box.addEventListener("click", () => openModal(index));
 });
 
 modalBg.addEventListener("click", closeModal);
@@ -146,8 +162,10 @@ modalClose.addEventListener("click", closeModal);
 modalPrev.addEventListener("click", showPrev);
 modalNext.addEventListener("click", showNext);
 
+/* 키보드 */
 window.addEventListener("keydown", e => {
   if (modal.classList.contains("hidden")) return;
+
   if (e.key === "Escape") closeModal();
   if (e.key === "ArrowLeft") showPrev();
   if (e.key === "ArrowRight") showNext();
