@@ -1,7 +1,7 @@
 /* =======================================================
-   HEADER SHOW / HIDE
+   MOBILE HEADER SHOW / HIDE (STABLE VERSION)
    - Mobile only
-   - Desktop: always visible
+   - Desktop always visible
 ======================================================= */
 
 function initHeaderScroll() {
@@ -29,15 +29,16 @@ function initHeaderScroll() {
   function onScroll() {
     const y = window.scrollY;
 
+    // 최상단에서는 항상 보이게
     if (y < 10) {
       applyHidden(false);
       lastY = y;
       return;
     }
 
-    if (y > lastY + 2) {
+    if (y > lastY + 5) {
       applyHidden(true);   // scroll down
-    } else if (y < lastY - 2) {
+    } else if (y < lastY - 5) {
       applyHidden(false);  // scroll up
     }
 
@@ -45,17 +46,17 @@ function initHeaderScroll() {
   }
 
   function updateMode() {
-    const isMobile = window.matchMedia("(max-width: 1000px)").matches;
+    const isMobile = window.innerWidth <= 1000;
 
     if (isMobile && !isBound) {
       lastY = window.scrollY;
-      window.addEventListener("scroll", onScroll);
+      window.addEventListener("scroll", onScroll, { passive: true });
       isBound = true;
     }
 
     if (!isMobile && isBound) {
       window.removeEventListener("scroll", onScroll);
-      applyHidden(false); // 데스크탑에서는 항상 보이게
+      applyHidden(false); // 데스크탑에서는 항상 보임
       isBound = false;
     }
   }
@@ -68,14 +69,15 @@ function initHeaderScroll() {
    PAGE INIT
 ======================================================= */
 
-window.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
   requestAnimationFrame(() => {
     initHeaderScroll();
   });
 
-  initVideoFade();
-  initImageSlider();
+  if (typeof initVideoFade === "function") initVideoFade();
+  if (typeof initImageSlider === "function") initImageSlider();
 });
+
 
 /* =====================================
    PHOTO COUNTER (image-based, precise)
