@@ -155,7 +155,7 @@ header.header-hidden {
   height: calc(100% - 30px); /* 위아래 패딩 고려 */
   width: auto;
   object-fit: contain;
-  margin-right: 40px;
+  margin-right: 10px;
   flex-shrink: 0;
 }
 
@@ -195,20 +195,20 @@ header.header-hidden {
   overflow-y: auto;
   overflow-x: hidden;
   box-sizing: border-box;
-  padding: 80px 60px;
+  padding: 120px 40px;
 }
 
 .art-head {
-  margin-top: 10px;
+  margin-top: 20px;
   margin-bottom: 0px;
   margin-left: 10px;
   margin-right: 10px;
 }
 
 .art-title {
-  margin: 0 0 10px;
+  margin: 0 -5px 10px;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 800;
 }
 
 .art-meta {
@@ -227,7 +227,7 @@ header.header-hidden {
 
 /* SECTIONS */
 .art-section {
-  margin-top: 0px;
+  margin-top:  40px;
   margin-left: 10px;
   margin-right: 10px;
 }
@@ -258,7 +258,7 @@ header.header-hidden {
 
 /* MODEL */
 .model-block {
-  margin-top: 40px;
+  margin-top: 30px;
   padding-top: 40px;
   width: 100%;
   height: 500px;
@@ -293,7 +293,7 @@ header.header-hidden {
   .image-track img {
     width: 100%;
     height: auto;
-    margin: 0 0 20px;
+    margin: 0 0 -20px;
   }
 
   /* photo counter 제거 */
