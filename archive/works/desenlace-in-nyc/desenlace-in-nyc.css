@@ -11,7 +11,7 @@ html, body {
 body {
   margin: 0;
   font-family: Poppins, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-  background: #ffffff;
+  background: #000000;
   color: #111;
   overflow: hidden; /* 세로 스크롤 완전 차단 */
 }
@@ -116,14 +116,14 @@ body {
 
 .box {
   position: absolute;
-  background: #777;          /* 박스 프레임 */
+  background: #000000;          /* 박스 프레임 */
 }
 
 .box-inner {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: #fff;          /* 미디어 배경 */
+  background: #000000;          /* 미디어 배경 */
 }
 
 .box-inner video,
@@ -193,7 +193,7 @@ body {
   position: absolute;
   background: none;
   border: none;
-  color: white;
+  color: rgb(130, 67, 67);
   font-size: 32px;
   cursor: pointer;
   z-index: 10;
@@ -227,32 +227,52 @@ body {
 }
 
 /* ===============================
-   INFO SECTION (BOTTOM)
+   INFO LAYOUT (3 COLUMNS)
 =============================== */
 
 .info {
   display: grid;
-  grid-template-columns: 1fr 1.2fr 1fr;
-  gap: 40px;
+  grid-template-columns: 3fr 1.1fr;
+  column-gap: 96px;
 
-  /* 🔧 여기서 전체 위아래 위치 조절 */
-  padding: 85px 48px 32px;
-  align-items: start; /* 핵심 */
+  height: 32vh;                /* 이미 있음 */
+  padding: 0 48px;             /* 🔥 위아래 패딩 제거 */
+
+  align-items: center;         /* 🔥 세로 중앙 */
 }
 
+
+
+/* -------------------------------
+   TEXT GROUP (LEFT + MIDDLE)
+-------------------------------- */
+
+.info-text-group {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  column-gap: 36px;   /* 텍스트 내부는 밀착 */
+  align-items: start;
+  color: #ffffff;
+  opacity: 0.65;
+  margin-top: 40px;
+}
+
+/* 공통 */
 .info-col {
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px; /* 요소 간 기본 리듬 */
+  gap: 8px;
 }
 
+/* -------------------------------
+   LEFT
+-------------------------------- */
 
 .art-title {
-  margin: 0;
+  margin: 22px 0 0;
   font-size: 14px;
   font-weight: 600;
-  margin-top: 25px;
 }
 
 .art-meta {
@@ -262,13 +282,12 @@ body {
   opacity: 0.85;
 }
 
-
 .info-link {
   margin-top: 6px;
   font-size: 10px;
   text-decoration: none;
+  color: #ffffff;
   opacity: 0.6;
-  color: #111;
 }
 
 .info-link:hover {
@@ -276,41 +295,36 @@ body {
   color: #49f60a;
 }
 
+/* -------------------------------
+   MIDDLE (DESCRIPTION)
+-------------------------------- */
 
-/* 공통 설명 스타일 */
+.info-col.middle {
+  max-width: 450px;
+  padding-top: 0px; /* 타이틀 기준선 연결 */
+}
+
 .info-desc {
   margin: 0;
   font-size: 12px;
   line-height: 1.6;
-  color: #444;
 }
 
-.info-col.middle {
-  max-width: 450px;   /* ← 여기 숫자만 조절 */
-  width: 100%;
-}
-
-/* 영어 */
-.info-desc.en {
-  transform: translateY(-6px); /* 영어 살짝 더 위 */
-}
-
-/* 한국어 */
 .info-desc.ko {
-  margin-top: 6px;             /* 두 문단 사이 간격 */
-  transform: translateY(-4px); /* 한국어는 덜 위 */
-  opacity: 0.85;               /* 살짝 톤 다운하고 싶을 때 */
+  margin-top: 8px;
 }
 
+/* -------------------------------
+   RIGHT (VIDEO)
+-------------------------------- */
 
 .info-col.right {
-  display: flex;
-  justify-content: center;
-  padding-top: 4px; /* 또는 -4px */
+  padding-top: 28px;        /* 본문보다 살짝 내려서 */
+  justify-self: end;        /* 더 오른쪽으로 */
+  opacity: 1;            /* 아주 살짝만 톤 다운 */
 }
 
 
-/* 오른쪽 컬럼: 캡션은 항상 비디오 아래, 오른쪽 정렬 */
 .video-wrap {
   display: flex;
   flex-direction: column;
@@ -319,45 +333,37 @@ body {
 }
 
 .video-wrap video {
-  width: min(520px, 100%);
-  background: #000;
+  width: min(460px, 100%); /* 지금 520px → 줄임 */
   display: block;
+  background: #000;
 }
 
+/* 캡션 */
 .caption {
-  font-size: 10px;
+  font-size: 8px;
   opacity: 0.65;
   text-align: right;
   width: min(520px, 100%);
+  color: #ffffff;
+  opacity: 0.6;
 }
 
+@media (min-width: 1400px) {
+  .video-wrap video {
+    width: 550px;
+  }
+  .info {
+    column-gap: 110px; /* 텍스트 ↔ 비디오 거리도 같이 확장 */
+  }
+}
 
 /* ===============================
    RESPONSIVE
 =============================== */
 
 @media (max-width: 900px) {
-  .media-stage { height: 62vh; }
-  .info {
-    height: 38vh;
-    grid-template-columns: 1fr;
-    gap: 26px;
-    padding: 18px 18px;
-    align-items: start;
-  }
-    .info-col.right video {
-    max-width: 100%;
-  }
-  .video-wrap {
-    align-items: flex-start;
-  }
-  .caption {
-    text-align: left;
-    width: 100%;
-  }
-}
 
-@media (max-width: 960px) {
+    
   body {
     overflow-y: auto;
     overflow-x: hidden;
@@ -370,6 +376,23 @@ body {
 
   .info {
     height: auto;
-    padding-bottom: 40px;
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 24px 18px 40px;
   }
+
+  .info-text-group {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .video-wrap {
+    align-items: flex-start;
+  }
+
+  .caption {
+    text-align: left;
+    width: 100%;
+  }
+
 }

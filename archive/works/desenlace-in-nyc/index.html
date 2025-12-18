@@ -284,7 +284,10 @@
        INFO SECTION (3 COLUMNS)
   ================================ -->
 
-  <section class="info" aria-label="Project information">
+<section class="info" aria-label="Project information">
+
+  <!-- LEFT + MIDDLE : TEXT GROUP -->
+  <div class="info-text-group">
 
     <!-- LEFT -->
     <div class="info-col left">
@@ -311,20 +314,25 @@
       </p>
     </div>
 
-    <!-- RIGHT -->
-    <div class="info-col right">
-      <div class="video-wrap">
-        <video
-          src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/Final_Desenlace.mp4"
-          muted
-          controls
-          playsinline>
-        </video>
-        <span class="caption">Rendered projection mapping sequence</span>
-      </div>
-    </div>
+  </div>
 
-  </section>
+  <!-- RIGHT : VIDEO -->
+  <div class="info-col right">
+    <div class="video-wrap">
+      <video
+        src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/Final_Desenlace.mp4"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto">
+      </video>
+      <span class="caption">Rendered projection mapping sequence</span>
+    </div>
+  </div>
+
+</section>
+
 
 <!-- ===============================
      MEDIA MODAL
