@@ -1,297 +1,198 @@
-/* ===============================================
-   FIX PUBLICPIXELS DEFAULT LAYOUT EFFECTS
-=============================================== */
+/* ===============================
+   BASE
+=============================== */
 
-body[data-page="log"] .pp-main::before,
-body[data-page="log"] .art-main::before {
-  display: none !important;
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
 }
 
-/* ===============================================
-   GLOBAL PAGE BODY
-=============================================== */
 body {
   margin: 0;
-  font-family: 'Poppins', sans-serif;  /* styles.css 기준 */
-  background: #fff;
+  font-family: Poppins, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  background: #ffffff;
   color: #111;
+  overflow: hidden; /* 세로 스크롤 완전 차단 */
 }
 
 /* ===============================
-   HEADER (전시 페이지 모드)
-   =============================== */
+   LAYOUT: TOP STAGE + BOTTOM INFO
+   한 화면 고정
+=============================== */
 
-body[data-page="log"] header {
-  position: fixed !important;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background: transparent !important;
-  color: rgb(241, 238, 255) !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-  padding-top: 10px !important;
-  z-index: 3000;
-}
-
-body[data-page="log"] header .logo-brand,
-body[data-page="log"] header .logo-roman,
-body[data-page="log"] header .logo-korean {
-  color: rgba(234, 234, 236, 0.95) !important;
-}
-
-/* 검색, 카트 아이콘 숨기기 */
-body[data-page="log"] header .search-icon,
-body[data-page="log"] header .shop-toggle {
-  display: none !important;
-}
-
-/* 스크롤에 따라 숨길 때 쓸 클래스 */
-header,
-.pp-header {
-  transition: opacity 0.35s ease;
-}
-
-.header-hidden {
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* ===============================
-   LIST TOGGLE (목록으로 돌아가기)
-   =============================== */
-
-.list-toggle {
-  position: fixed;
-  top: 12px;
-  right: 24px;
-  width: 28px;
-  height: 28px;
-  z-index: 3500;
-  cursor: pointer;
-  color:  rgba(234, 234, 236, 0.95);
-  opacity: 0.9;
-  transition: opacity 0.25s ease, transform 0.25s ease;
-}
-
-.list-toggle:hover {
-  opacity: 1;
-  transform: translateY(-1px);
-}
-
-.ic-list {
-  width: 24px;
-  height: 24px;
-}
-
-/* 헤더 숨길 때 같이 사라지도록 */
-.list-toggle.header-hidden {
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* ===============================
-   HEADER SLIDE ANIMATION
-   =============================== */
-
-/* 기본 상태: 보임 + 제자리 */
-body[data-page="log"] header {
-  transform: translateY(0);
-  transition: opacity 0.35s ease, transform 0.4s ease;
-}
-
-/* 숨김 상태: 살짝 위로 올려서 사라지는 느낌 */
-header.header-hidden {
-  opacity: 0;
-  transform: translateY(-28px);
-  pointer-events: none;
-}
-
-/* 리스트 버튼도 같이 위로 올라가게 */
-.list-toggle.header-hidden {
-  opacity: 0;
-  transform: translateY(-28px);
-}
-
-
-body {
-  margin: 0;
-  font-family: serif;
-  overflow: hidden;   /* 🔥 이게 핵심 */
-}
-
-
-/* 가로 스크롤 */
-.media-scroll {
-  height: 75vh;
-  overflow-x: auto;
-  overflow-y: hidden;
-  background: #e6e6e6;
+.media-stage {
+  height: 68vh;        /* 상단 영역 */
+  width: 100vw;
+  background: #d54444;
 }
 
 .info {
-  height: 25vh;
-  padding: 40px;
-  box-sizing: border-box;
+  height: 32vh;        /* 하단 영역 */
+  width: 100vw;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 40px;
+  padding: 28px 60px;
+  align-items: end;
 }
 
+/* ===============================
+   TOP: HORIZONTAL SCROLL STAGE
+=============================== */
 
+.media-viewport {
+  height: 100%;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-gutter: stable;
+  cursor: grab;
+}
+
+.media-viewport:active {
+  cursor: grabbing;
+}
+
+/* 스크롤바는 취향껏, 일단 얇게 */
+.media-viewport::-webkit-scrollbar { height: 10px; }
+.media-viewport::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.18); border-radius: 999px; }
+.media-viewport::-webkit-scrollbar-track { background: rgba(0,0,0,0.06); }
+
+.media-scaler {
+  /* JS가 width, height를 스케일에 맞춰 픽셀로 세팅함 */
+  position: relative;
+  height: 100%;
+}
 
 .media-canvas {
+  /* 기준 캔버스 사이즈 (비율 고정용) */
+  width: 2400px;
+  height: 820px;
+
   position: relative;
-  width: 2500px;   /* ← 가로 캔버스 */
-  height: 800px;
+  background: #ab0d0d; /* 회색 프레임 영역 */
+  transform-origin: top left;
 }
 
 /* 공통 박스 */
 .box {
   position: absolute;
-  object-fit: contain;
-  background: black;
+  background: #ffffff;
 }
 
-/* ======================
-   🔥 여기서 배치 조정
-   Illustrator 좌표처럼
-====================== */
+/* ===============================
+   BOX LAYOUT (15)
+   참고 이미지처럼 정렬된 테트리스 느낌
+   필요하면 여기 숫자만 조금씩 조정하면 됨
+=============================== */
 
-.b1 { left: 0px;  top: 0px;  width: 450px; }
-.b2 { left: 0px;  top: 290px; width: 220px; }
-.b3 { left: 250px; top: 290px; width: 220px; }
+/* 상단 줄 */
+.b1  { left:  0px; top:  0px; width: 760px; height: 250px; }
+.b2  { left: 860px; top:  0px; width: 720px; height: 250px; }
+.b3  { left: 1610px; top:  60px; width: 330px; height: 250px; }
+.b4  { left: 1980px; top:  60px; width: 360px; height: 250px; }
 
-.b4 { left: 500px;  top: 0px;  width: 800px; }
-.b5 { left: 500px;  top: 260px;  width: 250px; }
+/* 중단 줄 */
+.b5  { left:  60px;  top: 350px; width: 280px; height: 360px; }
+.b6  { left: 370px;  top: 350px; width: 280px; height: 360px; }
+.b7  { left: 690px;  top: 350px; width: 820px; height: 360px; }
 
+/* 우측 큰 프레임 */
+.b8  { left: 1550px; top: 350px; width: 720px; height: 360px; }
+.b9  { left: 2310px; top: 350px; width: 360px; height: 170px; }
+.b10 { left: 2310px; top: 540px; width: 360px; height: 170px; }
 
-.b6 { left: 740px; top: 250px; width: 360px; }
-.b7 { left: 740px; top: 500px; width: 360px; }
+/* 하단 라인 (좌측에 “발” 느낌) */
+.b11 { left:  60px; top: 750px; width: 980px; height: 140px; }
+.b12 { left: 1080px; top: 750px; width: 470px; height: 140px; }
+.b13 { left: 1580px; top: 750px; width: 690px; height: 140px; }
+.b14 { left: 2310px; top: 740px; width: 360px; height: 150px; }
 
-.b8 { left: 740px; top: 250px; width: 360px; }
+/* 오른쪽 끝에 하나 더 (스크롤 여지) */
+.b15 { left: 2710px; top: 350px; width: 520px; height: 540px; }
 
-.b9 { left: 1150px; top: 250px; width: 180px; }
+/* ===============================
+   BOTTOM: INFO 3 COLUMNS
+=============================== */
 
-.b10 { left: 1150px; top: 500px; width: 800px; }
-
-.b11 { left: 1350px;  top: 0px;  width: 800px; }
-.b12 { left: 1350px; top: 250px; width: 300px; }
-.b13 { left: 1500px; top: 250px; width: 200px; }
-
-.b14 { left: 1850px; top: 250px; width: 300px; }
-.b15 { left: 1850px; top: 500px; width: 200px; }
-
-.info {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px;
-
-  padding: 0px 70px;
-  background: white;
-
-  box-sizing: border-box;
+.info-col {
+  min-width: 0;
 }
 
-/* 왼쪽 */
-.info-left h1 {
-  font-size: 32px;
-  margin-bottom: 0px;
-}
-
-.info-left p {
-  max-width: 420px;
-  line-height: 1.6;
-  margin-bottom: 20px;
-}
-
-.info-links a {
-  display: inline-block;
-  margin-right: 15px;
+.art-title {
+  margin: 0 0 10px;
   font-size: 14px;
+  font-weight: 600;
 }
 
-/* 오른쪽 */
-.info-right {
+.art-meta {
+  margin: 0 0 10px;
+  font-size: 12px;
+  line-height: 1.45;
+  opacity: 0.9;
+}
+
+.info-link {
+  display: inline-block;
+  font-size: 10px;
+  text-decoration: none;
+  opacity: 0.65;
+  color: #111;
+}
+
+.info-link:hover {
+  opacity: 1;
+  color: #10d2cb;
+}
+
+.info-col-middle {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #444;
+}
+
+/* 오른쪽 컬럼: 캡션은 항상 비디오 아래, 오른쪽 정렬 */
+.video-wrap {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-top: 60px;
+  align-items: flex-end;
+  gap: 8px;
 }
 
-.info-right video {
-  width: 100%;
-  max-width: 520px;
-  background: black;
+.video-wrap video {
+  width: min(520px, 100%);
+  background: #000;
+  display: block;
 }
 
 .caption {
-  font-size: 12px;
-  opacity: 0.6;
+  font-size: 10px;
+  opacity: 0.65;
+  text-align: right;
+  width: min(520px, 100%);
 }
 
-.box {
-  cursor: pointer;
-}
+/* ===============================
+   RESPONSIVE
+=============================== */
 
-.lightbox {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.9);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-}
-
-.lightbox.active {
-  display: flex;
-}
-
-.lightbox-content img,
-.lightbox-content video {
-  max-width: 90vw;
-  max-height: 90vh;
-  object-fit: contain;
-}
-
-
-.lb-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 60px;
-  color: white;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 20px;
-  opacity: 0.7;
-  z-index: 10000;
-}
-
-.lb-arrow:hover {
-  opacity: 1;
-}
-
-.lb-arrow.left {
-  left: 20px;
-}
-
-.lb-arrow.right {
-  right: 20px;
-}
-
-.lb-close {
-  position: absolute;
-  top: 20px;
-  right: 25px;
-  font-size: 36px;
-  color: white;
-  background: none;
-  border: none;
-  cursor: pointer;
-  z-index: 10001;
-  opacity: 0.7;
-}
-
-.lb-close:hover {
-  opacity: 1;
+@media (max-width: 960px) {
+  .media-stage { height: 62vh; }
+  .info {
+    height: 38vh;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 18px 18px;
+    align-items: start;
+  }
+  .video-wrap {
+    align-items: flex-start;
+  }
+  .caption {
+    text-align: left;
+    width: 100%;
+  }
 }

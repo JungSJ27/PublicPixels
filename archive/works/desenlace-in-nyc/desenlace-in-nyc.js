@@ -1,82 +1,76 @@
-const lightbox = document.getElementById("lightbox");
-const content = lightbox.querySelector(".lightbox-content");
-const boxes = Array.from(document.querySelectorAll(".box"));
+(() => {
+  const viewport = document.getElementById("mediaViewport");
+  const scaler = document.getElementById("mediaScaler");
+  const canvas = document.getElementById("mediaCanvas");
 
-const prevBtn = document.querySelector(".lb-arrow.left");
-const nextBtn = document.querySelector(".lb-arrow.right");
+  if (!viewport || !scaler || !canvas) return;
 
-let currentIndex = 0;
+  function scaleCanvasToViewportHeight() {
+    const canvasW = canvas.offsetWidth;
+    const canvasH = canvas.offsetHeight;
 
-function openLightbox(index) {
-  currentIndex = index;
-  content.innerHTML = "";
+    const vw = viewport.clientWidth;
+    const vh = viewport.clientHeight;
 
-  const el = boxes[currentIndex];
+    // 높이에 맞춰 스케일, 비율 유지
+    const scale = vh / canvasH;
 
-  if (el.tagName === "IMG") {
-    const img = document.createElement("img");
-    img.src = el.src;
-    content.appendChild(img);
+    // 스케일된 실제 크기만큼 스크롤 영역이 생기도록 scaler의 크기를 픽셀로 지정
+    const scaledW = Math.ceil(canvasW * scale);
+    const scaledH = Math.ceil(canvasH * scale);
+
+    scaler.style.width = scaledW + "px";
+    scaler.style.height = scaledH + "px";
+
+    canvas.style.transform = `scale(${scale})`;
   }
 
-  if (el.tagName === "VIDEO") {
-    const video = document.createElement("video");
-    video.src = el.src;
-    video.controls = true;
-    video.autoplay = true;
-    video.muted = false;
-    content.appendChild(video);
+  // 트랙패드 세로 휠을 가로 스크롤로 변환 (가로 스테이지에서만)
+  function wheelToHorizontal(e) {
+    const canScrollX = viewport.scrollWidth > viewport.clientWidth;
+    if (!canScrollX) return;
+
+    // shift 누르면 원래 가로 스크롤이니까 그대로 두기
+    if (e.shiftKey) return;
+
+    // 세로 스크롤 입력을 가로로 바꿔주기
+    const delta = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+    if (delta !== 0) {
+      e.preventDefault();
+      viewport.scrollLeft += delta;
+    }
   }
 
-  lightbox.classList.add("active");
-}
+  // 드래그로 가로 스크롤
+  let isDown = false;
+  let startX = 0;
+  let startScrollLeft = 0;
 
-function closeLightbox() {
-  content.innerHTML = "";
-  lightbox.classList.remove("active");
-}
+  function onDown(e) {
+    isDown = true;
+    startX = e.clientX;
+    startScrollLeft = viewport.scrollLeft;
+  }
 
-function showNext() {
-  openLightbox((currentIndex + 1) % boxes.length);
-}
+  function onMove(e) {
+    if (!isDown) return;
+    const dx = e.clientX - startX;
+    viewport.scrollLeft = startScrollLeft - dx;
+  }
 
-function showPrev() {
-  openLightbox(
-    (currentIndex - 1 + boxes.length) % boxes.length
-  );
-}
+  function onUp() {
+    isDown = false;
+  }
 
-// box 클릭
-boxes.forEach((box, i) => {
-  box.addEventListener("click", () => openLightbox(i));
-});
+  // 초기화
+  window.addEventListener("load", scaleCanvasToViewportHeight);
+  window.addEventListener("resize", scaleCanvasToViewportHeight);
 
-// 화살표 클릭
-nextBtn.addEventListener("click", e => {
-  e.stopPropagation();
-  showNext();
-});
+  // 상단에서만 휠 가로 변환
+  viewport.addEventListener("wheel", wheelToHorizontal, { passive: false });
 
-prevBtn.addEventListener("click", e => {
-  e.stopPropagation();
-  showPrev();
-});
-
-// 배경 클릭 닫기
-lightbox.addEventListener("click", closeLightbox);
-
-// 키보드 컨트롤
-document.addEventListener("keydown", e => {
-  if (!lightbox.classList.contains("active")) return;
-
-  if (e.key === "Escape") closeLightbox();
-  if (e.key === "ArrowRight") showNext();
-  if (e.key === "ArrowLeft") showPrev();
-});
-
-const closeBtn = document.querySelector(".lb-close");
-
-closeBtn.addEventListener("click", e => {
-  e.stopPropagation();
-  closeLightbox();
-});
+  // 드래그
+  viewport.addEventListener("pointerdown", onDown);
+  viewport.addEventListener("pointermove", onMove);
+  window.addEventListener("pointerup", onUp);
+})();

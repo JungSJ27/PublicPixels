@@ -2,83 +2,87 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>NAKWON</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Desenlace in NYC</title>
   <link rel="stylesheet" href="desenlace-in-nyc.css" />
 </head>
+
 <body>
 
-<!-- 가로 스크롤 영역 -->
-<section class="media-scroll">
-  <div class="media-canvas">
+  <!-- ===============================
+       HORIZONTAL MEDIA STAGE
+  ================================ -->
 
-    <!-- 예시: 전부 absolute / 원본 비율 유지 -->
-    <video src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/IMG_7099.MOV" class="box b1" autoplay muted loop></video>
-    <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/IMG_7107.JPG" class="box b2" />
-    <video src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/IMG_9236.MOV" class="box b3" autoplay muted loop></video>
+  <section class="media-stage" aria-label="Media stage">
+    <div class="media-viewport" id="mediaViewport">
+      <div class="media-scaler" id="mediaScaler">
+        <div class="media-canvas" id="mediaCanvas">
 
+          <!-- 15 boxes (placeholder) -->
+          <div class="box b1"></div>
+          <div class="box b2"></div>
+          <div class="box b3"></div>
+          <div class="box b4"></div>
+          <div class="box b5"></div>
+          <div class="box b6"></div>
+          <div class="box b7"></div>
+          <div class="box b8"></div>
+          <div class="box b9"></div>
+          <div class="box b10"></div>
+          <div class="box b11"></div>
+          <div class="box b12"></div>
+          <div class="box b13"></div>
+          <div class="box b14"></div>
+          <div class="box b15"></div>
 
-    <video src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/Mc97Scene3.mp4" class="box b4" autoplay muted loop></video>
-    <video src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/IMG_7109.MOV" class="box b5" autoplay muted loop></video>
-
-    <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/mapping_movnyc13.jpg" class="box b6" />
-
-    <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/mapping_movnyc11.jpg" class="box b7" />
-    <video src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/IMG_9239.MOV" class="box b8" autoplay muted loop></video>
-
-    <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/IMG_7105.JPG" class="box b9" />
-    
-    <video src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/Mc97Scene1.mp4" class="box b10" autoplay muted loop></video>
-
-    <video src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/Mc97Scene2.mp4" class="box b11" autoplay muted loop></video>
-
-    <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/mapping_movnyc12.jpg" class="box b12" />
-    <video src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/IMG_9237.MOV" class="box b13" autoplay muted loop></video>
-    
-    <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/mapping_movnyc15.jpg" class="box b14" />
-    <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/mapping_movnyc16.jpg" class="box b15" />
-
-
-  </div>
-</section>
-
-<section class="info">
-  <div class="info-left">
-    <h1>NAKWON</h1>
-    <p>
-      Nakwon documents a living archive of sound, memory, and collective presence.
-      This project explores fragments of place through image and moving image.
-    </p>
-
-    <div class="info-links">
-      <a href="#">Process PDF</a>
-      <a href="#">Behind Images</a>
-      <a href="#">Documentation Video</a>
+        </div>
+      </div>
     </div>
-  </div>
+  </section>
 
-  <div class="info-right">
-    <video
-      src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/Final_Desenlace.mp4"
-      muted
-      controls
-      playsinline
-    ></video>
-    <span class="caption">Documentation excerpt, 2023</span>
-  </div>
-</section>
+  <!-- ===============================
+       INFO SECTION (3 COLUMNS)
+  ================================ -->
 
+  <section class="info" aria-label="Project information">
 
-<!-- Lightbox -->
-<div id="lightbox" class="lightbox">
-  <button class="lb-close">×</button>
+    <!-- LEFT -->
+    <div class="info-col left">
+      <h1 class="art-title">Desenlace in NYC</h1>
+      <p class="art-meta">
+        2024<br />
+        Projection Mapping<br />
+        3 min 52 sec
+      </p>
 
-  <button class="lb-arrow left">‹</button>
+      <a class="info-link" href="/studiolog/log/202409/">
+        ↗ Explore Exhibition / More Info
+      </a>
+    </div>
 
-  <div class="lightbox-content"></div>
+    <!-- MIDDLE -->
+    <div class="info-col middle">
+      <p class="info-col-middle">
+        An ongoing projection mapping project exploring urban memory and collective presence,
+        developed between 2022 to 2024.
+      </p>
+    </div>
 
-  <button class="lb-arrow right">›</button>
-</div>
+    <!-- RIGHT -->
+    <div class="info-col right">
+      <div class="video-wrap">
+        <video
+          src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/desenlace-in-nyc/Final_Desenlace.mp4"
+          muted
+          controls
+          playsinline>
+        </video>
+        <span class="caption">Rendered projection mapping sequence</span>
+      </div>
+    </div>
 
-<script src="desenlace-in-nyc.js"></script>
+  </section>
+
+  <script src="desenlace-in-nyc.js"></script>
 </body>
 </html>
