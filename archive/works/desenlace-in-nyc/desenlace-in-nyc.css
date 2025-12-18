@@ -68,7 +68,7 @@ body {
 
 .media-canvas {
   /* 기준 캔버스 사이즈 (비율 고정용) */
-  width: 2400px;
+  width: 2200px;
   height: 820px;
 
   position: relative;
@@ -89,29 +89,142 @@ body {
 =============================== */
 
 /* 상단 줄 */
-.b1  { left:  0px; top:  0px; width: 760px; height: 250px; }
-.b2  { left: 860px; top:  0px; width: 720px; height: 250px; }
-.b3  { left: 1610px; top:  60px; width: 330px; height: 250px; }
-.b4  { left: 1980px; top:  60px; width: 360px; height: 250px; }
+.b1  { left:  0px; top:  0px; width: 720px; height: 300px; }
+.b2  { left: 740px; top:  0px; width: 900px; height: 250px; }
+.b3  { left: 1660px; top:  0px; width: 900px; height: 250px; }
+.b4  { left: 1910px; top:  270px; width: 450px; height: 300px; }
 
 /* 중단 줄 */
-.b5  { left:  60px;  top: 350px; width: 280px; height: 360px; }
-.b6  { left: 370px;  top: 350px; width: 280px; height: 360px; }
-.b7  { left: 690px;  top: 350px; width: 820px; height: 360px; }
+.b5  { left:  0px;  top: 320px; width: 350px; height: 500px; }
+.b6  { left: 370px;  top: 320px; width: 350px; height: 500px; }
+.b7  { left: 740px;  top: 270px; width: 300px; height: 550px; }
 
 /* 우측 큰 프레임 */
-.b8  { left: 1550px; top: 350px; width: 720px; height: 360px; }
-.b9  { left: 2310px; top: 350px; width: 360px; height: 170px; }
-.b10 { left: 2310px; top: 540px; width: 360px; height: 170px; }
+.b8  { left: 1640px; top: 270px; width: 250px; height: 300px; }
+.b9  { left: 2380px; top: 270px; width: 230px; height: 300px; }
+.b10 { left: 2580px; top: 0px; width: 360px; height: 250px; }
 
 /* 하단 라인 (좌측에 “발” 느낌) */
-.b11 { left:  60px; top: 750px; width: 980px; height: 140px; }
-.b12 { left: 1080px; top: 750px; width: 470px; height: 140px; }
-.b13 { left: 1580px; top: 750px; width: 690px; height: 140px; }
-.b14 { left: 2310px; top: 740px; width: 360px; height: 150px; }
+.b11 { left:  1060px; top: 270px; width: 560px; height: 300px; }
+.b12 { left: 1060px; top: 590px; width: 350px; height: 230px; }
+.b13 { left: 1430px; top: 590px; width: 350px; height: 230px; }
+.b14 { left: 1800px; top: 590px; width: 870px; height: 250px; }
 
 /* 오른쪽 끝에 하나 더 (스크롤 여지) */
-.b15 { left: 2710px; top: 350px; width: 520px; height: 540px; }
+.b15 { left: 2630px; top: 270px; width: 450px; height: 300px; }
+
+
+.box {
+  position: absolute;
+  background: #777;          /* 박스 프레임 */
+}
+
+.box-inner {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #fff;          /* 미디어 배경 */
+}
+
+.box-inner video,
+.box-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+
+/* ===============================
+   MEDIA MODAL
+================================ */
+
+.media-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: block;
+}
+
+.media-modal.hidden {
+  display: none;
+}
+
+/* 블러 배경 */
+.media-modal .modal-bg {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  cursor: pointer; /* 클릭 가능하다는 힌트 */
+}
+
+/* 중앙 콘텐츠 래퍼 */
+.modal-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none; /* 배경 클릭 방해 안 하게 */
+}
+
+/* 실제 미디어 */
+.modal-media {
+  max-width: 90vw;
+  max-height: 90vh;
+  object-fit: contain;
+  pointer-events: auto; /* 미디어 컨트롤은 클릭 가능 */
+  background: black;
+}
+
+/* 숨김 처리 */
+.modal-media.hidden {
+  display: none;
+}
+
+/* ===============================
+   BUTTONS
+================================ */
+
+.modal-close,
+.modal-prev,
+.modal-next {
+  position: absolute;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 32px;
+  cursor: pointer;
+  z-index: 10;
+  padding: 10px;
+}
+
+/* 닫기 */
+.modal-close {
+  top: 20px;
+  right: 30px;
+}
+
+/* 이전 / 다음 */
+.modal-prev {
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.modal-next {
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* 버튼 hover */
+.modal-close:hover,
+.modal-prev:hover,
+.modal-next:hover {
+  opacity: 0.7;
+}
 
 /* ===============================
    BOTTOM: INFO 3 COLUMNS

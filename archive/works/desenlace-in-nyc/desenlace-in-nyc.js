@@ -1,4 +1,8 @@
 (() => {
+  /* =====================================================
+     HORIZONTAL MEDIA STAGE (기존 코드 유지)
+  ===================================================== */
+
   const viewport = document.getElementById("mediaViewport");
   const scaler = document.getElementById("mediaScaler");
   const canvas = document.getElementById("mediaCanvas");
@@ -9,31 +13,22 @@
     const canvasW = canvas.offsetWidth;
     const canvasH = canvas.offsetHeight;
 
-    const vw = viewport.clientWidth;
     const vh = viewport.clientHeight;
-
-    // 높이에 맞춰 스케일, 비율 유지
     const scale = vh / canvasH;
 
-    // 스케일된 실제 크기만큼 스크롤 영역이 생기도록 scaler의 크기를 픽셀로 지정
     const scaledW = Math.ceil(canvasW * scale);
     const scaledH = Math.ceil(canvasH * scale);
 
     scaler.style.width = scaledW + "px";
     scaler.style.height = scaledH + "px";
-
     canvas.style.transform = `scale(${scale})`;
   }
 
-  // 트랙패드 세로 휠을 가로 스크롤로 변환 (가로 스테이지에서만)
   function wheelToHorizontal(e) {
     const canScrollX = viewport.scrollWidth > viewport.clientWidth;
     if (!canScrollX) return;
-
-    // shift 누르면 원래 가로 스크롤이니까 그대로 두기
     if (e.shiftKey) return;
 
-    // 세로 스크롤 입력을 가로로 바꿔주기
     const delta = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
     if (delta !== 0) {
       e.preventDefault();
@@ -41,7 +36,6 @@
     }
   }
 
-  // 드래그로 가로 스크롤
   let isDown = false;
   let startX = 0;
   let startScrollLeft = 0;
@@ -62,15 +56,120 @@
     isDown = false;
   }
 
-  // 초기화
   window.addEventListener("load", scaleCanvasToViewportHeight);
   window.addEventListener("resize", scaleCanvasToViewportHeight);
-
-  // 상단에서만 휠 가로 변환
   viewport.addEventListener("wheel", wheelToHorizontal, { passive: false });
-
-  // 드래그
   viewport.addEventListener("pointerdown", onDown);
   viewport.addEventListener("pointermove", onMove);
   window.addEventListener("pointerup", onUp);
+
+  /* =====================================================
+     BOX MEDIA (박스 안 자동재생 + 클리핑)
+  ===================================================== */
+
+  document.querySelectorAll(".box video").forEach(video => {
+    video.muted = true;
+    video.playsInline = true;
+    video.loop = true;
+    video.autoplay = true;
+
+    video.play().catch(() => {
+      // autoplay 막혀도 무시
+    });
+  });
+
+  /* =====================================================
+     MEDIA MODAL
+  ===================================================== */
+const modal = document.getElementById("mediaModal");
+const modalBg = document.getElementById("mediaModalBg");
+const modalClose = document.getElementById("mediaModalClose");
+const modalPrev = document.getElementById("mediaModalPrev");
+const modalNext = document.getElementById("mediaModalNext");
+
+const modalImage = document.getElementById("mediaModalImage");
+const modalVideo = document.getElementById("mediaModalVideo");
+
+const mediaBoxes = Array.from(document.querySelectorAll(".box"));
+let currentIndex = 0;
+
+function openModal(index) {
+  currentIndex = index;
+  const box = mediaBoxes[index];
+  const type = box.dataset.type;
+  const src = box.dataset.src;
+
+  // reset
+  modalImage.classList.add("hidden");
+  modalVideo.classList.add("hidden");
+  modalVideo.pause();
+  modalVideo.src = "";
+
+  if (type === "video") {
+    modalVideo.src = src;
+    modalVideo.currentTime = 0;
+    modalVideo.muted = false;
+    modalVideo.classList.remove("hidden");
+
+    modalVideo.load();
+    modalVideo.play().catch(() => {});
+  } else {
+    modalImage.src = src;
+    modalImage.classList.remove("hidden");
+  }
+
+  modal.classList.remove("hidden");
+}
+
+function closeModal() {
+  modalVideo.pause();
+  modal.classList.add("hidden");
+}
+
+function showPrev() {
+  currentIndex = (currentIndex - 1 + mediaBoxes.length) % mediaBoxes.length;
+  openModal(currentIndex);
+}
+
+function showNext() {
+  currentIndex = (currentIndex + 1) % mediaBoxes.length;
+  openModal(currentIndex);
+}
+
+/* EVENTS */
+mediaBoxes.forEach((box, i) => {
+  box.addEventListener("click", () => openModal(i));
+});
+
+modalBg.addEventListener("click", closeModal);
+modalClose.addEventListener("click", closeModal);
+modalPrev.addEventListener("click", showPrev);
+modalNext.addEventListener("click", showNext);
+
+window.addEventListener("keydown", e => {
+  if (modal.classList.contains("hidden")) return;
+  if (e.key === "Escape") closeModal();
+  if (e.key === "ArrowLeft") showPrev();
+  if (e.key === "ArrowRight") showNext();
+});
+
+  /* =====================================================
+     EVENTS
+  ===================================================== */
+
+  mediaBoxes.forEach((box, i) => {
+    box.addEventListener("click", () => openModal(i));
+  });
+
+  modalBg.addEventListener("click", closeModal);
+  modalClose.addEventListener("click", closeModal);
+  modalPrev.addEventListener("click", showPrev);
+  modalNext.addEventListener("click", showNext);
+
+  window.addEventListener("keydown", e => {
+    if (modal.classList.contains("hidden")) return;
+    if (e.key === "Escape") closeModal();
+    if (e.key === "ArrowLeft") showPrev();
+    if (e.key === "ArrowRight") showNext();
+  });
 })();
