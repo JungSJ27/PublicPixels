@@ -22,13 +22,13 @@ body {
 =============================== */
 
 .media-stage {
-  height: 68vh;        /* 상단 영역 */
+  height: 75vh;        /* 상단 영역 */
   width: 100vw;
   background: #000000;
 }
 
 .info {
-  height: 32vh;        /* 하단 영역 */
+  height: 25vh;        /* 하단 영역 */
   width: 100vw;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -237,7 +237,6 @@ body {
   grid-template-columns: 3fr 1.1fr;
   column-gap: 96px;
 
-  height: 32vh;                /* 이미 있음 */
   padding: 0 48px;             /* 🔥 위아래 패딩 제거 */
 
   align-items: center;         /* 🔥 세로 중앙 */
@@ -255,8 +254,7 @@ body {
   column-gap: 36px;   /* 텍스트 내부는 밀착 */
   align-items: start;
   color: #ffffff;
-  opacity: 0.65;
-  margin-top: 40px;
+  opacity: 0.6;
 }
 
 /* 공통 */
@@ -321,7 +319,7 @@ body {
 -------------------------------- */
 
 .info-col.right {
-  padding-top: 28px;        /* 본문보다 살짝 내려서 */
+  padding-top: -10px;        /* 본문보다 살짝 내려서 */
   justify-self: end;        /* 더 오른쪽으로 */
   opacity: 1;            /* 아주 살짝만 톤 다운 */
 }
