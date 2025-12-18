@@ -193,8 +193,9 @@ body {
   position: absolute;
   background: none;
   border: none;
-  color: rgb(130, 67, 67);
-  font-size: 32px;
+  color: rgb(255, 255, 255);
+  opacity: 0.6;
+  font-size: 17px;
   cursor: pointer;
   z-index: 10;
   padding: 10px;
@@ -204,6 +205,7 @@ body {
 .modal-close {
   top: 20px;
   right: 30px;
+  font-size: 15px;
 }
 
 /* 이전 / 다음 */
@@ -292,7 +294,7 @@ body {
 
 .info-link:hover {
   opacity: 1;
-  color: #49f60a;
+  color: #ff3aba;
 }
 
 /* -------------------------------
@@ -301,7 +303,7 @@ body {
 
 .info-col.middle {
   max-width: 450px;
-  padding-top: 0px; /* 타이틀 기준선 연결 */
+  padding-top: 18px; /* 타이틀 기준선 연결 */
 }
 
 .info-desc {
