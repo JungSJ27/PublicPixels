@@ -1,0 +1,159 @@
+/* =======================================================
+   GLOBAL RESET
+   ======================================================= */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  overscroll-behavior-y: none;       /* ✅ 상하 바운스 흰색 제거 */
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  color: #ffffff;
+
+  /* 모바일 스크롤 안정화 */
+  overflow-x: hidden;
+}
+
+html,
+body {
+  background: #000;
+  min-height: 100%;
+}
+
+body {
+  background: #000;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* =======================================================
+   HEADER (전시 페이지 전용)
+   ======================================================= */
+body[data-page="log"] header {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: transparent !important;
+  color: #fff !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  padding-top: 10px !important;
+  z-index: 3000;
+}
+
+body[data-page="log"] header .logo-brand,
+body[data-page="log"] header .logo-roman,
+body[data-page="log"] header .logo-korean {
+  color: rgba(255, 255, 255, 0.1) !important;
+}
+
+body[data-page="log"] header .search-icon,
+body[data-page="log"] header .shop-toggle {
+  display: none !important;
+}
+
+
+
+/* =======================================================
+   LIST ICON
+   ======================================================= */
+.list-toggle {
+  position: fixed;
+  top: 9px;
+  right: 22px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 3500;
+  opacity: 0.8;
+  color: rgba(255, 255, 255, 0.1);
+}
+
+.ic-list {
+  width: 24px;
+  height: 24px;
+}
+
+.list-toggle:hover {
+  opacity: 1;
+}
+/* canvas */
+#scene {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+}
+
+/* video layout */
+.video-wrap {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.video-box {
+  position: relative;
+  width: min(74vw, 1020px);
+  aspect-ratio: 16 / 9;
+  pointer-events: auto;
+}
+
+/* video */
+video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #000;
+  display: block;
+}
+
+/* caption */
+.caption {
+  position: absolute;
+  bottom: -34px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 12px;
+  opacity: 0.65;
+  letter-spacing: 0.4px;
+}
+
+/* hover modal */
+.video-modal {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(255,255,255,0.14);
+  backdrop-filter: blur(6px);
+
+  color: rgba(255,255,255,0.95);
+  font-size: 13px;
+  line-height: 1.55;
+  text-align: center;
+  padding: 40px;
+
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+
+.video-box:hover .video-modal {
+  opacity: 1;
+}
