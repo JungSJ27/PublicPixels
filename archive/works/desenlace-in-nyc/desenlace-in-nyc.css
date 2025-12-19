@@ -5,13 +5,21 @@
   box-sizing: border-box;
 }
 
-body {
-  margin: 0;
-  padding: 0 !important;
-  font-family: 'Poppins', sans-serif;
-  background: #000000;
+html {
+  background: #000000;               /* ✅ iOS overscroll 배경 */
+  overscroll-behavior-y: none;       /* ✅ 상하 바운스 흰색 제거 */
 }
 
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background: #000000;
+  color: #ffffff;
+
+  /* 모바일 스크롤 안정화 */
+  overflow-x: hidden;
+}
 
 
 /* =======================================================
@@ -92,7 +100,6 @@ header.header-hidden {
   opacity: 0;
   transform: translateY(-28px);
 }
-
 /* =======================================================
    LAYOUT: TOP STAGE + BOTTOM INFO (Full-bleed safe)
 ======================================================= */
@@ -372,6 +379,17 @@ header.header-hidden {
   color: #8bd8ff;
 }
 
+
+.ic-arrow,
+.ic-insta {
+  width: 11px;
+  height: 11px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
+
 /* -------------------------------
    MIDDLE (DESCRIPTION)
 -------------------------------- */
@@ -438,7 +456,7 @@ header.header-hidden {
    RESPONSIVE
 =============================== */
 
-@media (max-width: 900px) {
+@media (max-width: 800px) {
 
     
   body {
@@ -464,7 +482,9 @@ header.header-hidden {
     grid-template-columns: 1fr;
     gap: 48px;
   }
-
+  .info-col.middle {
+    max-width: 800px;
+  }
   .video-wrap {
     align-items: flex-start;
   }
@@ -476,3 +496,21 @@ header.header-hidden {
 
 }
 
+@media (max-width: 900px) {
+  .modal-prev,
+  .modal-next {
+    top: auto;
+    bottom: 24px;
+    transform: translateX(-50%);
+  }
+
+  .modal-prev {
+    left: 50%;
+    margin-left: -30px; /* 중앙 기준 왼쪽 */
+  }
+
+  .modal-next {
+    left: 50%;
+    margin-left: 30px;  /* 중앙 기준 오른쪽 */
+  }
+}
