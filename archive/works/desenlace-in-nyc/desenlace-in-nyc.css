@@ -50,7 +50,7 @@ body[data-page="log"] header {
 body[data-page="log"] header .logo-brand,
 body[data-page="log"] header .logo-roman,
 body[data-page="log"] header .logo-korean {
-  color: rgba(255, 255, 255, 0.9) !important;
+  color: rgba(255, 255, 255, 0.8) !important;
 }
 
 body[data-page="log"] header .search-icon,
@@ -75,7 +75,7 @@ body[data-page="log"] header .shop-toggle {
   cursor: pointer;
   z-index: 3500;
   opacity: 0.8;
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .ic-list {
@@ -506,20 +506,65 @@ header.header-hidden {
 }
 
 @media (max-width: 900px) {
+  /* 버튼이 차지하는 안전 여백 값 */
+  :root{
+    --modal-side-safe: 64px;   /* 좌우 화살표 영역 */
+    --modal-top-safe: 56px;    /* 닫기 버튼 영역 */
+    --modal-bottom-safe: 80px; /* 비디오 컨트롤 영역과 겹침 방지 */
+  }
+
+  /* 중앙 스테이지는 버튼 여백만큼 패딩을 확보 */
+  .modal-content{
+    position: absolute;
+    inset: 0;
+
+    padding-left: var(--modal-side-safe);
+    padding-right: var(--modal-side-safe);
+    padding-top: calc(var(--modal-top-safe) + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(var(--modal-bottom-safe) + env(safe-area-inset-bottom, 0px));
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* 영상과 이미지는 패딩 안쪽 영역에서만 최대 크기 */
+  .modal-media{
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  /* 버튼은 화면 테두리에 고정 */
+  .modal-ui{
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .modal-close,
   .modal-prev,
-  .modal-next {
-    top: auto;
-    bottom: 24px;
-    transform: translateX(-50%);
+  .modal-next{
+    pointer-events: auto;
+    z-index: 10;
   }
 
-  .modal-prev {
-    left: 50%;
-    margin-left: -30px; /* 중앙 기준 왼쪽 */
+  .modal-close{
+    position: absolute;
+    top: calc(env(safe-area-inset-top, 0px) + 12px);
+    right: 12px;
   }
 
-  .modal-next {
-    left: 50%;
-    margin-left: 30px;  /* 중앙 기준 오른쪽 */
+  .modal-prev{
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .modal-next{
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
   }
 }

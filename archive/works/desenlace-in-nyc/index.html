@@ -369,32 +369,29 @@
 
 </section>
 
-
 <!-- ===============================
      MEDIA MODAL
 ================================ -->
 
 <div id="mediaModal" class="media-modal hidden">
-  <!-- 블러 배경 (클릭 시 닫힘) -->
+  <!-- 블러 배경 -->
   <div class="modal-bg" id="mediaModalBg"></div>
 
-  <!-- 닫기 버튼 -->
-  <button class="modal-close" id="mediaModalClose" aria-label="Close">✕</button>
+  <!-- 🔹 UI 레이어 (버튼 전용) -->
+  <div class="modal-ui">
+    <button class="modal-close" id="mediaModalClose" aria-label="Close">✕</button>
+    <button class="modal-prev" id="mediaModalPrev" aria-label="Previous">‹</button>
+    <button class="modal-next" id="mediaModalNext" aria-label="Next">›</button>
+  </div>
 
-  <!-- 이전 / 다음 -->
-  <button class="modal-prev" id="mediaModalPrev" aria-label="Previous">‹</button>
-  <button class="modal-next" id="mediaModalNext" aria-label="Next">›</button>
-
-  <!-- 실제 콘텐츠 영역 -->
+  <!-- 🔹 실제 콘텐츠 (중앙 고정) -->
   <div class="modal-content">
-    <!-- 이미지 -->
     <img
       id="mediaModalImage"
       class="modal-media hidden"
       alt=""
     />
 
-    <!-- 비디오 -->
     <video
       id="mediaModalVideo"
       class="modal-media hidden"
@@ -403,6 +400,7 @@
     ></video>
   </div>
 </div>
+
 
 <script src="desenlace-in-nyc.js"></script>
 </body>
