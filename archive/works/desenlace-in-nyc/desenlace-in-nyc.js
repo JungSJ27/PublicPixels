@@ -9,15 +9,21 @@
 
   if (viewport && scaler && canvas) {
     function scaleCanvasToViewportHeight() {
-      const canvasW = canvas.offsetWidth;
-      const canvasH = canvas.offsetHeight;
-      const vh = viewport.clientHeight;
-      const scale = vh / canvasH;
+    const canvasW = canvas.offsetWidth;
+    const canvasH = canvas.offsetHeight;
 
-      scaler.style.width = Math.ceil(canvasW * scale) + "px";
-      scaler.style.height = Math.ceil(canvasH * scale) + "px";
-      canvas.style.transform = `scale(${scale})`;
-    }
+    const isMobile = window.matchMedia("(max-width: 900px)").matches;
+    const vh = isMobile
+      ? viewport.clientHeight * 0.92
+      : viewport.clientHeight;
+
+    const scale = vh / canvasH;
+
+    scaler.style.width = Math.ceil(canvasW * scale) + "px";
+    scaler.style.height = Math.ceil(canvasH * scale) + "px";
+    canvas.style.transform = `scale(${scale})`;
+  }
+
 
     function wheelToHorizontal(e) {
       if (viewport.scrollWidth <= viewport.clientWidth) return;
