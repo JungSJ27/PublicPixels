@@ -1,69 +1,118 @@
-/* ===============================================
-   🔥 FORCE HEADER TO TRUE OVERLAY (DESENLACE ONLY)
-=============================================== */
-
-body[data-page="log"] header,
-body[data-page="log"] .pp-header {
-  position: fixed !important;
-  inset: 0 auto auto 0;
-  width: 100vw !important;
-  max-width: 100vw !important;
-}
-
-/* 헤더 내부 컨테이너 무력화 */
-body[data-page="log"] header > *,
-body[data-page="log"] .pp-header > * {
-  max-width: none !important;
-  width: 100% !important;
-  margin: 0 !important;
-  padding-left: 24px !important;
-  padding-right: 24px !important;
+/* =======================================================
+   GLOBAL RESET
+   ======================================================= */
+* {
   box-sizing: border-box;
-}
-
-/* headerLoader가 만든 wrapper가 있으면 제거 */
-body[data-page="log"] > div[data-include="header"] {
-  display: contents !important;
-}
-
-/* ===============================
-   BASE
-=============================== */
-
-* { box-sizing: border-box; }
-
-html, body {
-  height: 100%;
 }
 
 body {
   margin: 0;
-  font-family: Poppins, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  padding: 0 !important;
+  font-family: 'Poppins', sans-serif;
   background: #000000;
-  color: #111;
-  overflow: hidden; /* 세로 스크롤 완전 차단 */
+}
+
+
+
+/* =======================================================
+   HEADER (전시 페이지 전용)
+   ======================================================= */
+body[data-page="log"] header {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: transparent !important;
+  color: #fff !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  padding-top: 10px !important;
+  z-index: 3000;
+}
+
+body[data-page="log"] header .logo-brand,
+body[data-page="log"] header .logo-roman,
+body[data-page="log"] header .logo-korean {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+body[data-page="log"] header .search-icon,
+body[data-page="log"] header .shop-toggle {
+  display: none !important;
+}
+
+
+
+/* =======================================================
+   LIST ICON
+   ======================================================= */
+.list-toggle {
+  position: fixed;
+  top: 9px;
+  right: 22px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 3500;
+  opacity: 0.8;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.ic-list {
+  width: 24px;
+  height: 24px;
+}
+
+.list-toggle:hover {
+  opacity: 1;
 }
 
 /* ===============================
-   LAYOUT: TOP STAGE + BOTTOM INFO
-   한 화면 고정
-=============================== */
+   HEADER SLIDE ANIMATION
+   =============================== */
+
+/* 기본 상태: 보임 + 제자리 */
+body[data-page="log"] header {
+  transform: translateY(0);
+  transition: opacity 0.35s ease, transform 0.4s ease;
+}
+
+/* 숨김 상태: 살짝 위로 올려서 사라지는 느낌 */
+header.header-hidden {
+  opacity: 0;
+  transform: translateY(-28px);
+  pointer-events: none;
+}
+
+/* 리스트 버튼도 같이 위로 올라가게 */
+.list-toggle.header-hidden {
+  opacity: 0;
+  transform: translateY(-28px);
+}
+
+/* =======================================================
+   LAYOUT: TOP STAGE + BOTTOM INFO (Full-bleed safe)
+======================================================= */
 
 .media-stage {
-  height: 75vh;        /* 상단 영역 */
-  width: 100vw;
+  height: 75vh;
+  width: 100%;          /* ✅ 100vw 대신 100% */
   background: #000000;
 }
 
 .info {
-  height: 25vh;        /* 하단 영역 */
-  width: 100vw;
+  height: 25vh;
+  width: 100%;          /* ✅ 100vw 대신 100% */
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 40px;
   padding: 28px 60px;
   align-items: end;
 }
+
 
 /* ===============================
    TOP: HORIZONTAL SCROLL STAGE
@@ -320,7 +369,7 @@ body {
 
 .info-link:hover {
   opacity: 1;
-  color: #ff3aba;
+  color: #8bd8ff;
 }
 
 /* -------------------------------
@@ -426,3 +475,4 @@ body {
   }
 
 }
+
