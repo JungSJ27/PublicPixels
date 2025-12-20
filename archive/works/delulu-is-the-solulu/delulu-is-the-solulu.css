@@ -222,7 +222,7 @@ body[data-page="log"] header .logo-korean {
 }
 
 .art-meta {
-  margin: 0 0 10px;
+  margin: 13px 0 0px;
   font-size: 12px;
   line-height: 1.45;
   opacity: 0.85;
@@ -232,7 +232,7 @@ body[data-page="log"] header .logo-korean {
   width: 200px;
   height: 1px;
   background: rgba(255,255,255,0.35);
-  margin: 14px 0 40px;
+  margin: 8px 0 40px;
 }
 
 .art-desc {
