@@ -273,7 +273,6 @@ body[data-page="log"] header .logo-korean {
    MOBILE
    ======================================================= */
 @media (hover: none) and (pointer: coarse) {
-  .caption { bottom: -60px; }
 
   /* hover 기반 인터랙션 완전히 제거 */
   .video-box:hover .video-modal {
