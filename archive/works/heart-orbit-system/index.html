@@ -1,36 +1,103 @@
-<html>
-  <head>
-    <link rel="stylesheet" href="stylesheet.css" />
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.1.9/lib/p5.js"></script>
-    <script src="datgui.min.js" type="text/javascript"></script>
-  </head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  />
+  <title>Heart Orbit System | Archive</title>
 
-  <body>
-    <!-- Full screen description modal -->
-    <div id="infoModal" class="info-modal" aria-hidden="true">
-      <div class="info-modal-bg"></div>
+  <!-- Header styles -->
+  <link rel="stylesheet" href="/front/header.css" />
 
-      <div class="info-modal-content">
-        <div class="info-modal-inner">
-          <div class="info-modal-title">Heart Orbit System</div>
+  <!-- Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700&display=swap"
+    rel="stylesheet"
+  />
 
-          <div class="info-modal-body">
-            <p>
-              This project visualizes layered relationships as orbiting particles and evolving heart trajectories.
-              The central heart becomes a trigger point, revealing the narrative and system behind the work.
+  <!-- Page styles -->
+  <link rel="stylesheet" href="stylesheet.css" />
+
+  <!-- p5 -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.1.9/lib/p5.js"></script>
+
+  <!-- Global scripts -->
+  <script defer src="/front/favicons.js"></script>
+  <script defer src="/front/headerLoader.js"></script>
+</head>
+
+<body data-page="log" data-no-header-offset="true">
+
+  <!-- 🔹 HEADER HOVER ZONE (상단 감지 영역) -->
+  <div class="header-hover-zone"></div>
+
+  <!-- HEADER INCLUDE -->
+  <div data-include="header"></div>
+
+  <!-- LIST ICON -->
+  <div
+    class="list-toggle"
+    onclick="location.href='/archive/'"
+    aria-label="Back to Archive"
+  >
+    <svg viewBox="0 0 24 24" class="ic-list" aria-hidden="true">
+      <g fill="none" stroke="currentColor" stroke-width="1.6">
+        <line x1="4" y1="6" x2="20" y2="6" />
+        <line x1="4" y1="12" x2="20" y2="12" />
+        <line x1="4" y1="18" x2="20" y2="18" />
+      </g>
+    </svg>
+  </div>
+
+  <!-- FULL SCREEN DESCRIPTION MODAL -->
+  <div id="infoModal" class="info-modal" aria-hidden="true">
+    <div class="info-modal-bg"></div>
+
+    <div class="info-modal-content">
+      <div class="info-modal-inner">
+        <div class="info-modal-title">Heart Orbit System</div>
+
+        <!-- TITLE + META -->
+        <section class="art-head modal-section"></section>
+          <p class="art-meta medium">
+            2025<br>
+            Mixed media (3D-printed PLA, electronics, motors, custom mechanical system)<br>
+            200 × 100 cm
+          </p>
+        </section>
+
+        <div class="info-modal-body">
+          <p>
+              <i>Butterfly Trap</i> is an installation that explores the tension
+              between confinement and freedom through a motor-driven butterfly
+              enclosed in a transparent structure and its digital counterparts
+              displayed on screens. By juxtaposing physical motion with mediated
+              imagery, the work examines the fragile boundary between reality and
+              simulation, and questions how freedom is constructed within
+              technological systems.
             </p>
 
-            <p>
-              You can replace this text with your final project description.
-              The modal appears when you hover the mouse over the center heart.
+            <p class="text kor">
+              <i>Butterfly Trap</i>은 투명한 박스 안에서 모터로 구동되는 나비와
+              디지털 스크린을 통해, 갇힌 존재와 자유롭게 비행하는 이미지
+              사이의 대비를 드러내는 설치 작품이다. 물리적 구조 안에서
+              반복적으로 움직이는 나비는 보호와 통제라는 이중적 의미를
+              동시에 지니며, 스크린 속 이미지와 병치되면서 현실과 디지털,
+              생명과 이미지의 경계를 모호하게 만든다. 이 작업은 우리가
+              기술을 통해 만들어낸 환경 속에서 자유가 어떻게 규정되고
+              제한되는지를 질문한다.
             </p>
-          </div>
-
-          <div class="info-modal-hint">Hover the heart to read</div>
         </div>
       </div>
     </div>
+  </div>
 
-    <script src="script.js"></script>
-  </body>
+  <!-- SKETCH -->
+  <script src="script.js"></script>
+</body>
 </html>
+
+
+

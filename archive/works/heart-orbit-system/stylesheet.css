@@ -1,9 +1,155 @@
-body {
-    margin: 0 auto;
-}body {
-  margin: 0 auto;
-  overflow: hidden;
+/* =======================================================
+   RESET
+======================================================= */
+* { box-sizing: border-box; }
+
+html { overscroll-behavior-y: none; }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background: #000;
 }
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  color: #fff;
+  overflow: hidden;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* =======================================================
+   HEADER (log page)
+======================================================= */
+
+/* HEADER 기본 숨김 */
+body[data-page="log"] header {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+
+  background: transparent !important;
+  color: #fff !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  padding-top: 10px !important;
+
+  z-index: 3000;
+
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+
+  transition: transform 0.35s ease, opacity 0.25s ease;
+}
+
+/* LIST 기본 숨김 헤더랑 같이 움직이게 */
+.list-toggle {
+  position: fixed;
+  top: 9px;
+  right: 22px;
+  width: 28px;
+  height: 28px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+
+  z-index: 3500;
+
+  transform: translateY(-120%);
+  opacity: 0;
+  pointer-events: none;
+
+  transition: transform 0.35s ease, opacity 0.25s ease;
+  color: rgba(255, 255, 255, 0.18);
+}
+
+/* 상단 호버 시 둘 다 나타남 */
+body[data-page="log"].header-reveal header,
+body[data-page="log"].header-reveal .list-toggle {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* hover 감지 영역 */
+.header-hover-zone {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 42px;
+  z-index: 4000;
+}
+
+
+/* 상단 호버 시 표시 */
+body[data-page="log"].header-reveal header {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* 검색 / 샵 숨김 */
+body[data-page="log"] header .search-icon,
+body[data-page="log"] header .shop-toggle {
+  display: none !important;
+}
+
+/* 로고 기본 톤 */
+body[data-page="log"] header .logo-brand,
+body[data-page="log"] header .logo-roman,
+body[data-page="log"] header .logo-korean {
+  color: rgba(255, 255, 255, 0.18) !important;
+}
+
+/* =======================================================
+   HEADER HOVER ZONE
+======================================================= */
+.header-hover-zone {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 36px;
+  z-index: 2900;
+}
+
+/* =======================================================
+   LIST ICON
+======================================================= */
+.list-toggle {
+  position: fixed;
+  top: 9px;
+  right: 22px;
+  width: 28px;
+  height: 28px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+  z-index: 3500;
+  opacity: 0.85;
+  color: rgba(255, 255, 255, 0.18);
+}
+
+.ic-list {
+  width: 24px;
+  height: 24px;
+}
+
+.list-toggle:hover {
+  opacity: 1;
+}
+
 
 /* Full screen modal overlay */
 .info-modal {
@@ -43,7 +189,6 @@ body {
   overflow: auto;
 
   color: #fff;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
 
   background:transparent;
   border: 0px solid rgba(255, 255, 255, 0.14);
@@ -58,6 +203,26 @@ body {
   letter-spacing: 0.2px;
   margin-bottom: 12px;
 }
+
+.info-modal .art-head {
+  margin-bottom: 18px;
+}
+
+/* 기본 meta */
+.info-modal .art-meta {
+  font-size: 13px;
+  line-height: 1.55; /* ← 중요: 1. 말고 */
+  color: rgba(255, 255, 255, 0.72);
+}
+
+/* medium 스타일 */
+.info-modal .art-meta.medium {
+  padding-bottom: 10px;
+  margin-bottom: 14px;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+}
+
 
 .info-modal-body {
   font-size: 14px;
