@@ -23,6 +23,39 @@ const LAYER_COUNT = 5;
 
 const SNOWFLAKES = [];
 
+let infoModalEl = null;
+let isHeartHovering = false;
+
+function ensureInfoModal() {
+  if (!infoModalEl) infoModalEl = document.getElementById("infoModal");
+  return infoModalEl;
+}
+
+function setInfoModalOpen(isOpen) {
+  const el = ensureInfoModal();
+  if (!el) return;
+
+  if (isOpen) {
+    el.classList.add("is-open");
+    el.setAttribute("aria-hidden", "false");
+  } else {
+    el.classList.remove("is-open");
+    el.setAttribute("aria-hidden", "true");
+  }
+}
+
+function isMouseOverCenterHeart() {
+  const centerX = windowWidth / 2;
+  const centerY = windowHeight / 2;
+  const hoverRange = 110;
+
+  return (
+    mouseX >= centerX - hoverRange &&
+    mouseX <= centerX + hoverRange &&
+    mouseY >= centerY - hoverRange &&
+    mouseY <= centerY + hoverRange
+  );
+}
 
 
 // constants
@@ -246,27 +279,26 @@ class ParticleConfig {
 
 // load in google font
 let interFont;
+let Heart, arrow;
+
 function preload() {
   interFont = loadFont('Inter-VariableFont_slnt,wght.ttf');
-}
-
-function preload(){
   Heart = loadModel('Heart.obj');
   arrow = loadModel('arrow.obj');
 }
 
 
-
 function setup() {
   createCanvas(windowWidth, windowHeight, WEBGL);
-  
 
-  
   planetSpeed = new PlanetSpeed();
   planetScale = new PlanetScale();
   particleConfig = new ParticleConfig();
   createSnowflakes();
+
+  ensureInfoModal();
 }
+
 
 // 화면 크기가 변경될 때 호출되는 함수
 function windowResized() {
@@ -276,19 +308,24 @@ function windowResized() {
 
 // 눈송이 배열을 생성하는 함수
 function createSnowflakes() {
+  // ✅ 누적 방지: 이전 데이터 초기화
+  SNOWFLAKES.length = 0;
+  planets = [];
+
   for (let k = 0; k < LAYER_COUNT; k++) {
     const layer = [];
     for (let i = 0; i < SNOWFLAKES_PER_LAYER; i++) {
       layer.push({
         x: random(windowWidth),
         y: random(windowHeight),
-        z: random(-50, 50), // Z 축 값 추가
+        z: random(-50, 50),
         mass: random(0.75, 1.25),
         k: k + 1
       });
     }
     SNOWFLAKES.push(layer);
   }
+
   orbit1Diameter = min(
     windowWidth * ORBIT_1_MULTIPLIER * DIAMETER_INCREASE,
     windowHeight * ORBIT_1_MULTIPLIER * DIAMETER_INCREASE
@@ -396,7 +433,7 @@ endShape();
   stroke(100,100,100,frameCount%600); 
   beginShape(); 
   for (let s of heart) {
-    point(s.h, s.k, s.z2);
+    point(s.x, s.y, s.z);
   }
   f += 0.003;
   endShape();
@@ -507,44 +544,28 @@ endShape();
   rotateY(frameCount * 0.04);
   sphere(9);
   pop(); 
+
+
+  const hoveringNow = isMouseOverCenterHeart();
+  if (hoveringNow !== isHeartHovering) {
+    isHeartHovering = hoveringNow;
+    setInfoModalOpen(isHeartHovering);
+  }
+
+  if (isHeartHovering) {
+    cursor("pointer");
+  } else {
+    cursor("default");
+  }
+
 }
 
-
 function mousePressed() {
-  // 화면 중앙 좌표
-  const centerX = windowWidth / 2;
-  const centerY = windowHeight / 2;
-
-  // 클릭 감지 범위 (가로/세로)
-  const clickRange = 100;
-
-  // 마우스 위치가 하트 모델 위치 근처인지 확인
-  if (mouseX >= centerX - clickRange && mouseX <= centerX + clickRange &&
-      mouseY >= centerY - clickRange && mouseY <= centerY + clickRange) {
-    window.open('https://sjung220.github.io/truelovepink/', '_blank'); // 새 탭에서 링크 열기
-  }
+  return false;
 }
 
 function touchStarted() {
-  // 화면 중앙 좌표
-  const centerX = width / 2;
-  const centerY = height / 2;
-
-  // 터치 감지 범위 확대
-  const clickRange = 200; // 이전에는 100이었음
-
-  // 터치 이벤트가 발생했을 경우
-  if (touches.length > 0) {
-    const touchX = touches[0].x;
-    const touchY = touches[0].y;
-
-    // 터치 위치가 확대된 감지 범위 내에 있는지 확인
-    if (touchX >= centerX - clickRange && touchX <= centerX + clickRange &&
-        touchY >= centerY - clickRange && touchY <= centerY + clickRange) {
-      window.open('https://sjung220.github.io/truelovepink/', '_blank');
-      return false; // 기본 동작 방지
-    }
-  }
+  return false;
 }
 
 
