@@ -21,12 +21,16 @@ const LAYER_COUNT = 5;
 
 const SNOWFLAKES = [];
 
-
 /* =========================
    HEADER
 ========================= */
 
 (function () {
+  if (isMobileDevice()) {
+    document.body.classList.add("header-reveal");
+    return;
+  }
+
   const body = document.body;
   const zone = document.querySelector(".header-hover-zone");
   if (!zone) return;
@@ -48,7 +52,6 @@ const SNOWFLAKES = [];
   zone.addEventListener("mouseenter", show);
   zone.addEventListener("mouseleave", hide);
 
-  // 헤더는 loader가 나중에 넣으니까 매번 다시 잡아줘야 함
   function bindHeaderHover() {
     const header = document.querySelector("header");
     if (!header) return false;
@@ -58,14 +61,10 @@ const SNOWFLAKES = [];
     return true;
   }
 
-  // 최초 한번 시도
   if (!bindHeaderHover()) {
-    // loader가 늦게 넣는 경우를 위해 재시도
     const iv = setInterval(() => {
       if (bindHeaderHover()) clearInterval(iv);
     }, 200);
-
-    // 너무 오래 돌면 종료
     setTimeout(() => clearInterval(iv), 6000);
   }
 })();
@@ -310,16 +309,19 @@ function setup() {
   planetScale = new PlanetScale();
   particleConfig = new ParticleConfig();
 
+  if (isMobileDevice()) {
+    particleConfig.maxParticlesDrawn = 6000;
+  }
+
   createSnowflakes();
   ensureInfoModal();
 
-  // 전시용 안정화 리로드 스케줄
   scheduleReload();
 
-  // 관객 입력이 있으면 리로드 타이머 리셋
   window.addEventListener("mousemove", scheduleReload);
   window.addEventListener("touchstart", scheduleReload);
 }
+
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
@@ -424,32 +426,45 @@ function updateSnowflake(snowflake) {
 function draw() {
   background(20, 25, 40);
 
-  orbitControl();
+  // ✅ 모바일 카메라 뒤로
+  if (isMobileDevice()) {
+    camera(
+      0,
+      0,
+      max(windowWidth, windowHeight) * 1.6,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+    );
+  }
+
+  orbitControl(
+    isMobileDevice() ? 2.5 : 1,
+    isMobileDevice() ? 2.5 : 1,
+    isMobileDevice() ? 0.5 : 0.2
+  );
 
   ambientLight(170);
   directionalLight(255, 0, 0, 0.25, 0.25, 0);
 
   /* =========================
-     STARS (POINT VERSION)
+     STARS
   ========================= */
   noFill();
   beginShape(POINTS);
 
   for (let k = 0; k < SNOWFLAKES.length; k++) {
     const LAYER = SNOWFLAKES[k];
-
     for (let i = 0; i < LAYER.length; i++) {
       const star = LAYER[i];
-
-      // 레이어별 크기
       const size = (star.k * MAX_SIZE) / LAYER_COUNT;
-
-      // twinkle
       const twinkle = 0.3 + 0.7 * (0.5 + 0.5 * sin(star.tw));
 
-      strokeWeight(size * 1.6);   // ⭐️ sphere 대신 point 강조
+      strokeWeight(size * 1.6);
       stroke(255, 255, 255, 140 * twinkle);
-
       vertex(star.x, star.y, star.z);
 
       updateSnowflake(star);
@@ -462,8 +477,8 @@ function draw() {
   ========================= */
   for (let i = 0; i < planets.length; i++) {
     const ring = planets[i];
-    for (let j2 = 0; j2 < ring.length; j2++) {
-      ring[j2].drawPlanet();
+    for (let j = 0; j < ring.length; j++) {
+      ring[j].drawPlanet();
     }
   }
 
@@ -489,30 +504,41 @@ function draw() {
   /* =========================
      ORBIT SYSTEM
   ========================= */
+// orbit 1
+const r = height / 80;
+const x = r * 16 * pow(sin(a), 3);
+const y = -r * (13 * cos(a) - 5 * cos(2 * a) - 2 * cos(3 * a) - cos(4 * a));
+const z = -r * sin(a) * random(3, 4);
 
-  // orbit 1
-  const r = height / 80;
-  const x = r * 16 * pow(sin(a), 3);
-  const y = -r * (13 * cos(a) - 5 * cos(2 * a) - 2 * cos(3 * a) - cos(4 * a));
-  const z = -r * sin(a) * random(3, 4);
+heart.push(createVector(x, y, z));
 
-  heart.push(createVector(x, y, z));
-  stroke(235, 190, 230, frameCount % 1100);
-  strokeWeight(1.4);
-  beginShape(POINTS);
-  for (let v of heart) vertex(v.x, v.y, v.z);
-  endShape();
-  a += 0.007;
+stroke(235, 190, 230, frameCount % 1100);
+strokeWeight(1.4);
+beginShape(POINTS);
+for (let v of heart) vertex(v.x, v.y, v.z);
+endShape();
 
-  push();
-  noStroke();
-  fill(180, 255, 120);
-  translate(x, y, 0);
-  rotateZ(frameCount * 0.01);
-  rotateX(frameCount * 0.01);
-  rotateY(frameCount * 0.01);
-  box(20, 20, 20);
-  pop();
+a += 0.007;
+
+// ✅ 여기 안에 있어야 함
+push();
+noStroke();
+fill(180, 255, 120);
+translate(x, y, 0);
+rotateZ(frameCount * 0.01);
+rotateX(frameCount * 0.01);
+rotateY(frameCount * 0.01);
+box(20, 20, 20);
+pop();
+
+// hover 체크
+if (!isMobileDevice()) {
+  const hoveringNow = isMouseOverCenterHeart();
+  if (hoveringNow !== isModalOpen) setInfoModalOpen(hoveringNow);
+  cursor(hoveringNow ? "pointer" : "default");
+}
+
+if (heart.length > 4000) heart.splice(0, 2000);
 
   // orbit 2
   const g2 = height / 60;
@@ -636,13 +662,18 @@ function mousePressed() {
 }
 
 function touchStarted() {
-  // 모바일에서는 아무 데나 터치하면 모달 토글
   if (isMobileDevice()) {
     setInfoModalOpen(!isModalOpen);
     return false;
   }
   return false;
 }
+
+// ✅ 여기에 추가
+function touchMoved() {
+  return false;
+}
+
 
 /* =========================
    AUTO RELOAD
