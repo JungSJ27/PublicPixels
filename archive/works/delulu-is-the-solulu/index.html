@@ -1,14 +1,15 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Desenlace in NYC | Archive</title>
+  <title>Delulu is the Solulu | Archive</title>
 
-  <!-- Global styles -->
+  <!-- Header styles -->
   <link rel="stylesheet" href="/front/header.css">
 
-  <!-- Google Fonts -->
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
 
   <meta name="theme-color" content="#010102" media="(prefers-color-scheme: dark)">
@@ -19,9 +20,10 @@
   <link rel="apple-touch-icon" href="/front/apple-touch-icon.png">
   <script defer src="/front/favicons.js"></script>
 
-  <!-- Page-specific CSS -->
+  <!-- Page CSS -->
   <link rel="stylesheet" href="./delulu-is-the-solulu.css">
-    <!-- 🔹 THREE import map -->
+
+  <!-- Three import map -->
   <script type="importmap">
   {
     "imports": {
@@ -30,20 +32,19 @@
     }
   }
   </script>
+
+  <!-- Header loader -->
+  <script src="/front/headerLoader.js" defer></script>
 </head>
-
-
-
 
 <body data-page="log" data-no-header-offset="true">
 
-  <!-- Header -->
+  <!-- Header include -->
   <div data-include="header"></div>
-  <script src="/front/headerLoader.js" defer></script>
 
   <!-- List icon -->
-  <div class="list-toggle" onclick="location.href='/archive/'">
-    <svg viewBox="0 0 24 24" class="ic-list">
+  <div class="list-toggle" onclick="location.href='/archive/'" aria-label="Back to Archive">
+    <svg viewBox="0 0 24 24" class="ic-list" aria-hidden="true">
       <g fill="none" stroke="currentColor" stroke-width="1.6">
         <line x1="4" y1="6" x2="20" y2="6"/>
         <line x1="4" y1="12" x2="20" y2="12"/>
@@ -52,24 +53,36 @@
     </svg>
   </div>
 
-  <!-- 3D BACKGROUND -->
+  <!-- 3D background -->
   <canvas id="scene"></canvas>
 
-  <!-- VIDEO CONTENT -->
-  <div class="video-wrap">
-    <div class="video-box">
-      <video id="player" muted playsinline preload="auto"></video>
+  <!-- Video -->
+<main class="stage" aria-label="Video stage">
+  <div class="video-box" id="videoBox">
+    <video
+      id="player"
+      class="player"
+      muted
+      playsinline
+      preload="auto"
+      autoplay
+    ></video>
 
-      <div class="video-modal">
-        <p id="modalText"></p>
-      </div>
-
-      <div class="caption" id="caption">1 / 2</div>
+    <!-- Description overlay -->
+    <div class="video-modal" id="videoModal" aria-hidden="true">
+      <div id="modalText" class="modal-text"></div>
     </div>
-  </div>
 
-  <!-- PAGE SCRIPT -->
+    <!-- Counter (영상 하단에 보이게 할 것임) -->
+    <div class="caption" id="caption">1 / 2</div>
+
+    <!-- Mobile hint -->
+    <div class="tap-hint" aria-hidden="true">Tap for text</div>
+  </div>
+</main>
+
+
+  <!-- Page script -->
   <script type="module" src="./delulu-is-the-solulu.js"></script>
 </body>
-
 </html>
