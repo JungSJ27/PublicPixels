@@ -113,11 +113,11 @@ body[data-page="log"] header .logo-korean {
 
 .video-box {
   position: relative;
-  width: min(980px, 86vw);
-  height: min(72vh, 620px);
+  width: min(1020px, 86vw);
+  height: min(72vh, 700px);
   background: transparent;
   border: 0px solid rgba(255,255,255,0.06);
-  box-shadow: 0 24px 80px rgba(0,0,0,0.55);
+  box-shadow: 0 24px 80px rgba(0,0,0,0);
   overflow: visible; /* 🔥 캡션 보이게 */
 }
 
@@ -135,10 +135,10 @@ body[data-page="log"] header .logo-korean {
 .caption {
   position: absolute;
   left: 50%;
-  bottom: -26px; /* 🔥 video-box 아래 */
+  bottom: -40px; /* 🔥 video-box 아래 */
   transform: translateX(-50%);
 
-  font-size: 11px;
+  font-size: 8px;
   letter-spacing: 0.12em;
   opacity: 0.35;
 
@@ -249,7 +249,7 @@ body[data-page="log"] header .logo-korean {
 }
 
 .info-link {
-  margin-top: 30px;
+  margin-top: 40px;
   font-size: 11px;
   text-decoration: none;
   color: #fff;
@@ -259,7 +259,7 @@ body[data-page="log"] header .logo-korean {
   gap: 6px;
 }
 
-.info-link:hover { opacity: 1; color: #b176ff; }
+.info-link:hover { opacity: 1; color: #9450ed; }
 
 .ic-arrow {
   width: 12px;
