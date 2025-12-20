@@ -195,14 +195,19 @@ body[data-page="log"] header .logo-korean {
 
 .modal-text {
   width: min(760px, 84%);
-  max-height: 84%;
+  max-height: 78%;
   overflow-y: auto;
-  padding-right: 12px;
+
+  padding: 0 12px; /* ✅ 좌우 동일 */
+
   text-align: left;
   color: #fff;
   font-size: 13px;
   line-height: 1.7;
+
+  box-sizing: border-box;
 }
+
 
 /* scrollbar */
 .modal-text::-webkit-scrollbar { width: 4px; }
