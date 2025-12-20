@@ -21,6 +21,9 @@ const captions = [
       2024<br>
       Installation (projection mapping, 3D printing, electronics, motors)<br>
       1.5 × 1.5 × 2.5 m
+      <span class="art-credit">
+      Collaborative work with Luiza, Onur, and Savvy
+      </span>
     </p>
 
     <div class="art-divider"></div>
@@ -66,6 +69,9 @@ const captions = [
       2024<br>
       Installation (projection mapping, 3D printing, electronics, motors)<br>
       1.5 × 1.5 × 2.5 m
+      <span class="art-credit">
+      Collaborative work with Luiza, Onur, and Savvy
+      </span>
     </p>
 
     <div class="art-divider"></div>

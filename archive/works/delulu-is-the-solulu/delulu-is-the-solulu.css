@@ -233,8 +233,16 @@ body[data-page="log"] header .logo-korean {
   opacity: 0.85;
 }
 
+.art-credit {
+  display: block;
+  margin-top: 4px;
+  font-size: 10px;
+  opacity: 0.6;
+}
+
+
 .art-divider {
-  width: 200px;
+  width: 230px;
   height: 1px;
   background: rgba(255,255,255,0.35);
   margin: 8px 0 40px;
