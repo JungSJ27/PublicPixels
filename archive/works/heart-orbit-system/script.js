@@ -176,20 +176,39 @@ class Planet {
   constructor(color, orbitLevel) {
     this.color = color;
     this.orbitLevel = orbitLevel;
+
     this.startAngleOffset = random(50);
     this.xOffset = random(-20, 20) + randomGaussian();
     this.yOffset = random(-20, 20) + randomGaussian();
+
+    // ⭐ 성운 두께 (한 번만 결정)
+this.zOffset = randomGaussian() * (orbitLevel * 6);
   }
+
 
   drawPlanet() {
     const angleVector = this.computeVector();
-    fill(`rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, ${this.color.a})`);
-    noStroke();
-    circle(
+
+    push();
+    translate(
       angleVector.x + this.xOffset,
       angleVector.y + this.yOffset,
-      planetScale.scale
+      angleVector.z          // ⭐ 여기서 깊이 생김
     );
+
+    noStroke();
+    fill(
+      this.color.r,
+      this.color.g,
+      this.color.b,
+      180
+    );
+
+    // 성운처럼 보이게 sphere or point
+    sphere(planetScale.scale * 0.6);
+    // 또는: point(0, 0, 0);
+
+    pop();
   }
 
   computeVector() {
@@ -215,9 +234,12 @@ class Planet {
     const angle = ((millis() * planetSpeed.speed) % 360) + this.startAngleOffset;
     const x = r * 16 * pow(sin(angle), 3);
     const y = -r * (13 * cos(angle) - 5 * cos(2 * angle) - 2 * cos(3 * angle) - cos(4 * angle));
-    const z = random(-50, 50);
-
-    return createVector(x / 11, y / 11 - 40, z / 11);
+    return createVector(
+      x / 11,
+      y / 11 - 40,
+      this.zOffset +
+        sin(frameCount * 0.01 + this.startAngleOffset) * 2
+    );
   }
 }
 
@@ -271,11 +293,9 @@ class ParticleConfig {
 /* =========================
    ASSETS
 ========================= */
-let interFont;
 let Heart, arrow;
 
 function preload() {
-  interFont = loadFont("Inter-VariableFont_slnt,wght.ttf");
   Heart = loadModel("Heart.obj");
   arrow = loadModel("arrow.obj");
 }
@@ -307,8 +327,15 @@ function windowResized() {
 }
 
 /* =========================
-   SNOWFLAKES
+   STARS  (was SNOWFLAKES)
 ========================= */
+
+// 별 공간 스케일
+const STAR_FIELD_SIZE = 2200;     // x,y 퍼짐
+const STAR_FIELD_DEPTH = 2200;    // z 퍼짐
+const STAR_DRIFT = 0.08;          // 별이 살짝 떠다니는 정도
+
+
 function createSnowflakes() {
   // 누적 방지
   SNOWFLAKES.length = 0;
@@ -316,13 +343,39 @@ function createSnowflakes() {
 
   for (let k = 0; k < LAYER_COUNT; k++) {
     const layer = [];
+const thickness = map(
+  k,
+  0,
+  LAYER_COUNT - 1,
+  10,
+  60
+);
+
     for (let i = 0; i < SNOWFLAKES_PER_LAYER; i++) {
+      // 레이어별로 크기와 밀도 차이를 주기 위한 factor
+      const layerFactor = (k + 1) / LAYER_COUNT;
+
+       // 🔑 Gaussian + 안전 클램프
+      let z =
+        randomGaussian() * (thickness * 0.35);
+
+      z = constrain(
+        z,
+        -STAR_FIELD_DEPTH,
+        STAR_FIELD_DEPTH
+      );
       layer.push({
-        x: random(windowWidth),
-        y: random(windowHeight),
-        z: random(-50, 50),
+        // 화면 좌표 기준이 아니라 월드 좌표 기준
+        x: random(-STAR_FIELD_SIZE, STAR_FIELD_SIZE),
+        y: random(-STAR_FIELD_SIZE, STAR_FIELD_SIZE),
+        z: random(-STAR_FIELD_DEPTH, STAR_FIELD_DEPTH),
+
+        // 별 크기와 반짝임용
         mass: random(0.75, 1.25),
+        tw: random(TWO_PI),        // twinkle phase
+        sp: random(0.4, 1.2),      // twinkle speed
         k: k + 1,
+        lf: layerFactor
       });
     }
     SNOWFLAKES.push(layer);
@@ -348,10 +401,21 @@ function createSnowflakes() {
   setupPlanets();
 }
 
+// 더 이상 “눈처럼 떨어지는” 로직은 쓰지 않음
 function updateSnowflake(snowflake) {
-  const diameter = (snowflake.k * MAX_SIZE) / LAYER_COUNT;
-  if (snowflake.y > windowHeight + diameter) snowflake.y = -diameter;
-  else snowflake.y += GRAVITY * snowflake.k * snowflake.mass;
+  // 아주 미세한 공간 drift만 주기
+  snowflake.tw += 0.01 * snowflake.sp;
+
+  // 살짝 떠다니는 느낌
+  snowflake.x += STAR_DRIFT * 0.02 * sin(snowflake.tw + snowflake.z * 0.001);
+  snowflake.y += STAR_DRIFT * 0.02 * cos(snowflake.tw + snowflake.x * 0.001);
+
+  // 공간 밖으로 너무 멀리 가면 다시 안으로
+  const lim = STAR_FIELD_SIZE * 1.2;
+  if (snowflake.x > lim) snowflake.x = -lim;
+  if (snowflake.x < -lim) snowflake.x = lim;
+  if (snowflake.y > lim) snowflake.y = -lim;
+  if (snowflake.y < -lim) snowflake.y = lim;
 }
 
 /* =========================
@@ -365,31 +429,47 @@ function draw() {
   ambientLight(170);
   directionalLight(255, 0, 0, 0.25, 0.25, 0);
 
-  // snowflakes
-  noStroke();
-  fill(random(100, 250), random(100, 250), random(100, 250));
+  /* =========================
+     STARS (POINT VERSION)
+  ========================= */
+  noFill();
+  beginShape(POINTS);
+
   for (let k = 0; k < SNOWFLAKES.length; k++) {
     const LAYER = SNOWFLAKES[k];
+
     for (let i = 0; i < LAYER.length; i++) {
-      const snowflake = LAYER[i];
-      circle(
-        snowflake.x - windowWidth / 2,
-        snowflake.y - windowHeight / 2,
-        (snowflake.k * MAX_SIZE) / LAYER_COUNT
-      );
-      updateSnowflake(snowflake);
+      const star = LAYER[i];
+
+      // 레이어별 크기
+      const size = (star.k * MAX_SIZE) / LAYER_COUNT;
+
+      // twinkle
+      const twinkle = 0.3 + 0.7 * (0.5 + 0.5 * sin(star.tw));
+
+      strokeWeight(size * 1.6);   // ⭐️ sphere 대신 point 강조
+      stroke(255, 255, 255, 140 * twinkle);
+
+      vertex(star.x, star.y, star.z);
+
+      updateSnowflake(star);
     }
   }
+  endShape();
 
-  // planets
+  /* =========================
+     PLANETS
+  ========================= */
   for (let i = 0; i < planets.length; i++) {
     const ring = planets[i];
-    for (let j = 0; j < ring.length; j++) {
-      ring[j].drawPlanet();
+    for (let j2 = 0; j2 < ring.length; j2++) {
+      ring[j2].drawPlanet();
     }
   }
 
-  // center models
+  /* =========================
+     CENTER MODELS
+  ========================= */
   push();
   scale(65);
   noStroke();
@@ -405,6 +485,10 @@ function draw() {
   pop();
 
   translate(0, -20, 0);
+
+  /* =========================
+     ORBIT SYSTEM
+  ========================= */
 
   // orbit 1
   const r = height / 80;
@@ -532,21 +616,16 @@ function draw() {
   sphere(9);
   pop();
 
-  // modal control
-  if (isMobileDevice()) {
-    // 모바일은 터치로 열고 닫음
-    cursor(isModalOpen ? "default" : "default");
-  } else {
+ if (!isMobileDevice()) {
     const hoveringNow = isMouseOverCenterHeart();
     if (hoveringNow !== isModalOpen) setInfoModalOpen(hoveringNow);
     cursor(hoveringNow ? "pointer" : "default");
   }
 
-  // heart trail memory guard
-  if (heart.length > 4000) {
-    heart.splice(0, 2000);
-  }
+  if (heart.length > 4000) heart.splice(0, 2000);
 }
+
+
 
 /* =========================
    INPUT
@@ -574,6 +653,6 @@ function scheduleReload() {
   clearTimeout(reloadTimer);
   reloadTimer = setTimeout(() => {
     window.location.reload();
-  }, 60000);
+  }, 120000);
 }
 
