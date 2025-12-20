@@ -23,7 +23,7 @@ function playVideo(i) {
   caption.textContent = `${i + 1} / ${videos.length}`;
   modalText.textContent = captions[i];
   player.load();
-  player.play().catch(()=>{});
+  player.play().catch(() => {});
 }
 
 player.addEventListener("ended", () => {
@@ -68,6 +68,10 @@ scene.add(light);
 const loader = new GLTFLoader();
 const floaters = [];
 
+/* =========================
+   HELPERS
+========================= */
+
 function makeMaterial() {
   const colors = [0x8fa7ff, 0xa2ffd6, 0xffb3e6, 0xcbb3ff, 0xffe3a2];
   return new THREE.MeshPhysicalMaterial({
@@ -88,6 +92,17 @@ function getVisibleBounds(z) {
   return { width, height };
 }
 
+// 🔥 중앙 피하고 가장자리로 보내는 함수
+function randomEdgePosition(range, innerDeadZone = 0.55) {
+  const sign = Math.random() < 0.5 ? -1 : 1;
+  const t = innerDeadZone + Math.random() * (1 - innerDeadZone);
+  return sign * t * range;
+}
+
+/* =========================
+   LOAD FLOATERS
+========================= */
+
 const glbs = [
   "./glass.glb",
   "./fork.glb",
@@ -96,8 +111,8 @@ const glbs = [
   "./knife.glb"
 ];
 
-// 🔥 각 모델당 2–3개씩 생성
-glbs.forEach(path => {
+// 각 모델당 2–3개씩
+glbs.forEach((path) => {
   const count = 2 + Math.floor(Math.random() * 2); // 2 or 3
   for (let i = 0; i < count; i++) {
     addFloater(path);
@@ -116,23 +131,23 @@ function addFloater(path) {
       }
     });
 
-    // normalize size (🔥 더 작게)
+    // normalize size
     const box = new THREE.Box3().setFromObject(obj);
     const size = new THREE.Vector3();
     box.getSize(size);
     const maxAxis = Math.max(size.x, size.y, size.z);
 
-    const TARGET_SIZE = 0.45; // 🔥 작아짐
+    const TARGET_SIZE = 0.3;
     obj.scale.setScalar(TARGET_SIZE / maxAxis);
 
-    // place inside camera view
+    // position (edge biased)
     const z = camera.position.z - (1.8 + Math.random() * 1.8);
     const { width, height } = getVisibleBounds(z);
     const margin = 0.8;
 
     obj.position.set(
-      (Math.random() - 0.5) * (width - margin),
-      (Math.random() - 0.5) * (height - margin),
+      randomEdgePosition((width - margin) / 2),
+      randomEdgePosition((height - margin) / 2),
       z
     );
 
@@ -152,6 +167,10 @@ function addFloater(path) {
   });
 }
 
+/* =========================
+   ANIMATE
+========================= */
+
 function animate(t) {
   t *= 0.001;
 
@@ -167,6 +186,10 @@ function animate(t) {
 }
 
 animate();
+
+/* =========================
+   RESIZE
+========================= */
 
 window.addEventListener("resize", () => {
   camera.aspect = window.innerWidth / window.innerHeight;

@@ -74,7 +74,7 @@ body[data-page="log"] header .shop-toggle {
   cursor: pointer;
   z-index: 3500;
   opacity: 0.8;
-  color: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.15);
 }
 
 .ic-list {
