@@ -273,9 +273,32 @@ body[data-page="log"] header .logo-korean {
    MOBILE
    ======================================================= */
 @media (hover: none) and (pointer: coarse) {
-  .video-box:hover .video-modal { opacity: 0; pointer-events: none; }
-  .tap-hint { display: block; }
   .caption { bottom: 30px; }
-  .stage { padding-top: 78px; }
-  .video-box { width: 92vw; height: 66vh; }
+
+  /* hover 기반 인터랙션 완전히 제거 */
+  .video-box:hover .video-modal {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* 안내 문구 완전 제거 */
+  .tap-hint {
+    display: none !important;
+  }
+
+  /* 레이아웃만 모바일에 맞게 */
+  .stage {
+    padding-top: 78px;
+  }
+
+  .video-box {
+    width: 92vw;
+    height: 66vh;
+  }
+
+  /* 🔥 모바일에서는 JS가 제어하는 상태만 허용 */
+  .video-box.show-modal .video-modal {
+    opacity: 1;
+    pointer-events: auto;
+  }
 }
