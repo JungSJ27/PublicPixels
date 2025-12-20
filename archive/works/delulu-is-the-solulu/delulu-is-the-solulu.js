@@ -142,18 +142,61 @@ videoBox?.addEventListener("mouseleave", () => {
   if (!modalOpen) player.play().catch(() => {});
 });
 
-/* mobile tap toggle */
-videoBox?.addEventListener("click", () => {
-  const isCoarse = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
-  if (!isCoarse) return;
+/* =========================
+   GLOBAL TAP TO TOGGLE (MOBILE SAFE)
+========================= */
 
+let touchStartX = 0;
+let touchStartY = 0;
+let moved = false;
+
+document.addEventListener(
+  "touchstart",
+  (e) => {
+    const t = e.touches[0];
+    touchStartX = t.clientX;
+    touchStartY = t.clientY;
+    moved = false;
+  },
+  { passive: true }
+);
+
+document.addEventListener(
+  "touchmove",
+  (e) => {
+    const t = e.touches[0];
+    const dx = Math.abs(t.clientX - touchStartX);
+    const dy = Math.abs(t.clientY - touchStartY);
+
+    // 👉 조금이라도 움직이면 스크롤로 판단
+    if (dx > 8 || dy > 8) moved = true;
+  },
+  { passive: true }
+);
+
+document.addEventListener("touchend", (e) => {
+  const isMobile = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+  if (!isMobile) return;
+
+  // 스크롤이면 무시
+  if (moved) return;
+
+  // 🔥 헤더 / 버튼 영역은 예외
+  const blocked = e.target.closest("header, .list-toggle, a");
+  if (blocked) return;
+
+  // ===== 진짜 탭 =====
   modalOpen = !modalOpen;
   videoBox.classList.toggle("show-modal", modalOpen);
-  videoModal?.setAttribute("aria-hidden", modalOpen ? "false" : "true");
+  videoModal.setAttribute("aria-hidden", modalOpen ? "false" : "true");
 
-  if (modalOpen) player.pause();
-  else player.play().catch(() => {});
+  if (modalOpen) {
+    player.pause();
+  } else {
+    player.play().catch(() => {});
+  }
 });
+
 
 /* =========================
    THREE JS BACKGROUND
