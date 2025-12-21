@@ -103,7 +103,7 @@ function isMobileDevice() {
 function isMouseOverCenterHeart() {
   const centerX = windowWidth / 2;
   const centerY = windowHeight / 2;
-  const hoverRange = 110;
+  const hoverRange = isMobileDevice() ? 160 : 110;
 
   return (
     mouseX >= centerX - hoverRange &&
@@ -662,16 +662,16 @@ function mousePressed() {
 }
 
 function touchStarted() {
-  if (isMobileDevice()) {
-    setInfoModalOpen(!isModalOpen);
-    return false;
-  }
-  return false;
-}
+  if (!isMobileDevice()) return false;
 
-// ✅ 여기에 추가
-function touchMoved() {
-  return false;
+  // 🔑 하트 근처만 설명 열기
+  if (isMouseOverCenterHeart()) {
+    setInfoModalOpen(!isModalOpen);
+    return false; // 설명 열 때만 이벤트 소비
+  }
+
+  // 그 외 영역은 orbitControl에 양보
+  return true;
 }
 
 
