@@ -384,10 +384,7 @@ const thickness = map(
     SNOWFLAKES.push(layer);
   }
 
-  orbit1Diameter = min(
-    windowWidth * ORBIT_1_MULTIPLIER * DIAMETER_INCREASE,
-    windowHeight * ORBIT_1_MULTIPLIER * DIAMETER_INCREASE
-  );
+  orbit1Diameter = BASE_SIZE/13 * ORBIT_2_MULTIPLIER * viewportScale;
   orbit2Diameter = BASE_SIZE/4 * ORBIT_2_MULTIPLIER * viewportScale;
   orbit3Diameter = BASE_SIZE/2 * ORBIT_3_MULTIPLIER * viewportScale;
 
