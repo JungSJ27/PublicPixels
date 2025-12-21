@@ -150,8 +150,9 @@ body[data-page="log"] header .logo-korean {
   opacity: 1;
 }
 
-
-/* Full screen modal overlay */
+/* ===============================
+   Full screen modal overlay
+=============================== */
 .info-modal {
   position: fixed;
   inset: 0;
@@ -164,8 +165,10 @@ body[data-page="log"] header .logo-korean {
 
 .info-modal.is-open {
   opacity: 1;
+  pointer-events: auto;
 }
 
+/* 배경 블러 */
 .info-modal-bg {
   position: absolute;
   inset: 0;
@@ -173,32 +176,64 @@ body[data-page="log"] header .logo-korean {
   backdrop-filter: blur(12px);
 }
 
+/* ===============================
+   MODAL CONTENT LAYOUT
+=============================== */
 .info-modal-content {
-  position: absolute;
+  position: fixed;
   inset: 0;
-
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  padding: 28px;
+
+  /* 기본 (모바일 포함) */
+  padding-top: calc(20vh + env(safe-area-inset-top));
+  padding-bottom: calc(24px + env(safe-area-inset-bottom));
+  padding-left: 18px;
+  padding-right: 18px;
+
+  overflow: hidden;
 }
 
+/* ===============================
+   DESKTOP TWEAK
+=============================== */
+@media (min-width: 769px) {
+  .info-modal-content {
+    padding-top: 26vh;   /* 🔑 살짝 아래로 */
+  }
+}
+
+
+/* ===============================
+   SCROLL CONTAINER
+=============================== */
 .info-modal-inner {
-  width: 100%;
-  max-width: 640px;
+  width: min(700px, 92vw);
 
-  max-height: calc(100dvh - 120px);
+  max-height: calc(
+    100dvh - 20vh - 48px - env(safe-area-inset-bottom)
+  );
+
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
 
-  color: #fff;
-
-  padding: 20px;
-  border-radius: 12px;
-
-  -webkit-overflow-scrolling: touch; /* 📱 iOS 필수 */
+  padding-bottom: calc(24px + env(safe-area-inset-bottom));
 }
 
+/* scrollbar */
+.info-modal-inner::-webkit-scrollbar { width: 4px; }
+.info-modal-inner::-webkit-scrollbar-track { background: transparent; }
+.info-modal-inner::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.22);
+  border-radius: 10px;
+}
 
+/* ===============================
+   TYPOGRAPHY
+=============================== */
 .info-modal-title {
   font-size: 18px;
   font-weight: 600;
@@ -210,21 +245,17 @@ body[data-page="log"] header .logo-korean {
   margin-bottom: 18px;
 }
 
-/* 기본 meta */
 .info-modal .art-meta {
   font-size: 11px;
-  line-height: 1.55; /* ← 중요: 1. 말고 */
+  line-height: 1.55;
   color: rgba(255, 255, 255, 0.72);
 }
 
-/* medium 스타일 */
 .info-modal .art-meta.medium {
   padding-bottom: 8px;
   margin-bottom: 40px;
-
   border-bottom: 1px solid rgba(255, 255, 255, 0.18);
 }
-
 
 .info-modal-body {
   font-size: 13px;
@@ -236,13 +267,11 @@ body[data-page="log"] header .logo-korean {
   margin: 0 0 25px;
 }
 
-
 .info-modal-body .text.kor {
   font-size: 12px;
   line-height: 1.65;
   opacity: 0.85;
 }
-
 
 .info-modal-hint {
   margin-top: 10px;
@@ -254,7 +283,6 @@ body[data-page="log"] header .logo-korean {
 /* 모바일에서만 스크롤 허용 */
 @media (max-width: 768px) {
   html, body {
-  
     -webkit-overflow-scrolling: touch;
   }
 
@@ -276,4 +304,16 @@ body[data-page="log"] header .logo-korean {
   }
 }
 
+/* ===============================
+   MOBILE SIDE PADDING
+=============================== */
+@media (max-width: 768px) {
+  .info-modal-inner {
+    width: 88vw;           /* ← 기존 92vw보다 여유 */
+  }
 
+  .info-modal-content {
+    padding-left: 20px;    /* ← 좌우 breathing room */
+    padding-right: 20px;
+  }
+}
