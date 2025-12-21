@@ -21,53 +21,35 @@ const LAYER_COUNT = 5;
 
 const SNOWFLAKES = [];
 
-/* =========================
-   HEADER
-========================= */
-
-(function () {
-  if (isMobileDevice()) {
-    document.body.classList.add("header-reveal");
-    return;
-  }
-
+// =========================
+// MOBILE HEADER REVEAL
+// =========================
+if (isMobileDevice()) {
   const body = document.body;
-  const zone = document.querySelector(".header-hover-zone");
-  if (!zone) return;
 
-  let hideTimer = null;
+  let headerVisible = false;
+  let touchStartY = 0;
 
-  function show() {
-    clearTimeout(hideTimer);
-    body.classList.add("header-reveal");
-  }
+  window.addEventListener("touchstart", (e) => {
+    touchStartY = e.touches[0].clientY;
 
-  function hide() {
-    clearTimeout(hideTimer);
-    hideTimer = setTimeout(() => {
-      body.classList.remove("header-reveal");
-    }, 500);
-  }
+    // 🔑 화면 상단 40px 이내 터치
+    if (touchStartY < 40) {
+      body.classList.add("header-reveal");
+      headerVisible = true;
+    }
+  });
 
-  zone.addEventListener("mouseenter", show);
-  zone.addEventListener("mouseleave", hide);
+  window.addEventListener("touchend", () => {
+    if (headerVisible) {
+      setTimeout(() => {
+        body.classList.remove("header-reveal");
+        headerVisible = false;
+      }, 2000); // 2초 후 자동 숨김
+    }
+  });
+}
 
-  function bindHeaderHover() {
-    const header = document.querySelector("header");
-    if (!header) return false;
-
-    header.addEventListener("mouseenter", show);
-    header.addEventListener("mouseleave", hide);
-    return true;
-  }
-
-  if (!bindHeaderHover()) {
-    const iv = setInterval(() => {
-      if (bindHeaderHover()) clearInterval(iv);
-    }, 200);
-    setTimeout(() => clearInterval(iv), 6000);
-  }
-})();
 
 /* =========================
    MODAL CONTROL
