@@ -169,7 +169,7 @@ body[data-page="log"] header .logo-korean {
 .info-modal-bg {
   position: absolute;
   inset: 0;
-  background: rgba(255, 255, 255, 0.01);
+  background: rgba(0, 0, 0, 0.01);
   backdrop-filter: blur(12px);
 }
 
@@ -184,18 +184,20 @@ body[data-page="log"] header .logo-korean {
 }
 
 .info-modal-inner {
-  width: min(700px, 92vw);
-  max-height: 78vh;
-  overflow: auto;
+  width: 100%;
+  max-width: 640px;
+
+  max-height: calc(100dvh - 120px);
+  overflow-y: auto;
 
   color: #fff;
 
-  background:transparent;
-  border: 0px solid rgba(255, 255, 255, 0.14);
-  border-radius: 18px;
+  padding: 20px;
+  border-radius: 12px;
 
-  padding: 22px 22px 18px;
+  -webkit-overflow-scrolling: touch; /* 📱 iOS 필수 */
 }
+
 
 .info-modal-title {
   font-size: 18px;
