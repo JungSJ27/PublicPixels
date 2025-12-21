@@ -109,16 +109,22 @@ body[data-page="log"] header .logo-korean {
   color: rgba(255, 255, 255, 0.18) !important;
 }
 
-/* =======================================================
-   HEADER HOVER ZONE
-======================================================= */
+/* ======================================
+   HEADER INTERACTION ZONES
+====================================== */
+
 .header-hover-zone {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 36px;
-  z-index: 2900;
+  z-index: 4000;
+  pointer-events: auto;
+}
+
+.mobile-header-zone {
+  pointer-events: auto;
 }
 
 /* =======================================================
@@ -252,27 +258,96 @@ body[data-page="log"] header .logo-korean {
 
 
 /* 모바일에서만 스크롤 허용 */
+/* ======================================
+   MOBILE LAYOUT (<= 768px)
+====================================== */
 @media (max-width: 768px) {
-  html, body {
-    height: auto;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+
+  /* ----------------------------------
+     1. 기본 바디는 건드리지 않는다
+     (fixed 요소 안정성 유지)
+  ---------------------------------- */
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
   }
 
-  /* p5 캔버스는 배경으로 고정 */
+  /* ----------------------------------
+     2. p5 canvas: 배경 전용
+     터치 이벤트 절대 먹지 않게
+  ---------------------------------- */
   canvas {
     position: fixed;
     top: 0;
     left: 0;
     z-index: 0;
+    pointer-events: none; /* ⭐ 핵심 */
   }
 
-  /* 텍스트 컨테이너는 캔버스 위 */
-  .art-info,
-  .art-text,
+  /* ----------------------------------
+     3. 헤더 (숨김 상태 기본)
+  ---------------------------------- */
+  header {
+    z-index: 5000;
+  }
+
+  body:not(.header-reveal) header {
+    transform: translateY(-100%);
+  }
+
+  body.header-reveal header {
+    transform: translateY(0);
+  }
+
+  header {
+    transition: transform 0.35s ease;
+  }
+
+  /* ----------------------------------
+     4. 모바일 헤더 터치 존
+     (JS에서 생성됨)
+  ---------------------------------- */
+  .mobile-header-zone {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 44px;
+    z-index: 6000;
+    background: transparent;
+  }
+
+  /* ----------------------------------
+     5. 설명 / 콘텐츠 영역
+     스크롤 허용
+  ---------------------------------- */
+  main,
   .content,
-  main {
+  .art-info,
+  .art-text {
     position: relative;
     z-index: 2;
+    pointer-events: auto;
+  }
+
+  /* ----------------------------------
+     6. 설명 모달 (잘림 방지)
+  ---------------------------------- */
+  #infoModal {
+    max-height: calc(100dvh - 60px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* ----------------------------------
+     7. 중앙 집중용 여백
+     (글씨 가독성)
+  ---------------------------------- */
+  .art-info {
+    padding-bottom: 80px;
   }
 }
+
+

@@ -30,10 +30,6 @@ let viewportScale = 1;
 ========================= */
 
 (function () {
-  if (isMobileDevice()) {
-    document.body.classList.add("header-reveal");
-    return;
-  }
 
   const body = document.body;
   const zone = document.querySelector(".header-hover-zone");
