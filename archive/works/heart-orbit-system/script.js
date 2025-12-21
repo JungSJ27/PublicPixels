@@ -30,10 +30,10 @@ let viewportScale = 1;
 ========================= */
 
 (function () {
-
   const body = document.body;
-  const zone = document.querySelector(".header-hover-zone");
-  if (!zone) return;
+  const zoneDesktop = document.querySelector(".header-hover-zone");
+  const zoneMobile = document.querySelector(".mobile-header-zone");
+  const header = document.querySelector("header");
 
   let hideTimer = null;
 
@@ -42,31 +42,39 @@ let viewportScale = 1;
     body.classList.add("header-reveal");
   }
 
-  function hide() {
+  function hide(delay = 500) {
     clearTimeout(hideTimer);
     hideTimer = setTimeout(() => {
       body.classList.remove("header-reveal");
-    }, 500);
+    }, delay);
   }
 
-  zone.addEventListener("mouseenter", show);
-  zone.addEventListener("mouseleave", hide);
+  const isMobile = isMobileDevice();
 
-  function bindHeaderHover() {
-    const header = document.querySelector("header");
-    if (!header) return false;
+  if (isMobile) {
+    body.classList.remove("header-reveal");
 
-    header.addEventListener("mouseenter", show);
-    header.addEventListener("mouseleave", hide);
-    return true;
+    zoneMobile?.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      body.classList.add("header-reveal");
+
+      clearTimeout(hideTimer);
+      hideTimer = setTimeout(() => {
+        body.classList.remove("header-reveal");
+      }, 2000);
+    });
   }
 
-  if (!bindHeaderHover()) {
-    const iv = setInterval(() => {
-      if (bindHeaderHover()) clearInterval(iv);
-    }, 200);
-    setTimeout(() => clearInterval(iv), 6000);
-  }
+
+  // 데스크톱: hover 존에 마우스 올리면 show
+  if (!zoneDesktop) return;
+
+  zoneDesktop.addEventListener("mouseenter", show);
+  zoneDesktop.addEventListener("mouseleave", () => hide(500));
+
+  // 헤더 자체 hover도 반응
+  header?.addEventListener("mouseenter", show);
+  header?.addEventListener("mouseleave", () => hide(500));
 })();
 
 /* =========================
