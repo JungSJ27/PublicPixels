@@ -688,3 +688,35 @@ function scheduleReload() {
   }, 240000);
 }
 
+
+/* =========================
+   MOBILE HEADER TAP REVEAL
+========================= */
+(function () {
+  if (!isMobileDevice()) return;
+
+  const body = document.body;
+  const zone = document.querySelector(".mobile-header-zone");
+  if (!zone) return;
+
+  let hideTimer = null;
+
+  function showHeader() {
+    body.classList.add("header-reveal");
+
+    // 타이머 리셋
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(() => {
+      body.classList.remove("header-reveal");
+    }, 3000); // ⏱ 3초
+  }
+
+  zone.addEventListener(
+    "touchstart",
+    (e) => {
+      e.preventDefault(); // 스크롤 방해 방지
+      showHeader();
+    },
+    { passive: false }
+  );
+})();
