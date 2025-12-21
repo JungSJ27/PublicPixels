@@ -313,7 +313,14 @@ body[data-page="log"] header .logo-korean {
   }
 
   .info-modal-content {
-    padding-left: 20px;    /* ← 좌우 breathing room */
-    padding-right: 20px;
+    padding-left: 30px;    /* ← 좌우 breathing room */
+    padding-right: 30px;
+    padding-top: env(safe-area-inset-top); /* 🔑 위에서 바로 시작 */
+  }
+
+  .info-modal-inner {
+    max-height: calc(
+      100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom)
+    );
   }
 }
