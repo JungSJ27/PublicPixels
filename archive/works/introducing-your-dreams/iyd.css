@@ -1,27 +1,66 @@
-/* GLOBAL RESET */
+/* ===============================================
+   FIX PUBLICPIXELS DEFAULT LAYOUT EFFECTS
+=============================================== */
+
+body[data-page="log"] .pp-main::before,
+body[data-page="log"] .art-main::before {
+  display: none !important;
+}
+
+/* ===============================================
+   GLOBAL PAGE BODY
+=============================================== */
 body {
   margin: 0;
-  font-family: Poppins, system-ui, sans-serif;
+  font-family: 'Poppins', sans-serif;  /* styles.css 기준 */
   background: #fff;
   color: #111;
 }
 
-/* HEADER MODE */
+/* ===============================
+   HEADER (전시 페이지 모드)
+   =============================== */
+
 body[data-page="log"] header {
-  position: fixed;
+  position: fixed !important;
   top: 0;
+  left: 0;
   width: 100%;
-  background: transparent;
-  box-shadow: none;
+  background: transparent !important;
+  color: rgb(241, 238, 255) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  padding-top: 10px !important;
   z-index: 3000;
 }
 
-body[data-page="log"] header .search-icon,
-body[data-page="log"] header .shop-toggle {
-  display: none;
+body[data-page="log"] header .logo-brand,
+body[data-page="log"] header .logo-roman,
+body[data-page="log"] header .logo-korean {
+  color: rgba(234, 234, 236, 0.95) !important;
 }
 
-/* LIST TOGGLE */
+/* 검색, 카트 아이콘 숨기기 */
+body[data-page="log"] header .search-icon,
+body[data-page="log"] header .shop-toggle {
+  display: none !important;
+}
+
+/* 스크롤에 따라 숨길 때 쓸 클래스 */
+header,
+.pp-header {
+  transition: opacity 0.35s ease;
+}
+
+.header-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ===============================
+   LIST TOGGLE (목록으로 돌아가기)
+   =============================== */
+
 .list-toggle {
   position: fixed;
   top: 12px;
@@ -30,7 +69,25 @@ body[data-page="log"] header .shop-toggle {
   height: 28px;
   z-index: 3500;
   cursor: pointer;
-  color: rgba(234,234,236,0.95);
+  color:  rgba(234, 234, 236, 0.95);
+  opacity: 0.9;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.list-toggle:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.ic-list {
+  width: 24px;
+  height: 24px;
+}
+
+/* 헤더 숨길 때 같이 사라지도록 */
+.list-toggle.header-hidden {
+  opacity: 0;
+  pointer-events: none;
 }
 
 /* WRAP */
@@ -40,18 +97,63 @@ body[data-page="log"] header .shop-toggle {
   padding: 100px 20px 120px;
 }
 
-/* HERO IMAGE */
-.hero-image {
-  width: 100%;
-  margin-bottom: 24px;
+/* TOP SLIDER */
+.top-slider {
+  position: relative;
+  margin: 0 10px 36px;
+  display: flex;
+  justify-content: center;
 }
 
-.hero-image img {
+.slider-track {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+}
+
+.slide {
+  display: none;
   width: 100%;
   height: auto;
-  display: block;
-  object-fit: cover;
 }
+
+.slide.active {
+  display: block;
+}
+
+/* ARROWS */
+.slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: 0;
+  font-size: 36px;
+  color: rgba(0,0,0,0.6);
+  cursor: pointer;
+  padding: 0 10px;
+  z-index: 10;
+}
+
+.slider-arrow:hover {
+  color: rgba(0,0,0,0.9);
+}
+
+.slider-arrow.prev {
+  left: 0;
+}
+
+.slider-arrow.next {
+  right: 0;
+}
+
+/* 모바일에서는 화살표 살짝 안쪽 */
+@media (max-width: 640px) {
+  .slider-arrow {
+    font-size: 28px;
+  }
+}
+
 
 /* TITLE + META */
 .art-head {
@@ -68,6 +170,14 @@ body[data-page="log"] header .shop-toggle {
   font-size: 13px;
   line-height: 1.4;
 }
+
+.art-credit {
+  display: block;
+  margin-top: 4px;
+  font-size: 10px;
+  opacity: 0.6;
+}
+
 
 .art-meta.medium {
   padding-bottom: 8px;

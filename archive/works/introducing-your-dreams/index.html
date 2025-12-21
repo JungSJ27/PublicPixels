@@ -6,23 +6,25 @@
 
   <title>Introducing Your Dreams | Archive</title>
 
-  <!-- Global -->
+  <!-- Global CSS -->
   <link rel="stylesheet" href="/front/styles.css">
   <link rel="stylesheet" href="/front/header.css">
 
   <!-- Page CSS -->
   <link rel="stylesheet" href="iyd.css">
 
+
   <!-- Header Loader -->
   <script src="/front/headerLoader.js" defer></script>
 
   <!-- Page JS -->
-  <script src="iyd.js" defer></script>
+  <script type="module" src="iyd.js"></script>
 </head>
+
 
 <body data-page="log">
 
-  <!-- HEADER -->
+  <!-- HEADER INCLUDE -->
   <div data-include="header"></div>
 
   <!-- LIST BUTTON -->
@@ -38,30 +40,43 @@
 
   <main class="art-wrap">
 
-    <!-- HERO IMAGE -->
-    <section class="hero-image">
-      <img src="./assets/hero.jpg" alt="Project hero image">
+    <!-- TOP IMAGE SLIDER -->
+    <section class="top-slider">
+      <div class="slider-track">
+
+        <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/Introducing-your%20-dreams/P1600196.JPG" class="slide active">
+        <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/Introducing-your%20-dreams/P1600208.JPG" class="slide">
+        <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/Introducing-your%20-dreams/P1600214.JPG" class="slide">
+        <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/Introducing-your%20-dreams/P1600224.JPG" class="slide">
+        <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/Introducing-your%20-dreams/P1600249.JPG" class="slide">
+        <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/Introducing-your%20-dreams/P1600254.JPG" class="slide">
+        <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/Introducing-your%20-dreams/P1600272.JPG" class="slide">
+        <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/Introducing-your%20-dreams/P1600278.JPG" class="slide">
+
+      </div>
+
+      <!-- ARROWS -->
+      <button class="slider-arrow prev" aria-label="Previous">‹</button>
+      <button class="slider-arrow next" aria-label="Next">›</button>
     </section>
 
     <!-- TITLE + META -->
     <section class="art-head">
-      <h1 class="art-title">New Project Title</h1>
+      <h1 class="art-title">Introducing Your Dreams</h1>
       <p class="art-meta medium">
         2025<br>
         Single-channel video, mixed media<br>
         3 min
+        <span class="art-credit">
+        Collaborative work with Onur, and Savvy
+        </span>
       </p>
     </section>
 
     <!-- SMALL VIDEO BELOW META -->
     <section class="inline-video">
       <div class="video-container small">
-        <iframe
-          src="https://www.youtube.com/embed/VIDEO_ID"
-          title="Video documentation"
-          frameborder="0"
-          allowfullscreen>
-        </iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/V5Ver0FevIg?si=SVqPw7EJg9plOJBK" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
     </section>
 

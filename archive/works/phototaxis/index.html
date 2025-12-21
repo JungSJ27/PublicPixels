@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Archive | Phototaxis</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- phototaxis css -->
+  <link rel="stylesheet" href="/front/phototaxis.css" />
+
+  <!-- archive 전용 css -->
+  <link rel="stylesheet" href="./archive-phototaxis.css" />
+</head>
+
+<body class="archive-phototaxis">
+
+  <!-- 중앙 텍스트 -->
+  <div class="archive-center">
+    <h1>Phototaxis</h1>
+    <p>
+      This work records the instinctive movement toward light.
+      The viewer becomes the light itself.
+    </p>
+  </div>
+
+  <!-- phototaxis canvas -->
+  <canvas id="overlay"></canvas>
+
+  <!-- phototaxis js -->
+  <script src="/front/phototaxis.js"></script>
+
+  <!-- archive 페이지에서 자동 시작 -->
+  <script>
+    window.addEventListener('load', () => {
+      if (window.phototaxisStart) {
+        window.phototaxisStart({ force: true });
+      }
+    });
+  </script>
+
+</body>
+</html>

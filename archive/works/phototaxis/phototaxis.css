@@ -1,0 +1,78 @@
+/* ============================
+   🌌 Phototaxis Canvas Overlay
+   (단일 소스: #overlay 하나로만 관리)
+   ============================ */
+
+/* overlay 기본 상태: 숨김 + 이벤트 통과(차단 안 함) */
+#overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  display: none;            /* phototaxisStart() 전까지 숨김 */
+  pointer-events: none;     /* 기본은 클릭 통과 */
+  background: transparent;
+  z-index: 2147483647;      /* 최상단 */
+  /* 모바일 제스처/더블탭 확대 방지 */
+  touch-action: none;
+  /* 터치 잡음 차단 */
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  /* 성능 힌트(선택) */
+  will-change: transform;
+  contain: layout paint size;
+}
+
+/* Phototaxis 실행 중: 보이게 + 이벤트 캡처로 링크 차단 */
+.phototaxis-active #overlay {
+  display: block;
+  pointer-events: auto;     /* ← 오버레이가 탭을 ‘잡아먹음’ */
+}
+
+/* Phototaxis 중에는 커서 숨김 (데스크탑용) */
+.phototaxis-active,
+.phototaxis-active * {
+  cursor: none !important;
+}
+
+
+/* 캔버스 기본 여백 제거(브라우저 기본 inline 요소 여백 방지) */
+canvas#overlay { display: block; }
+
+body.archive-phototaxis {
+  margin: 0;
+  background: #ffffff;
+  color: #111;
+  overflow: hidden;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* 중앙 텍스트 */
+.archive-center {
+  position: fixed;
+  inset: 0;
+  z-index: 1;              /* 캔버스 아래 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  pointer-events: none;    /* phototaxis 조작 방해 X */
+  padding: 48px;
+}
+
+.archive-center h1 {
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  margin-bottom: 12px;
+}
+
+.archive-center p {
+  max-width: 520px;
+  font-size: 13px;
+  line-height: 1.7;
+  opacity: 0.85;
+}

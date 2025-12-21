@@ -21,6 +21,10 @@ const LAYER_COUNT = 5;
 
 const SNOWFLAKES = [];
 
+// ⭐ 데스크톱 기준 좌표계
+const BASE_SIZE = 900;
+let viewportScale = 1;
+
 /* =========================
    HEADER
 ========================= */
@@ -181,7 +185,7 @@ class Planet {
     this.yOffset = random(-20, 20) + randomGaussian();
 
     // ⭐ 성운 두께 (한 번만 결정)
-this.zOffset = randomGaussian() * (orbitLevel * 6);
+this.zOffset = randomGaussian() * (orbitLevel * 12);
   }
 
 
@@ -243,10 +247,10 @@ this.zOffset = randomGaussian() * (orbitLevel * 6);
 }
 
 let membersAtLevel = [
-  { members: 180, level: 1, orbitLevelOneMembers: 80 },
-  { members: 120, level: 2, orbitLevelTwoMembers: 160 },
-  { members: 680, level: 3, orbitLevelThreeMembers: 580 },
-  { members: 1200, level: 4, orbitLevelFourMembers: 1200 },
+  { members: 300, level: 1, orbitLevelOneMembers: 80 },
+  { members: 1000, level: 2, orbitLevelTwoMembers: 160 },
+  { members:3000, level: 3, orbitLevelThreeMembers: 1000 },
+  { members: 2000, level: 4, orbitLevelFourMembers: 1200 },
 ];
 
 let planets = [];
@@ -325,8 +329,9 @@ function setup() {
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
-  createSnowflakes();
+  updateViewportScale();
 }
+
 
 /* =========================
    STARS  (was SNOWFLAKES)
@@ -387,18 +392,13 @@ const thickness = map(
     windowWidth * ORBIT_1_MULTIPLIER * DIAMETER_INCREASE,
     windowHeight * ORBIT_1_MULTIPLIER * DIAMETER_INCREASE
   );
-  orbit2Diameter = min(
-    windowWidth * ORBIT_2_MULTIPLIER * DIAMETER_INCREASE,
-    windowHeight * ORBIT_2_MULTIPLIER * DIAMETER_INCREASE
-  );
-  orbit3Diameter = min(
-    windowWidth * ORBIT_3_MULTIPLIER * DIAMETER_INCREASE,
-    windowHeight * ORBIT_3_MULTIPLIER * DIAMETER_INCREASE
-  );
-  orbit4Diameter = min(
-    windowWidth * ORBIT_4_MULTIPLIER * DIAMETER_INCREASE,
-    windowHeight * ORBIT_4_MULTIPLIER * DIAMETER_INCREASE
-  );
+  orbit2Diameter = BASE_SIZE/4 * ORBIT_2_MULTIPLIER * viewportScale;
+  orbit3Diameter = BASE_SIZE/2 * ORBIT_3_MULTIPLIER * viewportScale;
+
+  orbit4Diameter = BASE_SIZE/2 * ORBIT_4_MULTIPLIER * viewportScale;
+
+
+
 
   setupPlanets();
 }
@@ -684,6 +684,6 @@ function scheduleReload() {
   clearTimeout(reloadTimer);
   reloadTimer = setTimeout(() => {
     window.location.reload();
-  }, 120000);
+  }, 240000);
 }
 
