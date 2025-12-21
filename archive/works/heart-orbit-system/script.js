@@ -103,7 +103,7 @@ function isMobileDevice() {
 function isMouseOverCenterHeart() {
   const centerX = windowWidth / 2;
   const centerY = windowHeight / 2;
-  const hoverRange = 110;
+  const hoverRange = 60;
 
   return (
     mouseX >= centerX - hoverRange &&
