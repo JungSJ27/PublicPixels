@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Introducing Your Dreams | Archive</title>
+
+  <!-- Global -->
+  <link rel="stylesheet" href="/front/styles.css">
+  <link rel="stylesheet" href="/front/header.css">
+
+  <!-- Page CSS -->
+  <link rel="stylesheet" href="iyd.css">
+
+  <!-- Header Loader -->
+  <script src="/front/headerLoader.js" defer></script>
+
+  <!-- Page JS -->
+  <script src="iyd.js" defer></script>
+</head>
+
+<body data-page="log">
+
+  <!-- HEADER -->
+  <div data-include="header"></div>
+
+  <!-- LIST BUTTON -->
+  <div class="list-toggle" onclick="location.href='/archive/'">
+    <svg viewBox="0 0 24 24" class="ic-list">
+      <g fill="none" stroke="currentColor" stroke-width="1.6">
+        <line x1="4" y1="6"  x2="20" y2="6"/>
+        <line x1="4" y1="12" x2="20" y2="12"/>
+        <line x1="4" y1="18" x2="20" y2="18"/>
+      </g>
+    </svg>
+  </div>
+
+  <main class="art-wrap">
+
+    <!-- HERO IMAGE -->
+    <section class="hero-image">
+      <img src="./assets/hero.jpg" alt="Project hero image">
+    </section>
+
+    <!-- TITLE + META -->
+    <section class="art-head">
+      <h1 class="art-title">New Project Title</h1>
+      <p class="art-meta medium">
+        2025<br>
+        Single-channel video, mixed media<br>
+        3 min
+      </p>
+    </section>
+
+    <!-- SMALL VIDEO BELOW META -->
+    <section class="inline-video">
+      <div class="video-container small">
+        <iframe
+          src="https://www.youtube.com/embed/VIDEO_ID"
+          title="Video documentation"
+          frameborder="0"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </section>
+
+    <!-- TEXT -->
+    <section class="art-section">
+      <p>
+        This project explores memory, place, and the act of witnessing.
+        Through fragmented images and restrained motion, it reflects on
+        what remains when stories are no longer actively told.
+      </p>
+
+      <p class="text kor">
+        이 작업은 기억과 장소, 그리고 목격한다는 행위에 대해 탐구한다.
+        파편화된 이미지와 절제된 움직임을 통해,
+        더 이상 적극적으로 이야기되지 않는 것들이
+        어떻게 남아 있는지를 바라본다.
+      </p>
+    </section>
+
+  </main>
+
+  <script defer src="/front/favicons.js"></script>
+</body>
+</html>
