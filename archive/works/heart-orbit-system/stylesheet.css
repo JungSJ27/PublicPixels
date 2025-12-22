@@ -337,7 +337,7 @@ body.header-reveal .mobile-header-zone {
 =============================== */
 @media (max-width: 768px) {
   .info-modal-inner {
-    width: 88vw;           /* ← 기존 92vw보다 여유 */
+    width: 80vw;           /* ← 기존 92vw보다 여유 */
   }
 
   .info-modal-content {
