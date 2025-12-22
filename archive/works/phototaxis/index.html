@@ -3,30 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>Phototaxis | Archive</title>
 
-  <!-- Global CSS -->
+  <!-- Global -->
   <link rel="stylesheet" href="/front/styles.css">
   <link rel="stylesheet" href="/front/header.css">
 
-  <!-- Page CSS -->
+  <!-- Page -->
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="phototaxis.css">
 
-  <!-- Header Loader -->
   <script src="/front/headerLoader.js" defer></script>
-
-  <!-- Page JS -->
-  <script type="module" src="script.js"></script>
 </head>
-
 
 <body data-page="log">
 
-  <!-- HEADER INCLUDE -->
+  <!-- HEADER -->
   <div data-include="header"></div>
 
-  <!-- LIST BUTTON -->
+  <!-- LIST -->
   <div class="list-toggle" onclick="location.href='/archive/'">
     <svg viewBox="0 0 24 24" class="ic-list">
       <g fill="none" stroke="currentColor" stroke-width="1.6">
@@ -37,42 +32,39 @@
     </svg>
   </div>
 
-  <!-- MAIN ART WRAP -->
+  <!-- 🔦 PHOTOTAXIS LAYER -->
+  <div id="phototaxis-layer">
+    <canvas id="phototaxis-canvas"></canvas>
+    <div id="overlay"></div>
+  </div>
+
+  <!-- CONTENT -->
   <main class="art-wrap">
-
-
-    <!-- Title + Basic Info -->
     <section class="art-head">
       <h1 class="art-title">Phototaxis</h1>
-
-    <p class="art-meta medium">
+      <p class="art-meta medium">
         2023<br>
         Generative Art, Interactive Art<br>
         Variable dimensions
       </p>
     </section>
 
-    <!-- Overview -->
     <section class="art-section">
       <p>
-      <i>Butterfly Trap</i> is an installation that explores the tension 
-      between confinement and freedom through a motor-driven butterfly 
-      enclosed in a transparent structure and its digital counterparts displayed on screens.
-       By juxtaposing physical motion with mediated imagery, the work examines the fragile boundary 
-       between reality and simulation, and questions how freedom is constructed within technological systems.
-      </p><br>
+        <i>Butterfly Trap</i> is an installation that explores the tension
+        between confinement and freedom through a motor-driven butterfly
+        enclosed in a transparent structure and its digital counterparts.
+      </p>
+      <br>
       <p class="text kor">
-      <i>Butterfly Trap</i>은 투명한 박스 안에서 모터로 구동되는 나비와 디지털 스크린을 통해, 
-      갇힌 존재와 자유롭게 비행하는 이미지 사이의 대비를 드러내는 설치 작품이다. 
-      물리적 구조 안에서 반복적으로 움직이는 나비는 보호와 통제라는 이중적 의미를 동시에 지니며, 
-      스크린 속 이미지와 병치되면서 현실과 디지털, 생명과 이미지의 경계를 모호하게 만든다. 
-      이 작업은 우리가 기술을 통해 만들어낸 환경 속에서 자유가 어떻게 규정되고 제한되는지를 질문하며, 감시와 유혹, 탈출 욕망이 교차하는 공간을 형성한다.
+        <i>Butterfly Trap</i>은 투명한 박스 안에서 모터로 구동되는 나비와
+        디지털 스크린을 통해 갇힘과 자유 사이의 긴장을 탐구하는 설치 작업이다.
       </p>
     </section>
-
-
   </main>
 
   <script defer src="/front/favicons.js"></script>
+  <script src="phototaxis-shim.js"></script>
+  <script src="phototaxis.js"></script>
 </body>
 </html>

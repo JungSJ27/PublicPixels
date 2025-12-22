@@ -76,3 +76,13 @@ body.archive-phototaxis {
   line-height: 1.7;
   opacity: 0.85;
 }
+
+/* =========================================
+   Phototaxis Reading Assist (Hold)
+========================================= */
+
+body.pt-reading #overlay {
+  /* 손전등 효과는 유지하면서
+     전체 어둠을 살짝 걷어냄 */
+  filter: brightness(1.25);
+}

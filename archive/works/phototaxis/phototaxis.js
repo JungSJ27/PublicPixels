@@ -21,12 +21,6 @@
     document.body.classList.add('phototaxis-active');
     window.lightHidden = false;
 
-    // 30초 자동 종료
-    if (autoOffTimer) clearTimeout(autoOffTimer);
-    autoOffTimer = setTimeout(() => {
-      if (!window.lightHidden) window.phototaxisHide();
-    }, 30000);
-
     // === 오버레이 자체에서 클릭/터치 이벤트 가로채기 (capture 단계) ===
     if (!overlayBlockerAdded) {
       const blocker = (e) => {
@@ -46,20 +40,6 @@
       canvas.addEventListener('touchstart', blocker, { capture: true, passive: false });
       overlayBlockerAdded = true;
     }
-
-    // ✅ 클릭해서 꺼지는 이벤트 추가 (canvas 외부 클릭 대비용)
-    document.addEventListener(
-      'click',
-      (e) => {
-        const cv = document.getElementById('overlay');
-        if (cv && cv.style.display !== 'none') {
-          e.preventDefault();
-          e.stopImmediatePropagation();
-          window.phototaxisHide();
-        }
-      },
-      true
-    );
 
     const ctx = canvas.getContext('2d');
     const DPR = Math.min(1.5, window.devicePixelRatio || 1);
@@ -429,3 +409,32 @@ if (window.PointerEvent) {
   };
 })();
 
+/* =========================================
+   Reading Assist: Hold to Brighten
+========================================= */
+
+(function () {
+  let holding = false;
+
+  function enableReading() {
+    if (holding) return;
+    holding = true;
+    document.body.classList.add("pt-reading");
+  }
+
+  function disableReading() {
+    if (!holding) return;
+    holding = false;
+    document.body.classList.remove("pt-reading");
+  }
+
+  // Desktop: mouse hold
+  document.addEventListener("mousedown", enableReading);
+  document.addEventListener("mouseup", disableReading);
+  document.addEventListener("mouseleave", disableReading);
+
+  // Mobile: touch hold
+  document.addEventListener("touchstart", enableReading, { passive: true });
+  document.addEventListener("touchend", disableReading);
+  document.addEventListener("touchcancel", disableReading);
+})();

@@ -182,3 +182,42 @@ header.header-hidden {
   font-size: 13px;      /* 살짝 작게 */
   letter-spacing: -0.01em;
 }
+
+/* Phototaxis layer sits above content */
+#phototaxis-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none; /* 기본은 터치 통과 */
+}
+
+#phototaxis-canvas,
+#overlay {
+  position: absolute;
+  inset: 0;
+}
+
+
+#phototaxis-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+
+#phototaxis-canvas {
+  position: absolute;
+  inset: 0;
+}
+
+#overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.78);
+  transition: background 0.25s ease;
+}
+
+/* 읽기 모드 (클릭 홀드 중) */
+body.pt-reading #overlay {
+  background: rgba(0,0,0,0.35);
+}
