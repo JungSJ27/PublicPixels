@@ -193,6 +193,44 @@ header,
   color: rgba(0,0,0,0.7);
 }
 
+
+.above-slider-link {
+  text-align: left;
+  margin: 36px 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;   /* ⭐ 중요 */
+  gap: 4px;
+}
+
+.above-slider-link a {
+  display: inline-flex;
+  justify-content: flex-start; /* ⭐ 여기 */
+  align-items: center;
+  gap: 6px;
+
+  color: #000;
+  font-size: 10px;
+  text-decoration: none;
+  opacity: 0.7;
+}
+
+/* hover 효과 */
+.above-slider-link a:hover {
+  color: #da0452;
+  opacity: 1;
+}
+
+/* 아이콘 */
+.ic-arrow,
+.ic-insta {
+  width: 11px;
+  height: 11px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
 /* ===============================
    MOBILE – USE PAGE SCROLL
 ================================ */
