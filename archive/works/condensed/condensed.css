@@ -1,0 +1,220 @@
+/* ===============================================
+   FIX PUBLICPIXELS DEFAULT LAYOUT EFFECTS
+=============================================== */
+
+body[data-page="log"] .pp-main::before,
+body[data-page="log"] .art-main::before {
+  display: none !important;
+}
+
+/* ===============================================
+   GLOBAL PAGE BODY
+=============================================== */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;  /* styles.css 기준 */
+  background: #fff;
+  color: #111;
+}
+
+/* ===============================
+   HEADER (전시 페이지 모드)
+   =============================== */
+
+body[data-page="log"] header {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: transparent !important;
+  color: rgb(241, 238, 255) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  padding-top: 10px !important;
+  z-index: 3000;
+}
+
+body[data-page="log"] header .logo-brand,
+body[data-page="log"] header .logo-roman,
+body[data-page="log"] header .logo-korean {
+  color: rgba(234, 234, 236, 0.95) !important;
+}
+
+/* 검색, 카트 아이콘 숨기기 */
+body[data-page="log"] header .search-icon,
+body[data-page="log"] header .shop-toggle {
+  display: none !important;
+}
+
+/* 스크롤에 따라 숨길 때 쓸 클래스 */
+header,
+.pp-header {
+  transition: opacity 0.35s ease;
+}
+
+.header-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ===============================
+   LIST TOGGLE (목록으로 돌아가기)
+   =============================== */
+
+.list-toggle {
+  position: fixed;
+  top: 12px;
+  right: 24px;
+  width: 28px;
+  height: 28px;
+  z-index: 3500;
+  cursor: pointer;
+  color:  rgba(234, 234, 236, 0.95);
+  opacity: 0.9;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.list-toggle:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.ic-list {
+  width: 24px;
+  height: 24px;
+}
+
+/* 헤더 숨길 때 같이 사라지도록 */
+.list-toggle.header-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ===============================
+   HEADER SLIDE ANIMATION
+   =============================== */
+
+/* 기본 상태: 보임 + 제자리 */
+body[data-page="log"] header {
+  transform: translateY(0);
+  transition: opacity 0.35s ease, transform 0.4s ease;
+}
+
+/* 숨김 상태: 살짝 위로 올려서 사라지는 느낌 */
+header.header-hidden {
+  opacity: 0;
+  transform: translateY(-28px);
+  pointer-events: none;
+}
+
+/* 리스트 버튼도 같이 위로 올라가게 */
+.list-toggle.header-hidden {
+  opacity: 0;
+  transform: translateY(-28px);
+}
+
+/* ===============================================
+   SINGLE IMAGE ART PAGE (CONDENSED)
+=============================================== */
+
+/* 메인 레이아웃 */
+.single-art {
+  min-height: 100vh;
+  padding-top: 90px; /* 헤더 공간 확보 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 이미지 스테이지 */
+.image-stage {
+  position: relative;
+  width: 82vw;
+  max-width: 1200px;
+}
+
+/* 메인 이미지 */
+.main-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+/* ===============================================
+   HOVER MODAL
+=============================================== */
+
+.image-modal {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* hover 시 표시 */
+.image-stage:hover .image-modal {
+  opacity: 1;
+}
+
+/* 모달 텍스트 */
+.modal-text {
+  color: #ffffff;
+  text-align: center;
+  max-width: 520px;
+  padding: 24px;
+}
+
+/* 작품 제목 */
+.modal-text h1 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 10px;
+}
+
+/* 메타 정보 */
+.modal-text .meta {
+  font-size: 12px;
+  line-height: 1.6;
+  opacity: 0.85;
+}
+
+/* 설명 */
+.modal-text .desc {
+  margin-top: 14px;
+  font-size: 13px;
+  line-height: 1.7;
+  opacity: 0.8;
+}
+
+/* ===============================================
+   MOBILE
+=============================================== */
+
+@media (max-width: 768px) {
+
+  .single-art {
+    padding-top: 80px;
+    padding-bottom: 40px;
+  }
+
+  .image-stage {
+    width: 92vw;
+  }
+
+  .modal-text {
+    padding: 20px;
+  }
+
+  .modal-text h1 {
+    font-size: 16px;
+  }
+
+  .modal-text .desc {
+    font-size: 12px;
+  }
+}

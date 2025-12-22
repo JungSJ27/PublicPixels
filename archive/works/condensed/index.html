@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Condensed | Archive</title>
+
+  <!-- Global CSS -->
+  <link rel="stylesheet" href="/front/styles.css">
+  <link rel="stylesheet" href="/front/header.css">
+
+  <!-- Page CSS -->
+  <link rel="stylesheet" href="condensed.css">
+
+  <!-- Header Loader -->
+  <script src="/front/headerLoader.js" defer></script>
+
+  <!-- Page JS -->
+  <script type="module" src="condensed.js"></script>
+</head>
+
+
+<body data-page="log">
+
+  <!-- HEADER INCLUDE -->
+  <div data-include="header"></div>
+
+  <!-- LIST BUTTON -->
+  <div class="list-toggle" onclick="location.href='/archive/'">
+    <svg viewBox="0 0 24 24" class="ic-list">
+      <g fill="none" stroke="currentColor" stroke-width="1.6">
+        <line x1="4" y1="6"  x2="20" y2="6"/>
+        <line x1="4" y1="12" x2="20" y2="12"/>
+        <line x1="4" y1="18" x2="20" y2="18"/>
+      </g>
+    </svg>
+  </div>
+
+  <main class="single-art">
+
+    <!-- IMAGE WRAP -->
+    <div class="image-stage">
+
+      <img
+        src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/condensed/Condensed.jpg"
+        alt="Condensed"
+        class="main-image"
+      />
+
+      <!-- HOVER MODAL -->
+      <div class="image-modal">
+        <div class="modal-text">
+          <h1>Condensed</h1>
+          <p>
+            Single-channel video installation, mixed media<br>
+            2025
+          </p>
+          <p class="desc">
+            This work reflects on how contemporary society compresses
+            dreams, desires, and promises into consumable images,
+            leaving behind a condensed illusion of fulfillment.
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+</body>
+
+<script defer src="/front/favicons.js"></script>
+</html>
