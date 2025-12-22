@@ -111,28 +111,26 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* ===============================
-     MOBILE – TAP
-  =============================== */
-  if (isTouch) {
-    imageStage.addEventListener("click", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      isOpen ? closeModal() : openModal();
-    });
-
-    bg.addEventListener("click", () => {
-      closeModal();
-    });
-  }
-
-  /* ===============================
-     ESC KEY
-  =============================== */
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") {
-      closeModal();
-    }
+/* ===============================
+   MOBILE – TAP (OPEN / CLOSE)
+=============================== */
+if (isTouch) {
+  imageStage.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    isOpen ? closeModal() : openModal();
   });
+
+  // 배경 탭 → 닫기
+  bg.addEventListener("click", () => {
+    closeModal();
+  });
+
+  // 내용 영역 탭 시 닫히지 않게
+  modal.querySelector(".fullscreen-content")
+    .addEventListener("click", (e) => {
+      e.stopPropagation();
+    });
+}
 });
 
