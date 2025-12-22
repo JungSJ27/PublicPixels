@@ -68,7 +68,7 @@ window.addEventListener("load", () => {
 /* ===============================================
    CONDENSED PAGE – INFO MODAL
    Desktop: hover
-   Mobile: touch & hold
+   Mobile: tap toggle
 =============================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -83,7 +83,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let isOpen = false;
   let hoverTimer = null;
-  let touchTimer = null;
 
   function openModal() {
     if (isOpen) return;
@@ -95,6 +94,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!isOpen) return;
     modal.classList.remove("show");
     isOpen = false;
+  }
+
+  function toggleModal() {
+    isOpen ? closeModal() : openModal();
   }
 
   /* ===============================
@@ -113,27 +116,26 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ===============================
-     MOBILE – TOUCH & HOLD
+     MOBILE – TAP TOGGLE
   =============================== */
   if (isTouch) {
-    imageStage.addEventListener("touchstart", (e) => {
+    imageStage.addEventListener("click", (e) => {
       e.preventDefault();
-
-      clearTimeout(touchTimer);
-      touchTimer = setTimeout(() => {
-        openModal();
-      }, 120); /* 롱프레스 감도 */
+      e.stopPropagation();
+      toggleModal();
     });
 
-    imageStage.addEventListener("touchend", () => {
-      clearTimeout(touchTimer);
+    // 배경 탭 시 닫기
+    bg.addEventListener("click", () => {
       closeModal();
     });
 
-    imageStage.addEventListener("touchcancel", () => {
-      clearTimeout(touchTimer);
-      closeModal();
-    });
+    // 내용 영역 탭은 닫히지 않게
+    modal
+      .querySelector(".fullscreen-content")
+      .addEventListener("click", (e) => {
+        e.stopPropagation();
+      });
   }
 
   /* ===============================

@@ -178,7 +178,7 @@ header,
   font-size: 13px;
   line-height: 1.65;
   opacity: 0.95;
-  margin: 0;
+  margin: 0px;
 }
 
 /* Korean tone */
@@ -289,7 +289,7 @@ header,
 
   .single-art {
     height: 100dvh;
-    padding-top: 52px; /* 헤더 */
+    padding-top: 62px; /* 헤더 */
     padding-bottom: 0;
 
     display: flex;
@@ -297,6 +297,10 @@ header,
     align-items: flex-start; /* 🔥 중앙 → 위 */
   }
 
+  .modal-lang.en {
+    margin-bottom: 28px; /* ← 여기 숫자 조절 */
+  }
+  
   .image-stage {
     width: 100%;
     height: calc(100dvh - 72px);
