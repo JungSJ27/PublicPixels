@@ -78,17 +78,6 @@ body[data-page="log"].header-reveal .list-toggle {
   pointer-events: auto;
 }
 
-/* hover 감지 영역 */
-.header-hover-zone {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 42px;
-  z-index: 4000;
-}
-
-
 /* 상단 호버 시 표시 */
 body[data-page="log"].header-reveal header {
   transform: translateY(0);
@@ -109,8 +98,9 @@ body[data-page="log"] header .logo-korean {
   color: rgba(255, 255, 255, 0.18) !important;
 }
 
+
 /* =======================================================
-   HEADER HOVER ZONE
+   HEADER HOVER ZONE (DESKTOP)
 ======================================================= */
 .header-hover-zone {
   position: fixed;
@@ -120,6 +110,38 @@ body[data-page="log"] header .logo-korean {
   height: 36px;
   z-index: 2900;
 }
+
+/* =======================================================
+   MOBILE HEADER ZONE (기본은 비활성)
+======================================================= */
+.mobile-header-zone {
+  display: none;           /* 🔑 기본: 완전히 꺼둠 */
+}
+
+/* =======================================================
+   MOBILE ONLY
+======================================================= */
+@media (max-width: 768px) {
+
+  /* 데스크톱 hover zone 비활성 */
+  .header-hover-zone {
+    pointer-events: none;
+  }
+
+  /* 모바일 상단 터치 존 */
+  .mobile-header-zone {
+    display: block;        /* 🔑 모바일에서만 등장 */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 54px;
+    z-index: 4500;
+    background: transparent;
+    pointer-events: auto;
+  }
+}
+
 
 /* =======================================================
    LIST ICON
@@ -200,7 +222,7 @@ body[data-page="log"] header .logo-korean {
 =============================== */
 @media (min-width: 769px) {
   .info-modal-content {
-    padding-top: 26vh;   /* 🔑 살짝 아래로 */
+    padding-top: 30vh;   /* 🔑 살짝 아래로 */
   }
 }
 
@@ -315,7 +337,7 @@ body[data-page="log"] header .logo-korean {
   .info-modal-content {
     padding-left: 30px;    /* ← 좌우 breathing room */
     padding-right: 30px;
-    padding-top: env(safe-area-inset-top); /* 🔑 위에서 바로 시작 */
+    padding-top: 10vh; /* 🔑 위에서 바로 시작 */
   }
 
   .info-modal-inner {

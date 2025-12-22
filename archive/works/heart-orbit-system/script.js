@@ -37,16 +37,12 @@ let viewportScale = 1;
 
   let hideTimer = null;
 
-  function show() {
+  function revealFor(ms = 3000) {
     clearTimeout(hideTimer);
     body.classList.add("header-reveal");
-  }
-
-  function hide(delay = 500) {
-    clearTimeout(hideTimer);
     hideTimer = setTimeout(() => {
       body.classList.remove("header-reveal");
-    }, delay);
+    }, ms);
   }
 
   const isMobile = isMobileDevice();
@@ -54,25 +50,34 @@ let viewportScale = 1;
   if (isMobile) {
     body.classList.remove("header-reveal");
 
-    zoneMobile?.addEventListener("touchstart", (e) => {
-      e.preventDefault();
-      body.classList.add("header-reveal");
+    const onTopTap = () => revealFor(3000);
 
-      clearTimeout(hideTimer);
-      hideTimer = setTimeout(() => {
-        body.classList.remove("header-reveal");
-      }, 2000);
-    });
+    /* iOS Safari에서 touchstart, click 둘 다 안정적으로 */
+    zoneMobile?.addEventListener("touchstart", onTopTap, { passive: true });
+    zoneMobile?.addEventListener("click", onTopTap);
+
+    /* 안전장치: 헤더 자체를 만져도 3초 노출 */
+    header?.addEventListener("touchstart", onTopTap, { passive: true });
+    header?.addEventListener("click", onTopTap);
+
+    return;
   }
 
-
-  // 데스크톱: hover 존에 마우스 올리면 show
+  /* 데스크톱 hover */
   if (!zoneDesktop) return;
+  function show() {
+    clearTimeout(hideTimer);
+    body.classList.add("header-reveal");
+  }
+  function hide(delay = 500) {
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(() => {
+      body.classList.remove("header-reveal");
+    }, delay);
+  }
 
   zoneDesktop.addEventListener("mouseenter", show);
   zoneDesktop.addEventListener("mouseleave", () => hide(500));
-
-  // 헤더 자체 hover도 반응
   header?.addEventListener("mouseenter", show);
   header?.addEventListener("mouseleave", () => hide(500));
 })();
