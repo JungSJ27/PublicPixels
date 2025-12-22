@@ -101,30 +101,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* ===============================
    MOBILE – TAP OPEN / CLOSE
-================================ */
-if (isTouch) {
-  // 이미지 터치 → 열기
-  imageStage.addEventListener(
-    "touchstart",
-    (e) => {
-      e.preventDefault();
-      setModal(true);
-    },
-    { passive: false }
-  );
-
-  // 모달 배경 터치 → 닫기
-  const bg = modal.querySelector(".fullscreen-bg");
-  if (bg) {
-    bg.addEventListener(
+   (desktop behavior untouched)
+  ================================ */
+  if (isTouch) {
+    // 사진 터치 → 모달 열기
+    imageStage.addEventListener(
       "touchstart",
       (e) => {
         e.preventDefault();
-        setModal(false);
+        setModal(true);
       },
       { passive: false }
     );
-  }
+
+    // 모달 배경 터치 → 닫기
+    const bg = modal.querySelector(".fullscreen-bg");
+    if (bg) {
+      bg.addEventListener(
+        "touchstart",
+        (e) => {
+          e.preventDefault();
+          setModal(false);
+        },
+        { passive: false }
+      );
+    }
   }
 });
 
