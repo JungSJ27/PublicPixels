@@ -68,16 +68,14 @@ window.addEventListener("load", () => {
 /* ===============================================
    CONDENSED PAGE – INFO MODAL
    Desktop: hover
-   Mobile: tap toggle
+   Mobile: tap toggle (scroll safe)
 =============================================== */
 document.addEventListener("DOMContentLoaded", () => {
   const imageStage = document.querySelector(".image-stage");
   const modal = document.getElementById("fullscreenModal");
-
   if (!imageStage || !modal) return;
 
-  const isTouch =
-    window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+  const isTouch = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
 
   let isOpen = false;
 
@@ -87,45 +85,53 @@ document.addEventListener("DOMContentLoaded", () => {
     modal.setAttribute("aria-hidden", String(!isOpen));
   }
 
-  function toggleModal() {
-    setModal(!isOpen);
-  }
-
-  /* ===============================
-     DESKTOP – HOVER
-  =============================== */
+  /* DESKTOP – HOVER 유지 */
   if (!isTouch) {
     imageStage.addEventListener("mouseenter", () => setModal(true));
     imageStage.addEventListener("mouseleave", () => setModal(false));
+    return;
   }
 
-  /* ===============================
-   MOBILE – TAP OPEN / CLOSE
-   (desktop behavior untouched)
-  ================================ */
-  if (isTouch) {
-    // 사진 터치 → 모달 열기
-    imageStage.addEventListener(
-      "touchstart",
-      (e) => {
-        e.preventDefault();
-        setModal(true);
-      },
-      { passive: false }
-    );
+  /* MOBILE – TAP OPEN and TAP CLOSE, SCROLL SAFE */
+  let sx = 0, sy = 0, moved = false;
 
-    // 모달 배경 터치 → 닫기
-    const bg = modal.querySelector(".fullscreen-bg");
-    if (bg) {
-      bg.addEventListener(
-        "touchstart",
-        (e) => {
-          e.preventDefault();
-          setModal(false);
-        },
-        { passive: false }
-      );
+  document.addEventListener("touchstart", (e) => {
+    const t = e.touches && e.touches[0];
+    if (!t) return;
+    sx = t.clientX;
+    sy = t.clientY;
+    moved = false;
+  }, { passive: true });
+
+  document.addEventListener("touchmove", (e) => {
+    const t = e.touches && e.touches[0];
+    if (!t) return;
+    const dx = Math.abs(t.clientX - sx);
+    const dy = Math.abs(t.clientY - sy);
+    if (dx > 8 || dy > 8) moved = true;
+  }, { passive: true });
+
+  document.addEventListener("touchend", (e) => {
+    if (moved) return;
+
+    const target = e.target;
+
+    /* 헤더나 리스트 버튼은 항상 클릭 가능 */
+    if (target.closest("header") || target.closest(".list-toggle")) return;
+
+    /* 모달이 닫혀있을 때는 사진 터치만 열기 */
+    if (!isOpen) {
+      if (target.closest(".image-stage")) setModal(true);
+      return;
     }
-  }
+
+    /* 모달이 열려있을 때는 탭이면 닫기
+       링크는 예외로 두고 싶으면 아래 한 줄 유지
+    */
+    if (target.closest("a")) return;
+
+    setModal(false);
+  }, { passive: true });
 });
+
 
