@@ -64,3 +64,19 @@ window.addEventListener("load", () => {
     lastY = y;
   });
 });
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const video = document.getElementById("peonyVideo");
+  if (!video) return;
+
+  const tryPlay = () => {
+    video.play().catch(() => {});
+    document.removeEventListener("touchstart", tryPlay);
+    document.removeEventListener("click", tryPlay);
+  };
+
+  // iOS Safari 대응
+  document.addEventListener("touchstart", tryPlay, { once: true });
+  document.addEventListener("click", tryPlay, { once: true });
+});
