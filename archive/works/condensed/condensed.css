@@ -97,7 +97,6 @@ header,
   position: fixed;
   inset: 0;
   z-index: 8000;
-
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.35s ease;
@@ -115,7 +114,8 @@ header,
 }
 
 /* ===============================================
-   FULLSCREEN MODAL CONTENT – CENTERED
+   FULLSCREEN MODAL CONTENT
+   (Reference-style typography + centered)
 =============================================== */
 
 :root {
@@ -137,25 +137,57 @@ header,
 
   display: flex;
   flex-direction: column;
-  justify-content: center; /* 🔥 세로 중앙 */
+  justify-content: center;
   color: #fff;
 }
 
-/* 언어 블록 */
+/* ===============================================
+   MODAL TYPOGRAPHY
+=============================================== */
+
 .modal-lang {
-  margin-bottom: 48px;
+  margin-bottom: 35px;
 }
 
 .modal-lang:last-child {
   margin-bottom: 0;
 }
 
+/* title */
+.modal-lang h1 {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  margin: 0 0 12px;
+}
+
+/* meta + divider bar */
+.modal-lang .meta {
+  font-size: 11px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.72);
+
+  margin-bottom: 45px;
+  padding-bottom: 14px;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.22); /* 🔥 media bar */
+}
+
+/* description */
+.modal-lang .desc {
+  font-size: 13px;
+  line-height: 1.65;
+  opacity: 0.95;
+  margin: 0;
+}
+
+/* Korean tone */
 .modal-lang.kr {
   opacity: 0.85;
 }
 
 .modal-lang.kr .desc {
-  font-size: 13px;
+  font-size: 12px;
   line-height: 1.85;
   letter-spacing: -0.01em;
 }
@@ -185,4 +217,22 @@ header,
   object-fit: contain;
   display: block;
   cursor: pointer;
+}
+
+/* ===============================================
+   MOBILE TWEAK
+=============================================== */
+
+@media (max-width: 768px) {
+  :root {
+    --modal-header-offset: 80px;
+  }
+
+  .fullscreen-content {
+    padding-bottom: 60px;
+  }
+
+  .modal-lang {
+    margin-bottom: 36px;
+  }
 }
