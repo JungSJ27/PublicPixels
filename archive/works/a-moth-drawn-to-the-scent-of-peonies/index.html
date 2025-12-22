@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>A moth drawn to the scent of peonies | Archive</title>
+
+  <!-- Global CSS -->
+  <link rel="stylesheet" href="/front/styles.css">
+  <link rel="stylesheet" href="/front/header.css">
+
+  <!-- Page CSS -->
+  <link rel="stylesheet" href="peony-moth.css">
+
+  <!-- model-viewer (한 번만) -->
+  <script
+    type="module"
+    src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
+  </script>
+
+  <!-- Header Loader -->
+  <script src="/front/headerLoader.js" defer></script>
+
+</head>
+
+
+<body data-page="log">
+
+  <!-- HEADER INCLUDE -->
+  <div data-include="header"></div>
+
+
+  <!-- LIST BUTTON -->
+  <div class="list-toggle" onclick="location.href='/archive/'">
+    <svg viewBox="0 0 24 24" class="ic-list">
+      <g fill="none" stroke="currentColor" stroke-width="1.6">
+        <line x1="4" y1="6"  x2="20" y2="6"/>
+        <line x1="4" y1="12" x2="20" y2="12"/>
+        <line x1="4" y1="18" x2="20" y2="18"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- SPLIT LAYOUT -->
+  <main class="split-wrap">
+
+    <!-- LEFT : VIDEO -->
+    <section class="split-video">
+      <video
+        src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/peony-smelling%20moth/peony-smelling%20moth.mp4"
+        autoplay
+        loop
+        muted
+        playsinline
+      ></video>
+    </section>
+
+    <!-- RIGHT : TEXT -->
+    <section class="split-text">
+      <div class="text-inner">
+
+        <h1 class="art-title">Butterfly Trap</h1>
+
+        <p class="art-meta medium">
+          2025<br>
+          Mixed media (3D-printed PLA, electronics, motors, custom mechanical system)<br>
+          200 × 100 cm
+        </p>
+
+        <p>
+          <i>Butterfly Trap</i> is an installation that explores the tension
+          between confinement and freedom through a motor-driven butterfly
+          enclosed in a transparent structure and its digital counterparts.
+        </p>
+
+        <br>
+
+        <p class="text kor">
+          <i>Butterfly Trap</i>은 투명한 구조물 안에서 반복적으로 움직이는 나비와
+          디지털 이미지의 병치를 통해, 갇힘과 자유 사이의 긴장을 드러내는 설치 작품이다.
+          이 작업은 기술적 시스템 속에서 자유가 어떻게 규정되고 제한되는지를 질문한다.
+        </p>
+
+      </div>
+    </section>
+
+  </main>
+
+  <script defer src="/front/favicons.js"></script>
+</body>
+</html>
