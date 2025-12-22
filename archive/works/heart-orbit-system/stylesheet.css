@@ -266,7 +266,7 @@ body.header-reveal .mobile-header-zone {
   font-size: 18px;
   font-weight: 600;
   letter-spacing: 0.2px;
-  margin-bottom: 12px;
+  margin: 0 0 12px;
 }
 
 .info-modal .art-head {
@@ -280,15 +280,21 @@ body.header-reveal .mobile-header-zone {
 }
 
 .info-modal .art-meta.medium {
-  padding-bottom: 8px;
+  font-size: 11px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.72);
+
   margin-bottom: 40px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  padding-bottom: 8px;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.22); /* 🔥 media bar */
 }
 
 .info-modal-body {
   font-size: 13px;
   line-height: 1.65;
   opacity: 0.95;
+  margin: 0px;
 }
 
 .info-modal-body p {
@@ -297,8 +303,8 @@ body.header-reveal .mobile-header-zone {
 
 .info-modal-body .text.kor {
   font-size: 12px;
-  line-height: 1.65;
-  opacity: 0.85;
+  line-height: 1.85;
+  letter-spacing: -0.01em
 }
 
 .info-modal-hint {
