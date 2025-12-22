@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>All in One | Archive</title>
+
+  <!-- Global CSS -->
+  <link rel="stylesheet" href="/front/styles.css">
+  <link rel="stylesheet" href="/front/header.css">
+
+  <!-- Page CSS -->
+  <link rel="stylesheet" href="all-in-one.css">
+
+
+  <!-- Header Loader -->
+  <script src="/front/headerLoader.js" defer></script>
+
+  <!-- Page JS -->
+  <script type="module" src="all-in-one.js"></script>
+</head>
+
+
+<body data-page="log">
+
+  <!-- HEADER INCLUDE -->
+  <div data-include="header"></div>
+
+  <!-- LIST BUTTON -->
+  <div class="list-toggle" onclick="location.href='/archive/'">
+    <svg viewBox="0 0 24 24" class="ic-list">
+      <g fill="none" stroke="currentColor" stroke-width="1.6">
+        <line x1="4" y1="6"  x2="20" y2="6"/>
+        <line x1="4" y1="12" x2="20" y2="12"/>
+        <line x1="4" y1="18" x2="20" y2="18"/>
+      </g>
+    </svg>
+  </div>
+
+  <main class="art-wrap">
+
+    <!-- TOP IMAGE SLIDER -->
+    <section class="top-slider">
+      <div class="slider-track">
+
+        <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/driving-force/My%20driving%20force.jpg" class="slide active">
+        <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/driving-force/My%20driving%20force2.jpg" class="slide">
+        <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/driving-force/My%20driving%20force3.jpg" class="slide">
+        <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/driving-force/My%20driving%20force4.jpg" class="slide">
+
+      </div>
+
+      <!-- ARROWS -->
+      <button class="slider-arrow prev" aria-label="Previous">‹</button>
+      <button class="slider-arrow next" aria-label="Next">›</button>
+    </section>
+
+    <!-- TITLE + META -->
+    <section class="art-head">
+      <div class="content-inner">
+      <h1 class="art-title">All in One</h1>
+      <p class="art-meta medium">
+        2021<br>
+        3D modeled and 3D printed sculpture<br>
+        15 × 8 × 9.5 cm
+      </p>
+      </div>
+    </section>
+
+    <!-- TEXT -->
+    <section class="art-section">
+      <div class="content-inner">
+      <p>
+        The awareness of death functions as a catalyst rather than an end.
+         Fear of mortality becomes a driving force, shaping the way life is lived. 
+         Rooted in the coexistence of Eros and Thanatos within human instinct, 
+         this work reflects a tension between opposing impulses that ultimately propels one forward.
+        <br><br>
+         As a moth is drawn toward fire, the monument-like 3D printed sculpture embodies the resolve to live fully in each moment. It represents an attitude of moving forward with intention, embracing the present so that life may be lived without regret.
+      </p>
+
+      <p class="text kor">
+        죽음에 대한 인식은 끝이 아니라 하나의 촉매로 작용한다. 
+        죽음에 대한 두려움은 삶을 이끄는 원동력이 되며, 
+        우리가 삶을 살아가는 방식에 영향을 미친다. 
+        인간의 본능 속에서 에로스와 타나토스가 공존하듯, 이 작업은 서로 상반된 충동 사이의 긴장을 담아내며, 결국 인간을 앞으로 나아가게 하는 힘을 드러낸다.
+        <br><br>
+        불나방이 불꽃을 향해 이끌리듯, 이 기념비적인 형태의 3D 프린트 조각은 매 순간을 온전히 살아가려는 태도를 상징한다. 이는 현재에 충실하며 의지를 가지고 앞으로 나아가고자 하는 자세를 담아내며, 후회 없는 삶을 향한 결단을 표현한다.
+      </p>
+      </div>
+    </section>
+
+    <!-- Exhibition Links -->
+    <div class="above-slider-link">
+      <a href="/studiolog/log/202106/">
+        <svg class="ic-arrow" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M7 17 L17 7" stroke="currentColor" stroke-width="1.5" fill="none"/>
+          <path d="M10 7h7v7" stroke="currentColor" stroke-width="1.5" fill="none"/>
+        </svg>
+        Explore Exhibition
+      </a>
+    </div>
+
+  </main>
+
+  <script defer src="/front/favicons.js"></script>
+</body>
+</html>

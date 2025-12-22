@@ -502,7 +502,7 @@
     "medium": ["Publication"],
     "tags": ["Design", "Trend forecasting"],
     "dimensions": "variable",
-    "status": "published",
+    "status": "draft",
     "password": "1234",
     "featured": false,
     "themeColor": "#0a1322",
