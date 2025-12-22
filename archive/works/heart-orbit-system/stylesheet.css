@@ -114,8 +114,14 @@ body[data-page="log"] header .logo-korean {
 /* =======================================================
    MOBILE HEADER ZONE (기본은 비활성)
 ======================================================= */
+/* 기본: 모바일 터치 존은 클릭 막음 */
 .mobile-header-zone {
-  display: none;           /* 🔑 기본: 완전히 꺼둠 */
+  pointer-events: auto;
+}
+
+/* 헤더가 보이는 동안은 터치 존 비활성 */
+body.header-reveal .mobile-header-zone {
+  pointer-events: none;
 }
 
 /* =======================================================
@@ -335,8 +341,8 @@ body[data-page="log"] header .logo-korean {
   }
 
   .info-modal-content {
-    padding-left: 30px;    /* ← 좌우 breathing room */
-    padding-right: 30px;
+    padding-left: 40px;    /* ← 좌우 breathing room */
+    padding-right: 40px;
     padding-top: 10vh; /* 🔑 위에서 바로 시작 */
   }
 
