@@ -1,0 +1,246 @@
+/* ===============================================
+   FIX PUBLICPIXELS DEFAULT LAYOUT EFFECTS
+=============================================== */
+
+body[data-page="log"] .pp-main::before,
+body[data-page="log"] .art-main::before {
+  display: none !important;
+}
+
+/* ===============================================
+   GLOBAL PAGE BODY
+=============================================== */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;  /* styles.css 기준 */
+  background: #fff;
+  color: #111;
+}
+
+/* ===============================
+   HEADER (전시 페이지 모드)
+   =============================== */
+
+body[data-page="log"] header {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: transparent !important;
+  color: rgb(241, 238, 255) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  padding-top: 10px !important;
+  z-index: 3000;
+}
+
+body[data-page="log"] header .logo-brand,
+body[data-page="log"] header .logo-roman,
+body[data-page="log"] header .logo-korean {
+  color: rgba(234, 234, 236, 0.95) !important;
+}
+
+/* 검색, 카트 아이콘 숨기기 */
+body[data-page="log"] header .search-icon,
+body[data-page="log"] header .shop-toggle {
+  display: none !important;
+}
+
+/* 스크롤에 따라 숨길 때 쓸 클래스 */
+header,
+.pp-header {
+  transition: opacity 0.35s ease;
+}
+
+.header-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ===============================
+   LIST TOGGLE (목록으로 돌아가기)
+   =============================== */
+
+.list-toggle {
+  position: fixed;
+  top: 12px;
+  right: 24px;
+  width: 28px;
+  height: 28px;
+  z-index: 3500;
+  cursor: pointer;
+  color:  rgba(234, 234, 236, 0.95);
+  opacity: 0.9;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.list-toggle:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.ic-list {
+  width: 24px;
+  height: 24px;
+}
+
+/* 헤더 숨길 때 같이 사라지도록 */
+.list-toggle.header-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* WRAP */
+.art-wrap {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 100px 20px 100px;
+}
+
+.top-slider {
+  position: relative;
+  margin: 0 10px 20px;
+  display: flex;
+  justify-content: center;
+}
+
+/* 슬라이더 높이 기준을 명확히 */
+.slider-track {
+  position: relative;
+  width: 100%;
+  max-width: 1300px; /* 기존 900px → 더 넓게 */
+  margin: 0 auto;
+  aspect-ratio: 3 / 2; /* 가로 사진 기준 */
+  overflow: hidden;
+}
+
+/* 이미지 공통 처리 */
+.slide {
+  display: none;
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* 핵심 */
+}
+
+
+.slide.active {
+  display: block;
+}
+
+/* ARROWS */
+.slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: 0;
+  font-size: 24px; /* 기존 36px → 축소 */
+  color: rgba(0,0,0,0.45);
+  cursor: pointer;
+  padding: 4px 8px;
+  z-index: 10;
+}
+
+.slider-arrow:hover {
+  color: rgba(0,0,0,0.8);
+}
+
+.slider-arrow.prev {
+  left: 0;
+}
+
+.slider-arrow.next {
+  right: 0;
+}
+
+/* 모바일에서는 화살표 살짝 안쪽 */
+@media (max-width: 640px) {
+  .slider-arrow {
+    font-size: 20px;
+  }
+}
+
+/* 사진 기준 내부 콘텐츠 폭 */
+.content-inner {
+  max-width: 1020px; /* slider-track과 동일 */
+  margin: 0 auto;
+}
+
+
+.art-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 10px;
+}
+
+.art-meta {
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.art-credit {
+  display: block;
+  margin-top: 4px;
+  font-size: 10px;
+  opacity: 0.6;
+}
+
+
+.art-meta.medium {
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+/* SMALL VIDEO */
+.inline-video {
+  margin: 15px 0px 20px;
+}
+
+.video-container {
+  position: relative;
+  width: 100%;
+  background: #000;
+  overflow: hidden;
+}
+
+.video-container.small {
+  max-width: 640px;
+  padding-top: 40%;
+  margin: 0 auto; /* 이 줄이 핵심 */
+}
+
+.video-container iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+
+.art-section p {
+  font-size: 14px;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.art-section p.text.kor {
+  font-size: 13px;
+  line-height: 1.85;
+  letter-spacing: -0.01em;
+}
+
+@media (max-width: 768px) {
+  .video-container.small {
+    max-width: 100%;
+    padding-top: 56.25%; /* 16:9 기준, 훨씬 큼 */
+  }
+
+  .art-wrap {
+    padding-bottom: 60px;
+  }
+
+  .art-section p:last-child {
+    margin-bottom: 0;
+  }
+}
