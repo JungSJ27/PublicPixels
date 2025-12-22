@@ -100,22 +100,31 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ===============================
-     MOBILE – TAP TOGGLE (Heart Orbit 방식)
-  =============================== */
-  if (isTouch) {
-    imageStage.addEventListener(
+   MOBILE – TAP OPEN / CLOSE
+================================ */
+if (isTouch) {
+  // 이미지 터치 → 열기
+  imageStage.addEventListener(
+    "touchstart",
+    (e) => {
+      e.preventDefault();
+      setModal(true);
+    },
+    { passive: false }
+  );
+
+  // 모달 배경 터치 → 닫기
+  const bg = modal.querySelector(".fullscreen-bg");
+  if (bg) {
+    bg.addEventListener(
       "touchstart",
       (e) => {
         e.preventDefault();
-        toggleModal();
+        setModal(false);
       },
       { passive: false }
     );
   }
-
-  /* ESC (desktop) */
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") setModal(false);
-  });
+  }
 });
 
