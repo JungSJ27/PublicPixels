@@ -68,7 +68,7 @@ window.addEventListener("load", () => {
 /* ===============================================
    CONDENSED PAGE – INFO MODAL
    Desktop: hover
-   Mobile: tap toggle
+   Mobile: touch & hold
 =============================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -82,13 +82,17 @@ document.addEventListener("DOMContentLoaded", () => {
     window.matchMedia("(hover: none) and (pointer: coarse)").matches;
 
   let isOpen = false;
+  let hoverTimer = null;
+  let touchTimer = null;
 
   function openModal() {
+    if (isOpen) return;
     modal.classList.add("show");
     isOpen = true;
   }
 
   function closeModal() {
+    if (!isOpen) return;
     modal.classList.remove("show");
     isOpen = false;
   }
@@ -97,8 +101,6 @@ document.addEventListener("DOMContentLoaded", () => {
      DESKTOP – HOVER
   =============================== */
   if (!isTouch) {
-    let hoverTimer;
-
     imageStage.addEventListener("mouseenter", () => {
       clearTimeout(hoverTimer);
       hoverTimer = setTimeout(openModal, 60);
@@ -111,28 +113,31 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ===============================
-     MOBILE – TAP TOGGLE
+     MOBILE – TOUCH & HOLD
   =============================== */
   if (isTouch) {
-    imageStage.addEventListener("click", (e) => {
+    imageStage.addEventListener("touchstart", (e) => {
       e.preventDefault();
-      e.stopPropagation();
 
-      if (isOpen) {
-        closeModal();
-      } else {
+      clearTimeout(touchTimer);
+      touchTimer = setTimeout(() => {
         openModal();
-      }
+      }, 120); /* 롱프레스 감도 */
     });
 
-    /* 배경 터치로 닫기 */
-    bg.addEventListener("click", () => {
+    imageStage.addEventListener("touchend", () => {
+      clearTimeout(touchTimer);
+      closeModal();
+    });
+
+    imageStage.addEventListener("touchcancel", () => {
+      clearTimeout(touchTimer);
       closeModal();
     });
   }
 
   /* ===============================
-     ESC (desktop fallback)
+     ESC (desktop)
   =============================== */
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && isOpen) {
@@ -140,5 +145,3 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
-
-
