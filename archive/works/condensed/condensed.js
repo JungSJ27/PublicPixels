@@ -67,8 +67,8 @@ window.addEventListener("load", () => {
 
 /* ===============================================
    CONDENSED PAGE – INFO MODAL
-   Desktop: hover image
-   Mobile: tap image
+   Desktop: hover
+   Mobile: tap toggle
 =============================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -76,10 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const modal = document.getElementById("fullscreenModal");
   const bg = modal?.querySelector(".fullscreen-bg");
 
-  if (!imageStage || !modal || !bg) {
-    console.warn("[Condensed] modal elements missing");
-    return;
-  }
+  if (!imageStage || !modal || !bg) return;
 
   const isTouch =
     window.matchMedia("(hover: none) and (pointer: coarse)").matches;
@@ -87,50 +84,61 @@ document.addEventListener("DOMContentLoaded", () => {
   let isOpen = false;
 
   function openModal() {
-    if (isOpen) return;
     modal.classList.add("show");
     isOpen = true;
   }
 
   function closeModal() {
-    if (!isOpen) return;
     modal.classList.remove("show");
     isOpen = false;
   }
 
   /* ===============================
-     DESKTOP – IMAGE HOVER ONLY
+     DESKTOP – HOVER
   =============================== */
   if (!isTouch) {
+    let hoverTimer;
+
     imageStage.addEventListener("mouseenter", () => {
-      openModal();
+      clearTimeout(hoverTimer);
+      hoverTimer = setTimeout(openModal, 60);
     });
 
     imageStage.addEventListener("mouseleave", () => {
+      clearTimeout(hoverTimer);
+      hoverTimer = setTimeout(closeModal, 60);
+    });
+  }
+
+  /* ===============================
+     MOBILE – TAP TOGGLE
+  =============================== */
+  if (isTouch) {
+    imageStage.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      if (isOpen) {
+        closeModal();
+      } else {
+        openModal();
+      }
+    });
+
+    /* 배경 터치로 닫기 */
+    bg.addEventListener("click", () => {
       closeModal();
     });
   }
 
-/* ===============================
-   MOBILE – TAP (OPEN / CLOSE)
-=============================== */
-if (isTouch) {
-  imageStage.addEventListener("click", (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    isOpen ? closeModal() : openModal();
+  /* ===============================
+     ESC (desktop fallback)
+  =============================== */
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && isOpen) {
+      closeModal();
+    }
   });
-
-  // 배경 탭 → 닫기
-  bg.addEventListener("click", () => {
-    closeModal();
-  });
-
-  // 내용 영역 탭 시 닫히지 않게
-  modal.querySelector(".fullscreen-content")
-    .addEventListener("click", (e) => {
-      e.stopPropagation();
-    });
-}
 });
+
 
