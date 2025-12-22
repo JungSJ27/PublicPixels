@@ -101,7 +101,7 @@ header,
   overflow: hidden;
 }
 
-/* LEFT : VIDEO */
+/* LEFT : VIDEO / IMAGE */
 .split-video {
   flex: 1;
   background: #ffffff;
@@ -110,44 +110,91 @@ header,
 .split-video video {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-}
-
-/* RIGHT : TEXT */
-.split-text {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #fff;
-}
-
-.text-inner {
-  max-width: 420px;
-  padding: 80px 32px;
-}
-
-/* reuse your existing typography */
-.art-title {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 10px;
-}
-
-.art-meta {
-  font-size: 13px;
-  line-height: 1.5;
-  margin-bottom: 24px;
-}
-
-.text.kor {
-  font-size: 13px;
-  line-height: 1.85;
-  letter-spacing: -0.01em;
+  object-fit: contain; /* 🔹 artwork라면 cover 말고 contain이 더 예쁠 수도 있음 */
 }
 
 /* ===============================
-   MOBILE
+   RIGHT : TEXT PANEL
+================================ */
+
+.split-text {
+  flex: 1;
+  background: #fff;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;   /* ⭐ 이게 핵심 */
+}
+
+/* 실제 스크롤 되는 텍스트 박스 */
+.text-inner {
+  width: 100%;
+  max-width: 550px;
+
+  max-height: 55vh;      /* ⭐ 화면 중앙에 가장 안정적인 비율 */
+  padding: 0 24px;
+
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+/* ===============================
+   TYPOGRAPHY REFINEMENT
+================================ */
+
+/* Title */
+.art-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  letter-spacing: 0.01em;
+}
+
+.art-title-ko {
+  display: block;
+  margin-top: 4px;
+
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+
+  color: rgba(0,0,0,0.6);
+}
+
+
+/* Meta */
+.art-meta {
+  font-size: 12px;
+  line-height: 1.55;
+  margin-bottom: 28px;
+  color: rgba(0,0,0,0.65);
+}
+/* Divider under meta */
+.art-meta.medium {
+  padding-bottom: 8px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+
+/* English description */
+.desc-en p {
+  font-size: 12.5px;
+  line-height: 1.7;
+  margin-bottom: 18px;
+  color: rgba(0,0,0,0.82);
+}
+
+/* Korean text */
+.text.kor {
+  font-size: 12.5px;
+  line-height: 1.9;
+  letter-spacing: -0.01em;
+  color: rgba(0,0,0,0.7);
+}
+
+/* ===============================
+   MOBILE – USE PAGE SCROLL
 ================================ */
 
 @media (max-width: 900px) {
@@ -156,15 +203,19 @@ header,
     height: auto;
   }
 
-  .split-video {
-    height: 50vh;
-  }
-
   .split-text {
     align-items: flex-start;
   }
 
   .text-inner {
-    padding: 48px 20px 80px;
+    width: 100%;          /* ⭐ 전체 폭 사용 */
+    max-width: none;      /* ⭐ 550px 제한 해제 */
+
+    height: auto;
+    max-height: none;
+    overflow: visible;
+
+    margin: 32px 0 80px;  /* 사진 밑 여백 */
+    padding: 0 20px;      /* 모바일 좌우 여백만 */
   }
 }
