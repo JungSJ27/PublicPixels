@@ -40,3 +40,16 @@
 .phototaxis-active #overlay {
   cursor: none !important;
 }
+
+/* ===============================================
+   MOBILE – header under phototaxis
+=============================================== */
+@media (max-width: 768px) {
+  body.phototaxis-active header {
+    z-index: 100;   /* phototaxis보다 낮게 */
+  }
+
+  body.phototaxis-active .list-toggle {
+    z-index: 120;   /* header보다 살짝 위 or 같게 */
+  }
+}
