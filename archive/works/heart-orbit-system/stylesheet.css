@@ -346,9 +346,16 @@ body.header-reveal .mobile-header-zone {
     padding-top: 10vh; /* 🔑 위에서 바로 시작 */
   }
 
+  .info-modal-viewport {
+    height: 80vh;        /* 글 보이는 영역 줄이기 */
+    margin-bottom: 30vh;/* 하단 숨 공간 더 확보 */
+  }
+
+
   .info-modal-inner {
     max-height: calc(
       100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom)
     );
   }
+
 }
