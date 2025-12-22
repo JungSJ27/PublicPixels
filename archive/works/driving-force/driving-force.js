@@ -1,70 +1,3 @@
-/* =======================================================
-   PAGE INIT
-======================================================= */
-
-window.addEventListener("DOMContentLoaded", () => {
-  // headerLoader가 header를 DOM에 넣은 다음 프레임에 실행
-  requestAnimationFrame(() => {
-    initHeaderScroll();
-  });
-
-  initVideoFade();
-  initImageSlider();
-});
-
-/* =======================================================
-   HEADER SHOW / HIDE  (scroll up = show, scroll down = hide)
-======================================================= */
-
-window.addEventListener("load", () => {
-  // headerLoader로 include된 헤더 잡기
-  const header =
-    document.querySelector("header.pp-header") ||
-    document.querySelector(".pp-header") ||
-    document.querySelector("header");
-  const listToggle = document.querySelector(".list-toggle");
-
-  if (!header) return;
-
-  function applyHidden(isHidden) {
-    if (isHidden) {
-      header.classList.add("header-hidden");
-      if (listToggle) listToggle.classList.add("header-hidden");
-    } else {
-      header.classList.remove("header-hidden");
-      if (listToggle) listToggle.classList.remove("header-hidden");
-    }
-  }
-
-  let lastY = window.scrollY;
-
-  // 첫 로딩 시 상태
-  if (window.scrollY > 10) applyHidden(true);
-  else applyHidden(false);
-
-  window.addEventListener("scroll", () => {
-    const y = window.scrollY;
-
-    // 맨 위 근처면 항상 보이게
-    if (y < 10) {
-      applyHidden(false);
-      lastY = y;
-      return;
-    }
-
-    // 스크롤 방향에 따라 토글
-    if (y < lastY - 2) {
-      // 위로 스크롤 = 보이기
-      applyHidden(false);
-    } else if (y > lastY + 2) {
-      // 아래로 스크롤 = 숨기기
-      applyHidden(true);
-    }
-
-    lastY = y;
-  });
-});
-
 window.addEventListener("load", () => {
   const header =
     document.querySelector("header.pp-header") ||
@@ -122,3 +55,44 @@ function initTopSlider() {
 
 window.addEventListener("DOMContentLoaded", initTopSlider);
 
+/* ===============================================
+   MOBILE SWIPE FOR TOP SLIDER
+=============================================== */
+
+function initSwipeSlider() {
+  const track = document.querySelector(".slider-track");
+  const slides = document.querySelectorAll(".slide");
+  if (!track || slides.length === 0) return;
+
+  let startX = 0;
+  let endX = 0;
+  let index = [...slides].findIndex(s => s.classList.contains("active"));
+  if (index < 0) index = 0;
+
+  function show(i) {
+    slides.forEach(s => s.classList.remove("active"));
+    slides[i].classList.add("active");
+  }
+
+  track.addEventListener("touchstart", (e) => {
+    startX = e.touches[0].clientX;
+  });
+
+  track.addEventListener("touchend", (e) => {
+    endX = e.changedTouches[0].clientX;
+    const diff = endX - startX;
+
+    if (Math.abs(diff) < 40) return; // 스와이프 최소 거리
+
+    if (diff > 0) {
+      // swipe right
+      index = (index - 1 + slides.length) % slides.length;
+    } else {
+      // swipe left
+      index = (index + 1) % slides.length;
+    }
+    show(index);
+  });
+}
+
+window.addEventListener("DOMContentLoaded", initSwipeSlider);
