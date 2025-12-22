@@ -92,30 +92,36 @@ header,
 
 /* WRAP */
 .art-wrap {
-  max-width: 1200px;
+  max-width: 1300px;
   margin: 0 auto;
-  padding: 100px 20px 120px;
+  padding: 100px 20px 100px;
 }
 
-/* TOP SLIDER */
 .top-slider {
   position: relative;
-  margin: 0 10px 36px;
+  margin: 0 10px 20px;
   display: flex;
   justify-content: center;
 }
 
+/* 슬라이더 높이 기준을 명확히 */
 .slider-track {
   position: relative;
   width: 100%;
-  max-width: 900px;
+  max-width: 1300px; /* 기존 900px → 더 넓게 */
+  margin: 0 auto;
+  aspect-ratio: 3 / 2; /* 가로 사진 기준 */
+  overflow: hidden;
 }
 
+/* 이미지 공통 처리 */
 .slide {
   display: none;
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: contain; /* 핵심 */
 }
+
 
 .slide.active {
   display: block;
@@ -128,15 +134,15 @@ header,
   transform: translateY(-50%);
   background: none;
   border: 0;
-  font-size: 36px;
-  color: rgba(0,0,0,0.6);
+  font-size: 24px; /* 기존 36px → 축소 */
+  color: rgba(0,0,0,0.45);
   cursor: pointer;
-  padding: 0 10px;
+  padding: 4px 8px;
   z-index: 10;
 }
 
 .slider-arrow:hover {
-  color: rgba(0,0,0,0.9);
+  color: rgba(0,0,0,0.8);
 }
 
 .slider-arrow.prev {
@@ -150,15 +156,16 @@ header,
 /* 모바일에서는 화살표 살짝 안쪽 */
 @media (max-width: 640px) {
   .slider-arrow {
-    font-size: 28px;
+    font-size: 20px;
   }
 }
 
-
-/* TITLE + META */
-.art-head {
-  margin: 0 10px;
+/* 사진 기준 내부 콘텐츠 폭 */
+.content-inner {
+  max-width: 1020px; /* slider-track과 동일 */
+  margin: 0 auto;
 }
+
 
 .art-title {
   font-size: 16px;
@@ -186,7 +193,7 @@ header,
 
 /* SMALL VIDEO */
 .inline-video {
-  margin: 24px 10px 32px;
+  margin: 15px 0px 20px;
 }
 
 .video-container {
@@ -197,8 +204,9 @@ header,
 }
 
 .video-container.small {
-  max-width: 720px;
+  max-width: 640px;
   padding-top: 40%;
+  margin: 0 auto; /* 이 줄이 핵심 */
 }
 
 .video-container iframe {
@@ -209,10 +217,6 @@ header,
   border: 0;
 }
 
-/* TEXT */
-.art-section {
-  margin: 0 10px;
-}
 
 .art-section p {
   font-size: 14px;
