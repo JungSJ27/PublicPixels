@@ -54,3 +54,45 @@ function initTopSlider() {
 }
 
 window.addEventListener("DOMContentLoaded", initTopSlider);
+
+/* ===============================================
+   MOBILE SWIPE FOR TOP SLIDER
+=============================================== */
+
+function initSwipeSlider() {
+  const track = document.querySelector(".slider-track");
+  const slides = document.querySelectorAll(".slide");
+  if (!track || slides.length === 0) return;
+
+  let startX = 0;
+  let endX = 0;
+  let index = [...slides].findIndex(s => s.classList.contains("active"));
+  if (index < 0) index = 0;
+
+  function show(i) {
+    slides.forEach(s => s.classList.remove("active"));
+    slides[i].classList.add("active");
+  }
+
+  track.addEventListener("touchstart", (e) => {
+    startX = e.touches[0].clientX;
+  });
+
+  track.addEventListener("touchend", (e) => {
+    endX = e.changedTouches[0].clientX;
+    const diff = endX - startX;
+
+    if (Math.abs(diff) < 40) return; // 스와이프 최소 거리
+
+    if (diff > 0) {
+      // swipe right
+      index = (index - 1 + slides.length) % slides.length;
+    } else {
+      // swipe left
+      index = (index + 1) % slides.length;
+    }
+    show(index);
+  });
+}
+
+window.addEventListener("DOMContentLoaded", initSwipeSlider);

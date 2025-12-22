@@ -90,157 +90,95 @@ header,
   pointer-events: none;
 }
 
-/* WRAP */
+/* ===============================
+   HEADER SLIDE ANIMATION
+   =============================== */
+
+/* 기본 상태: 보임 + 제자리 */
+body[data-page="log"] header {
+  transform: translateY(0);
+  transition: opacity 0.35s ease, transform 0.4s ease;
+}
+
+/* 숨김 상태: 살짝 위로 올려서 사라지는 느낌 */
+header.header-hidden {
+  opacity: 0;
+  transform: translateY(-28px);
+  pointer-events: none;
+}
+
+/* 리스트 버튼도 같이 위로 올라가게 */
+.list-toggle.header-hidden {
+  opacity: 0;
+  transform: translateY(-28px);
+}
+
+
+/* ===============================================
+   ART WRAP
+=============================================== */
 .art-wrap {
-  max-width: 1300px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 100px 20px 100px;
-}
-
-.top-slider {
-  position: relative;
-  margin: 0 10px 20px;
-  display: flex;
-  justify-content: center;
-}
-
-/* 슬라이더 높이 기준을 명확히 */
-.slider-track {
-  position: relative;
-  width: 100%;
-  max-width: 1300px; /* 기존 900px → 더 넓게 */
-  margin: 0 auto;
-  aspect-ratio: 3 / 2; /* 가로 사진 기준 */
-  overflow: hidden;
-}
-
-/* 이미지 공통 처리 */
-.slide {
-  display: none;
-  width: 100%;
-  height: 100%;
-  object-fit: contain; /* 핵심 */
+  padding: 100px 20px 120px;
 }
 
 
-.slide.active {
-  display: block;
+/* ===============================================
+   TITLE + META
+=============================================== */
+.art-head {
+  margin-top: 10px;
+  margin-bottom: 0px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
-
-/* ARROWS */
-.slider-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: 0;
-  font-size: 24px; /* 기존 36px → 축소 */
-  color: rgba(0,0,0,0.45);
-  cursor: pointer;
-  padding: 4px 8px;
-  z-index: 10;
-}
-
-.slider-arrow:hover {
-  color: rgba(0,0,0,0.8);
-}
-
-.slider-arrow.prev {
-  left: 0;
-}
-
-.slider-arrow.next {
-  right: 0;
-}
-
-/* 모바일에서는 화살표 살짝 안쪽 */
-@media (max-width: 640px) {
-  .slider-arrow {
-    font-size: 20px;
-  }
-}
-
-/* 사진 기준 내부 콘텐츠 폭 */
-.content-inner {
-  max-width: 1020px; /* slider-track과 동일 */
-  margin: 0 auto;
-}
-
 
 .art-title {
+  margin: 0 0 10px;
   font-size: 16px;
   font-weight: 600;
-  margin: 0 0 10px;
 }
 
 .art-meta {
   font-size: 13px;
-  line-height: 1.4;
+  color: #000000;
+  line-height: 1.;
 }
-
-.art-credit {
-  display: block;
-  margin-top: 4px;
-  font-size: 10px;
-  opacity: 0.6;
-}
-
 
 .art-meta.medium {
-  padding-bottom: 8px;
+  padding-bottom: 8px;   /* ⭐ 이 값이 선 위치를 결정 */
+  margin-bottom: 0px;
   border-bottom: 1px solid rgba(0,0,0,0.1);
 }
 
-/* SMALL VIDEO */
-.inline-video {
-  margin: 15px 0px 20px;
+
+/* SECTIONS */
+.art-section {
+  margin-top: 0px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
-.video-container {
-  position: relative;
-  width: 100%;
-  background: #000;
-  overflow: hidden;
+.art-section h2 {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 0px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #555;
 }
-
-.video-container.small {
-  max-width: 640px;
-  padding-top: 40%;
-  margin: 0 auto; /* 이 줄이 핵심 */
-}
-
-.video-container iframe {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
-
 
 .art-section p {
-  font-size: 14px;
   line-height: 1.7;
-  margin-bottom: 20px;
+  margin: 0 0px 25px;
+  font-size: 14px;
+
 }
+
 
 .art-section p.text.kor {
-  font-size: 13px;
-  line-height: 1.85;
+  line-height: 1.85;    /* ⭐ 한글 가독성 */
+  font-size: 13px;      /* 살짝 작게 */
   letter-spacing: -0.01em;
-}
-
-@media (max-width: 768px) {
-  .video-container.small {
-    max-width: 100%;
-    padding-top: 56.25%; /* 16:9 기준, 훨씬 큼 */
-  }
-
-  .art-wrap {
-    padding-bottom: 60px;
-  }
-
-  .art-section p:last-child {
-    margin-bottom: 0;
-  }
 }
