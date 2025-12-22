@@ -66,53 +66,72 @@ window.addEventListener("load", () => {
 });
 
 /* ===============================================
-   SINGLE IMAGE HOVER / TAP MODAL
+   CONDENSED PAGE – INFO MODAL
+   Desktop: hover image
+   Mobile: tap image
 =============================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
-  const stage = document.querySelector(".image-stage");
-  const modal = document.querySelector(".image-modal");
+  const imageStage = document.querySelector(".image-stage");
+  const modal = document.getElementById("fullscreenModal");
+  const bg = modal?.querySelector(".fullscreen-bg");
 
-  if (!stage || !modal) return;
+  if (!imageStage || !modal || !bg) {
+    console.warn("[Condensed] modal elements missing");
+    return;
+  }
+
+  const isTouch =
+    window.matchMedia("(hover: none) and (pointer: coarse)").matches;
 
   let isOpen = false;
 
-  /* ===============================
-     MOBILE TAP TOGGLE
-  =============================== */
+  function openModal() {
+    if (isOpen) return;
+    modal.classList.add("show");
+    isOpen = true;
+  }
 
-  stage.addEventListener("click", (e) => {
-    // 모바일에서만 동작
-    if (window.innerWidth > 768) return;
-
-    e.preventDefault();
-    e.stopPropagation();
-
-    isOpen = !isOpen;
-    modal.style.opacity = isOpen ? "1" : "0";
-  });
+  function closeModal() {
+    if (!isOpen) return;
+    modal.classList.remove("show");
+    isOpen = false;
+  }
 
   /* ===============================
-     CLICK OUTSIDE TO CLOSE (mobile)
+     DESKTOP – IMAGE HOVER ONLY
   =============================== */
+  if (!isTouch) {
+    imageStage.addEventListener("mouseenter", () => {
+      openModal();
+    });
 
-  document.addEventListener("click", (e) => {
-    if (window.innerWidth > 768) return;
-
-    if (!stage.contains(e.target)) {
-      isOpen = false;
-      modal.style.opacity = "0";
-    }
-  });
+    imageStage.addEventListener("mouseleave", () => {
+      closeModal();
+    });
+  }
 
   /* ===============================
-     ESC KEY CLOSE
+     MOBILE – TAP
   =============================== */
+  if (isTouch) {
+    imageStage.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      isOpen ? closeModal() : openModal();
+    });
 
+    bg.addEventListener("click", () => {
+      closeModal();
+    });
+  }
+
+  /* ===============================
+     ESC KEY
+  =============================== */
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
-      isOpen = false;
-      modal.style.opacity = "0";
+      closeModal();
     }
   });
 });

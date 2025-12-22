@@ -89,133 +89,100 @@ header,
   opacity: 0;
   pointer-events: none;
 }
+/* ===============================================
+   FULLSCREEN MODAL (BASE)
+=============================================== */
 
-/* ===============================
-   HEADER SLIDE ANIMATION
-   =============================== */
+.fullscreen-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 8000;
 
-/* 기본 상태: 보임 + 제자리 */
-body[data-page="log"] header {
-  transform: translateY(0);
-  transition: opacity 0.35s ease, transform 0.4s ease;
-}
-
-/* 숨김 상태: 살짝 위로 올려서 사라지는 느낌 */
-header.header-hidden {
   opacity: 0;
-  transform: translateY(-28px);
   pointer-events: none;
+  transition: opacity 0.35s ease;
 }
 
-/* 리스트 버튼도 같이 위로 올라가게 */
-.list-toggle.header-hidden {
-  opacity: 0;
-  transform: translateY(-28px);
+.fullscreen-modal.show {
+  opacity: 1;
+  pointer-events: auto;
 }
 
-/* ===============================================
-   SINGLE IMAGE ART PAGE (CONDENSED)
-=============================================== */
-
-/* 메인 레이아웃 */
-.single-art {
-  min-height: 100vh;
-  padding-top: 90px; /* 헤더 공간 확보 */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* 이미지 스테이지 */
-.image-stage {
-  position: relative;
-  width: 82vw;
-  max-width: 1200px;
-}
-
-/* 메인 이미지 */
-.main-image {
-  width: 100%;
-  height: auto;
-  display: block;
-  object-fit: contain;
-}
-
-/* ===============================================
-   HOVER MODAL
-=============================================== */
-
-.image-modal {
+.fullscreen-bg {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.55);
-  opacity: 0;
-  transition: opacity 0.35s ease;
+  background: rgba(0, 0, 0, 0.78);
+}
+
+/* ===============================================
+   FULLSCREEN MODAL CONTENT – CENTERED
+=============================================== */
+
+:root {
+  --modal-header-offset: 96px;
+}
+
+.fullscreen-content {
+  position: relative;
+  z-index: 2;
+
+  max-width: 720px;
+  margin: 0 auto;
+
+  min-height: 100vh;
+  padding-top: var(--modal-header-offset);
+  padding-bottom: 80px;
+  padding-left: 24px;
+  padding-right: 24px;
+
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center; /* 🔥 세로 중앙 */
+  color: #fff;
 }
 
-/* hover 시 표시 */
-.image-stage:hover .image-modal {
-  opacity: 1;
+/* 언어 블록 */
+.modal-lang {
+  margin-bottom: 48px;
 }
 
-/* 모달 텍스트 */
-.modal-text {
-  color: #ffffff;
-  text-align: center;
-  max-width: 520px;
-  padding: 24px;
+.modal-lang:last-child {
+  margin-bottom: 0;
 }
 
-/* 작품 제목 */
-.modal-text h1 {
-  font-size: 18px;
-  font-weight: 600;
-  margin: 0 0 10px;
-}
-
-/* 메타 정보 */
-.modal-text .meta {
-  font-size: 12px;
-  line-height: 1.6;
+.modal-lang.kr {
   opacity: 0.85;
 }
 
-/* 설명 */
-.modal-text .desc {
-  margin-top: 14px;
+.modal-lang.kr .desc {
   font-size: 13px;
-  line-height: 1.7;
-  opacity: 0.8;
+  line-height: 1.85;
+  letter-spacing: -0.01em;
 }
 
 /* ===============================================
-   MOBILE
+   SINGLE IMAGE LAYOUT
 =============================================== */
 
-@media (max-width: 768px) {
-
-  .single-art {
-    padding-top: 80px;
-    padding-bottom: 40px;
-  }
-
-  .image-stage {
-    width: 92vw;
-  }
-
-  .modal-text {
-    padding: 20px;
-  }
-
-  .modal-text h1 {
-    font-size: 16px;
-  }
-
-  .modal-text .desc {
-    font-size: 12px;
-  }
+.single-art {
+  min-height: 100vh;
+  padding-top: 90px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
+.image-stage {
+  max-width: 90vw;
+  max-height: calc(100vh - 120px);
+}
+
+.main-image {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: calc(100vh - 120px);
+  object-fit: contain;
+  display: block;
+  cursor: pointer;
+}
