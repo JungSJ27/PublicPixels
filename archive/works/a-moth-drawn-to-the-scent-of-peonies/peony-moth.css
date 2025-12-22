@@ -256,4 +256,8 @@ header,
     margin: 32px 0 80px;  /* 사진 밑 여백 */
     padding: 0 20px;      /* 모바일 좌우 여백만 */
   }
+
+  .above-slider-link {
+  margin: 56px 0 0;
+}
 }
