@@ -1,6 +1,6 @@
 // Front/phototaxis-shim.js
 (function(){
-  const IS_HOME = document.body?.dataset?.page === 'home';
+  const IS_HOME = ['home', 'log'].includes(document.body?.dataset?.page);
   const overlay = () => document.getElementById('overlay');
 
   // 세션 1회 자동 실행 플래그
@@ -95,9 +95,6 @@
 
   // 강제 시작 이벤트 훅 (디버그/외부 트리거용)
   window.addEventListener('phototaxis:force-start', () => API.start({ force:true }));
-
-  // 홈에서 세션당 1회 자동 실행
-  API.maybeAutoStartOncePerSession();
 
   // URL로 강제 시작 테스트 (?pt=1)
   try {

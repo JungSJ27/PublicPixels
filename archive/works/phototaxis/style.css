@@ -118,9 +118,13 @@ header.header-hidden {
    ART WRAP
 =============================================== */
 .art-wrap {
-  max-width: 1200px;
+  max-width: 800px;
   margin: 0 auto;
-  padding: 100px 20px 120px;
+  min-height: 100vh;           /* ⭐ 화면 높이 */
+  display: flex;               /* ⭐ 중앙 정렬 핵심 */
+  align-items: center;         /* 세로 중앙 */
+  justify-content: center;     /* 가로 중앙 */
+  padding: 100px 20px 120px;   /* 헤더 여백 유지 */
 }
 
 
@@ -171,53 +175,13 @@ header.header-hidden {
 
 .art-section p {
   line-height: 1.7;
-  margin: 0 0px 25px;
+  margin: 0 0px 10px;
   font-size: 14px;
 
 }
-
 
 .art-section p.text.kor {
   line-height: 1.85;    /* ⭐ 한글 가독성 */
   font-size: 13px;      /* 살짝 작게 */
   letter-spacing: -0.01em;
-}
-
-/* Phototaxis layer sits above content */
-#phototaxis-layer {
-  position: fixed;
-  inset: 0;
-  z-index: 5;
-  pointer-events: none; /* 기본은 터치 통과 */
-}
-
-#phototaxis-canvas,
-#overlay {
-  position: absolute;
-  inset: 0;
-}
-
-
-#phototaxis-layer {
-  position: fixed;
-  inset: 0;
-  z-index: 5;
-  pointer-events: none;
-}
-
-#phototaxis-canvas {
-  position: absolute;
-  inset: 0;
-}
-
-#overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.78);
-  transition: background 0.25s ease;
-}
-
-/* 읽기 모드 (클릭 홀드 중) */
-body.pt-reading #overlay {
-  background: rgba(0,0,0,0.35);
 }

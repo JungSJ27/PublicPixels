@@ -11,7 +11,7 @@
 
   <!-- Page -->
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="phototaxis.css">
+  <link rel="stylesheet" href="ar.phototaxis.css">
 
   <script src="/front/headerLoader.js" defer></script>
 </head>
@@ -34,37 +34,45 @@
 
   <!-- 🔦 PHOTOTAXIS LAYER -->
   <div id="phototaxis-layer">
-    <canvas id="phototaxis-canvas"></canvas>
-    <div id="overlay"></div>
+    <canvas id="overlay"></canvas>
   </div>
+
 
   <!-- CONTENT -->
   <main class="art-wrap">
+    <div class="art-content">
     <section class="art-head">
       <h1 class="art-title">Phototaxis</h1>
       <p class="art-meta medium">
-        2023<br>
-        Generative Art, Interactive Art<br>
+        2022<br>
+        Interactive digital artwork<br>
         Variable dimensions
       </p>
     </section>
 
     <section class="art-section">
       <p>
-        <i>Butterfly Trap</i> is an installation that explores the tension
-        between confinement and freedom through a motor-driven butterfly
-        enclosed in a transparent structure and its digital counterparts.
+        Witnessing so many people overwhelmed by constant worries, I wanted to create a moment of calm for those living in uncertainty. In this work, a mouse cursor symbolizes the light that fire moths instinctively follow, guiding them in various directions across the screen. At the same time, the user behind the cursor becomes a luminous presence, illuminating the surroundings while also searching for their own answer. The interaction serves as a gentle reminder that the light one seeks can exist within oneself, encouraging the user to trust themselves and continue moving forward.
       </p>
       <br>
       <p class="text kor">
-        <i>Butterfly Trap</i>은 투명한 박스 안에서 모터로 구동되는 나비와
-        디지털 스크린을 통해 갇힘과 자유 사이의 긴장을 탐구하는 설치 작업이다.
+        끊임없는 걱정 속에서 길을 잃은 사람들을 바라보며, 불확실한 상태에 놓인 이들에게 잠시나마 평온을 전하고 싶었다. 이 작업에서 마우스 커서는 불빛을 향해 본능적으로 움직이는 불나방들이 따르는 빛을 상징하며, 화면 속에서 그들을 여러 방향으로 이끈다. 동시에 커서를 움직이는 사용자는 주변을 밝히는 존재이자, 스스로의 해답을 찾아 나서는 빛나는 존재가 된다. 이 상호작용은 사용자가 찾고 있던 빛이 결국 자기 자신 안에 존재할 수 있음을 상기시키며, 스스로를 믿고 앞으로 나아가도록 부드럽게 독려한다.
       </p>
     </section>
+    </div>
   </main>
 
   <script defer src="/front/favicons.js"></script>
-  <script src="phototaxis-shim.js"></script>
-  <script src="phototaxis.js"></script>
+  <script src="ar.phototaxis-shim.js"></script>
+  <script src="ar.phototaxis.js"></script>
+
+  <script>
+  window.addEventListener('load', () => {
+    if (window.phototaxisStart) {
+      window.phototaxisStart({ force: true });
+    }
+  });
+</script>
+
 </body>
 </html>

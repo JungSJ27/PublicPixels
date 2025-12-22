@@ -1,0 +1,42 @@
+/* ============================
+   🌌 Phototaxis Canvas Overlay
+   (단일 소스: #overlay 하나로만 관리)
+   ============================ */
+
+/* overlay 기본 상태: 숨김 + 이벤트 통과(차단 안 함) */
+#overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  display: none;            /* phototaxisStart() 전까지 숨김 */
+  pointer-events: none;     /* 기본은 클릭 통과 */
+  background: transparent;
+  z-index: 2147483647;      /* 최상단 */
+  /* 모바일 제스처/더블탭 확대 방지 */
+  touch-action: none;
+  /* 터치 잡음 차단 */
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  /* 성능 힌트(선택) */
+  will-change: transform;
+  contain: layout paint size;
+}
+
+/* Phototaxis 실행 중: 보이게만 하고 클릭은 통과 */
+.phototaxis-active #overlay {
+  display: block;
+  pointer-events: none;
+}
+
+/* 커서 숨김도 전체에 걸면 로고 같은 UI가 불편해져서 캔버스에만 적용 추천 */
+.phototaxis-active,
+.phototaxis-active * {
+  cursor: auto !important;
+}
+
+.phototaxis-active #overlay {
+  cursor: none !important;
+}
