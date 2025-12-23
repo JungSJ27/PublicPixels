@@ -8,6 +8,7 @@ window.addEventListener("DOMContentLoaded", () => {
     initHeaderScroll();
   });
 
+
 });
 
 /* =======================================================
@@ -79,14 +80,26 @@ document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener("click", tryPlay, { once: true });
 });
 
+const video = document.getElementById("sourceVideo");
+const canvas = document.getElementById("videoCanvas");
+const ctx = canvas.getContext("2d");
 
-const mount = document.getElementById("videoMount");
+function resizeCanvas() {
+  canvas.width = canvas.clientWidth;
+  canvas.height = canvas.clientHeight;
+}
 
-const video = document.createElement("video");
-video.src = "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/peony-smelling%20moth/peony-smelling%20moth.mp4";
-video.muted = true;
-video.autoplay = true;
-video.loop = true;
-video.playsInline = true;
+video.addEventListener("loadeddata", () => {
+  resizeCanvas();
+  video.play().catch(() => {});
+  draw();
+});
 
-mount.appendChild(video);
+function draw() {
+  if (!video.paused && !video.ended) {
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    requestAnimationFrame(draw);
+  }
+}
+
+window.addEventListener("resize", resizeCanvas);
