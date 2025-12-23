@@ -435,7 +435,7 @@ header,
     justify-content: center;
     align-items: flex-start;
 
-    padding-top: 6vh; /* 🔥 이 값으로 위치 미세조정 */
+    padding-top: 20vh; /* 🔥 이 값으로 위치 미세조정 */
   }
 
   .main-image {
