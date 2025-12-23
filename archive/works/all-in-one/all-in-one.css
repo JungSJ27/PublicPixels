@@ -120,7 +120,7 @@ header.header-hidden {
 .art-wrap {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 100px 20px 100px;
+  padding: 80px 20px 100px;
 }
 
 /* ===============================
@@ -240,7 +240,7 @@ header.header-hidden {
 /* 공통 박스 스타일 */
 .above-slider-link {
   text-align: center;
-  margin: 70px auto 0px;
+  margin: 70px auto 40px;
   display: flex;
   flex-direction: column;
   gap: 4px;
