@@ -418,7 +418,7 @@ body.popup-open .list-toggle {
 @media (max-width: 768px) {
 
   .hero-strip {
-    padding-top: 48px; /* 또는 40px */
+    padding-top: 0px; /* 또는 40px */
   }
   
   .popup {
