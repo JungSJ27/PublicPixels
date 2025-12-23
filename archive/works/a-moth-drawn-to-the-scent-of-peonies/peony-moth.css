@@ -232,29 +232,34 @@ header,
 }
 
 /* ===============================
-   MOBILE – USE PAGE SCROLL
+   MOBILE – USE PAGE SCROLL (iOS SAFE)
 ================================ */
 
 @media (max-width: 900px) {
   .split-wrap {
     flex-direction: column;
     height: auto;
+    overflow: visible; /* iOS Safari video 렌더 안정화 */
   }
 
-  /* 🔹 영상 영역: 높이를 확실히 확보 */
+  /* 🔹 VIDEO STAGE (height 확정) */
   .split-video {
+    position: relative;
     width: 100%;
-    min-height: 60vh;   /* ⭐ 핵심: iOS에서 영상 안 보이는 문제 해결 */
+    height: 60vh;          /* ✅ min-height ❌, height ✅ */
     background: #fff;
+    overflow: visible;
   }
 
   .split-video video {
+    position: absolute;   /* iOS Safari 필수 */
+    inset: 0;
     width: 100%;
-    height: 100%;       /* 부모 높이를 채우게 */
+    height: 100%;
     object-fit: contain;
   }
 
-  /* TEXT */
+  /* 🔹 TEXT */
   .split-text {
     align-items: flex-start;
   }
