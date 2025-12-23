@@ -1,0 +1,115 @@
+/* =========================
+   RESET
+========================= */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* =========================
+   GOLD DIAMOND BACKGROUND
+========================= */
+body {
+  background-color: #b08a45;
+
+  background-image:
+    linear-gradient(90deg, rgba(255,255,255,0.28) 25%, transparent 25%),
+    linear-gradient(45deg, rgba(255,255,255,0.28) 25%, transparent 25%),
+    linear-gradient(-45deg, transparent 75%, rgba(255,255,255,0.28) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(255,255,255,0.28) 75%);
+
+  background-size: 140px 140px;
+  background-position:
+    0 0,
+    0 70px,
+    70px -70px,
+    -70px 0;
+}
+
+
+
+/* =========================
+   STAGE
+========================= */
+.stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* =========================
+   IMAGES
+========================= */
+.img {
+  position: absolute;
+  object-fit: cover;
+  background: #fff;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+}
+
+/* center image */
+.center {
+  width: 46vw;
+  max-width: 820px;
+  aspect-ratio: 4 / 3;
+
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+/* top-left image */
+.top-left {
+  width: 20vw;
+  max-width: 340px;
+  aspect-ratio: 4 / 3;
+
+  top: 12%;
+  left: 8%;
+  z-index: 1;
+}
+
+/* bottom-right image */
+.bottom-right {
+  width: 22vw;
+  max-width: 380px;
+  aspect-ratio: 4 / 3;
+
+  bottom: 12%;
+  right: 8%;
+  z-index: 1;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 900px) {
+  .center {
+    width: 80vw;
+  }
+
+  .top-left,
+  .bottom-right {
+    width: 42vw;
+  }
+
+  .top-left {
+    top: 6%;
+    left: 5%;
+  }
+
+  .bottom-right {
+    bottom: 6%;
+    right: 5%;
+  }
+}
