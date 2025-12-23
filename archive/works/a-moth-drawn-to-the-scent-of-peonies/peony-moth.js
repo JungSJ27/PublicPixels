@@ -8,8 +8,6 @@ window.addEventListener("DOMContentLoaded", () => {
     initHeaderScroll();
   });
 
-  initVideoFade();
-  initImageSlider();
 });
 
 /* =======================================================
