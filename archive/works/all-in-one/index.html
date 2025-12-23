@@ -7,12 +7,19 @@
   <title>All in One | Archive</title>
 
   <!-- Global CSS -->
-  <link rel="stylesheet" href="/front/styles.css">
   <link rel="stylesheet" href="/front/header.css">
+
+ <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
 
   <!-- Page CSS -->
   <link rel="stylesheet" href="all-in-one.css">
 
+  <!-- model-viewer (한 번만) -->
+  <script
+    type="module"
+    src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
+  </script>
 
   <!-- Header Loader -->
   <script src="/front/headerLoader.js" defer></script>
@@ -38,57 +45,41 @@
     </svg>
   </div>
 
+    <!-- HERO PIXELSHOP STRIP -->
+    <section class="hero-strip scroll-shop">
+      <ul id="hero-track" class="s3-track"></ul>
+    </section>
+
+  <!-- MAIN ART WRAP -->
   <main class="art-wrap">
 
-    <!-- TOP IMAGE SLIDER -->
-    <section class="top-slider">
-      <div class="slider-track">
-
-        <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/driving-force/My%20driving%20force.jpg" class="slide active">
-        <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/driving-force/My%20driving%20force2.jpg" class="slide">
-        <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/driving-force/My%20driving%20force3.jpg" class="slide">
-        <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/driving-force/My%20driving%20force4.jpg" class="slide">
-
-      </div>
-
-      <!-- ARROWS -->
-      <button class="slider-arrow prev" aria-label="Previous">‹</button>
-      <button class="slider-arrow next" aria-label="Next">›</button>
-    </section>
-
-    <!-- TITLE + META -->
+    <!-- Title + Basic Info -->
     <section class="art-head">
-      <div class="content-inner">
       <h1 class="art-title">All in One</h1>
-      <p class="art-meta medium">
+
+    <p class="art-meta medium">
         2021<br>
-        3D modeled and 3D printed sculpture<br>
-        15 × 8 × 9.5 cm
+        Mixed media (3D-printed PLA, electronics, motors, custom mechanical system)<br>
+        200 × 100 cm  
       </p>
-      </div>
     </section>
 
-    <!-- TEXT -->
+    <!-- Overview -->
     <section class="art-section">
-      <div class="content-inner">
       <p>
-        The awareness of death functions as a catalyst rather than an end.
-         Fear of mortality becomes a driving force, shaping the way life is lived. 
-         Rooted in the coexistence of Eros and Thanatos within human instinct, 
-         this work reflects a tension between opposing impulses that ultimately propels one forward.
-        <br><br>
-         As a moth is drawn toward fire, the monument-like 3D printed sculpture embodies the resolve to live fully in each moment. It represents an attitude of moving forward with intention, embracing the present so that life may be lived without regret.
-      </p>
-
+      <i>Butterfly Trap</i> is an installation that explores the tension 
+      between confinement and freedom through a motor-driven butterfly 
+      enclosed in a transparent structure and its digital counterparts displayed on screens.
+       By juxtaposing physical motion with mediated imagery, the work examines the fragile boundary 
+       between reality and simulation, and questions how freedom is constructed within technological systems.
+      </p><br>
       <p class="text kor">
-        죽음에 대한 인식은 끝이 아니라 하나의 촉매로 작용한다. 
-        죽음에 대한 두려움은 삶을 이끄는 원동력이 되며, 
-        우리가 삶을 살아가는 방식에 영향을 미친다. 
-        인간의 본능 속에서 에로스와 타나토스가 공존하듯, 이 작업은 서로 상반된 충동 사이의 긴장을 담아내며, 결국 인간을 앞으로 나아가게 하는 힘을 드러낸다.
-        <br><br>
-        불나방이 불꽃을 향해 이끌리듯, 이 기념비적인 형태의 3D 프린트 조각은 매 순간을 온전히 살아가려는 태도를 상징한다. 이는 현재에 충실하며 의지를 가지고 앞으로 나아가고자 하는 자세를 담아내며, 후회 없는 삶을 향한 결단을 표현한다.
+      <i>Butterfly Trap</i>은 투명한 박스 안에서 모터로 구동되는 나비와 디지털 스크린을 통해, 
+      갇힌 존재와 자유롭게 비행하는 이미지 사이의 대비를 드러내는 설치 작품이다. 
+      물리적 구조 안에서 반복적으로 움직이는 나비는 보호와 통제라는 이중적 의미를 동시에 지니며, 
+      스크린 속 이미지와 병치되면서 현실과 디지털, 생명과 이미지의 경계를 모호하게 만든다. 
+      이 작업은 우리가 기술을 통해 만들어낸 환경 속에서 자유가 어떻게 규정되고 제한되는지를 질문하며, 감시와 유혹, 탈출 욕망이 교차하는 공간을 형성한다.
       </p>
-      </div>
     </section>
 
     <!-- Exhibition Links -->
@@ -101,6 +92,33 @@
         Explore Exhibition
       </a>
     </div>
+
+    <!-- Stills -->
+    <section class="art-section">
+      <div class="stills-slider">
+        <div class="still-frame"></div>
+
+        <div class="slider-controls">
+          <span class="slider-btn left">‹</span>
+          <span class="page-indicator">1 / 5</span>
+          <span class="slider-btn right">›</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- FULLSCREEN POPUP -->
+    <div id="popup" class="popup">
+      <img id="popup-img" src="">
+
+      <div class="popup-nav">
+        <span class="popup-arrow left">‹</span>
+        <span class="popup-arrow right">›</span>
+      </div>
+
+      <button class="popup-close">×</button>
+    </div>
+
+
 
   </main>
 
