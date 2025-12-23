@@ -123,11 +123,11 @@ header.header-hidden {
   padding: 80px 20px 100px;
 }
 
-/* ===============================
-   HERO STRIP (FINAL, DRAWING SAFE)
-=============================== */
+/* ===============================================
+   HERO STRIP  FINAL STABLE VERSION
+=============================================== */
 
-/* HERO STRIP — full bleed */
+/* HERO STRIP full bleed */
 .hero-strip {
   width: 100vw;
   margin-left: calc(50% - 50vw);
@@ -139,18 +139,21 @@ header.header-hidden {
 
 /* HERO horizontal track */
 .hero-strip .s3-track {
-  display: flex;
-  gap: 8px;
+  list-style: none;          /* ul 기본 제거 */
   padding: 0;
   margin: 0;
+
+  display: flex;
+  gap: 8px;
   overflow-x: auto;
   overflow-y: hidden;
 
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
+  align-items: stretch;      /* Safari 정렬 버그 방지 */
 }
 
-/* 스크롤바 숨기기 */
+/* scrollbar 숨김 */
 .hero-strip .s3-track::-webkit-scrollbar {
   display: none;
 }
@@ -158,24 +161,26 @@ header.header-hidden {
   scrollbar-width: none;
 }
 
-/* ⭐ 핵심: aspect-ratio 제거, height 기준 */
+/* HERO ITEM */
 .hero-strip .s3-item {
+  display: flex;             /* li list-item 제거 */
   flex: 0 0 auto;
+  align-items: stretch;
+
   width: clamp(200px, 32vw, 420px);
-  height: 70vh;               /* 박스 높이 기준 */
-  max-height: 70vh;
+  height: 70vh;
+
   background: #f2f2f2;
   overflow: hidden;
-
   scroll-snap-align: center;
 }
 
-/* 이미지 / 비디오 */
+/* IMAGE VIDEO */
 .hero-strip .s3-item img,
 .hero-strip .s3-item video {
   width: 100%;
   height: 100%;
-  object-fit: cover;          /* 항상 꽉 차게 */
+  object-fit: cover;
   display: block;
 }
 
