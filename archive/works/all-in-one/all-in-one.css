@@ -509,22 +509,5 @@ body.popup-open .list-toggle {
 }
 
 
-/* ===============================
-   HERO STRIP FINAL TUNING
-=============================== */
 
 
-/* drawing-friendly */
-.hero-strip .s3-item img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;   /* ⭐ 꽉 차게 */
-  display: block;
-}
-
-
-/* optional: stronger hero presence */
-.hero-strip .s3-item {
-  aspect-ratio: 2 / 3;
-  max-height: 70vh;
-}
