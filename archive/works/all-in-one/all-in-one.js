@@ -82,11 +82,10 @@ const heroTrack = document.getElementById("hero-track");
 if (heroTrack) {
   const HERO_ITEMS = [
     "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/all-in-one/sea.jpg",
+    "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/all-in-one/fish.jpg",
     "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/all-in-one/bubble.jpg",
     "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/all-in-one/seaflower.jpg",
-    "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/all-in-one/coral.jpg",
-    "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/all-in-one/plan.jpg",
-    "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/all-in-one/fish.jpg"
+    "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/all-in-one/coral.jpg"
   ];
 
   // strip 생성
