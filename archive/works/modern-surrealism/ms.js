@@ -152,7 +152,7 @@ function initButterflySwarm() {
      🎛️ CONTROLS (여기만 만지면 됨)
   =============================== */
 
-  const COUNT = 6;
+  const COUNT = 10;
   const MODEL_SRC = "./BT1.glb";
 
   // 속도 (너 값 0.05는 너무 느려서 방향 느낌이 거의 안 보임)
@@ -162,7 +162,7 @@ function initButterflySwarm() {
   const SIZE_MAX = 150;
 
   // 🔴 빨간색 (RGBA)
-  const RED_COLOR = [0.3, 0.3, 0.3, 0.3];
+  const RED_COLOR = [0.4, 0.4, 0.4, 0.4];
 
   // ✅ 너가 원하는 “앞뒤/상하/좌우 회전” 컨트롤
   const ROT = {
