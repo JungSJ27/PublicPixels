@@ -124,7 +124,7 @@ header.header-hidden {
 }
 
 /* ===============================
-   HERO STRIP (Pixelshop style)
+   HERO STRIP (FINAL, DRAWING SAFE)
 =============================== */
 
 /* HERO STRIP — full bleed */
@@ -132,25 +132,23 @@ header.header-hidden {
   width: 100vw;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
-  overflow-x: visible;   /* ⭐ 핵심 */
+  overflow-x: visible;
   overflow-y: hidden;
   padding-top: clamp(72px, 10vh, 96px);
 }
-
 
 /* HERO horizontal track */
 .hero-strip .s3-track {
   display: flex;
   gap: 8px;
-  padding: 0;              /* ⭐ 핵심 */
+  padding: 0;
   margin: 0;
   overflow-x: auto;
   overflow-y: hidden;
 
-  scroll-snap-type: x proximity;
+  scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
 }
-
 
 /* 스크롤바 숨기기 */
 .hero-strip .s3-track::-webkit-scrollbar {
@@ -160,24 +158,26 @@ header.header-hidden {
   scrollbar-width: none;
 }
 
+/* ⭐ 핵심: aspect-ratio 제거, height 기준 */
 .hero-strip .s3-item {
   flex: 0 0 auto;
-  width: clamp(180px, 26vw, 360px);
-  aspect-ratio: 3 / 4;
+  width: clamp(200px, 32vw, 420px);
+  height: 70vh;               /* 박스 높이 기준 */
+  max-height: 70vh;
   background: #f2f2f2;
   overflow: hidden;
 
   scroll-snap-align: center;
 }
 
+/* 이미지 / 비디오 */
 .hero-strip .s3-item img,
 .hero-strip .s3-item video {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: cover;          /* 항상 꽉 차게 */
   display: block;
 }
-
 
 
 /* ===============================================
