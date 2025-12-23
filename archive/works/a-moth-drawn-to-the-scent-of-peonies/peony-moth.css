@@ -90,43 +90,69 @@ header,
   pointer-events: none;
 }
 
-/* ===============================================
-   SPLIT LAYOUT (CORE)
-=============================================== */
+/* ===============================
+   SPLIT LAYOUT
+================================ */
 
 .split-wrap {
   display: flex;
-  width: 100%;
-  min-height: 100svh;   /* iOS safe viewport */
+  width: 100vw;
+  min-height: 100svh;   /* ⭐ iOS safe viewport */
   overflow: hidden;
 }
 
-/* ===============================================
-   LEFT : VIDEO / IMAGE
-=============================================== */
-
+/* LEFT : VIDEO / IMAGE */
 .split-video {
   flex: 1;
-  background: #fff;
   position: relative;
+  background: #fff;
 
+  /* ⭐ 세로 공간 강제 확보 */
   display: flex;
   align-items: center;
   justify-content: center;
-
-  min-height: 60vh;   /* 레이아웃 붕괴 방지 */
 }
 
-/* 핵심: video는 레이아웃 요소로 둔다 */
+/* ===============================
+   VIDEO
+================================ */
+
 .split-video video {
   display: block;
 
   width: 100%;
-  height: auto;
-  max-height: 100%;
+  height: 100%;
+
+  object-fit: contain;   /* artwork 기준 */
+}
+
+/* ===============================
+   FALLBACK IMAGE
+================================ */
+
+.split-video .video-fallback {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
 
   object-fit: contain;
+  display: none;
 }
+
+/* ===============================
+   WHEN VIDEO FAILS
+================================ */
+
+.split-video.video-failed video {
+  display: none;
+}
+
+.split-video.video-failed .video-fallback {
+  display: block;
+}
+
 
 
 /* ===============================
@@ -245,4 +271,38 @@ header,
   stroke-linecap: round;
   stroke-linejoin: round;
   flex-shrink: 0;
+}
+@media (max-width: 900px) {
+  .split-wrap {
+    flex-direction: column;
+    min-height: auto;
+    overflow: visible;
+  }
+
+  .split-video {
+    width: 100%;
+    min-height: 60svh;   /* ⭐ vh 대신 svh */
+  }
+
+  /* TEXT */
+  .split-text {
+    align-items: flex-start;
+  }
+
+  .text-inner {
+    width: 100%;
+    max-width: none;
+    height: auto;
+    max-height: none;
+    overflow: visible;
+    margin: 32px 0 45px;
+    padding: 0 20px;
+  }
+
+  .above-slider-link {
+    margin: 76px 0 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 }
