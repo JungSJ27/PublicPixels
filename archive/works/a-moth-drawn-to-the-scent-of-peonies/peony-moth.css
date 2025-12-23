@@ -242,21 +242,19 @@ header,
     overflow: visible; /* iOS Safari video 렌더 안정화 */
   }
 
-  /* 🔹 VIDEO STAGE (height 확정) */
   .split-video {
     position: relative;
     width: 100%;
-    height: 60vh;          /* ✅ min-height ❌, height ✅ */
+    height: 100svh;   /* 🔥 모바일 실제 화면 기준 */
     background: #fff;
-    overflow: visible;
   }
 
   .split-video video {
-    position: absolute;   /* iOS Safari 필수 */
+    position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
   }
 
   /* 🔹 TEXT */
