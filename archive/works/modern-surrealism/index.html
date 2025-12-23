@@ -13,6 +13,11 @@
   <!-- Page CSS -->
   <link rel="stylesheet" href="ms.css">
 
+    <!-- Ambient Moths -->
+  <link rel="stylesheet" href="/highlight/ambient-moths.css">
+  <script src="/highlight/ambient-moths.js" defer></script>
+
+
   <!-- Header Loader -->
   <script src="/front/headerLoader.js" defer></script>
 
@@ -20,11 +25,13 @@
   <script type="module" src="ms.js"></script>
 </head>
 
-
 <body data-page="log">
 
   <!-- HEADER INCLUDE -->
   <div data-include="header"></div>
+  
+    <!-- ⭐ AMBIENT MOTHS (필수) -->
+  <canvas id="ambient-moths"></canvas>
 
   <!-- LIST BUTTON -->
   <div class="list-toggle" onclick="location.href='/archive/'">
@@ -39,18 +46,35 @@
 
   <main class="single-art">
 
-  <!-- IMAGE WRAP (TRIGGER ONLY) -->
-  <div class="image-stage" id="openModal">
+    <!-- IMAGE STAGE -->
+    <div class="image-stage" id="openModal">
 
-    <img
-      src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/ms/ms3.jpeg"
-      alt="Condensed"
-      class="main-image"
-    />
+      <!-- LEFT TOP FLOAT (DESKTOP ONLY) -->
+      <img
+        src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/ms/ms1.jpeg"
+        alt=""
+        class="float-image float-tl"
+        aria-hidden="true"
+      />
 
-  </div>
+      <!-- MAIN IMAGE -->
+      <img
+        src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/ms/ms3.jpeg"
+        alt="Modern Surrealism"
+        class="main-image"
+      />
 
-</main>
+      <!-- RIGHT BOTTOM FLOAT (DESKTOP ONLY) -->
+      <img
+        src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/ms/ms2.jpeg"
+        alt=""
+        class="float-image float-br"
+        aria-hidden="true"
+      />
+
+    </div>
+
+  </main>
 
   <!-- FULLSCREEN INFO MODAL -->
   <div id="fullscreenModal" class="fullscreen-modal">
@@ -65,7 +89,7 @@
         <p class="meta">
           Tufted textile sculpture<br>
           2016<br>
-          40 × 60 cm 
+          40 × 60 cm
         </p>
 
         <p class="desc">
@@ -82,8 +106,7 @@
 
     </div>
   </div>
-  </main>
-</body>
 
-<script defer src="/front/favicons.js"></script>
+  <script defer src="/front/favicons.js"></script>
+</body>
 </html>

@@ -10,16 +10,17 @@ body[data-page="log"] .art-main::before {
 /* ===============================================
    GLOBAL PAGE BODY
 =============================================== */
+
 body {
   margin: 0;
-  font-family: 'Poppins', sans-serif;  /* styles.css 기준 */
+  font-family: 'Poppins', sans-serif;
   background: #fff;
   color: #111;
 }
 
-/* ===============================
-   HEADER (전시 페이지 모드)
-   =============================== */
+/* ===============================================
+   HEADER (EXHIBITION MODE)
+=============================================== */
 
 body[data-page="log"] header {
   position: fixed !important;
@@ -27,7 +28,6 @@ body[data-page="log"] header {
   left: 0;
   width: 100%;
   background: transparent !important;
-  color: rgb(241, 238, 255) !important;
   box-shadow: none !important;
   backdrop-filter: none !important;
   padding-top: 10px !important;
@@ -40,13 +40,13 @@ body[data-page="log"] header .logo-korean {
   color: rgba(234, 234, 236, 0.95) !important;
 }
 
-/* 검색, 카트 아이콘 숨기기 */
+/* hide icons */
 body[data-page="log"] header .search-icon,
 body[data-page="log"] header .shop-toggle {
   display: none !important;
 }
 
-/* 스크롤에 따라 숨길 때 쓸 클래스 */
+/* scroll hide */
 header,
 .pp-header {
   transition: opacity 0.35s ease;
@@ -57,9 +57,9 @@ header,
   pointer-events: none;
 }
 
-/* ===============================
-   LIST TOGGLE (목록으로 돌아가기)
-   =============================== */
+/* ===============================================
+   LIST TOGGLE
+=============================================== */
 
 .list-toggle {
   position: fixed;
@@ -69,7 +69,7 @@ header,
   height: 28px;
   z-index: 3500;
   cursor: pointer;
-  color:  rgba(234, 234, 236, 0.95);
+  color: rgba(234, 234, 236, 0.95);
   opacity: 0.9;
   transition: opacity 0.25s ease, transform 0.25s ease;
 }
@@ -79,19 +79,77 @@ header,
   transform: translateY(-1px);
 }
 
+.list-toggle.header-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
 .ic-list {
   width: 24px;
   height: 24px;
 }
 
-/* 헤더 숨길 때 같이 사라지도록 */
-.list-toggle.header-hidden {
-  opacity: 0;
+/* ===============================================
+   SINGLE IMAGE LAYOUT
+=============================================== */
+
+.single-art {
+  min-height: 100vh;
+  padding-top: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-stage {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* main image */
+.main-image {
+  width: 88vw;                 /* 🔥 꽉 차지 않게 */
+  max-width: 800px;
+  max-height: calc(100vh - 140px);
+  height: auto;
+  object-fit: contain;
+  display: block;
+  cursor: pointer;
+  z-index: 1;
+}
+
+/* ===============================================
+   FLOAT IMAGES (DESKTOP ONLY)
+=============================================== */
+
+.float-image {
+  position: absolute;
+  width: 220px;
+  height: auto;
+  z-index: 2;
   pointer-events: none;
 }
+
+.float-tl {
+  top: -0px;
+  left: 0vw;
+}
+
+.float-br {
+  bottom: -0px;
+  right: 0vw;
+}
+
 /* ===============================================
-   FULLSCREEN MODAL (BASE)
+   FULLSCREEN MODAL
 =============================================== */
+
+:root {
+  --modal-header-offset: 96px;
+}
 
 .fullscreen-modal {
   position: fixed;
@@ -113,19 +171,9 @@ header,
   background: rgba(0, 0, 0, 0.6);
 }
 
-/* ===============================================
-   FULLSCREEN MODAL CONTENT
-   (Reference-style typography + centered)
-=============================================== */
-
-:root {
-  --modal-header-offset: 96px;
-}
-
 .fullscreen-content {
   position: relative;
   z-index: 2;
-
   max-width: 720px;
   margin: 0 auto;
 
@@ -153,35 +201,28 @@ header,
   margin-bottom: 0;
 }
 
-/* title */
 .modal-lang h1 {
   font-size: 18px;
   font-weight: 600;
-  letter-spacing: 0.2px;
   margin: 0 0 12px;
 }
 
-/* meta + divider bar */
 .modal-lang .meta {
   font-size: 11px;
   line-height: 1.55;
   color: rgba(255, 255, 255, 0.72);
-
   margin-bottom: 40px;
   padding-bottom: 8px;
-
-  border-bottom: 1px solid rgba(255, 255, 255, 0.22); /* 🔥 media bar */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.22);
 }
 
-/* description */
 .modal-lang .desc {
   font-size: 13px;
   line-height: 1.65;
   opacity: 0.95;
-  margin: 0px;
+  margin: 0;
 }
 
-/* Korean tone */
 .modal-lang.kr {
   opacity: 0.85;
 }
@@ -193,128 +234,71 @@ header,
 }
 
 /* ===============================================
-   SINGLE IMAGE LAYOUT
-=============================================== */
-
-.single-art {
-  min-height: 100vh;
-  padding-top: 90px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.image-stage {
-  max-width: 90vw;
-  max-height: calc(100vh - 120px);
-}
-
-.main-image {
-  width: auto;
-  height: auto;
-  max-width: 100%;
-  max-height: calc(100vh - 120px);
-  object-fit: contain;
-  display: block;
-  cursor: pointer;
-}
-
-/* ===============================================
-   MOBILE TWEAK
+   MOBILE
 =============================================== */
 
 @media (max-width: 768px) {
+
   :root {
     --modal-header-offset: 80px;
   }
 
+  body {
+    overflow: hidden;
+  }
+
+  /* hide floats */
+  .float-image {
+    display: none;
+  }
+
+  .single-art {
+    height: 100dvh;
+    padding-top: 40px;
+    align-items: flex-start;
+  }
+
+  .image-stage {
+    height: calc(100dvh - 62px);
+    padding-top: 6vh;
+  }
+
+  .main-image {
+    width: 92vw;
+    max-height: 78vh;
+  }
+
   .fullscreen-content {
     justify-content: flex-start;
-
-    height: 100dvh;              /* 핵심 */
-    min-height: 0;               /* min-height 영향 제거 */
-    box-sizing: border-box;
-
-    padding-top: var(--modal-header-offset);
+    height: 100dvh;
+    min-height: 0;
     padding-left: 40px;
     padding-right: 40px;
-
-    padding-bottom: calc(120px + env(safe-area-inset-bottom)); /* 하단 여백 */
-    overflow-y: auto;            /* 핵심 */
+    padding-bottom: calc(120px + env(safe-area-inset-bottom));
+    overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    touch-action: pan-y;
   }
 
   .modal-lang {
     margin-bottom: 48px;
   }
-}
-
-@media (max-width: 768px) {
-  /* 페이지 자체 스크롤 제거 */
-  body {
-    overflow: hidden;
-  }
-
-  .single-art {
-    height: 100dvh;
-    padding-top: 72px; /* 모바일 헤더 높이 */
-    padding-bottom: 0;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .image-stage {
-    width: 100%;
-    height: calc(100dvh - 72px);
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .main-image {
-    max-width: 92vw;
-    max-height: 82vh;
-    object-fit: contain;
-  }
-}
-
-@media (max-width: 768px) {
-  body {
-    overflow: hidden;
-  }
-
-  .single-art {
-    height: 100dvh;
-    padding-top: 62px; /* 헤더 */
-    padding-bottom: 0;
-
-    display: flex;
-    justify-content: center;
-    align-items: flex-start; /* 🔥 중앙 → 위 */
-  }
 
   .modal-lang.en {
-    margin-bottom: 28px; /* ← 여기 숫자 조절 */
+    margin-bottom: 28px;
   }
-  
-  .image-stage {
-    width: 100%;
-    height: calc(100dvh - 72px);
+}
 
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-
-    padding-top: 6vh; /* 🔥 이 값으로 위치 미세조정 */
+@media (max-width: 1200px) {
+  .float-image {
+    display: none;
   }
+}
 
-  .main-image {
-    max-width: 92vw;
-    max-height: 78vh; /* 살짝 줄여서 여백 확보 */
-    object-fit: contain;
-  }
+#ambient-moths {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 6; /* header보다 낮고 콘텐츠보단 위 */
 }

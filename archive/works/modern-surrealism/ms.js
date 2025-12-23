@@ -2,136 +2,158 @@
    PAGE INIT
 ======================================================= */
 
-window.addEventListener("DOMContentLoaded", () => {
-  // headerLoader가 header를 DOM에 넣은 다음 프레임에 실행
-  requestAnimationFrame(() => {
-    initHeaderScroll();
-  });
-
-  initVideoFade();
-  initImageSlider();
+document.addEventListener("DOMContentLoaded", () => {
+  initHeaderScroll();
+  initInfoModal();
 });
 
 /* =======================================================
-   HEADER SHOW / HIDE  (scroll up = show, scroll down = hide)
+   HEADER SHOW / HIDE
+   scroll down → hide
+   scroll up   → show
 ======================================================= */
 
-window.addEventListener("load", () => {
-  // headerLoader로 include된 헤더 잡기
+function initHeaderScroll() {
+  // headerLoader로 삽입된 헤더 대응
   const header =
     document.querySelector("header.pp-header") ||
     document.querySelector(".pp-header") ||
     document.querySelector("header");
+
   const listToggle = document.querySelector(".list-toggle");
 
   if (!header) return;
 
-  function applyHidden(isHidden) {
-    if (isHidden) {
-      header.classList.add("header-hidden");
-      if (listToggle) listToggle.classList.add("header-hidden");
-    } else {
-      header.classList.remove("header-hidden");
-      if (listToggle) listToggle.classList.remove("header-hidden");
+  let lastY = window.scrollY;
+
+  function applyHidden(hidden) {
+    header.classList.toggle("header-hidden", hidden);
+    if (listToggle) {
+      listToggle.classList.toggle("header-hidden", hidden);
     }
   }
 
-  let lastY = window.scrollY;
-
-  // 첫 로딩 시 상태
-  if (window.scrollY > 10) applyHidden(true);
-  else applyHidden(false);
+  // 초기 상태
+  applyHidden(window.scrollY > 10);
 
   window.addEventListener("scroll", () => {
     const y = window.scrollY;
 
-    // 맨 위 근처면 항상 보이게
+    // 맨 위 근처면 항상 보이기
     if (y < 10) {
       applyHidden(false);
       lastY = y;
       return;
     }
 
-    // 스크롤 방향에 따라 토글
-    if (y < lastY - 2) {
-      // 위로 스크롤 = 보이기
-      applyHidden(false);
-    } else if (y > lastY + 2) {
-      // 아래로 스크롤 = 숨기기
-      applyHidden(true);
+    // 방향 판별
+    if (y > lastY + 2) {
+      applyHidden(true);   // 아래 → 숨김
+    } else if (y < lastY - 2) {
+      applyHidden(false);  // 위 → 표시
     }
 
     lastY = y;
   });
-});
+}
 
-/* ===============================================
-   CONDENSED PAGE – INFO MODAL
+/* =======================================================
+   INFO MODAL
    Desktop: hover
-   Mobile: tap toggle (scroll safe)
-=============================================== */
-document.addEventListener("DOMContentLoaded", () => {
+   Mobile: tap toggle (scroll-safe)
+======================================================= */
+
+function initInfoModal() {
   const imageStage = document.querySelector(".image-stage");
   const modal = document.getElementById("fullscreenModal");
+
   if (!imageStage || !modal) return;
 
-  const isTouch = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+  const isTouch =
+    window.matchMedia("(hover: none) and (pointer: coarse)").matches;
 
   let isOpen = false;
 
   function setModal(open) {
     isOpen = open;
-    modal.classList.toggle("show", isOpen);
-    modal.setAttribute("aria-hidden", String(!isOpen));
+    modal.classList.toggle("show", open);
+    modal.setAttribute("aria-hidden", String(!open));
   }
 
-  /* DESKTOP – HOVER 유지 */
+  /* ===============================
+     DESKTOP – HOVER
+  =============================== */
+
   if (!isTouch) {
     imageStage.addEventListener("mouseenter", () => setModal(true));
     imageStage.addEventListener("mouseleave", () => setModal(false));
     return;
   }
 
-  /* MOBILE – TAP OPEN and TAP CLOSE, SCROLL SAFE */
-  let sx = 0, sy = 0, moved = false;
+  /* ===============================
+     MOBILE – TAP TOGGLE
+     (scroll-safe)
+  =============================== */
 
-  document.addEventListener("touchstart", (e) => {
-    const t = e.touches && e.touches[0];
-    if (!t) return;
-    sx = t.clientX;
-    sy = t.clientY;
-    moved = false;
-  }, { passive: true });
+  let startX = 0;
+  let startY = 0;
+  let moved = false;
 
-  document.addEventListener("touchmove", (e) => {
-    const t = e.touches && e.touches[0];
-    if (!t) return;
-    const dx = Math.abs(t.clientX - sx);
-    const dy = Math.abs(t.clientY - sy);
-    if (dx > 8 || dy > 8) moved = true;
-  }, { passive: true });
+  document.addEventListener(
+    "touchstart",
+    (e) => {
+      const t = e.touches && e.touches[0];
+      if (!t) return;
 
-  document.addEventListener("touchend", (e) => {
-    if (moved) return;
+      startX = t.clientX;
+      startY = t.clientY;
+      moved = false;
+    },
+    { passive: true }
+  );
 
-    const target = e.target;
+  document.addEventListener(
+    "touchmove",
+    (e) => {
+      const t = e.touches && e.touches[0];
+      if (!t) return;
 
-    /* 헤더나 리스트 버튼은 항상 클릭 가능 */
-    if (target.closest("header") || target.closest(".list-toggle")) return;
+      const dx = Math.abs(t.clientX - startX);
+      const dy = Math.abs(t.clientY - startY);
 
-    /* 모달이 닫혀있을 때는 사진 터치만 열기 */
-    if (!isOpen) {
-      if (target.closest(".image-stage")) setModal(true);
-      return;
-    }
+      if (dx > 8 || dy > 8) moved = true;
+    },
+    { passive: true }
+  );
 
-    /* 모달이 열려있을 때는 탭이면 닫기
-       링크는 예외로 두고 싶으면 아래 한 줄 유지
-    */
-    if (target.closest("a")) return;
+  document.addEventListener(
+    "touchend",
+    (e) => {
+      if (moved) return;
 
-    setModal(false);
-  }, { passive: true });
-});
+      const target = e.target;
 
+      // 헤더 & 리스트 버튼은 항상 클릭 허용
+      if (
+        target.closest("header") ||
+        target.closest(".list-toggle")
+      ) {
+        return;
+      }
 
+      // 닫혀있을 때: 이미지 터치만 열기
+      if (!isOpen) {
+        if (target.closest(".image-stage")) {
+          setModal(true);
+        }
+        return;
+      }
+
+      // 열려있을 때: 링크는 예외
+      if (target.closest("a")) return;
+
+      setModal(false);
+    },
+    { passive: true }
+  );
+}
