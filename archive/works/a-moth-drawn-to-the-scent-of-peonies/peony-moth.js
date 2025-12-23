@@ -78,3 +78,15 @@ document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener("touchstart", tryPlay, { once: true });
   document.addEventListener("click", tryPlay, { once: true });
 });
+
+
+const mount = document.getElementById("videoMount");
+
+const video = document.createElement("video");
+video.src = "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/peony-smelling%20moth/peony-smelling%20moth.mp4";
+video.muted = true;
+video.autoplay = true;
+video.loop = true;
+video.playsInline = true;
+
+mount.appendChild(video);
