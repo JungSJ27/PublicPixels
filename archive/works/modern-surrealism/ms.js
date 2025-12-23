@@ -65,6 +65,77 @@ window.addEventListener("load", () => {
   });
 });
 
+
+/* ===============================================
+   CONDENSED PAGE – INFO MODAL
+   Desktop: hover
+   Mobile: tap toggle (scroll safe)
+=============================================== */
+document.addEventListener("DOMContentLoaded", () => {
+  const imageStage = document.querySelector(".image-stage");
+  const modal = document.getElementById("fullscreenModal");
+  if (!imageStage || !modal) return;
+
+  const isTouch = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+
+  let isOpen = false;
+
+  function setModal(open) {
+    isOpen = open;
+    modal.classList.toggle("show", isOpen);
+    modal.setAttribute("aria-hidden", String(!isOpen));
+  }
+
+  /* DESKTOP – HOVER 유지 */
+  if (!isTouch) {
+    imageStage.addEventListener("mouseenter", () => setModal(true));
+    imageStage.addEventListener("mouseleave", () => setModal(false));
+    return;
+  }
+
+  /* MOBILE – TAP OPEN and TAP CLOSE, SCROLL SAFE */
+  let sx = 0, sy = 0, moved = false;
+
+  document.addEventListener("touchstart", (e) => {
+    const t = e.touches && e.touches[0];
+    if (!t) return;
+    sx = t.clientX;
+    sy = t.clientY;
+    moved = false;
+  }, { passive: true });
+
+  document.addEventListener("touchmove", (e) => {
+    const t = e.touches && e.touches[0];
+    if (!t) return;
+    const dx = Math.abs(t.clientX - sx);
+    const dy = Math.abs(t.clientY - sy);
+    if (dx > 8 || dy > 8) moved = true;
+  }, { passive: true });
+
+  document.addEventListener("touchend", (e) => {
+    if (moved) return;
+
+    const target = e.target;
+
+    /* 헤더나 리스트 버튼은 항상 클릭 가능 */
+    if (target.closest("header") || target.closest(".list-toggle")) return;
+
+    /* 모달이 닫혀있을 때는 사진 터치만 열기 */
+    if (!isOpen) {
+      if (target.closest(".image-stage")) setModal(true);
+      return;
+    }
+
+    /* 모달이 열려있을 때는 탭이면 닫기
+       링크는 예외로 두고 싶으면 아래 한 줄 유지
+    */
+    if (target.closest("a")) return;
+
+    setModal(false);
+  }, { passive: true });
+});
+
+
 /* =======================================================
    BUTTERFLY SWARM (GLB) – CONTROLLABLE XYZ ROTATION
 ======================================================= */
@@ -87,8 +158,8 @@ function initButterflySwarm() {
   // 속도 (너 값 0.05는 너무 느려서 방향 느낌이 거의 안 보임)
   const SPEED = 0.2;
 
-  const SIZE_MIN = 60;
-  const SIZE_MAX = 100;
+  const SIZE_MIN = 80;
+  const SIZE_MAX = 150;
 
   // 🔴 빨간색 (RGBA)
   const RED_COLOR = [0.3, 0.3, 0.3, 0.3];

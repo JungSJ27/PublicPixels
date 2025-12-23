@@ -14,7 +14,7 @@ body[data-page="log"] .art-main::before {
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
-  background: #f2f2f2;
+  background: #846120;
   color: #111;
 }
 
@@ -89,6 +89,57 @@ header,
   height: 24px;
 }
 
+
+/* ===============================================
+   MODAL TYPOGRAPHY
+=============================================== */
+
+.modal-lang {
+  margin-bottom: 30px;
+}
+
+.modal-lang:last-child {
+  margin-bottom: 0;
+}
+
+/* title */
+.modal-lang h1 {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  margin: 0 0 12px;
+}
+
+/* meta + divider bar */
+.modal-lang .meta {
+  font-size: 11px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.72);
+
+  margin-bottom: 40px;
+  padding-bottom: 8px;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.22); /* 🔥 media bar */
+}
+
+/* description */
+.modal-lang .desc {
+  font-size: 13px;
+  line-height: 1.65;
+  opacity: 0.95;
+  margin: 0px;
+}
+
+/* Korean tone */
+.modal-lang.kr {
+  opacity: 0.85;
+}
+
+.modal-lang.kr .desc {
+  font-size: 12px;
+  line-height: 1.85;
+  letter-spacing: -0.01em;
+}
 /* ===============================================
    SINGLE IMAGE LAYOUT
 =============================================== */
@@ -294,6 +345,105 @@ header,
   }
 }
 
+/* ===============================================
+   MOBILE TWEAK
+=============================================== */
+
+@media (max-width: 768px) {
+  :root {
+    --modal-header-offset: 80px;
+  }
+
+  .fullscreen-content {
+    justify-content: flex-start;
+
+    height: 100dvh;              /* 핵심 */
+    min-height: 0;               /* min-height 영향 제거 */
+    box-sizing: border-box;
+
+    padding-top: var(--modal-header-offset);
+    padding-left: 40px;
+    padding-right: 40px;
+
+    padding-bottom: calc(120px + env(safe-area-inset-bottom)); /* 하단 여백 */
+    overflow-y: auto;            /* 핵심 */
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+  }
+
+  .modal-lang {
+    margin-bottom: 48px;
+  }
+}
+
+@media (max-width: 768px) {
+  /* 페이지 자체 스크롤 제거 */
+  body {
+    overflow: hidden;
+  }
+
+  .single-art {
+    height: 100dvh;
+    padding-top: 72px; /* 모바일 헤더 높이 */
+    padding-bottom: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .image-stage {
+    width: 100%;
+    height: calc(100dvh - 72px);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .main-image {
+    max-width: 92vw;
+    max-height: 82vh;
+    object-fit: contain;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    overflow: hidden;
+  }
+
+  .single-art {
+    height: 100dvh;
+    padding-top: 62px; /* 헤더 */
+    padding-bottom: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* 🔥 중앙 → 위 */
+  }
+
+  .modal-lang.en {
+    margin-bottom: 28px; /* ← 여기 숫자 조절 */
+  }
+  
+  .image-stage {
+    width: 100%;
+    height: calc(100dvh - 72px);
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
+    padding-top: 6vh; /* 🔥 이 값으로 위치 미세조정 */
+  }
+
+  .main-image {
+    max-width: 92vw;
+    max-height: 78vh; /* 살짝 줄여서 여백 확보 */
+    object-fit: contain;
+  }
+}
 
 
 /* ===============================================
