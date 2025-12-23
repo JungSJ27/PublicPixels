@@ -479,8 +479,4 @@ header,
   opacity: 0.92;
 }
 
-/* 모바일에서는 숨기기 */
-@media (max-width: 900px) {
-  .bt-swarm { display: none; }
-}
 
