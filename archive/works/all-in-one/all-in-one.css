@@ -120,7 +120,7 @@ header.header-hidden {
 .art-wrap {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 100px 20px 120px;
+  padding: 100px 20px 100px;
 }
 
 /* ===============================
@@ -184,7 +184,7 @@ header.header-hidden {
    TITLE + META
 =============================================== */
 .art-head {
-  margin-top: 10px;
+  margin-top: 0px;
   margin-bottom: 0px;
   margin-left: 10px;
   margin-right: 10px;
@@ -204,7 +204,7 @@ header.header-hidden {
 
 .art-meta.medium {
   padding-bottom: 8px;   /* ⭐ 이 값이 선 위치를 결정 */
-  margin-bottom: 0px;
+  margin-bottom: 40px;
   border-bottom: 1px solid rgba(0,0,0,0.1);
 }
 
@@ -216,19 +216,11 @@ header.header-hidden {
   margin-right: 10px;
 }
 
-.art-section h2 {
-  font-size: 15px;
-  font-weight: 600;
-  margin: 0 0 0px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #555;
-}
 
 .art-section p {
   line-height: 1.7;
   margin: 0 0px 25px;
-  font-size: 14px;
+  font-size: 13px;
 
 }
 
@@ -237,6 +229,7 @@ header.header-hidden {
   line-height: 1.85;    /* ⭐ 한글 가독성 */
   font-size: 13px;      /* 살짝 작게 */
   letter-spacing: -0.01em;
+  margin-top: 40px;
 }
 
 
@@ -247,7 +240,7 @@ header.header-hidden {
 /* 공통 박스 스타일 */
 .above-slider-link {
   text-align: center;
-  margin: 70px auto 10px;
+  margin: 70px auto 0px;
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -269,7 +262,7 @@ header.header-hidden {
 
 /* hover 효과 */
 .above-slider-link a:hover {
-  color: #10d2cb;
+  color: #2b38c0;
   opacity: 1;
 }
 
@@ -424,51 +417,10 @@ body.popup-open .list-toggle {
 =============================================== */
 @media (max-width: 768px) {
 
-  .above-slider-link {
-    margin: 40px auto 20px;
+  .hero-strip {
+    padding-top: 48px; /* 또는 40px */
   }
-
-  /* 슬라이더 전체 래퍼 중앙 정렬 */
-  .stills-slider {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
-
-  .still-frame {
-      width: 100%;
-      max-width: none;
-      box-sizing: border-box;   /* ⭐⭐⭐ 핵심 */
-      max-height: 55vh;
-      margin: 0 auto;
-    }
-
-    .still-frame img {
-      width: 100%;
-      height: auto;
-      max-height: 55vh;
-      object-fit: contain;
-    }
-
-  /* 컨트롤 */
-  .slider-controls {
-    margin-top: 8px;
-    gap: 14px;
-    justify-content: center;
-  }
-
-  .slider-btn {
-    font-size: 16px;
-  }
-
-  .page-indicator {
-    font-size: 12px;
-  }
-
-}
-
-@media (max-width: 768px) {
-
+  
   .popup {
     position: fixed;
     inset: 0;
@@ -511,6 +463,49 @@ body.popup-open .list-toggle {
   .popup-arrow:hover {
     opacity: 1;
   }
+
+
+  .above-slider-link {
+    margin: 40px auto 20px;
+  }
+
+  /* 슬라이더 전체 래퍼 중앙 정렬 */
+  .stills-slider {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .still-frame {
+      width: 100%;
+      max-width: none;
+      box-sizing: border-box;   /* ⭐⭐⭐ 핵심 */
+      max-height: 55vh;
+      margin: 0 auto;
+    }
+
+    .still-frame img {
+      width: 100%;
+      height: auto;
+      max-height: 55vh;
+      object-fit: contain;
+    }
+
+  /* 컨트롤 */
+  .slider-controls {
+    margin-top: 8px;
+    gap: 14px;
+    justify-content: center;
+  }
+
+  .slider-btn {
+    font-size: 16px;
+  }
+
+  .page-indicator {
+    font-size: 12px;
+  }
+
 }
 
 
