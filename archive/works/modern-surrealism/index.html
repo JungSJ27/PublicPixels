@@ -13,16 +13,19 @@
   <!-- Page CSS -->
   <link rel="stylesheet" href="ms.css">
 
-    <!-- Ambient Moths -->
-  <link rel="stylesheet" href="/highlight/ambient-moths.css">
-  <script src="/highlight/ambient-moths.js" defer></script>
-
-
   <!-- Header Loader -->
   <script src="/front/headerLoader.js" defer></script>
 
   <!-- Page JS -->
   <script type="module" src="ms.js"></script>
+
+
+  <!-- 3D Model Viewer -->
+  <script
+    type="module"
+    src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
+  </script>
+
 </head>
 
 <body data-page="log">
@@ -30,8 +33,6 @@
   <!-- HEADER INCLUDE -->
   <div data-include="header"></div>
   
-    <!-- ⭐ AMBIENT MOTHS (필수) -->
-  <canvas id="ambient-moths"></canvas>
 
   <!-- LIST BUTTON -->
   <div class="list-toggle" onclick="location.href='/archive/'">
@@ -76,6 +77,8 @@
 
   </main>
 
+
+
   <!-- FULLSCREEN INFO MODAL -->
   <div id="fullscreenModal" class="fullscreen-modal">
     <div class="fullscreen-bg"></div>
@@ -106,6 +109,9 @@
 
     </div>
   </div>
+  
+  <!-- FLOATING BUTTERFLIES (overlay layer) -->
+  <div id="bt-swarm" class="bt-swarm" aria-hidden="true"></div>
 
   <script defer src="/front/favicons.js"></script>
 </body>
