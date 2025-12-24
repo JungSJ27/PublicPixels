@@ -97,9 +97,10 @@ header,
 .split-wrap {
   display: flex;
   width: 100vw;
-  min-height: 100svh;   /* ⭐ iOS safe viewport */
+  height: 100svh;   /* ⭐ min-height → height */
   overflow: hidden;
 }
+
 
 /* LEFT : VIDEO / IMAGE */
 .split-video {
