@@ -144,7 +144,7 @@ header.header-hidden {
   margin: 0;
 
   display: flex;
-  gap: 8px;
+  gap: 6px;
   overflow-x: auto;
   overflow-y: hidden;
 
