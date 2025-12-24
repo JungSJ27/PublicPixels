@@ -1,0 +1,220 @@
+/* ===============================================
+   FIX PUBLICPIXELS DEFAULT LAYOUT EFFECTS
+=============================================== */
+
+body[data-page="log"] .pp-main::before,
+body[data-page="log"] .art-main::before {
+  display: none !important;
+}
+
+/* ===============================================
+   GLOBAL PAGE BODY
+=============================================== */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;  /* styles.css 기준 */
+  background: #fff;
+  color: #111;
+}
+
+/* ===============================
+   HEADER (전시 페이지 모드)
+   =============================== */
+
+body[data-page="log"] header {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: transparent !important;
+  color: rgb(241, 238, 255) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  padding-top: 10px !important;
+  z-index: 3000;
+}
+
+body[data-page="log"] header .logo-brand,
+body[data-page="log"] header .logo-roman,
+body[data-page="log"] header .logo-korean {
+  color: rgba(234, 234, 236, 0.95) !important;
+}
+
+/* 검색, 카트 아이콘 숨기기 */
+body[data-page="log"] header .search-icon,
+body[data-page="log"] header .shop-toggle {
+  display: none !important;
+}
+
+/* 스크롤에 따라 숨길 때 쓸 클래스 */
+header,
+.pp-header {
+  transition: opacity 0.35s ease;
+}
+
+.header-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ===============================
+   LIST TOGGLE (목록으로 돌아가기)
+   =============================== */
+
+.list-toggle {
+  position: fixed;
+  top: 12px;
+  right: 24px;
+  width: 28px;
+  height: 28px;
+  z-index: 3500;
+  cursor: pointer;
+  color:  rgba(234, 234, 236, 0.95);
+  opacity: 0.9;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.list-toggle:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.ic-list {
+  width: 24px;
+  height: 24px;
+}
+
+/* 헤더 숨길 때 같이 사라지도록 */
+.list-toggle.header-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ===============================
+   HEADER SLIDE ANIMATION
+   =============================== */
+
+/* 기본 상태: 보임 + 제자리 */
+body[data-page="log"] header {
+  transform: translateY(0);
+  transition: opacity 0.35s ease, transform 0.4s ease;
+}
+
+/* 숨김 상태: 살짝 위로 올려서 사라지는 느낌 */
+header.header-hidden {
+  opacity: 0;
+  transform: translateY(-28px);
+  pointer-events: none;
+}
+
+/* 리스트 버튼도 같이 위로 올라가게 */
+.list-toggle.header-hidden {
+  opacity: 0;
+  transform: translateY(-28px);
+}
+
+
+/* ===============================================
+   PAGE WRAP
+=============================================== */
+
+.work-page {
+  padding-top: 90px;
+}
+
+/* ===============================================
+   HERO IMAGE
+=============================================== */
+
+.hero {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+}
+
+.hero img {
+  max-width: 1400px;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* ===============================================
+   INFO
+=============================================== */
+
+.info {
+  max-width: 640px;
+  margin: 80px auto 120px;
+  padding: 0 24px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.meta {
+  font-size: 12px;
+  line-height: 1.6;
+  color: rgba(0,0,0,0.6);
+  margin-bottom: 36px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(0,0,0,0.15);
+}
+
+.desc {
+  font-size: 13px;
+  line-height: 1.75;
+  color: rgba(0,0,0,0.85);
+}
+
+/* ===============================================
+   DETAIL SECTION
+=============================================== */
+
+.details {
+  max-width: 1100px;
+  margin: 0 auto 160px;
+  padding: 0 24px;
+}
+
+.details h2 {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 32px;
+}
+
+/* GRID */
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.detail-box {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #f2f2f2;
+  border: 1px solid rgba(0,0,0,0.08);
+}
+
+/* ===============================================
+   MOBILE
+=============================================== */
+
+@media (max-width: 900px) {
+  .work-page {
+    padding-top: 72px;
+  }
+
+  .info {
+    margin: 60px auto 80px;
+  }
+
+  .detail-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

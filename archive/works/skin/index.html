@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Skin | Archive</title>
+
+  <!-- Global CSS -->
+  <link rel="stylesheet" href="/front/styles.css">
+  <link rel="stylesheet" href="/front/header.css">
+
+  <!-- Page CSS -->
+  <link rel="stylesheet" href="skin.css">
+
+
+  <!-- Header Loader -->
+  <script src="/front/headerLoader.js" defer></script>
+
+  <!-- Page JS -->
+  <script type="module" src="skin.js"></script>
+</head>
+
+
+<body data-page="log">
+
+  <!-- HEADER INCLUDE -->
+  <div data-include="header"></div>
+
+  <!-- LIST BUTTON -->
+  <div class="list-toggle" onclick="location.href='/archive/'">
+    <svg viewBox="0 0 24 24" class="ic-list">
+      <g fill="none" stroke="currentColor" stroke-width="1.6">
+        <line x1="4" y1="6"  x2="20" y2="6"/>
+        <line x1="4" y1="12" x2="20" y2="12"/>
+        <line x1="4" y1="18" x2="20" y2="18"/>
+      </g>
+    </svg>
+  </div>
+
+
+  <main class="work-page">
+
+    <!-- HERO -->
+    <section class="hero">
+      <img
+        src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/skin/Ecdysis.jpg"
+        alt="Ecdysis textile work"
+      />
+    </section>
+
+    <!-- TEXT -->
+    <section class="info">
+      <h1 class="title">Skin</h1>
+
+      <p class="meta">
+        2016<br>
+        Hand-woven mixed media textile<br>
+        Pearl paper, thread, metal elements
+      </p>
+
+      <p class="desc">
+        This work is a pattern design exploration inspired by Alexander McQueen’s runway,
+        particularly the striking contrast between a gray dress and a red butterfly headpiece.
+        Imagining a fusion of surrealism and modern form, each unit was folded by hand from pearl paper
+        and connected with metal rings to construct a repetitive textile structure.
+      </p>
+    </section>
+
+    <!-- DETAIL PLACEHOLDER -->
+    <section class="details">
+      <h2>Texture Details</h2>
+
+      <div class="detail-grid">
+        <div class="detail-box"></div>
+        <div class="detail-box"></div>
+        <div class="detail-box"></div>
+        <div class="detail-box"></div>
+        <div class="detail-box"></div>
+        <div class="detail-box"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="ecdysis.js"></script>
+  <script defer src="/front/favicons.js"></script>
+</body>
+</html>
