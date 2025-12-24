@@ -134,7 +134,7 @@ header.header-hidden {
   margin-right: calc(50% - 50vw);
   overflow-x: visible;
   overflow-y: hidden;
-  padding-top: clamp(72px, 10vh, 96px);
+  padding-top: 50px;
 }
 
 /* HERO horizontal track */
