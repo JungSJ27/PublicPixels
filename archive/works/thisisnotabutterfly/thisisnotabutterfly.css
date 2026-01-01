@@ -1,136 +1,294 @@
-* {
-  box-sizing: border-box;
+/* thisisnotabutterfly.css */
+
+body[data-page="log"] .pp-main::before,
+body[data-page="log"] .art-main::before { display: none !important; }
+
+* { box-sizing: border-box; }
+
+:root{
+  --bg: #05060a;
+  --fg: rgba(234, 234, 236, 0.95);
+  --muted: rgba(234, 234, 236, 0.68);
 }
 
-body {
+body{
   margin: 0;
   font-family: Poppins, system-ui, sans-serif;
-  background: #fff;
-  color: #111;
+  background: var(--bg);
+  color: var(--fg);
 }
 
-/* ===============================
-   PAGE LAYOUT
-================================ */
+/* header */
+body[data-page="log"] header{
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: transparent !important;
+  color: var(--fg) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  padding-top: 10px !important;
+  z-index: 3000;
+}
 
-.art-page {
+body[data-page="log"] header .logo-brand,
+body[data-page="log"] header .logo-roman,
+body[data-page="log"] header .logo-korean{ color: var(--fg) !important; }
+
+body[data-page="log"] header .search-icon,
+body[data-page="log"] header .shop-toggle{ display: none !important; }
+
+.list-toggle{
+  position: fixed;
+  top: 12px;
+  right: 24px;
+  width: 28px;
+  height: 28px;
+  z-index: 3500;
+  cursor: pointer;
+  color: var(--fg);
+  opacity: 0.9;
+}
+
+.ic-list{ width: 24px; height: 24px; }
+
+/* layout, scroll 덜 하게 */
+.art-page{
   min-height: 100svh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 86px 20px 38px;
+  gap: 6px;
 }
 
-/* ===============================
-   FLIP STAGE
-================================ */
+.viewer{ width: min(720px, 92vw); }
+.viewer-wrap{ width: 100%; display: grid; justify-items: center; }
 
-.flip-stage {
-  perspective: 1400px;
-}
-
-.flip-card {
-  position: relative;
-  width: 420px;
-  aspect-ratio: 3 / 4;
-  cursor: pointer;
-}
-
-/* ===============================
-   FLIP CORE
-================================ */
-
-.flip-inner {
-  position: relative;
+/* image button, 돋보기 커서 제거 */
+.art-img-btn{
   width: 100%;
-  height: 100%;
-  transition: transform 1.1s cubic-bezier(.4,0,.2,1);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+}
+
+/* stage */
+.stage{
+  width: 100%;
+  perspective: 1400px;
+  display: grid;
+  place-items: center;
+}
+
+/* flip, 그림 높이 살짝 줄임 */
+.flip-track{
+  width: 100%;
+  position: relative;
   transform-style: preserve-3d;
+  transition: transform 820ms cubic-bezier(0.18, 0.95, 0.2, 1);
+  will-change: transform;
+  max-height: 50svh;
 }
 
-.flip-card.is-flipped .flip-inner {
-  transform: rotateY(180deg);
+.flip-track::before{
+  content: "";
+  display: block;
+  padding-top: 128%;
 }
 
-/* ===============================
-   FACES
-================================ */
-
-.flip-face {
+.face{
   position: absolute;
   inset: 0;
   backface-visibility: hidden;
+  transform-style: preserve-3d;
 }
+.face-front{ transform: rotateY(0deg); }
+.face-back{ transform: rotateY(180deg); }
 
-.flip-face img {
+.flip-track.is-flipped{ transform: rotateY(180deg); }
+
+.face img{
   width: 100%;
   height: 100%;
+  display: block;
   object-fit: contain;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  outline: none;
+  border: 0;
 }
 
-.flip-back {
-  transform: rotateY(180deg);
+/* swap 위치, 클릭 우선순위 보장 */
+.swap-between{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 18px;
+  margin-bottom: 2px;
+  position: relative;
+  z-index: 10;
+  pointer-events: auto;
 }
 
-/* ===============================
-   MAGNIFIER
-================================ */
-
-.magnifier {
-  position: absolute;
-  width: 160px;
-  height: 160px;
-  border-radius: 50%;
-  pointer-events: none;
-  opacity: 0;
-
-  border: 1px solid rgba(255,255,255,.7);
-  box-shadow: 0 12px 35px rgba(0,0,0,.35);
-
-  background-repeat: no-repeat;
-  background-size: 220%;
-  transition: opacity .15s ease;
+.swap-btn{
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--fg);
+  border-radius: 999px;
+  cursor: pointer;
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  padding: 0;
 }
 
-/* ===============================
-   INFO
-================================ */
+.ic-swap{ width: 20px; height: 20px; }
 
-.art-info {
-  max-width: 520px;
+/* info, 글 영역 더 넓게 */
+.art-info{
+  width: min(920px, 94vw);
   text-align: center;
-  margin-top: 28px;
-  padding: 0 20px;
+  padding-bottom: 0;
 }
 
-.art-title {
+.art-title{
   font-size: 14px;
   font-weight: 600;
-  margin-bottom: 8px;
+  margin: 0 0 2px;
+  letter-spacing: 0.02em;
 }
 
-.art-meta {
+.art-meta{
   font-size: 11px;
-  opacity: .65;
-  margin-bottom: 14px;
+  color: rgba(234,234,236,0.66);
+  margin: 0 0 10px;
+  line-height: 1.55;
 }
 
-.art-desc {
-  font-size: 12.5px;
-  line-height: 1.7;
-  opacity: .85;
+.art-desc{
+  font-size: 12.2px;
+  line-height: 1.75;
+  color: rgba(234,234,236,0.82);
+  max-width: 880px;
+  margin: 0 auto;
 }
 
-/* ===============================
-   MOBILE
-================================ */
+.art-desc .ko{
+  margin-top: 12px;
+  color: rgba(234,234,236,0.78);
+}
+/* =========================
+   MODAL
+========================= */
+.modal{
+  position: fixed;
+  inset: 0;
+  z-index: 5000;
+  display: none;
+}
+.modal.is-open{ display: block; }
 
-@media (max-width: 768px) {
-  .flip-card {
-    width: 90vw;
-  }
+.modal-backdrop{
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(6px);
+}
 
-  .magnifier {
-    display: none;
-  }
+/* panel */
+.modal-panel{
+  position: relative;
+  width: 98vw;
+  height: 94svh;
+  margin: 3svh auto 0;
+  background: rgba(10, 11, 16, 0.78);
+  border: 0;
+  border-radius: 18px;
+  box-shadow: 0 30px 120px rgba(0,0,0,0.6);
+  overflow: hidden;
+}
+
+/* close button */
+.modal-close{
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 0;
+  background: transparent;
+  color: var(--fg);
+  cursor: pointer;
+  font-size: 20px;
+  display: grid;
+  place-items: center;
+  z-index: 300;
+}
+
+/* body */
+.modal-body{
+  height: 100%;
+  padding: 58px 18px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* =========================
+   MODAL STAGE
+========================= */
+.stage-shell-modal{
+  position: relative;
+  width: min(1280px, 94vw);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.stage-modal{
+  position: relative;
+  z-index: 1; /* flip 영역 */
+}
+
+.stage-modal .flip-track{
+  max-height: 80svh;
+}
+
+/* =========================
+   MODAL ACTIONS (SWAP)
+========================= */
+.modal-actions{
+  position: relative;
+  z-index: 200;          /* flip-track보다 위 */
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 2px;
+  pointer-events: auto;
+}
+
+#swapBtnModal{
+  position: relative;
+  z-index: 210;
+  pointer-events: auto;
+}
+
+@media (max-width: 768px){
+  .art-page{ padding-top: 84px; padding-bottom: 36px; }
+  .flip-track{ max-height: 48svh; }
+  .art-info{ width: min(940px, 94vw); }
+  .stage-modal .flip-track{ max-height: 82svh; }
 }

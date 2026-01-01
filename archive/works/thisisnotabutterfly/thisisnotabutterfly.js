@@ -1,43 +1,122 @@
-const card = document.getElementById("flipCard");
-const lens = document.getElementById("magnifier");
+// thisisnotabutterfly.js
 
-let flipped = false;
+(function () {
+  let flipped = false;
 
-/* ===============================
-   FLIP TRIGGER
-================================ */
+  const $ = (id) => document.getElementById(id);
 
-card.addEventListener("click", () => {
-  flipped = !flipped;
-  card.classList.toggle("is-flipped", flipped);
-});
+  function syncFlip() {
+    const flipMain = $("flipMain");
+    const flipModal = $("flipModal");
+    if (flipMain) flipMain.classList.toggle("is-flipped", flipped);
+    if (flipModal) flipModal.classList.toggle("is-flipped", flipped);
+  }
 
-/* ===============================
-   MAGNIFIER (DESKTOP)
-================================ */
+  function toggleFlip() {
+    flipped = !flipped;
+    syncFlip();
+  }
 
-card.addEventListener("mousemove", (e) => {
-  if (window.innerWidth < 768) return;
+  function openModal() {
+    const modal = $("modal");
+    if (!modal) return;
+    modal.classList.add("is-open");
+    modal.setAttribute("aria-hidden", "false");
+    document.documentElement.style.overflow = "hidden";
+    syncFlip();
+  }
 
-  const activeImg = card.querySelector(
-    flipped ? ".flip-back img" : ".flip-front img"
-  );
+  function closeModal() {
+    const modal = $("modal");
+    if (!modal) return;
+    modal.classList.remove("is-open");
+    modal.setAttribute("aria-hidden", "true");
+    document.documentElement.style.overflow = "";
+  }
 
-  const rect = card.getBoundingClientRect();
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
+  function bindDirect() {
+    const swapBtn = $("swapBtn");
+    const swapBtnModal = $("swapBtnModal");
+    const openPopup = $("openPopup");
+    const closeBtn = $("closeModal");
+    const backdrop = $("modalBackdrop");
 
-  lens.style.opacity = 1;
-  lens.style.left = `${x - 80}px`;
-  lens.style.top  = `${y - 80}px`;
+    if (swapBtn) {
+      swapBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        toggleFlip();
+      });
+    }
 
-  const px = (x / rect.width) * 100;
-  const py = (y / rect.height) * 100;
+    if (swapBtnModal) {
+      swapBtnModal.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        toggleFlip();
+      });
+    }
 
-  lens.style.backgroundImage = `url(${activeImg.src})`;
-  lens.style.backgroundPosition = `${px}% ${py}%`;
-});
+    if (openPopup) {
+      openPopup.addEventListener("click", (e) => {
+        e.preventDefault();
+        openModal();
+      });
+    }
 
-card.addEventListener("mouseleave", () => {
-  lens.style.opacity = 0;
-});
+    if (closeBtn) {
+      closeBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        closeModal();
+      });
+    }
+
+    if (backdrop) {
+      backdrop.addEventListener("click", () => closeModal());
+    }
+  }
+
+  // 캡처 단계에서 먼저 잡아서, 어떤 레이어가 있어도 swap이 먹게
+  function bindCaptureDelegation() {
+    document.addEventListener(
+      "click",
+      (e) => {
+        const t = e.target;
+        const modalSwap = t && t.closest && t.closest("#swapBtnModal");
+        if (modalSwap) {
+          e.preventDefault();
+          e.stopPropagation();
+          toggleFlip();
+          return;
+        }
+
+        const mainSwap = t && t.closest && t.closest("#swapBtn");
+        if (mainSwap) {
+          e.preventDefault();
+          e.stopPropagation();
+          toggleFlip();
+        }
+      },
+      true
+    );
+  }
+
+  function init() {
+    syncFlip();
+    bindDirect();
+    bindCaptureDelegation();
+
+    window.addEventListener("keydown", (e) => {
+      const modal = $("modal");
+      if (e.key === "Escape" && modal && modal.classList.contains("is-open")) {
+        closeModal();
+      }
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();
