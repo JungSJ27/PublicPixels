@@ -1,6 +1,9 @@
-* {
-  box-sizing: border-box;
+body[data-page="log"] .pp-main::before,
+body[data-page="log"] .art-main::before {
+  display: none !important;
 }
+
+* { box-sizing: border-box; }
 
 html, body {
   margin: 0;
@@ -9,78 +12,254 @@ html, body {
   font-family: Poppins, system-ui, sans-serif;
 }
 
-/* ===============================
-   BACKGROUND
-================================ */
+body {
+  background: transparent;
+  color: rgba(255,255,255,.92);
+}
 
+/* HEADER */
+body[data-page="log"] header {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: transparent !important;
+  color: rgb(255, 255, 255) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  padding-top: 10px !important;
+  z-index: 3000;
+}
+
+body[data-page="log"] header .logo-brand,
+body[data-page="log"] header .logo-roman,
+body[data-page="log"] header .logo-korean {
+  color: rgba(203, 203, 203, 0.95) !important;
+}
+
+body[data-page="log"] header .search-icon,
+body[data-page="log"] header .shop-toggle {
+  display: none !important;
+}
+
+header,
+.pp-header {
+  transition: opacity 0.35s ease, transform 0.4s ease;
+}
+
+header.header-hidden {
+  opacity: 0;
+  transform: translateY(-28px);
+  pointer-events: none;
+}
+
+/* LIST TOGGLE */
+.list-toggle {
+  position: fixed;
+  top: 12px;
+  right: 24px;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  z-index: 3500;
+  cursor: pointer;
+  color: rgba(203, 203, 203, 0.95);
+  opacity: 0.92;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.list-toggle:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.ic-list { width: 26px; height: 26px; }
+
+.list-toggle.header-hidden {
+  opacity: 0;
+  transform: translateY(-28px);
+  pointer-events: none;
+}
+
+/* BACKGROUND */
 .bg {
   position: fixed;
   inset: 0;
   z-index: -1;
-
   background-image: url("https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/themoththatdevoursthebutterfly/%E1%84%89%E1%85%A5%E1%86%BC%E1%84%80%E1%85%B2%E1%86%AB%E1%84%80%E1%85%AA%E1%86%AB%E1%84%83%E1%85%A2-POLY-2-%E1%84%8B%E1%85%AE%E1%86%AF%E1%84%83%E1%85%A9%E1%84%87%E1%85%B5-1YD-%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%89%E1%85%B3%E1%86%BC%E1%84%8C%E1%85%B5%E1%86%AB(4).png");
-  background-size: cover;      /* ⭐ 꽉 채우기 */
+  background-size: cover;
   background-position: center;
 }
 
-/* ===============================
-   PAGE LAYOUT
-================================ */
-
+/* PAGE */
 .page {
   min-height: 100svh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  padding: 40px 24px;
+  padding: 120px 24px 64px;
 }
 
-/* ===============================
-   IMAGE ROW
-================================ */
-
+/* IMAGE ROW */
 .image-row {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
-
-  max-width: 1100px;
   width: 100%;
+  max-width: 1100px;
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding: 6px 6px 12px;
+}
+
+.image-row::-webkit-scrollbar { height: 8px; }
+.image-row::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,.18);
+  border-radius: 999px;
+}
+.image-row::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 999px;
+}
+
+/* Clickable image button */
+.img-btn {
+  flex: 0 0 auto;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: zoom-in;
+  scroll-snap-align: center;
+}
+
+.img-btn:focus {
+  outline: 2px solid rgba(255,255,255,.25);
+  outline-offset: 6px;
 }
 
 .image-row img {
-  width: 100%;
+  display: block;
+  width: 250px;
+  max-width: 70vw;
   aspect-ratio: 3 / 4;
   object-fit: cover;
-
-  box-shadow: 0 20px 40px rgba(0,0,0,.35);
+  box-shadow: 0 0px 5px rgba(0,0,0,.1);
 }
 
-/* ===============================
-   TITLE
-================================ */
-
-.title {
-  margin-top: 36px;
-  font-size: 14px;
-  letter-spacing: 0.04em;
-  color: rgba(255,255,255,.85);
+/* TEXT BLOCKS */
+.art-head {
+  width: 100%;
+  max-width: 1100px;
+  margin-top: 24px;
   text-align: center;
 }
 
-/* ===============================
-   MOBILE
-================================ */
+.art-title {
+  margin: 0 0 20px;
+  font-size: 16px;
+  letter-spacing: 0.02em;
+  color: rgba(203, 203, 203, 0.95);
+}
+
+.art-meta {
+  margin: 0 auto;
+  font-size: 13px;
+  line-height: 1.55;
+  color: rgba(203, 203, 203, 0.95);
+}
+
+.art-section {
+  width: 100%;
+  max-width: 1100px;
+  margin-top: 2px;
+  text-align: center;
+}
+
+.art-section .text {
+  margin: 0 auto 24px;
+  max-width: 760px;
+  font-size: 14px;
+  line-height: 1.75;
+  color: rgba(203, 203, 203, 0.95);
+}
+
+/* LIGHTBOX */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: none;
+}
+
+.lightbox.is-open { display: block; }
+
+.lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.72);
+}
+
+.lightbox-shell {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.lightbox-img {
+  max-width: min(92vw, 1100px);
+  max-height: 86vh;
+  width: auto;
+  height: auto;
+  box-shadow: 0 24px 90px rgba(0,0,0,.45);
+  border-radius: 0px;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 22px;
+  right: 18px;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(255,255,255,.92);
+  font-size: 18px;
+  line-height: 44px;
+  cursor: pointer;
+}
+
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 52px;
+  height: 52px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(255,255,255,.92);
+  font-size: 24px;
+  line-height: 52px;
+  cursor: pointer;
+}
+
+.lightbox-nav.prev { left: 14px; }
+.lightbox-nav.next { right: 14px; }
 
 @media (max-width: 900px) {
-  .image-row {
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
+  .page { padding: 110px 16px 56px; }
 
-  .title {
-    margin-top: 28px;
-    font-size: 12px;
-  }
+  .image-row { gap: 16px; max-width: 100%; padding: 6px 2px 12px; }
+
+  .image-row img { width: 78vw; max-width: 380px; }
+
+  .list-toggle { right: 14px; }
+
+  .lightbox-nav { width: 44px; height: 44px; font-size: 30px; line-height: 44px; }
 }

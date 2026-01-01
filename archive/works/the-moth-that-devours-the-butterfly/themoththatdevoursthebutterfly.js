@@ -1,43 +1,136 @@
-const card = document.getElementById("flipCard");
-const lens = document.getElementById("magnifier");
+/* =======================================================
+   Header show and hide
+======================================================= */
+(function () {
+  function getHeaderEl() {
+    return (
+      document.querySelector("header.pp-header") ||
+      document.querySelector(".pp-header") ||
+      document.querySelector("header")
+    );
+  }
 
-let flipped = false;
+  function initHeaderScroll() {
+    const header = getHeaderEl();
+    const listToggle = document.querySelector(".list-toggle");
+    if (!header) return false;
 
-/* ===============================
-   FLIP TRIGGER
-================================ */
+    function applyHidden(isHidden) {
+      if (isHidden) {
+        header.classList.add("header-hidden");
+        if (listToggle) listToggle.classList.add("header-hidden");
+      } else {
+        header.classList.remove("header-hidden");
+        if (listToggle) listToggle.classList.remove("header-hidden");
+      }
+    }
 
-card.addEventListener("click", () => {
-  flipped = !flipped;
-  card.classList.toggle("is-flipped", flipped);
-});
+    let lastY = window.scrollY;
 
-/* ===============================
-   MAGNIFIER (DESKTOP)
-================================ */
+    if (window.scrollY > 10) applyHidden(true);
+    else applyHidden(false);
 
-card.addEventListener("mousemove", (e) => {
-  if (window.innerWidth < 768) return;
+    window.addEventListener(
+      "scroll",
+      () => {
+        const y = window.scrollY;
 
-  const activeImg = card.querySelector(
-    flipped ? ".flip-back img" : ".flip-front img"
-  );
+        if (y < 10) {
+          applyHidden(false);
+          lastY = y;
+          return;
+        }
 
-  const rect = card.getBoundingClientRect();
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
+        if (y < lastY - 2) applyHidden(false);
+        else if (y > lastY + 2) applyHidden(true);
 
-  lens.style.opacity = 1;
-  lens.style.left = `${x - 80}px`;
-  lens.style.top  = `${y - 80}px`;
+        lastY = y;
+      },
+      { passive: true }
+    );
 
-  const px = (x / rect.width) * 100;
-  const py = (y / rect.height) * 100;
+    return true;
+  }
 
-  lens.style.backgroundImage = `url(${activeImg.src})`;
-  lens.style.backgroundPosition = `${px}% ${py}%`;
-});
+  window.addEventListener("DOMContentLoaded", () => {
+    if (initHeaderScroll()) return;
 
-card.addEventListener("mouseleave", () => {
-  lens.style.opacity = 0;
-});
+    let tries = 0;
+    const maxTries = 60;
+
+    const t = setInterval(() => {
+      tries += 1;
+      if (initHeaderScroll() || tries >= maxTries) clearInterval(t);
+    }, 50);
+  });
+})();
+
+/* =======================================================
+   Lightbox popup for images
+======================================================= */
+(function () {
+  function qs(sel) { return document.querySelector(sel); }
+  function qsa(sel) { return Array.from(document.querySelectorAll(sel)); }
+
+  window.addEventListener("DOMContentLoaded", () => {
+    const buttons = qsa(".image-row .img-btn");
+    const lightbox = qs("#lightbox");
+    const imgEl = qs("#lightboxImg");
+    if (!buttons.length || !lightbox || !imgEl) return;
+
+    const sources = buttons
+      .map((btn) => btn.querySelector("img"))
+      .filter(Boolean)
+      .map((img) => ({ src: img.currentSrc || img.src, alt: img.alt || "" }));
+
+    let index = 0;
+    let lastFocus = null;
+
+    function openAt(i) {
+      index = (i + sources.length) % sources.length;
+      const item = sources[index];
+      imgEl.src = item.src;
+      imgEl.alt = item.alt;
+
+      lastFocus = document.activeElement;
+      lightbox.classList.add("is-open");
+      lightbox.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    }
+
+    function close() {
+      lightbox.classList.remove("is-open");
+      lightbox.setAttribute("aria-hidden", "true");
+      imgEl.src = "";
+      document.body.style.overflow = "";
+      if (lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
+    }
+
+    function prev() { openAt(index - 1); }
+    function next() { openAt(index + 1); }
+
+    buttons.forEach((btn, i) => {
+      btn.addEventListener("click", () => openAt(i));
+    });
+
+    lightbox.addEventListener("click", (e) => {
+      const t = e.target;
+      if (t && t.dataset && t.dataset.close) close();
+    });
+
+    const prevBtn = qs(".lightbox-nav.prev");
+    const nextBtn = qs(".lightbox-nav.next");
+    const closeBtn = qs(".lightbox-close");
+
+    if (prevBtn) prevBtn.addEventListener("click", prev);
+    if (nextBtn) nextBtn.addEventListener("click", next);
+    if (closeBtn) closeBtn.addEventListener("click", close);
+
+    window.addEventListener("keydown", (e) => {
+      if (!lightbox.classList.contains("is-open")) return;
+      if (e.key === "Escape") close();
+      if (e.key === "ArrowLeft") prev();
+      if (e.key === "ArrowRight") next();
+    });
+  });
+})();

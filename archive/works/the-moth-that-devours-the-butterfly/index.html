@@ -3,33 +3,84 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Moth That Devours the Butterfly</title>
+  <title>The Moth That Devours the Butterfly | Archive</title>
+
+  <link rel="stylesheet" href="/front/styles.css" />
+  <link rel="stylesheet" href="/front/header.css" />
 
   <link rel="stylesheet" href="themoththatdevoursthebutterfly.css" />
+
+  <script src="/front/headerLoader.js" defer></script>
+  <script src="themoththatdevoursthebutterfly.js" defer></script>
 </head>
 
-<body>
+<body data-page="log">
+  <div data-include="header"></div>
 
-  <!-- BACKGROUND -->
-  <div class="bg"></div>
+  <button class="list-toggle" type="button" aria-label="Back to archive list" onclick="location.href='/archive/'">
+    <svg viewBox="0 0 24 24" class="ic-list" aria-hidden="true">
+      <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+        <line x1="4" y1="6"  x2="20" y2="6"></line>
+        <line x1="4" y1="12" x2="20" y2="12"></line>
+        <line x1="4" y1="18" x2="20" y2="18"></line>
+      </g>
+    </svg>
+  </button>
 
-  <!-- CONTENT -->
-  <main class="page">
+  <div class="bg" aria-hidden="true"></div>
 
-    <!-- CENTER IMAGE ROW -->
-    <section class="image-row">
-      <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/themoththatdevoursthebutterfly/1.jpg" />
-      <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/themoththatdevoursthebutterfly/2.jpg" />
-      <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/themoththatdevoursthebutterfly/3.jpg" />
-      <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/themoththatdevoursthebutterfly/4.jpg" />
+  <main class="page" role="main">
+    <section class="image-row" aria-label="Artwork images">
+      <button class="img-btn" type="button" aria-label="Open image 1">
+        <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/themoththatdevoursthebutterfly/1.jpg" alt="The Moth That Devours the Butterfly image 1" loading="lazy" />
+      </button>
+
+      <button class="img-btn" type="button" aria-label="Open image 2">
+        <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/themoththatdevoursthebutterfly/2.jpg" alt="The Moth That Devours the Butterfly image 2" loading="lazy" />
+      </button>
+
+      <button class="img-btn" type="button" aria-label="Open image 3">
+        <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/themoththatdevoursthebutterfly/3.jpg" alt="The Moth That Devours the Butterfly image 3" loading="lazy" />
+      </button>
+
+      <button class="img-btn" type="button" aria-label="Open image 4">
+        <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/themoththatdevoursthebutterfly/4.jpg" alt="The Moth That Devours the Butterfly image 4" loading="lazy" />
+      </button>
     </section>
 
-    <!-- TITLE -->
-    <footer class="title">
-      The Moth That Devours the Butterfly
-    </footer>
+    <section class="art-head" aria-label="Artwork information">
+      <h1 class="art-title">The Moth That Devours the Butterfly</h1>
+      <p class="art-meta medium">
+        2018<br />
+        Scarf design, hand-drawn<br />
+        Repeated motifs, approx. 15–20 cm
+      </p>
+    </section>
 
+    <section class="art-section" aria-label="Artwork description">
+      <p class="text en">
+        <i>The Moth That Devours the Butterfly</i> was conceived as an image for a scarf, with its composition arranged to unfold across fabric. Within this field, a moth driven by jealousy begins to consume the butterfly. What starts as admiration slowly shifts into obsession, reflecting how desire toward another can erode the self from within.
+      </p>
+
+      <p class="text kor">
+        <i>The Moth That Devours the Butterfly</i>는 스카프를 전제로 구성된 이미지로, 배경은 패브릭 위에 펼쳐지는 구조를 염두에 두고 배치되었다. 그 안에서 나비를 질투한 나방은 점차 나비를 잠식해가며, 동경에서 시작된 감정이 집착으로 변해 타인을 향한 열망이 결국 자신을 좀먹는 과정을 드러낸다.
+      </p>
+    </section>
   </main>
 
+  <!-- LIGHTBOX MODAL -->
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <div class="lightbox-backdrop" data-close="1"></div>
+
+    <div class="lightbox-shell" role="dialog" aria-modal="true" aria-label="Image viewer">
+      <button class="lightbox-close" type="button" aria-label="Close" data-close="1">×</button>
+
+      <button class="lightbox-nav prev" type="button" aria-label="Previous image">‹</button>
+      <img class="lightbox-img" id="lightboxImg" alt="" />
+      <button class="lightbox-nav next" type="button" aria-label="Next image">›</button>
+    </div>
+  </div>
+
+  <script defer src="/front/favicons.js"></script>
 </body>
 </html>
