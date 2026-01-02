@@ -1,89 +1,91 @@
-<!doctype html>
-<html lang="ko">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Nakwon | Archive</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NAKWON | Archive</title>
+
+  <!-- Global CSS -->
+  <link rel="stylesheet" href="/front/styles.css" />
+  <link rel="stylesheet" href="/front/header.css" />
+
+  <!-- Page CSS -->
   <link rel="stylesheet" href="nakwon.css" />
+
+  <!-- Header Loader -->
+  <script src="/front/headerLoader.js" defer></script>
+
+  <!-- Page JS -->
+  <script src="nakwon.js" defer></script>
 </head>
-<body>
 
-<header class="header">
-  <h1>낙 NAKWON 원</h1>
-</header>
+<body data-page="log">
+  <!-- HEADER INCLUDE -->
+  <div data-include="header"></div>
 
-<main>
-
-<!-- HERO VIDEO -->
-<section class="hero">
-  <div class="videoWrap">
-    <iframe src="https://www.youtube.com/embed/C7ukNXUAyGQ"
-      allowfullscreen></iframe>
-  </div>
-  <p class="heroCaption">
-    꿈의 낙원 / A PARADISE OF DREAM 'NAKWON'
-  </p>
-</section>
-
-<!-- DESCRIPTION -->
-<section class="description">
-  <h2>프로젝트 소개</h2>
-  <p>
-    낙원 프로젝트는 종로3가 낙원상가를 중심으로 한 인터뷰 기반 다큐멘터리다.
-    노인 음악가, 상인, 그리고 이 거리를 구성하는 사람들의 목소리를 기록한다.
-  </p>
-  <p>
-    젊은 세대가 알지 못했던 음악 문화와 장소의 기억을
-    영상, 인쇄물, 사진으로 남긴다.
-  </p>
-</section>
-
-<!-- SIDE MEDIA -->
-<section class="sideMedia">
-  <div class="audioBox">
-    <p>음원 듣기</p>
-    <audio controls src="assets/nakwon.mp3"></audio>
+  <!-- LIST BUTTON -->
+  <div class="list-toggle" onclick="location.href='/archive/'" aria-label="Back to Archive list">
+    <svg class="ic-list" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>
   </div>
 
-  <div class="videoSmall">
-    <iframe src="https://www.youtube.com/embed/fcpMGpNbylQ"
-      allowfullscreen></iframe>
-    <span>Side Music Video</span>
-  </div>
-</section>
+  <main class="nw-page">
+    <!-- ROOF (hhh.png) -->
+    <section class="roof" aria-label="Project roof title image">
+      <img src="./hhh.png" alt="NAK 낙원 WON" />
+    </section>
 
-<!-- PUBLICATION -->
-<section class="publication">
-  <h2>포스터 & 책자</h2>
+    <!-- HERO VIDEO -->
+    <section class="hero">
+      <div class="hero-frame">
+        <iframe
+          class="hero-iframe"
+          src="https://www.youtube.com/embed/fcpMGpNbylQ?rel=0&modestbranding=1"
+          title="NAKWON video"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+        ></iframe>
+      </div>
 
-  <div class="pubStage">
-    <img src="assets/booklet.jpg" class="booklet" />
+      <div class="hero-caption">
+        <p class="hero-title">꿈의 낙원 / A PARADISE OF DREAM 'NAKWON'</p>
+        <span class="hero-underline" aria-hidden="true"></span>
+      </div>
+    </section>
 
-    <img src="assets/poster1.jpg" class="poster left" />
-    <img src="assets/poster2.jpg" class="poster right" />
-  </div>
-</section>
+    <!-- CONTENT -->
+    <section class="nw-content">
+      <h2>프로젝트 소개</h2>
+      <p>
+        낙원 프로젝트는 종로구 낙원상가를 중심으로 한 인터뷰 기반 다큐멘터리다. 노인 음악가, 상인, 그리고 이 거리를 구성하는 사람들의 목소리를 기록한다.
+      </p>
+      <p>
+        젊은 세대가 알지 못했던 음악 문화와 장소의 기억을 영상, 인쇄물, 사진으로 남긴다.
+      </p>
+    </section>
 
-<!-- PHOTO ARCHIVE -->
-<section class="photos">
-  <h2>사진 아카이브</h2>
-  <div class="photoGrid">
-    <img src="assets/photo1.jpg" />
-    <img src="assets/photo2.jpg" />
-    <img src="assets/photo3.jpg" />
-    <img src="assets/photo4.jpg" />
-    <img src="assets/photo5.jpg" />
-    <img src="assets/photo6.jpg" />
-  </div>
-</section>
+    <!-- (옵션) 아래는 네가 기존에 쓰던 이미지 슬라이더 구조가 있다면 그대로 유지 가능 -->
+    <!--
+    <section class="slider">
+      <div class="still-frame"></div>
+      <div class="slider-ui">
+        <button class="slider-btn left" type="button" aria-label="Previous">‹</button>
+        <div class="page-indicator">1 / 1</div>
+        <button class="slider-btn right" type="button" aria-label="Next">›</button>
+      </div>
+    </section>
 
-</main>
+    <div id="popup" class="popup" aria-hidden="true">
+      <button class="popup-close" type="button" aria-label="Close">×</button>
+      <button class="popup-arrow left" type="button" aria-label="Previous">‹</button>
+      <img id="popup-img" alt="" />
+      <button class="popup-arrow right" type="button" aria-label="Next">›</button>
+    </div>
+    -->
 
-<footer class="footer">
-  <p>© JUNGSI All rights reserved</p>
-</footer>
-
-<script src="nakwon.js"></script>
-<script defer src="/front/favicons.js"></script>
+    <div class="bottom-bar" aria-hidden="true"></div>
+  </main>
 </body>
 </html>

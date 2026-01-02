@@ -1,2 +1,84 @@
-// 지금은 인터랙션 최소
-// 나중에 포스터 클릭 확대, 책자 넘김 효과 추가 가능
+// nakwon.js
+
+window.addEventListener("DOMContentLoaded", () => {
+  initHeaderScroll();
+  initVideoFade();
+});
+
+// 헤더가 headerLoader로 늦게 들어와도 기다렸다가 스크롤 이벤트를 1번만 붙임
+function waitForHeader(maxMs = 2000) {
+  return new Promise((resolve) => {
+    const start = performance.now();
+
+    const tick = () => {
+      const header =
+        document.querySelector("header.pp-header") ||
+        document.querySelector(".pp-header") ||
+        document.querySelector("header");
+
+      if (header) return resolve(header);
+
+      if (performance.now() - start > maxMs) return resolve(null);
+      requestAnimationFrame(tick);
+    };
+
+    tick();
+  });
+}
+
+async function initHeaderScroll() {
+  const header = await waitForHeader();
+  const listToggle = document.querySelector(".list-toggle");
+  if (!header) return;
+
+  let lastY = window.scrollY || 0;
+  let ticking = false;
+
+  const applyHidden = (hidden) => {
+    header.classList.toggle("header-hidden", hidden);
+    if (listToggle) listToggle.classList.toggle("header-hidden", hidden);
+  };
+
+  const onScroll = () => {
+    const y = window.scrollY || 0;
+
+    if (y < 10) {
+      applyHidden(false);
+      lastY = y;
+      ticking = false;
+      return;
+    }
+
+    const goingDown = y > lastY + 6;
+    const goingUp = y < lastY - 6;
+
+    if (goingDown) applyHidden(true);
+    if (goingUp) applyHidden(false);
+
+    lastY = y;
+    ticking = false;
+  };
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(onScroll);
+    },
+    { passive: true }
+  );
+
+  onScroll();
+}
+
+function initVideoFade() {
+  const iframe = document.querySelector(".hero-iframe");
+  if (!iframe) return;
+
+  iframe.style.opacity = 0;
+  setTimeout(() => {
+    iframe.style.transition = "opacity 0.8s ease";
+    iframe.style.opacity = 1;
+  }, 150);
+}
