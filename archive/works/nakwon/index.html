@@ -3,89 +3,134 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NAKWON | Archive</title>
+
+  <title>Nakwon | Archive</title>
 
   <!-- Global CSS -->
-  <link rel="stylesheet" href="/front/styles.css" />
-  <link rel="stylesheet" href="/front/header.css" />
+  <link rel="stylesheet" href="/front/header.css">
 
   <!-- Page CSS -->
-  <link rel="stylesheet" href="nakwon.css" />
+  <link rel="stylesheet" href="nakwon.css">
+
+  <!-- model-viewer (한 번만) -->
+  <script
+    type="module"
+    src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
+  </script>
 
   <!-- Header Loader -->
   <script src="/front/headerLoader.js" defer></script>
 
   <!-- Page JS -->
-  <script src="nakwon.js" defer></script>
+  <script type="module" src="nakwon.js"></script>
 </head>
 
+
 <body data-page="log">
+
   <!-- HEADER INCLUDE -->
   <div data-include="header"></div>
 
   <!-- LIST BUTTON -->
-  <div class="list-toggle" onclick="location.href='/archive/'" aria-label="Back to Archive list">
-    <svg class="ic-list" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  <div class="list-toggle" onclick="location.href='/archive/'">
+    <svg viewBox="0 0 24 24" class="ic-list">
+      <g fill="none" stroke="currentColor" stroke-width="1.6">
+        <line x1="4" y1="6"  x2="20" y2="6"/>
+        <line x1="4" y1="12" x2="20" y2="12"/>
+        <line x1="4" y1="18" x2="20" y2="18"/>
+      </g>
     </svg>
   </div>
 
-  <main class="nw-page">
-    <!-- ROOF (hhh.png) -->
-    <section class="roof" aria-label="Project roof title image">
-      <img src="./hhh.png" alt="NAK 낙원 WON" />
-    </section>
+  <!-- MAIN ART WRAP -->
+  <main class="art-wrap">
 
-    <!-- HERO VIDEO -->
-    <section class="hero">
-      <div class="hero-frame">
-        <iframe
-          class="hero-iframe"
-          src="https://www.youtube.com/embed/fcpMGpNbylQ?rel=0&modestbranding=1"
-          title="NAKWON video"
+    <!-- VIDEO -->
+    <section class="hero-video">
+      <div class="hero-logo">
+        <img src="logo.png" alt="NAKWON logo" />
+      </div>
+
+      <div class="video-container">
+        <iframe width="560" height="315"
+          src="https://www.youtube.com/embed/C7ukNXUAyGQ?si=l15etiB06KLhfhCY"
+          title="YouTube video player"
           frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen
-        ></iframe>
-      </div>
-
-      <div class="hero-caption">
-        <p class="hero-title">꿈의 낙원 / A PARADISE OF DREAM 'NAKWON'</p>
-        <span class="hero-underline" aria-hidden="true"></span>
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen></iframe>
       </div>
     </section>
 
-    <!-- CONTENT -->
-    <section class="nw-content">
-      <h2>프로젝트 소개</h2>
-      <p>
-        낙원 프로젝트는 종로구 낙원상가를 중심으로 한 인터뷰 기반 다큐멘터리다. 노인 음악가, 상인, 그리고 이 거리를 구성하는 사람들의 목소리를 기록한다.
-      </p>
-      <p>
-        젊은 세대가 알지 못했던 음악 문화와 장소의 기억을 영상, 인쇄물, 사진으로 남긴다.
+    <!-- Title + Basic Info -->
+    <section class="art-head">
+      <h1 class="art-title">Butterfly Trap</h1>
+
+    <p class="art-meta medium">
+        2025<br>
+        Mixed media (3D-printed PLA, electronics, motors, custom mechanical system)<br>
+        200 × 100 cm  
       </p>
     </section>
 
-    <!-- (옵션) 아래는 네가 기존에 쓰던 이미지 슬라이더 구조가 있다면 그대로 유지 가능 -->
-    <!--
-    <section class="slider">
-      <div class="still-frame"></div>
-      <div class="slider-ui">
-        <button class="slider-btn left" type="button" aria-label="Previous">‹</button>
-        <div class="page-indicator">1 / 1</div>
-        <button class="slider-btn right" type="button" aria-label="Next">›</button>
-      </div>
+    <!-- Overview -->
+    <section class="art-section">
+      <p>
+      <i>Butterfly Trap</i> is an installation that explores the tension 
+      between confinement and freedom through a motor-driven butterfly 
+      enclosed in a transparent structure and its digital counterparts displayed on screens.
+       By juxtaposing physical motion with mediated imagery, the work examines the fragile boundary 
+       between reality and simulation, and questions how freedom is constructed within technological systems.
+      </p><br>
+      <p class="text kor">
+      <i>Butterfly Trap</i>은 투명한 박스 안에서 모터로 구동되는 나비와 디지털 스크린을 통해, 
+      갇힌 존재와 자유롭게 비행하는 이미지 사이의 대비를 드러내는 설치 작품이다. 
+      물리적 구조 안에서 반복적으로 움직이는 나비는 보호와 통제라는 이중적 의미를 동시에 지니며, 
+      스크린 속 이미지와 병치되면서 현실과 디지털, 생명과 이미지의 경계를 모호하게 만든다. 
+      이 작업은 우리가 기술을 통해 만들어낸 환경 속에서 자유가 어떻게 규정되고 제한되는지를 질문하며, 감시와 유혹, 탈출 욕망이 교차하는 공간을 형성한다.
+      </p>
     </section>
 
-    <div id="popup" class="popup" aria-hidden="true">
-      <button class="popup-close" type="button" aria-label="Close">×</button>
-      <button class="popup-arrow left" type="button" aria-label="Previous">‹</button>
-      <img id="popup-img" alt="" />
-      <button class="popup-arrow right" type="button" aria-label="Next">›</button>
+    <!-- Exhibition Links -->
+    <div class="above-slider-link">
+      <a href="/studiolog/log/202501/">
+        <svg class="ic-arrow" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M7 17 L17 7" stroke="currentColor" stroke-width="1.5" fill="none"/>
+          <path d="M10 7h7v7" stroke="currentColor" stroke-width="1.5" fill="none"/>
+        </svg>
+        Explore Exhibition
+      </a>
     </div>
-    -->
 
-    <div class="bottom-bar" aria-hidden="true"></div>
+    <!-- Stills -->
+    <section class="art-section">
+      <div class="stills-slider">
+        <div class="still-frame"></div>
+
+        <div class="slider-controls">
+          <span class="slider-btn left">‹</span>
+          <span class="page-indicator">1 / 5</span>
+          <span class="slider-btn right">›</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- FULLSCREEN POPUP -->
+    <div id="popup" class="popup">
+      <img id="popup-img" src="">
+
+      <div class="popup-nav">
+        <span class="popup-arrow left">‹</span>
+        <span class="popup-arrow right">›</span>
+      </div>
+
+      <button class="popup-close">×</button>
+    </div>
+
+
+
   </main>
+
+  <script defer src="/front/favicons.js"></script>
 </body>
 </html>
