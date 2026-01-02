@@ -2,42 +2,52 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  />
   <title>Nakwon | Archive</title>
 
-  <!-- Global CSS -->
-  <link rel="stylesheet" href="/front/header.css">
+  <!-- Header styles -->
+  <link rel="stylesheet" href="/front/header.css" />
 
-  <!-- Page CSS -->
-  <link rel="stylesheet" href="nakwon.css">
+  <!-- Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700&display=swap"
+    rel="stylesheet"
+  />
 
-  <!-- model-viewer (한 번만) -->
-  <script
-    type="module"
-    src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
-  </script>
+  <!-- Page styles -->
+  <link rel="stylesheet" href="nakwon.css" />
 
-  <!-- Header Loader -->
-  <script src="/front/headerLoader.js" defer></script>
+  <!-- p5 -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.1.9/lib/p5.js"></script>
 
-  <!-- Page JS -->
-  <script type="module" src="nakwon.js"></script>
+  <!-- Global scripts -->
+  <script defer src="/front/headerLoader.js"></script>
 </head>
 
+<body data-page="log" data-no-header-offset="true">
 
-<body data-page="log">
+  <!-- 🔹 HEADER HOVER ZONE (상단 감지 영역) -->
+  <div class="header-hover-zone"></div>
+
+  <div class="mobile-header-zone"></div>
 
   <!-- HEADER INCLUDE -->
   <div data-include="header"></div>
 
-  <!-- LIST BUTTON -->
-  <div class="list-toggle" onclick="location.href='/archive/'">
-    <svg viewBox="0 0 24 24" class="ic-list">
+  <!-- LIST ICON -->
+  <div
+    class="list-toggle"
+    onclick="location.href='/archive/'"
+    aria-label="Back to Archive"
+  >
+    <svg viewBox="0 0 24 24" class="ic-list" aria-hidden="true">
       <g fill="none" stroke="currentColor" stroke-width="1.6">
-        <line x1="4" y1="6"  x2="20" y2="6"/>
-        <line x1="4" y1="12" x2="20" y2="12"/>
-        <line x1="4" y1="18" x2="20" y2="18"/>
+        <line x1="4" y1="6" x2="20" y2="6" />
+        <line x1="4" y1="12" x2="20" y2="12" />
+        <line x1="4" y1="18" x2="20" y2="18" />
       </g>
     </svg>
   </div>
@@ -64,73 +74,74 @@
 
     <!-- Title + Basic Info -->
     <section class="art-head">
-      <h1 class="art-title">Butterfly Trap</h1>
+      <h1 class="art-title">Nakwon</h1>
 
-    <p class="art-meta medium">
-        2025<br>
-        Mixed media (3D-printed PLA, electronics, motors, custom mechanical system)<br>
-        200 × 100 cm  
-      </p>
-    </section>
+<p class="art-meta medium">
+  2018<br>
+  Community art, mixed media (video, interviews, photography, printed materials)
+</p>
+</section>
 
-    <!-- Overview -->
-    <section class="art-section">
-      <p>
-      <i>Butterfly Trap</i> is an installation that explores the tension 
-      between confinement and freedom through a motor-driven butterfly 
-      enclosed in a transparent structure and its digital counterparts displayed on screens.
-       By juxtaposing physical motion with mediated imagery, the work examines the fragile boundary 
-       between reality and simulation, and questions how freedom is constructed within technological systems.
-      </p><br>
-      <p class="text kor">
-      <i>Butterfly Trap</i>은 투명한 박스 안에서 모터로 구동되는 나비와 디지털 스크린을 통해, 
-      갇힌 존재와 자유롭게 비행하는 이미지 사이의 대비를 드러내는 설치 작품이다. 
-      물리적 구조 안에서 반복적으로 움직이는 나비는 보호와 통제라는 이중적 의미를 동시에 지니며, 
-      스크린 속 이미지와 병치되면서 현실과 디지털, 생명과 이미지의 경계를 모호하게 만든다. 
-      이 작업은 우리가 기술을 통해 만들어낸 환경 속에서 자유가 어떻게 규정되고 제한되는지를 질문하며, 감시와 유혹, 탈출 욕망이 교차하는 공간을 형성한다.
-      </p>
-    </section>
+  <!-- Overview -->
+  <section class="art-section">
+    <p>
+      <i>Nakwon Project</i> is a community-based art project that documents the cultural landscape of
+      Nakwon-dong in Jongno 3-ga, an area shaped by first-generation Korean musicians and elderly communities.
+      While Ikseon-dong across the street has become a popular tourist destination filled with young visitors,
+      Nakwon-dong continues to sustain a culture largely unfamiliar to younger generations.
+    <br><br>
+      The project began by asking why so many elderly people gather in Nakwon-dong.
+      Through field research, interviews, and visual documentation, it observes everyday spaces such as
+      affordable restaurants, baduk rooms, old theaters, and music-related workplaces that remain central
+      to their daily lives. The focus of the project is on Nakwon-dong’s music culture, where recording studios,
+      lyricists, and composers continue to operate.
+    <br><br>
+      The elderly communities documented in this project lived through periods of significant social change,
+      including the Japanese colonial period, the Korean War, and rapid economic development.
+      Although many held personal dreams, economic and social conditions left little room to pursue them.
+      Now, later in life, they return to Nakwon-dong as a place to reconnect with those earlier aspirations.
+      The Nakwon Project records these lives alongside the broader history of social transformation in Korea.
+    </p>
 
-    <!-- Exhibition Links -->
-    <div class="above-slider-link">
-      <a href="/studiolog/log/202501/">
-        <svg class="ic-arrow" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M7 17 L17 7" stroke="currentColor" stroke-width="1.5" fill="none"/>
-          <path d="M10 7h7v7" stroke="currentColor" stroke-width="1.5" fill="none"/>
-        </svg>
-        Explore Exhibition
-      </a>
-    </div>
+    <p class="text kor">
+      <i>Nakwon</i>은 종로3가 낙원동을 중심으로 형성된 노인 공동체와
+      1세대 음악인들의 문화를 기록하는 커뮤니티 기반 예술 프로젝트이다.
+      관광지로 알려진 익선동과 달리, 길 하나를 사이에 둔 낙원동에는
+      젊은 세대에게는 잘 알려지지 않은 노인들의 문화가 여전히 이어지고 있다.
+    <br><br>
+      이 프로젝트는 많은 노인들이 왜 낙원동에 모이는지에 대한 질문에서 출발했다.
+      현장 조사와 인터뷰, 시각적 기록을 통해 저렴한 식당, 바둑 공간,
+      오래된 영화관, 음악 관련 작업 공간 등 그들의 일상과 밀접한 장소들을 관찰했다.
+      특히 레코딩 스튜디오, 작사와 작곡 작업 공간을 중심으로
+      낙원동의 음악 문화를 기록했다.
+    <br><br>
+      이 프로젝트에 등장하는 노인들은 일제강점기, 한국전쟁,
+      그리고 급격한 경제 성장을 겪으며 살아온 세대이다.
+      많은 이들이 각자의 꿈을 가지고 있었지만,
+      사회적·경제적 조건 속에서 그것을 실현하기는 어려웠다.
+      시간이 흘러 어느 정도의 여유를 갖게 된 지금,
+      그들은 젊은 시절의 꿈을 떠올리며 낙원동을 찾는다.
+      낙원 프로젝트는 한국 사회의 변화 속에서 살아온 이들의 삶과,
+      뒤늦게 다시 마주하게 된 꿈의 모습을 기록한다.
+    </p>
+  </section>
 
-    <!-- Stills -->
-    <section class="art-section">
-      <div class="stills-slider">
-        <div class="still-frame"></div>
 
-        <div class="slider-controls">
-          <span class="slider-btn left">‹</span>
-          <span class="page-indicator">1 / 5</span>
-          <span class="slider-btn right">›</span>
-        </div>
-      </div>
-    </section>
+   <section class="art-section posters">
+  <div class="poster-grid">
+    <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/nakwon/memoryplus.jpg" alt="NAKWON poster 1">
+    <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/nakwon/rose.jpg" alt="NAKWON poster 2">
+    <img src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/nakwon/eatsleep.jpg" alt="NAKWON poster 3">
+  </div>
+</section>
 
-    <!-- FULLSCREEN POPUP -->
-    <div id="popup" class="popup">
-      <img id="popup-img" src="">
-
-      <div class="popup-nav">
-        <span class="popup-arrow left">‹</span>
-        <span class="popup-arrow right">›</span>
-      </div>
-
-      <button class="popup-close">×</button>
-    </div>
 
 
 
   </main>
 
   <script defer src="/front/favicons.js"></script>
+    <script src="nakwon.js"></script>
+
 </body>
 </html>

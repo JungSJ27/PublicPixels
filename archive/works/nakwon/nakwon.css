@@ -1,82 +1,175 @@
-/* ===============================================
-   FIX PUBLICPIXELS DEFAULT LAYOUT EFFECTS
-=============================================== */
+/* =======================================================
+   RESET
+======================================================= */
+* { box-sizing: border-box; }
 
-body[data-page="log"] .pp-main::before,
-body[data-page="log"] .art-main::before {
-  display: none !important;
+html { overscroll-behavior-y: none; }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
 }
 
-/* ===============================================
-   GLOBAL PAGE BODY
-=============================================== */
-body {
+body{
   margin: 0;
-  font-family: 'Poppins', sans-serif;  /* styles.css 기준 */
-  background: #fff;
-  color: #111;
+  padding: 0;
+  font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  color: #000000;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
-/* ===============================
-   HEADER (전시 페이지 모드)
-   =============================== */
 
+/* =======================================================
+   HEADER (log page)
+======================================================= */
+
+/* HEADER 기본 숨김 */
 body[data-page="log"] header {
   position: fixed !important;
   top: 0;
   left: 0;
   width: 100%;
+
   background: transparent !important;
-  color: rgb(241, 238, 255) !important;
+  color: #ffffff !important;
   box-shadow: none !important;
   backdrop-filter: none !important;
   padding-top: 10px !important;
+
   z-index: 3000;
+
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+
+  transition: transform 0.35s ease, opacity 0.25s ease;
 }
 
-body[data-page="log"] header .logo-brand,
-body[data-page="log"] header .logo-roman,
-body[data-page="log"] header .logo-korean {
-  color: rgba(234, 234, 236, 0.95) !important;
+/* LIST 기본 숨김 헤더랑 같이 움직이게 */
+.list-toggle {
+  position: fixed;
+  top: 9px;
+  right: 22px;
+  width: 28px;
+  height: 28px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+
+  z-index: 3500;
+
+  transform: translateY(-120%);
+  opacity: 0;
+  pointer-events: none;
+
+  transition: transform 0.35s ease, opacity 0.25s ease;
 }
 
-/* 검색, 카트 아이콘 숨기기 */
+/* 상단 호버 시 둘 다 나타남 */
+body[data-page="log"].header-reveal header,
+body[data-page="log"].header-reveal .list-toggle {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* 상단 호버 시 표시 */
+body[data-page="log"].header-reveal header {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* 검색 / 샵 숨김 */
 body[data-page="log"] header .search-icon,
 body[data-page="log"] header .shop-toggle {
   display: none !important;
 }
 
-/* 스크롤에 따라 숨길 때 쓸 클래스 */
-header,
-.pp-header {
-  transition: opacity 0.35s ease;
+/* 로고 기본 톤 */
+body[data-page="log"] header .logo-brand,
+body[data-page="log"] header .logo-roman,
+body[data-page="log"] header .logo-korean {
+  color:  rgba(234, 234, 236, 0.95) !important;
 }
 
-.header-hidden {
-  opacity: 0;
+
+/* =======================================================
+   HEADER HOVER ZONE (DESKTOP)
+======================================================= */
+.header-hover-zone {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 36px;
+  z-index: 2900;
+}
+
+/* =======================================================
+   MOBILE HEADER ZONE (기본은 비활성)
+======================================================= */
+/* 기본: 모바일 터치 존은 클릭 막음 */
+.mobile-header-zone {
+  pointer-events: auto;
+}
+
+/* 헤더가 보이는 동안은 터치 존 비활성 */
+body.header-reveal .mobile-header-zone {
   pointer-events: none;
 }
 
-/* ===============================
-   LIST TOGGLE (목록으로 돌아가기)
-   =============================== */
+/* =======================================================
+   MOBILE ONLY
+======================================================= */
+@media (max-width: 768px) {
 
-.list-toggle {
-  position: fixed;
-  top: 12px;
-  right: 24px;
-  width: 28px;
-  height: 28px;
-  z-index: 3500;
-  cursor: pointer;
-  color:  rgba(234, 234, 236, 0.95);
-  opacity: 0.9;
-  transition: opacity 0.25s ease, transform 0.25s ease;
+  /* 데스크톱 hover zone 비활성 */
+  .header-hover-zone {
+    pointer-events: none;
+  }
+
+  /* 모바일 상단 터치 존 */
+  .mobile-header-zone {
+    display: block;        /* 🔑 모바일에서만 등장 */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 54px;
+    z-index: 4500;
+    background: transparent;
+    pointer-events: auto;
+  }
 }
 
-.list-toggle:hover {
-  opacity: 1;
-  transform: translateY(-1px);
+
+/* =======================================================
+   LIST ICON
+======================================================= */
+.list-toggle {
+  position: fixed;
+  top: 9px;
+  right: 22px;
+  width: 28px;
+  height: 28px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+  z-index: 3500;
+  opacity: 0.85;
+  color:  rgba(234, 234, 236, 0.95);
 }
 
 .ic-list {
@@ -84,12 +177,9 @@ header,
   height: 24px;
 }
 
-/* 헤더 숨길 때 같이 사라지도록 */
-.list-toggle.header-hidden {
-  opacity: 0;
-  pointer-events: none;
+.list-toggle:hover {
+  opacity: 1;
 }
-
 /* ===============================
    HEADER SLIDE ANIMATION
    =============================== */
@@ -117,6 +207,7 @@ header.header-hidden {
 /* ===============================================
    ART WRAP
 =============================================== */
+
 .art-wrap {
   max-width: 1200px;
   margin: 0 auto;
@@ -136,8 +227,8 @@ header.header-hidden {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 50px;
-  margin-bottom: 20px;
+  padding-top: 60px;
+  margin-bottom: 30px;
 }
 
 .hero-logo img{
@@ -147,6 +238,7 @@ header.header-hidden {
   display: block;
   object-fit: contain;
 }
+
 
 /* ===============================================
    VIDEO
@@ -175,25 +267,25 @@ header.header-hidden {
 .art-head {
   margin-top: 10px;
   margin-bottom: 0px;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin-left: 15px;
+  margin-right: 15px;
 }
 
 .art-title {
-  margin: 0 0 10px;
+  margin: 60px 0 10px;
   font-size: 16px;
   font-weight: 600;
 }
 
-.art-meta {
+.art-meta{
   font-size: 13px;
   color: #000000;
-  line-height: 1.;
+  line-height: 1.4;
 }
 
 .art-meta.medium {
   padding-bottom: 8px;   /* ⭐ 이 값이 선 위치를 결정 */
-  margin-bottom: 0px;
+  margin-bottom: 40px;
   border-bottom: 1px solid rgba(0,0,0,0.1);
 }
 
@@ -205,205 +297,39 @@ header.header-hidden {
   margin-right: 10px;
 }
 
-.art-section h2 {
-  font-size: 15px;
-  font-weight: 600;
-  margin: 0 0 0px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #555;
-}
-
 .art-section p {
   line-height: 1.7;
-  margin: 0 0px 25px;
-  font-size: 14px;
+  margin: 0 0px 45px;
+  font-size: 13px;
 
 }
-
 
 .art-section p.text.kor {
   line-height: 1.85;    /* ⭐ 한글 가독성 */
   font-size: 13px;      /* 살짝 작게 */
   letter-spacing: -0.01em;
+  margin-bottom: 100px;
 }
-
-
-
-/* =======================================================
-   ABOVE SLIDER LINK
-   ======================================================= */
-/* 공통 박스 스타일 */
-.above-slider-link {
-  text-align: center;
-  margin: 70px auto 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-
-/* 공통 링크 스타일 — 최중요! */
-.above-slider-link a {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  gap: 6px;
-  color: #000000;
-  font-size: 10px;
-  text-decoration: none;
-  opacity: 0.7;
-  transition: opacity 0.25s ease, color 0.25s ease;
-}
-
-/* hover 효과 */
-.above-slider-link a:hover {
-  color: #10d2cb;
-  opacity: 1;
-}
-
-/* 아이콘 */
-.ic-arrow,
-.ic-insta {
-  width: 11px;
-  height: 11px;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  flex-shrink: 0;
-}
-
 
 /* ===============================================
-   STILLS SLIDER
+   POSTERS
 =============================================== */
-
-.stills-slider {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 30px;
+.art-section.posters {
+  margin-top: 40px;
 }
 
-/* 이미지 프레임: 너비 기준을 70vw로 통일 */
-.still-frame {
-  width: 70vw;
-  max-width: 900px;
-  height: auto;
-  max-height: 50vh;         /* 세로 제한 추가 → 세로 이미지 과도한 길이 방지 */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;         /* contain 효과를 안정적으로 유지 */
-  margin: 0 auto;
-  cursor: zoom-in;
+.poster-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* ⭐ 일렬 */
+  gap: 24px;
 }
 
-/* 실제 이미지 */
-.still-frame img {
+.poster-grid img {
   width: 100%;
   height: auto;
-  object-fit: contain;      /* 세로/가로 이미지 안정적으로 표시 */
-  max-height: 60vh;         /* 세로 최대 높이 동일 적용 */
-  border-radius: 0px;
-  border: 0px solid #e4e4e4;
-  transition: transform 0.3s ease;
-}
-
-/* SLIDER CONTROLS */
-.slider-controls {
-  margin-top: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  font-size: 14px;
-  color: #777;
-}
-
-.slider-btn {
-  cursor: pointer;
-  padding: 4px 10px;
-  font-size: 18px;
-  border-radius: 0px;
-  transition: opacity 0.2s ease;
-  user-select: none;
-}
-
-
-.page-indicator {
-  font-size: 13px;
-  letter-spacing: 0.05em;
-}
-
-
-/* ===============================================
-   FULLSCREEN POPUP
-=============================================== */
-body.popup-open header,
-body.popup-open .pp-header,
-body.popup-open .list-toggle {
-  opacity: 0 !important;
-  pointer-events: none !important;
-  transform: translateY(-40px) !important;
-}
-
-.popup {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.9);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 5000;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.25s ease;
-}
-
-.popup.show {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.popup img {
-  width: 90vw;
-  max-height: 90vh;
+  display: block;
   object-fit: contain;
-  border-radius: 0px;
-}
-
-.popup-close {
-  position: fixed;
-  top: 24px;
-  right: 32px;
-  font-size: 18px;
-  color: white;
-  background: none;
-  border: none;
-  cursor: pointer;
-  z-index: 6000;
-  opacity: 0.6;
-}
-
-.popup-arrow {
-  position: fixed;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 25px;
-  color: white;
-  opacity: 0.6;
-  padding: 10px;
-  cursor: pointer;
-  user-select: none;
-}
-
-.popup-arrow.left {
-  left: 20px;
-}
-
-.popup-arrow.right {
-  right: 20px;
+  background: #f5f5f5; /* 포스터 여백 느낌 */
 }
 
 

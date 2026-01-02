@@ -1,69 +1,73 @@
-/* =======================================================
-   PAGE INIT
-======================================================= */
+/* =========================
+   HEADER
+========================= */
+(function () {
+  const body = document.body;
+  const zoneDesktop = document.querySelector(".header-hover-zone");
+  const zoneMobile = document.querySelector(".mobile-header-zone");
+  const header = document.querySelector("header");
 
-window.addEventListener("DOMContentLoaded", () => {
-  // headerLoader가 header를 DOM에 넣은 다음 프레임에 실행
-  requestAnimationFrame(() => {
-    initHeaderScroll();
-  });
+  let hideTimer = null;
 
-  initVideoFade();
-  initImageSlider();
-});
+  function revealFor(ms = 3000) {
+    clearTimeout(hideTimer);
+    body.classList.add("header-reveal");
 
-/* =======================================================
-   HEADER SHOW / HIDE  (scroll up = show, scroll down = hide)
-======================================================= */
-
-window.addEventListener("load", () => {
-  // headerLoader로 include된 헤더 잡기
-  const header =
-    document.querySelector("header.pp-header") ||
-    document.querySelector(".pp-header") ||
-    document.querySelector("header");
-  const listToggle = document.querySelector(".list-toggle");
-
-  if (!header) return;
-
-  function applyHidden(isHidden) {
-    if (isHidden) {
-      header.classList.add("header-hidden");
-      if (listToggle) listToggle.classList.add("header-hidden");
-    } else {
-      header.classList.remove("header-hidden");
-      if (listToggle) listToggle.classList.remove("header-hidden");
-    }
+    hideTimer = setTimeout(() => {
+      body.classList.remove("header-reveal");
+    }, ms);
   }
 
-  let lastY = window.scrollY;
+  /* 모바일 판별: hover 없는 환경 */
+  const isMobile = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
 
-  // 첫 로딩 시 상태
-  if (window.scrollY > 10) applyHidden(true);
-  else applyHidden(false);
+  /* ==========================
+     📱 MOBILE
+  ========================== */
+  if (isMobile) {
+    body.classList.remove("header-reveal");
 
-  window.addEventListener("scroll", () => {
-    const y = window.scrollY;
+    const onTopTap = (e) => {
+      revealFor(3000);
+    };
 
-    // 맨 위 근처면 항상 보이게
-    if (y < 10) {
-      applyHidden(false);
-      lastY = y;
-      return;
-    }
+    /* 상단 터치 존 */
+    zoneMobile?.addEventListener("touchstart", onTopTap, {
+      passive: true,
+    });
 
-    // 스크롤 방향에 따라 토글
-    if (y < lastY - 2) {
-      // 위로 스크롤 = 보이기
-      applyHidden(false);
-    } else if (y > lastY + 2) {
-      // 아래로 스크롤 = 숨기기
-      applyHidden(true);
-    }
+    /* 헤더 자체 터치해도 유지 */
+    header?.addEventListener("touchstart", onTopTap, {
+      passive: true,
+    });
 
-    lastY = y;
-  });
-});
+    return;
+  }
+
+  /* ==========================
+     🖥 DESKTOP
+  ========================== */
+  if (!zoneDesktop) return;
+
+  function show() {
+    clearTimeout(hideTimer);
+    body.classList.add("header-reveal");
+  }
+
+  function hide(delay = 500) {
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(() => {
+      body.classList.remove("header-reveal");
+    }, delay);
+  }
+
+  zoneDesktop.addEventListener("mouseenter", show);
+  zoneDesktop.addEventListener("mouseleave", () => hide(500));
+  header?.addEventListener("mouseenter", show);
+  header?.addEventListener("mouseleave", () => hide(500));
+})();
+
+
 
 
 /* =======================================================
