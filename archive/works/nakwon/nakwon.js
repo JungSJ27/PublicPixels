@@ -86,111 +86,72 @@ document.addEventListener("DOMContentLoaded", () => {
   }, 200);
 });
 
-/* IMAGE SLIDER + FULLSCREEN VIEWER */
+async function initBooklet() {
+  const bookEl = document.getElementById("book");
+  if (!bookEl) return;
 
-const images = [
-  "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/butterfly-trap/IMG_1790.png",
-  "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/butterfly-trap/IMG_1791.JPG",
-  "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/butterfly-trap/IMG_9778.png",
-  "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/butterfly-trap/IMG_9781.png",
-  "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/butterfly-trap/IMG_9860.png",
-  "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/butterfly-trap/IMG_9861.png",
-  "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/butterfly-trap/IMG_9862.png",
-  "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/butterfly-trap/IMG_9875.png",
-  "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/butterfly-trap/IMG_9881.png",
-  "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/butterfly-trap/IMG_9886.png"
-];
+  // 너의 실제 pdf 파일 경로로 바꿔줘
+  // 예: 같은 폴더면 "./무제-2.pdf"
+  // 예: /archive/works/nakwon/ 안이면 "/archive/works/nakwon/무제-2.pdf"
+  const pdfUrl = "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/nakwon/%E1%84%86%E1%85%AE%E1%84%8C%E1%85%A6-2.pdf";
 
+  // pdfjs 기본 설정
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.worker.min.js";
 
-let current = 0;
+  const loadingTask = pdfjsLib.getDocument(pdfUrl);
+  const pdf = await loadingTask.promise;
 
-const stillFrame = document.querySelector(".still-frame");
-const displayImg = document.createElement("img");
-stillFrame.appendChild(displayImg);
+  // 너무 무거우면 12쪽 정도까지만 먼저 보여주고 필요하면 늘리기
+  const pageCount = pdf.numPages;
 
-const pageText = document.querySelector(".page-indicator");
+  // 페이지를 이미지 캔버스로 렌더링해서 div에 넣기
+  const pages = [];
+  for (let i = 1; i <= pageCount; i++) {
+    const page = await pdf.getPage(i);
 
-/* initial render */
-function render() {
-  displayImg.src = images[current];
-  pageText.textContent = `${current + 1} / ${images.length}`;
-}
+    // 화면 크기에 따라 렌더 스케일을 조절
+    const viewport = page.getViewport({ scale: 1.6 });
 
-document.querySelector(".slider-btn.left").addEventListener("click", () => {
-  current = (current - 1 + images.length) % images.length;
-  render();
-});
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d", { alpha: false });
 
-document.querySelector(".slider-btn.right").addEventListener("click", () => {
-  current = (current + 1) % images.length;
-  render();
-});
+    canvas.width = Math.floor(viewport.width);
+    canvas.height = Math.floor(viewport.height);
 
-/* click → fullscreen */
-const popup = document.getElementById("popup");
-const popupImg = document.getElementById("popup-img");
-const popupClose = document.querySelector(".popup-close");
+    await page.render({ canvasContext: ctx, viewport }).promise;
 
-/* OPEN */
-stillFrame.addEventListener("click", () => {
-  popup.classList.add("show");
-  popupImg.src = images[current];
-  document.body.classList.add("popup-open"); // ⭐ header 숨김
-});
+    const pageDiv = document.createElement("div");
+    pageDiv.className = "page";
 
-/* CLOSE (X 버튼) */
-popupClose.addEventListener("click", () => {
-  closePopup();
-});
+    const img = document.createElement("img");
+    img.alt = `Booklet page ${i}`;
+    img.src = canvas.toDataURL("image/jpeg", 0.9);
+    img.style.width = "100%";
+    img.style.height = "100%";
+    img.style.objectFit = "contain";
+    img.style.background = "#fff";
 
-/* LEFT / RIGHT */
-document.querySelector(".popup-arrow.left").addEventListener("click", () => {
-  current = (current - 1 + images.length) % images.length;
-  popupImg.src = images[current];
-});
-
-document.querySelector(".popup-arrow.right").addEventListener("click", () => {
-  current = (current + 1) % images.length;
-  popupImg.src = images[current];
-});
-
-/* ESC 키로 닫기 */
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && popup.classList.contains("show")) {
-    closePopup();
-  }
-});
-
-/* 공통 닫기 함수 */
-function closePopup() {
-  popup.classList.remove("show");
-  document.body.classList.remove("popup-open"); // ⭐ 꼭 필요
-}
-
-
-/* ESC key closes popup */
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") popup.classList.remove("show");
-});
-
-/* touch swipe for mobile */
-let startX = 0;
-
-popup.addEventListener("touchstart", (e) => {
-  startX = e.touches[0].clientX;
-});
-
-popup.addEventListener("touchend", (e) => {
-  let diff = e.changedTouches[0].clientX - startX;
-
-  if (diff > 50) {
-    current = (current - 1 + images.length) % images.length;
-  } else if (diff < -50) {
-    current = (current + 1) % images.length;
+    pageDiv.appendChild(img);
+    pages.push(pageDiv);
   }
 
-  popupImg.src = images[current];
-});
+  // 페이지플립 생성
+  const pageFlip = new St.PageFlip(bookEl, {
+    width: 460,
+    height: 620,
+    size: "stretch",
+    minWidth: 320,
+    maxWidth: 920,
+    minHeight: 420,
+    maxHeight: 720,
+    showCover: true,
+    mobileScrollSupport: true
+  });
 
-/* run initial */
-render();
+  pageFlip.loadFromHTML(pages);
+}
+
+initBooklet().catch((err) => {
+  console.error("Booklet init failed:", err);
+});
