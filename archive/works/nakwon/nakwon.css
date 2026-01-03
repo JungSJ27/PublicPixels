@@ -333,34 +333,264 @@ header.header-hidden {
 }
 
 
+/* ===============================
+   RECORD PLAYER LAYOUT
+================================ */
+
+.record-player{
+  margin: 300px auto 200px;
+  text-align: center;
+}
+
+.record-ui{
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.record-stage{
+  position: relative;
+  width: 260px;
+  height: 260px;
+  margin: 0 auto;
+  user-select: none;
+
+  /* 추가 */
+  transform: translateX(-20px);
+}
+
+
+/* ===============================
+   ALBUM & VINYL
+================================ */
+
+.album-cover{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.25);
+}
+
+.vinyl{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 290px;
+  height: 290px;
+  z-index: 1;
+  opacity: 0.95;
+
+  /* 여기서 위치 고정 */
+  transform: translate(-10%, -50%) rotate(0deg);
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+
+.vinyl.is-spinning{
+  animation: spinRecord 6s linear infinite;
+}
+
+@keyframes spinRecord{
+  from { transform: translate(-10%, -50%) rotate(0deg); }
+  to   { transform: translate(-10%, -50%) rotate(360deg); }
+}
+
+
+/* ===============================
+   PLAY OVERLAY
+================================ */
+
+.play-overlay{
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* dim overlay */
+.play-overlay::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.18);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.record-stage:hover .play-overlay::before{
+  opacity: 1;
+}
+
+/* ===============================
+   PLAY / PAUSE ICON (CSS ONLY)
+================================ */
+
+.play-icon{
+  width: 64px;
+  height: 64px;
+  position: relative;
+  filter: drop-shadow(0 10px 18px rgba(0,0,0,0.25));
+  transition: transform 0.15s ease, opacity 0.2s ease;
+}
+
+/* ▶ PLAY */
+.play-icon::before{
+  content:"";
+  position:absolute;
+  left: 24px;
+  top: 16px;
+  width: 0;
+  height: 0;
+  border-top: 16px solid transparent;
+  border-bottom: 16px solid transparent;
+  border-left: 26px solid rgba(0,0,0,0.6);
+}
+
+/* ⏸ PAUSE */
+.record-stage.is-playing .play-icon::before{
+  border: none;
+  width: 8px;
+  height: 32px;
+  background: rgba(0,0,0,0.6);
+  left: 18px;
+  top: 16px;
+}
+
+.record-stage.is-playing .play-icon::after{
+  content:"";
+  position:absolute;
+  width: 8px;
+  height: 32px;
+  background: rgba(0,0,0,0.6);
+  left: 36px;
+  top: 16px;
+}
+
+/* hover feedback */
+.record-stage:hover .play-icon{
+  transform: scale(1.05);
+  opacity: 1;
+}
+
+/* ===============================
+   DOWNLOAD BUTTON
+================================ */
+
+.record-controls{
+  display: flex;
+  justify-content: center;
+  margin-top: 14px;
+}
+
+.icon-btn{
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 0px solid rgba(0,0,0,0.16);
+  background:   transparent;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.12s ease, box-shadow 0.2s ease;
+  transform: translateX(-20px);
+}
+
+
+.icon-btn:active{
+  transform: scale(1);
+}
+
+.icon-btn svg{
+  width: 20px;
+  height: 20px;
+  fill: #111;
+}
+
+/* tooltip */
+.hover-label{
+  position: absolute;
+  bottom: -34px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.78);
+  color: #fff;
+  opacity: 0;
+  pointer-events: none;
+  white-space: nowrap;
+  transition: opacity 0.18s ease;
+}
+
+.icon-btn:hover .hover-label{
+  opacity: 1;
+}
+
+/* 기본은 완전 숨김 */
+.play-overlay::before{
+  opacity: 0;
+}
+
+.play-icon{
+  opacity: 0;
+  transform: scale(0.98);
+}
+
+
+/* ===============================
+   MOBILE
+================================ */
+
+@media (max-width: 768px){
+  .record-stage{
+    width: 220px;
+    height: 220px;
+  }
+
+  .vinyl{
+    width: 180px;
+    height: 180px;
+  }
+
+  .play-overlay::before{
+    opacity: 0.15;
+  }
+
+  .hover-label{
+    display: none;
+  }
+}
+
+
 /* ===============================================
    BOOKLET
 =============================================== */
-.art-section.booklet{
-  margin-top: 46px;
-  max-width: 980px;
-}
-
-.booklet-shell{
+.flipbook-embed {
+  position: relative;
   width: 100%;
-  display: flex;
-  justify-content: center;
-  padding: 10px 0 6px;
+  max-width: 980px;
+  margin: 0 auto;
+  padding-top: 62%; /* 세로 비율 (조절 가능) */
 }
 
-.book{
-  width: min(920px, 94vw);
-  height: min(620px, 70vh);
-  background: rgba(0,0,0,0.03);
-  border-radius: 14px;
-  overflow: hidden;
+.flipbook-embed iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  margin-top: 100px;
 }
 
-.booklet-hint{
-  margin-top: 10px;
-  font-size: 12.5px;
-  color: rgba(0,0,0,0.6);
-}
 
 /* ===============================================
    MOBILE RESPONSIVE
@@ -456,12 +686,14 @@ header.header-hidden {
   }
 }
 
+@media (max-width: 768px) {
+  .poster-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
 
-#ambient-moths {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-  z-index: 6; /* header보다 낮고 콘텐츠보단 위 */
+  .poster-grid img {
+    max-width: 520px;
+    margin: 20px auto;
+  }
 }

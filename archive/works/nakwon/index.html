@@ -135,30 +135,72 @@
   </div>
 </section>
 
-<!-- Booklet -->
-<section class="art-section booklet">
-  <h2>Booklet</h2>
+<!-- Record Download -->
+<section class="art-section record-player" aria-label="Audio record player">
+  <div class="record-ui">
 
-  <div class="booklet-shell">
-    <div id="book" class="book"></div>
+    <div class="record-stage" id="recordStage" tabindex="0" aria-label="Play or pause">
+
+      <img
+        class="album-cover"
+        src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/nakwon/record.jpeg"
+        alt="Nakwon album cover"
+      />
+
+    <img
+      class="vinyl"
+      src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/nakwon/pure19record.png"
+      alt=""
+    />
+
+<button class="play-overlay" id="togglePlay" type="button" aria-label="Play or pause">
+  <span class="play-icon" aria-hidden="true"></span>
+</button>
+
+
+    </div>
+
+    <div class="record-controls">
+      <button class="icon-btn ghost" id="downloadAudio" type="button" aria-label="Download audio">
+        <span class="icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 3v10.2l3.6-3.6 1.4 1.4-6 6-6-6 1.4-1.4L10 13.2V3z"></path>
+            <path d="M5 19h14v2H5z"></path>
+          </svg>
+        </span>
+        <span class="hover-label" aria-hidden="true">Download</span>
+      </button>
+    </div>
+
+
+    <audio id="nakwonAudio" preload="auto" playsinline>
+      <source
+        src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/nakwon/pure19.m4a"
+        type="audio/mp4"
+      />
+    </audio>
+
   </div>
-
-  <p class="booklet-hint">
-    Drag or click the corners to flip pages.
-  </p>
 </section>
 
-<!-- PDF JS -->
-<script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.min.js"></script>
 
-<!-- PageFlip -->
-<script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js"></script>
+<!-- Booklet -->
+<section class="art-section booklet">
+  <div class="flipbook-embed">
+    <iframe
+      src="https://online.fliphtml5.com/ufzja/ujtc/"
+      frameborder="0"
+      allowfullscreen
+      scrolling="no"
+    ></iframe>
+  </div>
+</section>
+
 
 
   </main>
 
   <script defer src="/front/favicons.js"></script>
-    <script src="nakwon.js"></script>
-
+  <script src="nakwon.js"></script>
 </body>
 </html>
