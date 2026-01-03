@@ -208,3 +208,99 @@ document.addEventListener("DOMContentLoaded", initBookletEmbed);
     }
   });
 })();
+
+
+(function initPhotoStream(){
+  const grid = document.getElementById("photoGrid");
+  const sentinel = document.getElementById("photoSentinel");
+  if(!grid || !sentinel) return;
+
+  // TODO: 남은 사진들 URL을 여기에 넣어줘
+  const PHOTOS = [
+    "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/nakwon/11060001.JPG",
+    "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/nakwon/DSC_0028.JPG",
+    "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/nakwon/DSC_0009.JPG",
+    "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/nakwon/DSC_0016.JPG",
+    "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/nakwon/11060002.JPG",
+    "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/nakwon/11060003.JPG",
+    "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/nakwon/11060004.JPG",
+    "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/nakwon/11060008.JPG",
+    "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/nakwon/DSC_0007.JPG",
+    "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/nakwon/11060009.JPG",
+    "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/nakwon/11060010.JPG",
+    "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/nakwon/11060011.JPG",
+    "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/nakwon/11060012.JPG",
+    "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/nakwon/11080013.JPG",
+    "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/nakwon/11060020.JPG",
+    "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/nakwon/11060023.JPG",
+    "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/nakwon/DSC_0019.JPG",
+    "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/nakwon/11060027.JPG",
+    "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/nakwon/11080002.JPG",
+    "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/nakwon/11080003.JPG",
+    "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/nakwon/11080008.JPG",
+    "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/nakwon/11080012.JPG",
+    "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/nakwon/11080013.JPG",
+    "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/nakwon/11080017.JPG",
+    "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/nakwon/11080021.JPG",
+    "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/nakwon/DSC_0021.JPG",
+    "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/nakwon/11110003.JPG",
+    "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/nakwon/11110006.JPG"
+  ];
+
+  const BATCH = 12;
+  let cursor = 0;
+  let loading = false;
+
+  function renderBatch(){
+    if(loading) return;
+    if(cursor >= PHOTOS.length) return;
+
+    loading = true;
+
+    const end = Math.min(cursor + BATCH, PHOTOS.length);
+    for(let i = cursor; i < end; i++){
+      const wrap = document.createElement("div");
+      wrap.className = "photo-item";
+
+      const img = document.createElement("img");
+      img.loading = "lazy";
+      img.decoding = "async";
+      img.src = PHOTOS[i];
+      img.alt = "";
+
+      wrap.appendChild(img);
+      grid.appendChild(wrap);
+    }
+
+    cursor = end;
+    loading = false;
+  }
+
+  // 첫 로드
+  renderBatch();
+
+  // 아래로 내려가면 자동 로드
+  const io = new IntersectionObserver((entries) => {
+    if(entries.some(e => e.isIntersecting)){
+      renderBatch();
+    }
+  }, { root: null, rootMargin: "600px 0px", threshold: 0 });
+
+  io.observe(sentinel);
+})();
+
+const images = document.querySelectorAll('.photo-masonry img');
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+
+images.forEach(img => {
+  img.addEventListener('click', () => {
+    lightboxImg.src = img.src;
+    lightbox.style.display = 'flex';
+  });
+});
+
+lightbox.addEventListener('click', () => {
+  lightbox.style.display = 'none';
+  lightboxImg.src = '';
+});
