@@ -191,8 +191,8 @@ html, body{
 
 .art-meta.medium {
   padding-bottom: 8px;   /* ⭐ 이 값이 선 위치를 결정 */
-  margin-bottom: 0px;
-  border-bottom: 1px solid rgba(0,0,0,0.1);
+  margin-bottom: -10px;
+  border-bottom: 1px solid rgba(0,0,0,0.1)
 }
 
 
@@ -214,7 +214,7 @@ html, body{
 
 .art-section p {
   line-height: 1.7;
-  margin: 0 0px 25px;
+  margin: 0px 0px 10px;
   font-size: 14px;
 
 }
@@ -232,7 +232,7 @@ html, body{
 /* 공통 박스 스타일 */
 .above-slider-link {
   text-align: center;
-  margin: 70px auto 10px;
+  margin: 60px auto 80px;
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -254,7 +254,7 @@ html, body{
 
 /* hover 효과 */
 .above-slider-link a:hover {
-  color: #10d2cb;
+  color: #f260c9;
   opacity: 1;
 }
 
@@ -268,83 +268,54 @@ html, body{
   flex-shrink: 0;
 }
 
+/* ===============================
+   SWIPE STRIP (top이랑 같은 방식)
+=============================== */
 
-/* Swipe strip */
 .bok-strip{
   margin-top: 54px;
 }
 
-.strip-head{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 10px;
-}
+.strip-head{ display:none; }
 
-.strip-title{
-  margin: 0;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-}
-
-.strip-controls{
-  display: flex;
-  gap: 8px;
-}
-
-.strip-btn{
-  appearance: none;
-  border: 1px solid var(--border);
-  background: #fff;
-  color: var(--ink);
-  width: 34px;
-  height: 34px;
-  border-radius: 999px;
-  cursor: pointer;
-  font-size: 18px;
-  line-height: 1;
-}
-
-.strip-btn:active{
-  transform: scale(0.98);
-}
-
+/* viewport */
 .strip-viewport{
-  overflow: auto;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
+  overflow-x: auto;
+  overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
-  border-top: 1px solid transparent;
+  scroll-behavior: smooth;
   outline: none;
 }
 
-.strip-viewport::-webkit-scrollbar{
-  height: 8px;
-}
+.strip-viewport::-webkit-scrollbar{ height: 8px; }
 .strip-viewport::-webkit-scrollbar-thumb{
   background: rgba(0,0,0,0.18);
   border-radius: 999px;
 }
 
+/* ✅ grid 말고 flex로: 겹침 원천 차단 */
 .strip-track{
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: clamp(220px, 32vw, 360px);
-  gap: 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;            /* 간격 */
   padding: 6px 0 2px;
+  width: max-content;   /* ✅ 내용만큼 track이 길어지게 */
 }
 
+/* ✅ top이랑 동일: 높이만 통일 + width는 비율대로 */
 .strip-item{
-  scroll-snap-align: start;
   margin: 0;
+  height: 560px;
+  display: flex;
+  align-items: flex-start;
+  flex: 0 0 auto;       /* ✅ 줄어들지 않게 */
 }
 
 .strip-item img{
-  width: 100%;
-  height: auto;
+  height: 100%;
+  width: auto;
   display: block;
+  object-fit: contain;
   border-radius: var(--tile-radius);
 }
 
@@ -353,16 +324,10 @@ html, body{
   margin-top: 60px;
 }
 
-.pattern-title{
-  margin: 0 0 12px;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-}
 
 .pattern-grid{
   width: 100%;
-  max-width: 760px;
+  max-width: 1200px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
