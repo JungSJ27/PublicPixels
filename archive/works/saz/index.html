@@ -1,0 +1,139 @@
+<!-- saz.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Patterns Board</title>
+  <link rel="stylesheet" href="saz.css" />
+  <script defer src="saz.js"></script>
+</head>
+
+<body>
+  <main class="board">
+
+    <header class="board_head">
+      <div class="board_head_row">
+        <div class="board_icon" aria-hidden="true">✈︎</div>
+        <button class="board_btn" type="button">Unfollow board</button>
+      </div>
+
+      <div class="board_hero">
+        <div class="board_hero_left">
+          <h1 class="board_title">Katja Designs SF</h1>
+          <p class="board_stats">
+            <span id="pin_count">0</span> Pins<br />
+            24.5k Followers
+          </p>
+        </div>
+
+        <div class="board_avatar" aria-hidden="true">
+          <img src="https://picsum.photos/id/64/180/180" alt="" />
+        </div>
+      </div>
+    </header>
+
+    <section class="board_grid_wrap" aria-label="Pins">
+      <div class="masonry" id="masonry">
+
+        <!-- pin -->
+        <article class="pin" tabindex="0" data_title="Meadowlark Print" data_by="Katja Ollendorff" data_from="katjaollendorff.com">
+          <div class="pin_img">
+            <img src="https://picsum.photos/id/1069/720/900" alt="Meadowlark Print" loading="lazy" />
+          </div>
+          <div class="pin_body">
+            <p class="pin_line strong">© Katja Ollendorff</p>
+            <p class="pin_line">Meadowlark Print</p>
+            <p class="pin_line muted">Saved from katjaollendorff.com</p>
+          </div>
+        </article>
+
+        <article class="pin" tabindex="0" data_title="Vivense Fabric" data_by="Katja Ollendorff" data_from="katjaollendorff.com">
+          <div class="pin_img">
+            <img src="https://picsum.photos/id/1018/720/820" alt="Vivense Fabric" loading="lazy" />
+          </div>
+          <div class="pin_body">
+            <p class="pin_line strong">© Vivense / Fabric</p>
+            <p class="pin_line">design by Katja Ollendorff</p>
+            <p class="pin_line muted">Saved from katjaollendorff.com</p>
+          </div>
+        </article>
+
+        <article class="pin" tabindex="0" data_title="Surface Pattern 01" data_by="Katja Ollendorff" data_from="katjaollendorff.com">
+          <div class="pin_img">
+            <img src="https://picsum.photos/id/1025/720/720" alt="Surface Pattern 01" loading="lazy" />
+          </div>
+          <div class="pin_body">
+            <p class="pin_line">Katja Ollendorff</p>
+            <p class="pin_line muted">Saved from katjaollendorff.com</p>
+          </div>
+        </article>
+
+        <article class="pin" tabindex="0" data_title="Surface Pattern 02" data_by="Katja Ollendorff" data_from="katjaollendorff.com">
+          <div class="pin_img">
+            <img src="https://picsum.photos/id/1056/720/900" alt="Surface Pattern 02" loading="lazy" />
+          </div>
+          <div class="pin_body">
+            <p class="pin_line strong">Surface Pattern Design</p>
+            <p class="pin_line">by Katja Designs SF</p>
+            <p class="pin_line muted">Saved from katjaollendorff.com</p>
+          </div>
+        </article>
+
+        <article class="pin" tabindex="0" data_title="Blue Floral" data_by="Katja Ollendorff" data_from="katjaollendorff.com">
+          <div class="pin_img">
+            <img src="https://picsum.photos/id/1043/720/720" alt="Blue Floral" loading="lazy" />
+          </div>
+          <div class="pin_body">
+            <p class="pin_line strong">© Katja Ollendorff</p>
+            <p class="pin_line muted">Saved from katjaollendorff.com</p>
+          </div>
+        </article>
+
+        <article class="pin" tabindex="0" data_title="Pattern Blue" data_by="Katja Ollendorff" data_from="katjaollendorff.com">
+          <div class="pin_img">
+            <img src="https://picsum.photos/id/1060/720/820" alt="Pattern Blue" loading="lazy" />
+          </div>
+          <div class="pin_body">
+            <p class="pin_line">Katja Ollendorff</p>
+            <p class="pin_line muted">Saved from katjaollendorff.com</p>
+          </div>
+        </article>
+
+        <article class="pin" tabindex="0" data_title="Pattern Red" data_by="Katja Ollendorff" data_from="katjaollendorff.com">
+          <div class="pin_img">
+            <img src="https://picsum.photos/id/102/720/900" alt="Pattern Red" loading="lazy" />
+          </div>
+          <div class="pin_body">
+            <p class="pin_line">Katja Ollendorff</p>
+            <p class="pin_line muted">Saved from katjaollendorff.com</p>
+          </div>
+        </article>
+
+        <article class="pin" tabindex="0" data_title="Texture Study" data_by="Katja Ollendorff" data_from="katjaollendorff.com">
+          <div class="pin_img">
+            <img src="https://picsum.photos/id/1033/720/860" alt="Texture Study" loading="lazy" />
+          </div>
+          <div class="pin_body">
+            <p class="pin_line">Katja Ollendorff</p>
+            <p class="pin_line muted">Saved from katjaollendorff.com</p>
+          </div>
+        </article>
+
+        <article class="pin" tabindex="0" data_title="Roberta Mug Pink" data_by="Katja Designs SF" data_from="katjaollendorff.com">
+          <div class="pin_img">
+            <img src="https://picsum.photos/id/30/720/760" alt="Roberta Mug Pink" loading="lazy" />
+          </div>
+          <div class="pin_body">
+            <p class="pin_line strong">Roberta Mug Pink</p>
+            <p class="pin_line">Katja Designs SF</p>
+            <p class="pin_line muted">Saved from katjaollendorff.com</p>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+  </main>
+</body>
+</html>

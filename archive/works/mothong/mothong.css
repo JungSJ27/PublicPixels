@@ -116,7 +116,7 @@ header.header-hidden {
 
 .fullImage {
   display: block;
-  margin: 50px auto 0px;
+  margin: 48px auto 0px;
 
   /* ✅ 가로 기준으로 꽉 차게 (하지만 최대 1200px) */
   width: min(1200px, 100vw);
