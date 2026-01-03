@@ -102,6 +102,30 @@ body[data-page="log"] header .logo-korean {
 }
 
 
+body{
+  background:
+    linear-gradient(to bottom, rgba(255,210,160,0.18), transparent 260px),
+    linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(0,0,0,0.03) 1px, transparent 1px),
+    #fff;
+  background-size: auto, 28px 28px, 28px 28px, auto;
+}
+
+html, body{
+  height: auto;
+  min-height: 100%;
+}
+
+/* photo stream이 있는 페이지는 하단 패딩 제거 */
+.art-wrap:has(.photo-stream){
+  padding-bottom: 0;
+}
+
+/* 안전영역 padding 쓰고 있으면 0으로 */
+body{
+  padding-bottom: 0;
+}
+
 /* =======================================================
    HEADER HOVER ZONE (DESKTOP)
 ======================================================= */
@@ -604,21 +628,23 @@ header.header-hidden {
 .sub-video-text{
   width: 100%;
   margin-top: 18px;
+  margin-left: 8px;
+  margin-right: 10px;
   text-align: left;
 }
 
 /* 타이틀 */
 .sub-video-text h3{
   margin: 0 0 10px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.2px;
 }
 
 /* 영문은 캡션 느낌 */
 .sub-video-text p.en{
-  margin: 0 0 10px;
-  font-size: 12px;
+  margin: 0 0 7px;
+  font-size: 10px;
   line-height: 1.7;
   color: rgba(0,0,0,0.56);
 }
@@ -626,7 +652,7 @@ header.header-hidden {
 /* 한글은 본문 느낌 */
 .sub-video-text p{
   margin: 0;
-  font-size: 12.5px;
+  font-size: 10px;
   line-height: 1.75;
   color: rgba(0,0,0,0.78);
 }
@@ -639,18 +665,15 @@ header.header-hidden {
 
 .photo-stream{
   width: 100vw;
-  margin: 180px 0;
-  padding: 0;              /* 여백 제거 */
   position: relative;
   left: 50%;
   transform: translateX(-50%);
-}
-.photo-stream{
-  margin-bottom: 0 !important;
-  padding-bottom: 0 !important;
+
+  margin: 180px 0 0;     /* 위만 간격, 아래는 0 */
+  padding: 0;
 }
 
-
+/* masonry */
 .photo-masonry{
   column-count: 4;
   column-gap: 10px;
@@ -661,24 +684,27 @@ header.header-hidden {
   margin: 0 0 18px;
 }
 
+.photo-masonry .photo-item:last-child{
+  margin-bottom: 0;
+}
+
 .photo-masonry img{
   width: 100%;
   height: auto;
   display: block;
   border-radius: 0px;
   box-shadow: 0 16px 34px rgba(0,0,0,0.10);
+  vertical-align: bottom;  /* 이미지 아래 미세 여백 방지 */
 }
-.photo-masonry img{
-  display: block;
-  margin-bottom: 0;
-}
-
 
 /* 스크롤 로딩 센티널 */
 .photo-sentinel{
   height: 1px;
 }
 
+/* ===============================
+   LIGHTBOX
+================================ */
 
 .lightbox{
   position: fixed;
@@ -691,13 +717,53 @@ header.header-hidden {
   cursor: zoom-out;
 }
 
+.lightbox.is-open{
+  display: flex;
+}
+
 .lightbox img{
-  max-width: 90vw;
-  max-height: 90vh;
+  max-width: 92vw;
+  max-height: 92vh;
   object-fit: contain;
+  cursor: default;
+}
+
+/* buttons */
+.lb-btn{
+  position: absolute;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  font-size: 22px;
+  line-height: 44px;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
 }
 
 
+.lb-close{
+  top: 18px;
+  right: 18px;
+  font-size: 22px;
+}
+
+.lb-prev{
+  left: 18px;
+}
+
+.lb-next{
+  right: 18px;
+}
+
+@media (max-width: 768px){
+  .lb-prev{ left: 10px; }
+  .lb-next{ right: 10px; }
+  .lb-close{ top: 10px; right: 10px; }
+}
 
 /* ===============================================
    RESPONSIVE
@@ -877,14 +943,4 @@ header.header-hidden {
   }
 }
 
-
-
-body{
-  background:
-    linear-gradient(to bottom, rgba(255,210,160,0.18), transparent 260px),
-    linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px),
-    linear-gradient(0deg, rgba(0,0,0,0.03) 1px, transparent 1px),
-    #fff;
-  background-size: auto, 28px 28px, 28px 28px, auto;
-}
 

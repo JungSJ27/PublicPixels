@@ -215,7 +215,14 @@ document.addEventListener("DOMContentLoaded", initBookletEmbed);
   const sentinel = document.getElementById("photoSentinel");
   if(!grid || !sentinel) return;
 
-  // TODO: 남은 사진들 URL을 여기에 넣어줘
+  const lightbox = document.getElementById("lightbox");
+  const lightboxImg = document.getElementById("lightbox-img");
+  const btnClose = lightbox?.querySelector(".lb-close");
+  const btnPrev = lightbox?.querySelector(".lb-prev");
+  const btnNext = lightbox?.querySelector(".lb-next");
+
+  if(!lightbox || !lightboxImg || !btnClose || !btnPrev || !btnNext) return;
+
   const PHOTOS = [
     "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/nakwon/11060001.JPG",
     "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/nakwon/DSC_0028.JPG",
@@ -247,6 +254,50 @@ document.addEventListener("DOMContentLoaded", initBookletEmbed);
     "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/nakwon/11110006.JPG"
   ];
 
+  /* grid masonry sizing */
+  function sizeItem(item){
+    const masonry = grid;
+    const row = parseFloat(getComputedStyle(masonry).getPropertyValue("--row")) || 10;
+    const gap = parseFloat(getComputedStyle(masonry).getPropertyValue("--gap")) || 10;
+
+    const img = item.querySelector("img");
+    if(!img) return;
+
+    const h = img.getBoundingClientRect().height;
+    const span = Math.ceil((h + gap) / row);
+    item.style.gridRowEnd = `span ${span}`;
+  }
+
+  function sizeAll(){
+    grid.querySelectorAll(".photo-item").forEach(sizeItem);
+  }
+
+  let currentIndex = 0;
+
+  function openLightbox(index){
+    currentIndex = (index + PHOTOS.length) % PHOTOS.length;
+    lightboxImg.src = PHOTOS[currentIndex];
+    lightbox.classList.add("is-open");
+    lightbox.setAttribute("aria-hidden", "false");
+    document.documentElement.style.overflow = "hidden";
+  }
+
+  function closeLightbox(){
+    lightbox.classList.remove("is-open");
+    lightbox.setAttribute("aria-hidden", "true");
+    lightboxImg.src = "";
+    document.documentElement.style.overflow = "";
+  }
+
+  function prev(){
+    openLightbox(currentIndex - 1);
+  }
+
+  function next(){
+    openLightbox(currentIndex + 1);
+  }
+
+  /* render */
   const BATCH = 12;
   let cursor = 0;
   let loading = false;
@@ -258,6 +309,7 @@ document.addEventListener("DOMContentLoaded", initBookletEmbed);
     loading = true;
 
     const end = Math.min(cursor + BATCH, PHOTOS.length);
+
     for(let i = cursor; i < end; i++){
       const wrap = document.createElement("div");
       wrap.className = "photo-item";
@@ -267,6 +319,9 @@ document.addEventListener("DOMContentLoaded", initBookletEmbed);
       img.decoding = "async";
       img.src = PHOTOS[i];
       img.alt = "";
+      img.dataset.index = String(i);
+
+      img.addEventListener("load", () => sizeItem(wrap), { once: true });
 
       wrap.appendChild(img);
       grid.appendChild(wrap);
@@ -274,12 +329,12 @@ document.addEventListener("DOMContentLoaded", initBookletEmbed);
 
     cursor = end;
     loading = false;
+
+    requestAnimationFrame(sizeAll);
   }
 
-  // 첫 로드
   renderBatch();
 
-  // 아래로 내려가면 자동 로드
   const io = new IntersectionObserver((entries) => {
     if(entries.some(e => e.isIntersecting)){
       renderBatch();
@@ -287,20 +342,33 @@ document.addEventListener("DOMContentLoaded", initBookletEmbed);
   }, { root: null, rootMargin: "600px 0px", threshold: 0 });
 
   io.observe(sentinel);
-})();
 
-const images = document.querySelectorAll('.photo-masonry img');
-const lightbox = document.getElementById('lightbox');
-const lightboxImg = document.getElementById('lightbox-img');
-
-images.forEach(img => {
-  img.addEventListener('click', () => {
-    lightboxImg.src = img.src;
-    lightbox.style.display = 'flex';
+  /* click open: event delegation */
+  grid.addEventListener("click", (e) => {
+    const img = e.target?.closest?.("img");
+    if(!img) return;
+    const idx = Number(img.dataset.index);
+    if(Number.isFinite(idx)) openLightbox(idx);
   });
-});
 
-lightbox.addEventListener('click', () => {
-  lightbox.style.display = 'none';
-  lightboxImg.src = '';
-});
+  /* close by background */
+  lightbox.addEventListener("click", (e) => {
+    if(e.target === lightbox) closeLightbox();
+  });
+
+  /* stop bubbling on image and buttons */
+  lightboxImg.addEventListener("click", (e) => e.stopPropagation());
+  btnClose.addEventListener("click", (e) => { e.stopPropagation(); closeLightbox(); });
+  btnPrev.addEventListener("click", (e) => { e.stopPropagation(); prev(); });
+  btnNext.addEventListener("click", (e) => { e.stopPropagation(); next(); });
+
+  /* keyboard */
+  document.addEventListener("keydown", (e) => {
+    if(!lightbox.classList.contains("is-open")) return;
+    if(e.key === "Escape") closeLightbox();
+    if(e.key === "ArrowLeft") prev();
+    if(e.key === "ArrowRight") next();
+  });
+
+  window.addEventListener("resize", () => requestAnimationFrame(sizeAll));
+})();
