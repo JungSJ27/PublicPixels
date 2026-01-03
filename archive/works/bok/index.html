@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Bok | Archive</title>
+
+  <!-- Global CSS -->
+  <link rel="stylesheet" href="/front/styles.css">
+  <link rel="stylesheet" href="/front/header.css">
+
+  <!-- Page CSS -->
+  <link rel="stylesheet" href="bok.css">
+
+  <!-- model-viewer (한 번만) -->
+  <script
+    type="module"
+    src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
+  </script>
+
+  <!-- Header Loader -->
+  <script src="/front/headerLoader.js" defer></script>
+
+  <!-- Page JS -->
+  <script type="module" src="bok.js"></script>
+</head>
+
+
+<body data-page="log">
+
+  <!-- HEADER INCLUDE -->
+  <div data-include="header"></div>
+
+  <!-- LIST BUTTON -->
+  <div class="list-toggle" onclick="location.href='/archive/'">
+    <svg viewBox="0 0 24 24" class="ic-list">
+      <g fill="none" stroke="currentColor" stroke-width="1.6">
+        <line x1="4" y1="6"  x2="20" y2="6"/>
+        <line x1="4" y1="12" x2="20" y2="12"/>
+        <line x1="4" y1="18" x2="20" y2="18"/>
+      </g>
+    </svg>
+  </div>
+
+  <main class="bok-main">
+    <!-- 1) Top two images -->
+    <section class="bok-top" aria-label="BOK top images">
+      <figure class="bok-hero">
+        <img id="topImg1" alt="BOK top image 1" loading="eager" />
+      </figure>
+      <figure class="bok-hero">
+        <img id="topImg2" alt="BOK top image 2" loading="eager" />
+      </figure>
+    </section>
+
+    <!-- 2) Description -->
+    <section class="bok-desc" aria-label="BOK description">
+      <h1 class="bok-title">BOK</h1>
+      <p class="bok-paragraph" id="bokDesc">
+        여기에 프로젝트 설명을 넣어줘. 작업의 배경, 의도, 제작 방식, 관객 경험 같은 핵심을 짧고 선명하게 쓰면 좋아.
+      </p>
+    </section>
+
+    <!-- 3) Swipe row, 4 images -->
+    <section class="bok-strip" aria-label="Swipe photo strip">
+      <div class="strip-head">
+        <h2 class="strip-title">Photos</h2>
+
+        <div class="strip-controls" aria-label="carousel controls">
+          <button class="strip-btn" id="stripPrev" type="button" aria-label="previous">‹</button>
+          <button class="strip-btn" id="stripNext" type="button" aria-label="next">›</button>
+        </div>
+      </div>
+
+      <div class="strip-viewport" id="stripViewport" tabindex="0" aria-label="Swipeable images">
+        <div class="strip-track" id="stripTrack">
+          <!-- JS가 이미지 4개를 채움 -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 4) Pattern grid, 3 by 3 -->
+    <section class="bok-pattern" aria-label="Pattern grid">
+      <h2 class="pattern-title">Pattern</h2>
+
+      <div class="pattern-grid" id="patternGrid">
+        <!-- JS가 9개 이미지를 채움 -->
+      </div>
+
+      <!-- 5) Three short descriptions -->
+      <div class="pattern-captions" aria-label="Pattern captions">
+        <div class="cap" id="cap1">
+          <p class="cap-text">짧은 설명 1</p>
+        </div>
+        <div class="cap" id="cap2">
+          <p class="cap-text">짧은 설명 2</p>
+        </div>
+        <div class="cap" id="cap3">
+          <p class="cap-text">짧은 설명 3</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="bok-footer" aria-label="footer spacing"></footer>
+  </main>
+  
+<script defer src="/front/favicons.js"></script>
+</body>
+</html>

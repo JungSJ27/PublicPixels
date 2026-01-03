@@ -1,0 +1,343 @@
+/* ===============================================
+   FIX PUBLICPIXELS DEFAULT LAYOUT EFFECTS
+=============================================== */
+
+body[data-page="log"] .pp-main::before,
+body[data-page="log"] .art-main::before {
+  display: none !important;
+}
+
+/* ===============================================
+   GLOBAL PAGE BODY
+=============================================== */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;  /* styles.css 기준 */
+  background: #fff;
+  color: #111;
+}
+
+/* ===============================
+   HEADER (전시 페이지 모드)
+   =============================== */
+
+body[data-page="log"] header {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: transparent !important;
+  color: rgb(241, 238, 255) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  padding-top: 10px !important;
+  z-index: 3000;
+}
+
+body[data-page="log"] header .logo-brand,
+body[data-page="log"] header .logo-roman,
+body[data-page="log"] header .logo-korean {
+  color: rgba(234, 234, 236, 0.95) !important;
+}
+
+/* 검색, 카트 아이콘 숨기기 */
+body[data-page="log"] header .search-icon,
+body[data-page="log"] header .shop-toggle {
+  display: none !important;
+}
+
+/* 스크롤에 따라 숨길 때 쓸 클래스 */
+header,
+.pp-header {
+  transition: opacity 0.35s ease;
+}
+
+.header-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ===============================
+   LIST TOGGLE (목록으로 돌아가기)
+   =============================== */
+
+.list-toggle {
+  position: fixed;
+  top: 12px;
+  right: 24px;
+  width: 28px;
+  height: 28px;
+  z-index: 3500;
+  cursor: pointer;
+  color:  rgba(234, 234, 236, 0.95);
+  opacity: 0.9;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.list-toggle:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.ic-list {
+  width: 24px;
+  height: 24px;
+}
+
+/* 헤더 숨길 때 같이 사라지도록 */
+.list-toggle.header-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ===============================
+   HEADER SLIDE ANIMATION
+   =============================== */
+
+/* 기본 상태: 보임 + 제자리 */
+body[data-page="log"] header {
+  transform: translateY(0);
+  transition: opacity 0.35s ease, transform 0.4s ease;
+}
+
+/* 숨김 상태: 살짝 위로 올려서 사라지는 느낌 */
+header.header-hidden {
+  opacity: 0;
+  transform: translateY(-28px);
+  pointer-events: none;
+}
+
+/* 리스트 버튼도 같이 위로 올라가게 */
+.list-toggle.header-hidden {
+  opacity: 0;
+  transform: translateY(-28px);
+}
+
+
+/* bok.css */
+:root{
+  --bok-max: 1080px;
+  --bok-gap: 22px;
+  --bok-gap-sm: 14px;
+
+  --ink: #0b0b0b;
+  --muted: rgba(10,10,10,0.62);
+  --border: rgba(0,0,0,0.12);
+
+  --tile-radius: 0px; /* 샘플처럼 각진 느낌 */
+}
+
+*{ box-sizing: border-box; }
+
+html, body{
+  background: #fff;
+  color: var(--ink);
+}
+
+.bok-main{
+  width: min(var(--bok-max), calc(100% - 40px));
+  margin: 0 auto;
+  padding-top: 120px; /* fixed header 고려 */
+  padding-bottom: 80px;
+}
+
+/* Top two images */
+.bok-top{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--bok-gap);
+  align-items: start;
+  margin-top: 26px;
+}
+
+.bok-hero{
+  margin: 0;
+}
+
+.bok-hero img{
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--tile-radius);
+}
+
+/* Description */
+.bok-desc{
+  margin-top: 18px;
+  padding-top: 6px;
+}
+
+.bok-title{
+  margin: 0 0 8px;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  font-weight: 600;
+}
+
+.bok-paragraph{
+  margin: 0;
+  max-width: 78ch;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+/* Swipe strip */
+.bok-strip{
+  margin-top: 54px;
+}
+
+.strip-head{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 10px;
+}
+
+.strip-title{
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.strip-controls{
+  display: flex;
+  gap: 8px;
+}
+
+.strip-btn{
+  appearance: none;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--ink);
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.strip-btn:active{
+  transform: scale(0.98);
+}
+
+.strip-viewport{
+  overflow: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  border-top: 1px solid transparent;
+  outline: none;
+}
+
+.strip-viewport::-webkit-scrollbar{
+  height: 8px;
+}
+.strip-viewport::-webkit-scrollbar-thumb{
+  background: rgba(0,0,0,0.18);
+  border-radius: 999px;
+}
+
+.strip-track{
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: clamp(220px, 32vw, 360px);
+  gap: 16px;
+  padding: 6px 0 2px;
+}
+
+.strip-item{
+  scroll-snap-align: start;
+  margin: 0;
+}
+
+.strip-item img{
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--tile-radius);
+}
+
+/* Pattern grid */
+.bok-pattern{
+  margin-top: 60px;
+}
+
+.pattern-title{
+  margin: 0 0 12px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.pattern-grid{
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.pattern-cell{
+  margin: 0;
+}
+
+.pattern-cell img{
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+  border-radius: var(--tile-radius);
+}
+
+/* Captions under the grid */
+.pattern-captions{
+  max-width: 760px;
+  margin: 16px auto 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.cap-text{
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.bok-footer{
+  height: 40px;
+}
+
+/* Responsive */
+@media (max-width: 860px){
+  .bok-main{
+    width: min(var(--bok-max), calc(100% - 28px));
+  }
+
+  .bok-top{
+    grid-template-columns: 1fr;
+    gap: var(--bok-gap-sm);
+  }
+
+  .pattern-grid{
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .pattern-captions{
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 520px){
+  .strip-track{
+    grid-auto-columns: 78vw;
+  }
+}
