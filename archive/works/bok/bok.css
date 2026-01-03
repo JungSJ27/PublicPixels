@@ -141,46 +141,133 @@ html, body{
   padding-bottom: 80px;
 }
 
-/* Top two images */
+/* Top two images: 원본 전체 보이기 + 높이 동일 + 폭은 비율대로 */
 .bok-top{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
   gap: var(--bok-gap);
-  align-items: start;
   margin-top: 26px;
 }
 
+/* 두 이미지 공통 높이 */
 .bok-hero{
   margin: 0;
+  height: 560px;          /* 여기서 세로 길이 통일 */
+  display: flex;
+  align-items: flex-start;
 }
 
+/* 원본 전체 보이게 */
 .bok-hero img{
-  width: 100%;
-  height: auto;
+  height: 100%;
+  width: auto;            /* 폭은 비율대로 */
   display: block;
+  object-fit: contain;    /* 전체 보이기 */
   border-radius: var(--tile-radius);
 }
 
-/* Description */
-.bok-desc{
-  margin-top: 18px;
-  padding-top: 6px;
+/* ===============================================
+   TITLE + META
+=============================================== */
+.art-head {
+  margin-top: 10px;
+  margin-bottom: 0px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
-.bok-title{
-  margin: 0 0 8px;
-  font-size: 13px;
-  letter-spacing: 0.02em;
+.art-title {
+  margin: 0 0 10px;
+  font-size: 16px;
   font-weight: 600;
 }
 
-.bok-paragraph{
-  margin: 0;
-  max-width: 78ch;
-  font-size: 12px;
-  line-height: 1.6;
-  color: var(--muted);
+.art-meta {
+  font-size: 13px;
+  color: #000000;
+  line-height: 1.;
 }
+
+.art-meta.medium {
+  padding-bottom: 8px;   /* ⭐ 이 값이 선 위치를 결정 */
+  margin-bottom: 0px;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+
+/* SECTIONS */
+.art-section {
+  margin-top: 0px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.art-section h2 {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 0px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #555;
+}
+
+.art-section p {
+  line-height: 1.7;
+  margin: 0 0px 25px;
+  font-size: 14px;
+
+}
+
+
+.art-section p.text.kor {
+  line-height: 1.85;    /* ⭐ 한글 가독성 */
+  font-size: 13px;      /* 살짝 작게 */
+  letter-spacing: -0.01em;
+}
+
+/* =======================================================
+   ABOVE SLIDER LINK
+   ======================================================= */
+/* 공통 박스 스타일 */
+.above-slider-link {
+  text-align: center;
+  margin: 70px auto 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+
+/* 공통 링크 스타일 — 최중요! */
+.above-slider-link a {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  color: #000000;
+  font-size: 10px;
+  text-decoration: none;
+  opacity: 0.7;
+  transition: opacity 0.25s ease, color 0.25s ease;
+}
+
+/* hover 효과 */
+.above-slider-link a:hover {
+  color: #10d2cb;
+  opacity: 1;
+}
+
+/* 아이콘 */
+.ic-arrow,
+.ic-insta {
+  width: 11px;
+  height: 11px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
 
 /* Swipe strip */
 .bok-strip{
@@ -321,10 +408,17 @@ html, body{
   }
 
   .bok-top{
-    grid-template-columns: 1fr;
-    gap: var(--bok-gap-sm);
+    flex-direction: column;
+    align-items: center;
   }
-
+  .bok-hero{
+    height: auto;
+    width: 100%;
+  }
+  .bok-hero img{
+    width: 100%;
+    height: auto;
+  }
   .pattern-grid{
     grid-template-columns: repeat(3, 1fr);
     gap: 12px;
