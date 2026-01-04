@@ -94,9 +94,9 @@ const PATTERN_IMAGES = [
 
 // 캡션 3개
 const CAPTIONS = [
-  "짧은 설명 1을 여기에",
-  "짧은 설명 2를 여기에",
-  "짧은 설명 3을 여기에"
+  "K-Toile de Jouy",
+  "Bok tiger",
+  "Saekdong Palette"
 ];
 
 function setTopImages(){

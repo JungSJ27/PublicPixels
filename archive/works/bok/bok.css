@@ -232,7 +232,7 @@ html, body{
 /* 공통 박스 스타일 */
 .above-slider-link {
   text-align: center;
-  margin: 60px auto 80px;
+  margin: 90px auto 80px;
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -324,19 +324,21 @@ html, body{
   margin-top: 60px;
 }
 
+/* ===============================
+   PATTERN GRID + CAPTIONS (line-aligned)
+=============================== */
 
+/* grid와 캡션을 같은 컨테이너 폭으로 맞추는게 핵심 */
 .pattern-grid{
   width: 100%;
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 80px auto 0;          /* 아래 여백은 captions에서 */
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
 }
 
-.pattern-cell{
-  margin: 0;
-}
+.pattern-cell{ margin: 0; }
 
 .pattern-cell img{
   width: 100%;
@@ -346,25 +348,31 @@ html, body{
   border-radius: var(--tile-radius);
 }
 
-/* Captions under the grid */
+/* ✅ 캡션을 그리드 바로 아래, 같은 폭으로 */
 .pattern-captions{
-  max-width: 760px;
-  margin: 16px auto 0;
+  width: 100%;
+  max-width: 1200px;            /* ✅ grid랑 동일 */
+  margin: 10px auto 0;          /* ✅ 바로 밑으로 붙이기 */
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
+  gap: 16px;                    /* ✅ grid gap이랑 동일 */
 }
 
+/* ✅ 왼쪽 정렬 버전 */
 .cap-text{
   margin: 0;
+  margin-left: 3px;
   font-size: 11px;
   line-height: 1.55;
   color: var(--muted);
+  text-align: left;             /* left or center */
 }
 
-.bok-footer{
-  height: 40px;
-}
+/* ✅ 만약 중앙정렬 원하면 위 text-align만 center로 바꾸면 됨 */
+/* .cap-text{ text-align:center; } */
+
+.bok-footer{ height: 40px; }
+
 
 /* Responsive */
 @media (max-width: 860px){
@@ -384,19 +392,18 @@ html, body{
     width: 100%;
     height: auto;
   }
+
+  .strip-track{
+    grid-auto-columns: minmax(200px, 1fr); /* 기존 260px → 200px */
+    gap: 12px;
+  }
+
+  .strip-item{
+    height: 420px; /* 기존 560px → 420px */
+  }
   .pattern-grid{
     grid-template-columns: repeat(3, 1fr);
     gap: 12px;
   }
 
-  .pattern-captions{
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-}
-
-@media (max-width: 520px){
-  .strip-track{
-    grid-auto-columns: 78vw;
-  }
 }
