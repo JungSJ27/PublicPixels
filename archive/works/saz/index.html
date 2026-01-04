@@ -1,69 +1,109 @@
+<!-- saz.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>SAZ | Archive</title>
 
-  <!-- Global header -->
+  <!-- Global CSS -->
+  <link rel="stylesheet" href="/front/styles.css">
   <link rel="stylesheet" href="/front/header.css">
-  <script src="/front/headerLoader.js" defer></script>
-
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
 
   <!-- Page CSS -->
-  <link rel="stylesheet" href="./saz.css" />
+  <link rel="stylesheet" href="saz.css">
+
+  <!-- Header Loader -->
+  <script src="/front/headerLoader.js" defer></script>
+
+  <!-- Page JS -->
+  <script type="module" src="saz.js"></script>
 </head>
 
-<body data-page="log" data-no-header-offset="true">
-  <!-- Header include -->
+<body data-page="log">
+
+  <!-- HEADER INCLUDE -->
   <div data-include="header"></div>
 
-  <!-- Page -->
-  <main class="saz-page" aria-label="SAZ pattern page">
+  <!-- LIST BUTTON -->
+  <div class="list-toggle" onclick="location.href='/archive/'" aria-label="Back to list" role="button" tabindex="0">
+    <svg viewBox="0 0 24 24" class="ic-list" aria-hidden="true">
+      <g fill="none" stroke="currentColor" stroke-width="1.6">
+        <line x1="4" y1="6"  x2="20" y2="6"></line>
+        <line x1="4" y1="12" x2="20" y2="12"></line>
+        <line x1="4" y1="18" x2="20" y2="18"></line>
+      </g>
+    </svg>
+  </div>
 
-    <!-- TOP 70% : pattern stage (horizontal scroll only here) -->
-    <section class="saz-stage" aria-label="Pattern wall">
-      <div class="saz-viewport" id="sazViewport">
-        <div class="saz-track" id="sazTrack" aria-label="Scrollable pattern grid"></div>
+  <main class="saz-page">
+
+    <!-- TOP PATTERN STAGE -->
+    <section class="pattern-stage" aria-label="SAZ pattern wall">
+      <div class="pattern-viewport" id="patternViewport">
+        <div class="pattern-track" id="patternTrack"></div>
       </div>
 
-      <div class="saz-hint" aria-hidden="true">
-        Scroll horizontally, drag to browse
+      <div class="stage-hint" aria-hidden="true">
+        Swipe or drag to browse
       </div>
     </section>
 
-    <!-- BOTTOM 30% : info -->
-    <section class="saz-info" aria-label="Project information">
-      <div class="info-left">
-        <h1 class="saz-title">Saz</h1>
-        <p class="saz-meta">
-          2022<br />
+    <!-- BOTTOM INFO -->
+    <section class="info" aria-label="Project information">
+      <div class="info-col left">
+        <h1 class="title">SAZ</h1>
+        <p class="meta">
+          2022<br>
           Digital illustration, Pattern and Textile design
         </p>
       </div>
 
-      <div class="info-mid">
-        <p class="saz-desc en">
-          A pattern study built from five core motifs and their variations, arranged like a woven sample wall.
+      <div class="info-col mid">
+        <p class="desc">
+          A sample wall of five motifs and eighteen variations, arranged like a woven archive.
+          Each tile explores density, symmetry, and ornament through small shifts in structure.
         </p>
-        <p class="saz-desc ko">
-          다섯 가지 모티프를 중심으로 변주를 확장한 패턴 스터디. 샘플 월처럼 한 화면에서 옆으로 이어지도록 구성했다.
+        <p class="desc kor">
+          다섯 가지 모티프를 바탕으로 열여덟 개 변주를 확장한 패턴 스터디.
+          화면을 좌우로 넘기며 샘플 월처럼 감상하도록 구성했다.
         </p>
       </div>
 
-      <div class="info-right">
-        <p class="saz-note">
-          5 motifs<br />
-          18 variations<br />
-          Scroll only the pattern wall
-        </p>
+      <div class="info-col right">
+        <p class="stat">5 motifs</p>
+        <p class="stat">18 variations</p>
+        <p class="stat">Horizontal scroll only</p>
       </div>
     </section>
 
   </main>
 
-  <script src="./saz.js"></script>
+  <!-- MODAL -->
+  <div class="saz-modal" id="sazModal" aria-hidden="true">
+    <div class="modal-backdrop" data-close="1"></div>
+
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-label="Pattern preview">
+      <button class="modal-close" type="button" data-close="1" aria-label="Close">×</button>
+
+      <div class="modal-media">
+        <img id="modalImg" alt="">
+      </div>
+
+      <div class="modal-meta">
+        <p class="modal-kicker">SAZ</p>
+        <h2 class="modal-title" id="modalTitle">saz1</h2>
+        <p class="modal-sub" id="modalSub">Motif</p>
+      </div>
+
+      <div class="modal-actions">
+        <button class="modal-btn" type="button" id="modalPrev" aria-label="Previous">Prev</button>
+        <button class="modal-btn" type="button" id="modalNext" aria-label="Next">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <script defer src="/front/favicons.js"></script>
 </body>
 </html>
