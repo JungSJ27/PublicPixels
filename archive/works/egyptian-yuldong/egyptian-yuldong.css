@@ -1,0 +1,291 @@
+/* ===============================================
+   FIX PUBLICPIXELS DEFAULT LAYOUT EFFECTS
+=============================================== */
+
+body[data-page="log"] .pp-main::before,
+body[data-page="log"] .art-main::before {
+  display: none !important;
+}
+
+/* ===============================================
+   GLOBAL PAGE BODY
+=============================================== */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;  /* styles.css 기준 */
+  background: #fff;
+  color: #111;
+}
+
+/* ===============================
+   HEADER (전시 페이지 모드)
+   =============================== */
+
+body[data-page="log"] header {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: transparent !important;
+  color: rgb(241, 238, 255) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  padding-top: 10px !important;
+  z-index: 3000;
+}
+
+body[data-page="log"] header .logo-brand,
+body[data-page="log"] header .logo-roman,
+body[data-page="log"] header .logo-korean {
+  color: rgba(234, 234, 236, 0.95) !important;
+}
+
+/* 검색, 카트 아이콘 숨기기 */
+body[data-page="log"] header .search-icon,
+body[data-page="log"] header .shop-toggle {
+  display: none !important;
+}
+
+/* 스크롤에 따라 숨길 때 쓸 클래스 */
+header,
+.pp-header {
+  transition: opacity 0.35s ease;
+}
+
+.header-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ===============================
+   LIST TOGGLE (목록으로 돌아가기)
+   =============================== */
+
+.list-toggle {
+  position: fixed;
+  top: 12px;
+  right: 24px;
+  width: 28px;
+  height: 28px;
+  z-index: 3500;
+  cursor: pointer;
+  color:  rgba(234, 234, 236, 0.95);
+  opacity: 0.9;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.list-toggle:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.ic-list {
+  width: 24px;
+  height: 24px;
+}
+
+/* 헤더 숨길 때 같이 사라지도록 */
+.list-toggle.header-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ===============================
+   HEADER SLIDE ANIMATION
+   =============================== */
+
+/* 기본 상태: 보임 + 제자리 */
+body[data-page="log"] header {
+  transform: translateY(0);
+  transition: opacity 0.35s ease, transform 0.4s ease;
+}
+
+/* 숨김 상태: 살짝 위로 올려서 사라지는 느낌 */
+header.header-hidden {
+  opacity: 0;
+  transform: translateY(-28px);
+  pointer-events: none;
+}
+
+/* 리스트 버튼도 같이 위로 올라가게 */
+.list-toggle.header-hidden {
+  opacity: 0;
+  transform: translateY(-28px);
+}
+
+:root{
+  --ey-max: 1080px;
+  --ey-pad: 24px;
+  --ey-gap: 18px;
+  --ey-gap-lg: 22px;
+
+  --ey-bg: #ffffff;
+  --ey-fg: #111111;
+  --ey-muted: rgba(0,0,0,0.62);
+
+  --ticker-h: 84px;
+  --cap-size: 12px;
+  --cap-tracking: 0.06em;
+}
+
+*{ box-sizing: border-box; }
+
+html, body{
+  margin: 0;
+  padding: 0;
+  background: var(--ey-bg);
+  color: var(--ey-fg);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Noto Sans", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+}
+
+.ey-page{
+  width: min(var(--ey-max), calc(100% - (var(--ey-pad) * 2)));
+  margin: 0 auto;
+  padding: 56px 0 calc(var(--ticker-h) + 60px);
+}
+
+.ey-section{
+  margin: 0 0 42px;
+}
+
+.ey-img{
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.ey-figure{
+  margin: 0;
+}
+
+.ey-cap{
+  margin-top: 10px;
+  font-size: var(--cap-size);
+  letter-spacing: var(--cap-tracking);
+  color: var(--ey-muted);
+  text-align: left;
+  line-height: 1.2;
+}
+
+.ey-title{
+  margin: 0 0 14px;
+  font-size: 18px;
+  letter-spacing: 0.02em;
+}
+
+.ey-paras p{
+  margin: 0 0 12px;
+  max-width: 76ch;
+  line-height: 1.6;
+  color: rgba(0,0,0,0.76);
+}
+
+/* Top three */
+.ey-top3{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--ey-gap);
+  align-items: start;
+}
+
+/* Two column rows */
+.ey-two{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--ey-gap-lg);
+  align-items: start;
+}
+
+/* Stack */
+.ey-stack{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 26px;
+}
+
+/* Single centered */
+.ey-single{
+  display: flex;
+  justify-content: center;
+}
+
+.ey-single-figure{
+  width: min(520px, 86%);
+}
+
+.ey-cap-center{
+  text-align: center;
+}
+
+/* Fixed ticker */
+.ey-ticker{
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--ticker-h);
+  background: transparent;
+  overflow: hidden;
+  z-index: 9999;
+  border-top: none;
+  pointer-events: none;
+}
+
+.ey-ticker-inner{
+  height: 100%;
+  display: flex;
+  align-items: stretch;
+  will-change: transform;
+}
+
+.ey-ticker-item{
+  height: 100%;
+  width: auto;
+  flex: 0 0 auto;
+  display: block;
+}
+
+/* Motion: slide + tiny bob for walking 느낌 */
+@keyframes eyMarqueeBob{
+  0%   { transform: translateX(0) translateY(0); }
+  10%  { transform: translateX(-10%) translateY(-1px) rotate(-0.15deg); }
+  20%  { transform: translateX(-20%) translateY(1px) rotate(0.15deg); }
+  30%  { transform: translateX(-30%) translateY(-1px) rotate(-0.1deg); }
+  40%  { transform: translateX(-40%) translateY(1px) rotate(0.1deg); }
+  50%  { transform: translateX(-50%) translateY(0); }
+  60%  { transform: translateX(-60%) translateY(-1px) rotate(-0.15deg); }
+  70%  { transform: translateX(-70%) translateY(1px) rotate(0.15deg); }
+  80%  { transform: translateX(-80%) translateY(-1px) rotate(-0.1deg); }
+  90%  { transform: translateX(-90%) translateY(1px) rotate(0.1deg); }
+  100% { transform: translateX(-100%) translateY(0); }
+}
+
+.ey-ticker-inner.is-running{
+  animation: eyMarqueeBob linear infinite;
+}
+
+
+/* Mobile */
+@media (max-width: 860px){
+  .ey-page{
+    padding-top: 34px;
+  }
+
+  .ey-top3{
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .ey-two{
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .ey-single-figure{
+    width: min(560px, 94%);
+  }
+
+  :root{
+    --ticker-h: 76px;
+  }
+}
