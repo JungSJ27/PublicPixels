@@ -70,23 +70,42 @@ window.addEventListener("load", () => {
 const BASE_URL =
   "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/mong/";
 
-const TOTAL_IMAGES = 9;
+const GROUPS = [
+  { caption: "Butterfly Pattern", ids: [1, 4, 7] },
+  { caption: "Geometric Rhythm", ids: [2, 5, 8] },
+  { caption: "Painterly Flora", ids: [3, 6, 9] }
+];
 
 document.addEventListener("DOMContentLoaded", () => {
   const grid = document.getElementById("mongPattern");
   if (!grid) return;
 
-  for (let i = 1; i <= TOTAL_IMAGES; i++) {
-    const div = document.createElement("div");
-    div.className = "mong_tile";
+  grid.innerHTML = "";
 
-    const img = document.createElement("img");
-    img.src = `${BASE_URL}mong${i}.png`;
-    img.alt = `Mong pattern ${i}`;
-    img.loading = "lazy";
-    img.decoding = "async";
+  GROUPS.forEach((group) => {
+    const col = document.createElement("div");
+    col.className = "mong-group";
 
-    div.appendChild(img);
-    grid.appendChild(div);
-  }
+    group.ids.forEach((i) => {
+      const fig = document.createElement("figure");
+      fig.className = "mong-tile";
+
+      const img = document.createElement("img");
+      img.src = `${BASE_URL}mong${i}.png`;
+      img.alt = `Mong pattern ${i}`;
+      img.loading = "lazy";
+      img.decoding = "async";
+
+      fig.appendChild(img);
+      col.appendChild(fig);
+    });
+
+    const cap = document.createElement("p");
+    cap.className = "mong-cap";
+    cap.textContent = group.caption;
+
+    col.appendChild(cap);
+    grid.appendChild(col);
+  });
 });
+
