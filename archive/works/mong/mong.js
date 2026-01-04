@@ -1,70 +1,92 @@
+/* =======================================================
+   PAGE INIT
+======================================================= */
+
+window.addEventListener("DOMContentLoaded", () => {
+  // headerLoader가 header를 DOM에 넣은 다음 프레임에 실행
+  requestAnimationFrame(() => {
+    initHeaderScroll();
+  });
+
+  initVideoFade();
+  initImageSlider();
+});
+
+/* =======================================================
+   HEADER SHOW / HIDE  (scroll up = show, scroll down = hide)
+======================================================= */
+
+window.addEventListener("load", () => {
+  // headerLoader로 include된 헤더 잡기
+  const header =
+    document.querySelector("header.pp-header") ||
+    document.querySelector(".pp-header") ||
+    document.querySelector("header");
+  const listToggle = document.querySelector(".list-toggle");
+
+  if (!header) return;
+
+  function applyHidden(isHidden) {
+    if (isHidden) {
+      header.classList.add("header-hidden");
+      if (listToggle) listToggle.classList.add("header-hidden");
+    } else {
+      header.classList.remove("header-hidden");
+      if (listToggle) listToggle.classList.remove("header-hidden");
+    }
+  }
+
+  let lastY = window.scrollY;
+
+  // 첫 로딩 시 상태
+  if (window.scrollY > 10) applyHidden(true);
+  else applyHidden(false);
+
+  window.addEventListener("scroll", () => {
+    const y = window.scrollY;
+
+    // 맨 위 근처면 항상 보이게
+    if (y < 10) {
+      applyHidden(false);
+      lastY = y;
+      return;
+    }
+
+    // 스크롤 방향에 따라 토글
+    if (y < lastY - 2) {
+      // 위로 스크롤 = 보이기
+      applyHidden(false);
+    } else if (y > lastY + 2) {
+      // 아래로 스크롤 = 숨기기
+      applyHidden(true);
+    }
+
+    lastY = y;
+  });
+});
+
 // mong.js
-(() => {
-  const modal = document.getElementById("mong_modal");
-  const modalTitle = document.getElementById("modal_title");
-  const modalText = document.getElementById("modal_text");
 
-  const btnPrev = document.getElementById("modal_prev");
-  const btnNext = document.getElementById("modal_next");
+const BASE_URL =
+  "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/mong/";
 
-  const tiles = Array.from(document.querySelectorAll(".mong_tile"));
+const TOTAL_IMAGES = 9;
 
-  const tileCopy = {
-    "1_1": "Tile 1 1 description.",
-    "1_2": "Tile 1 2 description.",
-    "1_3": "Tile 1 3 description.",
-    "2_1": "Tile 2 1 description.",
-    "2_2": "Tile 2 2 description.",
-    "2_3": "Tile 2 3 description.",
-    "3_1": "Tile 3 1 description.",
-    "3_2": "Tile 3 2 description.",
-    "3_3": "Tile 3 3 description."
-  };
+document.addEventListener("DOMContentLoaded", () => {
+  const grid = document.getElementById("mongPattern");
+  if (!grid) return;
 
-  let activeIndex = 0;
+  for (let i = 1; i <= TOTAL_IMAGES; i++) {
+    const div = document.createElement("div");
+    div.className = "mong_tile";
 
-  function openModal(index){
-    activeIndex = index;
-    const tile = tiles[activeIndex];
-    const id = tile?.dataset?.tile || "";
+    const img = document.createElement("img");
+    img.src = `${BASE_URL}mong${i}.png`;
+    img.alt = `Mong pattern ${i}`;
+    img.loading = "lazy";
+    img.decoding = "async";
 
-    modal.classList.add("open");
-    modal.setAttribute("aria-hidden", "false");
-
-    modalTitle.textContent = id.replace("_", " ");
-    modalText.textContent = tileCopy[id] || "Add your description in mong.js";
-
-    document.body.style.overflow = "hidden";
+    div.appendChild(img);
+    grid.appendChild(div);
   }
-
-  function closeModal(){
-    modal.classList.remove("open");
-    modal.setAttribute("aria-hidden", "true");
-    document.body.style.overflow = "";
-  }
-
-  function step(delta){
-    const next = (activeIndex + delta + tiles.length) % tiles.length;
-    openModal(next);
-  }
-
-  tiles.forEach((btn, idx) => {
-    btn.addEventListener("click", () => openModal(idx));
-  });
-
-  modal.addEventListener("click", (e) => {
-    const closeTarget = e.target.closest("[data_close='1']");
-    if (closeTarget) closeModal();
-  });
-
-  btnPrev.addEventListener("click", () => step(-1));
-  btnNext.addEventListener("click", () => step(1));
-
-  window.addEventListener("keydown", (e) => {
-    if (!modal.classList.contains("open")) return;
-
-    if (e.key === "Escape") closeModal();
-    if (e.key === "ArrowLeft") step(-1);
-    if (e.key === "ArrowRight") step(1);
-  });
-})();
+});

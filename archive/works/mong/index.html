@@ -1,83 +1,81 @@
-<!-- mong.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mong</title>
-  <link rel="stylesheet" href="mong.css" />
-  <script defer src="mong.js"></script>
+
+  <title>Butterfly Trap | Archive</title>
+
+  <!-- Global CSS -->
+  <link rel="stylesheet" href="/front/styles.css">
+  <link rel="stylesheet" href="/front/header.css">
+
+  <!-- Page CSS -->
+  <link rel="stylesheet" href="mong.css">
+
+  <!-- model-viewer (한 번만) -->
+  <script
+    type="module"
+    src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
+  </script>
+
+  <!-- Header Loader -->
+  <script src="/front/headerLoader.js" defer></script>
+
+  <!-- Page JS -->
+  <script type="module" src="mong.js"></script>
 </head>
 
-<body>
+
+<body data-page="log">
+
+  <!-- HEADER INCLUDE -->
+  <div data-include="header"></div>
+
+  <!-- LIST BUTTON -->
+  <div class="list-toggle" onclick="location.href='/archive/'">
+    <svg viewBox="0 0 24 24" class="ic-list">
+      <g fill="none" stroke="currentColor" stroke-width="1.6">
+        <line x1="4" y1="6"  x2="20" y2="6"/>
+        <line x1="4" y1="12" x2="20" y2="12"/>
+        <line x1="4" y1="18" x2="20" y2="18"/>
+      </g>
+    </svg>
+  </div>
+
   <main class="mong_main">
 
+    <!-- INTRO -->
     <section class="mong_intro">
       <div class="intro_title_col">
         <h1 class="mong_title">Mong</h1>
-        <p class="mong_subtitle">A short line that sets the mood.</p>
+        <p class="mong_subtitle">K-Toile de Jouy</p>
       </div>
 
       <div class="intro_text_col">
         <p class="mong_desc">
-          Write a compact project description here. Keep it short and clear.
+          A pattern project inspired by Korean narrative imagery.
         </p>
         <p class="mong_desc muted">
-          Optional second sentence. Process intention or what to notice first.
+          Traditional motifs translated into a continuous decorative surface.
         </p>
       </div>
     </section>
 
-    <section class="mong_pattern">
+    <!-- PATTERN GRID -->
+    <section class="mong_pattern" id="mongPattern">
+      <!-- JS가 mong1~mong9 자동 삽입 -->
+    </section>
 
-      <div class="mong_col" data_col="1">
-        <div class="mong_stack">
-          <button class="mong_tile" type="button" data_tile="1_1"><span class="tile_label">1 1</span></button>
-          <button class="mong_tile" type="button" data_tile="2_1"><span class="tile_label">2 1</span></button>
-          <button class="mong_tile" type="button" data_tile="3_1"><span class="tile_label">3 1</span></button>
-        </div>
-        <p class="col_caption">Column 1 caption. Short explanation for this set.</p>
-      </div>
-
-      <div class="mong_col" data_col="2">
-        <div class="mong_stack">
-          <button class="mong_tile" type="button" data_tile="1_2"><span class="tile_label">1 2</span></button>
-          <button class="mong_tile" type="button" data_tile="2_2"><span class="tile_label">2 2</span></button>
-          <button class="mong_tile" type="button" data_tile="3_2"><span class="tile_label">3 2</span></button>
-        </div>
-        <p class="col_caption">Column 2 caption. Short explanation for this set.</p>
-      </div>
-
-      <div class="mong_col" data_col="3">
-        <div class="mong_stack">
-          <button class="mong_tile" type="button" data_tile="1_3"><span class="tile_label">1 3</span></button>
-          <button class="mong_tile" type="button" data_tile="2_3"><span class="tile_label">2 3</span></button>
-          <button class="mong_tile" type="button" data_tile="3_3"><span class="tile_label">3 3</span></button>
-        </div>
-        <p class="col_caption">Column 3 caption. Short explanation for this set.</p>
-      </div>
-
+    <!-- PATTERN CAPTIONS -->
+    <section class="pattern-captions">
+      <p class="cap-text">K-Toile de Jouy</p>
+      <p class="cap-text">Saekdong Palette</p>
+      <p class="cap-text">Korean Narrative Pattern</p>
     </section>
 
   </main>
 
-  <div class="mong_modal" id="mong_modal" aria-hidden="true">
-    <div class="modal_backdrop" data_close="1"></div>
-
-    <div class="modal_panel" role="dialog" aria-modal="true">
-      <button class="modal_close" type="button" aria-label="Close" data_close="1">×</button>
-
-      <div class="modal_content">
-        <p class="modal_kicker" id="modal_kicker">Tile</p>
-        <h2 class="modal_title" id="modal_title">1 1</h2>
-        <p class="modal_text" id="modal_text">Replace this with your tile description.</p>
-      </div>
-
-      <div class="modal_actions">
-        <button class="modal_btn" type="button" id="modal_prev">Prev</button>
-        <button class="modal_btn" type="button" id="modal_next">Next</button>
-      </div>
-    </div>
-  </div>
+  <script defer src="/front/favicons.js"></script>
 </body>
 </html>

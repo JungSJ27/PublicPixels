@@ -1,199 +1,211 @@
+/* ===============================================
+   FIX PUBLICPIXELS DEFAULT LAYOUT EFFECTS
+=============================================== */
+
+body[data-page="log"] .pp-main::before,
+body[data-page="log"] .art-main::before {
+  display: none !important;
+}
+
+/* ===============================================
+   GLOBAL PAGE BODY
+=============================================== */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;  /* styles.css 기준 */
+  background: #fff;
+  color: #111;
+}
+
+/* ===============================
+   HEADER (전시 페이지 모드)
+   =============================== */
+
+body[data-page="log"] header {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: transparent !important;
+  color: rgb(241, 238, 255) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  padding-top: 10px !important;
+  z-index: 3000;
+}
+
+body[data-page="log"] header .logo-brand,
+body[data-page="log"] header .logo-roman,
+body[data-page="log"] header .logo-korean {
+  color: rgba(234, 234, 236, 0.95) !important;
+}
+
+/* 검색, 카트 아이콘 숨기기 */
+body[data-page="log"] header .search-icon,
+body[data-page="log"] header .shop-toggle {
+  display: none !important;
+}
+
+/* 스크롤에 따라 숨길 때 쓸 클래스 */
+header,
+.pp-header {
+  transition: opacity 0.35s ease;
+}
+
+.header-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ===============================
+   LIST TOGGLE (목록으로 돌아가기)
+   =============================== */
+
+.list-toggle {
+  position: fixed;
+  top: 12px;
+  right: 24px;
+  width: 28px;
+  height: 28px;
+  z-index: 3500;
+  cursor: pointer;
+  color:  rgba(234, 234, 236, 0.95);
+  opacity: 0.9;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.list-toggle:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.ic-list {
+  width: 24px;
+  height: 24px;
+}
+
+/* 헤더 숨길 때 같이 사라지도록 */
+.list-toggle.header-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ===============================
+   HEADER SLIDE ANIMATION
+   =============================== */
+
+/* 기본 상태: 보임 + 제자리 */
+body[data-page="log"] header {
+  transform: translateY(0);
+  transition: opacity 0.35s ease, transform 0.4s ease;
+}
+
+/* 숨김 상태: 살짝 위로 올려서 사라지는 느낌 */
+header.header-hidden {
+  opacity: 0;
+  transform: translateY(-28px);
+  pointer-events: none;
+}
+
+/* 리스트 버튼도 같이 위로 올라가게 */
+.list-toggle.header-hidden {
+  opacity: 0;
+  transform: translateY(-28px);
+}
+
 /* mong.css */
 * { box-sizing: border-box; }
 
 html, body{
-  height: 100%;
   margin: 0;
-  background: #ffffff;
-  color: #111111;
+  background: #fff;
+  color: #111;
   font-family: Poppins, system-ui, sans-serif;
 }
 
 .mong_main{
   max-width: 980px;
   margin: 0 auto;
-  padding: 28px 20px 80px;
+  padding: 32px 20px 80px;
 }
 
+/* intro */
 .mong_intro{
   display: grid;
   grid-template-columns: 1.2fr 1fr;
   gap: 26px;
-  align-items: start;
-  padding: 10px 0 18px;
+  margin-bottom: 28px;
 }
 
 .mong_title{
   margin: 0;
   font-size: 34px;
-  letter-spacing: 0.2px;
 }
 
 .mong_subtitle{
-  margin: 10px 0 0;
-  color: rgba(0,0,0,0.55);
+  margin-top: 10px;
   font-size: 14px;
-  line-height: 1.5;
+  color: rgba(0,0,0,0.55);
 }
 
 .mong_desc{
-  margin: 0 0 10px;
   font-size: 14px;
   line-height: 1.7;
-  color: rgba(0,0,0,0.85);
+  margin: 0 0 8px;
 }
 
 .mong_desc.muted{
   color: rgba(0,0,0,0.55);
 }
 
-/* 3 columns layout */
+/* pattern grid */
 .mong_pattern{
-  margin-top: 18px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 18px;
 }
 
-/* each column feels like a vertical bundle */
-.mong_col{
-  border: 1px solid rgba(0,0,0,0.12);
-  border-radius: 16px;
-  padding: 14px;
-  background: rgba(0,0,0,0.02);
-}
-
-.mong_stack{
-  display: grid;
-  gap: 12px;
-}
-
-/* perfect squares */
 .mong_tile{
-  width: 100%;
   aspect-ratio: 1 / 1;
-  border: 1px solid rgba(0,0,0,0.14);
-  background: linear-gradient(180deg, rgba(0,0,0,0.03), rgba(0,0,0,0.01));
-  border-radius: 14px;
-  cursor: pointer;
-  padding: 14px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-start;
-  transition: transform 140ms ease, border-color 140ms ease, background 140ms ease;
+  border-radius: 0px;
+  overflow: hidden;
+  background: rgba(0,0,0,0.03);
 }
 
-.mong_tile:hover{
-  transform: translateY(-2px);
-  border-color: rgba(0,0,0,0.22);
-  background: linear-gradient(180deg, rgba(0,0,0,0.05), rgba(0,0,0,0.02));
+.mong_tile img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
-.tile_label{
-  font-size: 12px;
-  color: rgba(0,0,0,0.70);
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.8);
-  border: 1px solid rgba(0,0,0,0.10);
-}
+/* ===============================
+   PATTERN CAPTIONS (BOTTOM)
+=============================== */
 
-.col_caption{
-  margin: 12px 4px 0;
-  color: rgba(0,0,0,0.60);
-  font-size: 13px;
-  line-height: 1.6;
-}
-
-/* Modal */
-.mong_modal{
-  position: fixed;
-  inset: 0;
-  display: none;
-  z-index: 9999;
-}
-
-.mong_modal.open{
+.pattern-captions{
+  width: 100%;
+  max-width: 1200px;
+  margin: 12px auto 0;        /* 그리드 바로 밑 */
   display: grid;
-  place-items: center;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
 }
 
-.modal_backdrop{
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.45);
+.cap-text{
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.55;
+  color: var(--muted);
+  text-align: center;         /* ← left 로 바꾸면 왼쪽 정렬 */
 }
 
-.modal_panel{
-  position: relative;
-  width: min(680px, calc(100% - 28px));
-  border-radius: 18px;
-  border: 1px solid rgba(0,0,0,0.18);
-  background: rgba(255,255,255,0.96);
-  backdrop-filter: blur(10px);
-  padding: 18px 18px 14px;
-}
 
-.modal_close{
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 38px;
-  height: 38px;
-  border-radius: 12px;
-  border: 1px solid rgba(0,0,0,0.14);
-  background: rgba(0,0,0,0.03);
-  color: #111;
-  cursor: pointer;
-  font-size: 22px;
-  line-height: 1;
-}
 
-.modal_kicker{
-  margin: 6px 0 2px;
-  color: rgba(0,0,0,0.55);
-  font-size: 12px;
-}
-
-.modal_title{
-  margin: 0 0 10px;
-  font-size: 22px;
-  color: #111;
-}
-
-.modal_text{
-  margin: 0 0 14px;
-  color: rgba(0,0,0,0.78);
-  font-size: 14px;
-  line-height: 1.7;
-}
-
-.modal_actions{
-  display: flex;
-  gap: 10px;
-  justify-content: flex-end;
-  padding-top: 6px;
-  border-top: 1px solid rgba(0,0,0,0.10);
-}
-
-.modal_btn{
-  border: 1px solid rgba(0,0,0,0.14);
-  background: rgba(0,0,0,0.03);
-  color: #111;
-  border-radius: 12px;
-  padding: 10px 12px;
-  cursor: pointer;
-  font-size: 13px;
-}
-
-.modal_btn:hover{
-  background: rgba(0,0,0,0.05);
-}
-
+/* responsive */
 @media (max-width: 820px){
   .mong_intro{
     grid-template-columns: 1fr;
-    gap: 14px;
   }
 }
 
@@ -202,3 +214,4 @@ html, body{
     grid-template-columns: 1fr;
   }
 }
+
