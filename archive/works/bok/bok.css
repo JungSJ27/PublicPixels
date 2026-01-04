@@ -138,7 +138,7 @@ html, body{
   width: min(var(--bok-max), calc(100% - 40px));
   margin: 0 auto;
   padding-top: 120px; /* fixed header 고려 */
-  padding-bottom: 80px;
+  padding-bottom: 60px;
 }
 
 /* Top two images: 원본 전체 보이기 + 높이 동일 + 폭은 비율대로 */
