@@ -283,15 +283,20 @@ header.header-hidden {
 .modal-close,
 .modal-prev,
 .modal-next {
-  position: absolute;
+  position: fixed;
+  top: 18px;
+  right: 22px;
+  width: 40px;
+  height: 40px;
+  font-size: 22px;
+  line-height: 40px;
+  color: #fff;
   background: none;
   border: none;
-  color: rgb(255, 255, 255);
-  opacity: 0.6;
-  font-size: 17px;
   cursor: pointer;
-  z-index: 10;
-  padding: 10px;
+  z-index: 6000;
+  opacity: 0.7;
+  pointer-events: auto;
 }
 
 /* 닫기 */
@@ -318,7 +323,7 @@ header.header-hidden {
 .modal-close:hover,
 .modal-prev:hover,
 .modal-next:hover {
-  opacity: 0.7;
+  opacity: 1;
 }
 
 /* ===============================

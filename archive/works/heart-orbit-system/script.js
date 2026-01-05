@@ -352,6 +352,7 @@ function setup() {
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
   updateViewportScale();
+  mobileCamInited = false;
 }
 
 
@@ -442,11 +443,15 @@ function updateSnowflake(snowflake) {
 /* =========================
    DRAW
 ========================= */
+
+let mobileCamInited = false;
+
+
 function draw() {
   background(20, 25, 40);
 
-  // ✅ 모바일 카메라 뒤로
-  if (isMobileDevice()) {
+  // 모바일 카메라는 최초 1회만 세팅
+  if (isMobileDevice() && !mobileCamInited) {
     camera(
       0,
       0,
@@ -458,7 +463,9 @@ function draw() {
       1,
       0
     );
+    mobileCamInited = true;
   }
+
 
   orbitControl(
     isMobileDevice() ? 2.5 : 1,
