@@ -1,23 +1,33 @@
 /* =======================================================
-   MOBILE HEADER SHOW / HIDE (STABLE VERSION)
-   - Mobile only
-   - Desktop always visible
+   PAGE INIT
 ======================================================= */
 
-function initHeaderScroll() {
+window.addEventListener("DOMContentLoaded", () => {
+  // headerLoader가 header를 DOM에 넣은 다음 프레임에 실행
+  requestAnimationFrame(() => {
+    initHeaderScroll();
+  });
+
+  initVideoFade();
+  initImageSlider();
+});
+
+/* =======================================================
+   HEADER SHOW / HIDE  (scroll up = show, scroll down = hide)
+======================================================= */
+
+window.addEventListener("load", () => {
+  // headerLoader로 include된 헤더 잡기
   const header =
     document.querySelector("header.pp-header") ||
     document.querySelector(".pp-header") ||
     document.querySelector("header");
-
   const listToggle = document.querySelector(".list-toggle");
+
   if (!header) return;
 
-  let lastY = window.scrollY;
-  let isBound = false;
-
-  function applyHidden(hidden) {
-    if (hidden) {
+  function applyHidden(isHidden) {
+    if (isHidden) {
       header.classList.add("header-hidden");
       if (listToggle) listToggle.classList.add("header-hidden");
     } else {
@@ -26,57 +36,35 @@ function initHeaderScroll() {
     }
   }
 
-  function onScroll() {
+  let lastY = window.scrollY;
+
+  // 첫 로딩 시 상태
+  if (window.scrollY > 10) applyHidden(true);
+  else applyHidden(false);
+
+  window.addEventListener("scroll", () => {
     const y = window.scrollY;
 
-    // 최상단에서는 항상 보이게
+    // 맨 위 근처면 항상 보이게
     if (y < 10) {
       applyHidden(false);
       lastY = y;
       return;
     }
 
-    if (y > lastY + 5) {
-      applyHidden(true);   // scroll down
-    } else if (y < lastY - 5) {
-      applyHidden(false);  // scroll up
+    // 스크롤 방향에 따라 토글
+    if (y < lastY - 2) {
+      // 위로 스크롤 = 보이기
+      applyHidden(false);
+    } else if (y > lastY + 2) {
+      // 아래로 스크롤 = 숨기기
+      applyHidden(true);
     }
 
     lastY = y;
-  }
-
-  function updateMode() {
-    const isMobile = window.innerWidth <= 1000;
-
-    if (isMobile && !isBound) {
-      lastY = window.scrollY;
-      window.addEventListener("scroll", onScroll, { passive: true });
-      isBound = true;
-    }
-
-    if (!isMobile && isBound) {
-      window.removeEventListener("scroll", onScroll);
-      applyHidden(false); // 데스크탑에서는 항상 보임
-      isBound = false;
-    }
-  }
-
-  updateMode();
-  window.addEventListener("resize", updateMode);
-}
-
-/* =======================================================
-   PAGE INIT
-======================================================= */
-
-document.addEventListener("DOMContentLoaded", () => {
-  requestAnimationFrame(() => {
-    initHeaderScroll();
   });
-
-  if (typeof initVideoFade === "function") initVideoFade();
-  if (typeof initImageSlider === "function") initImageSlider();
 });
+
 
 
 /* =====================================

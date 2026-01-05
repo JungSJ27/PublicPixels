@@ -144,19 +144,19 @@ header.header-hidden {
 =============================================== */
 
 .info {
-  max-width: 640px;
+  max-width: 700px;
   margin: 80px auto 120px;
   padding: 0 24px;
 }
 
 .title {
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 600;
   margin-bottom: 12px;
 }
 
 .meta {
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.6;
   color: rgba(0,0,0,0.6);
   margin-bottom: 36px;
@@ -165,9 +165,17 @@ header.header-hidden {
 }
 
 .desc {
-  font-size: 13px;
-  line-height: 1.75;
+  font-size: 14px;
+  line-height: 1.7;
   color: rgba(0,0,0,0.85);
+}
+
+
+.desc.kor{
+  margin-top: 20px;
+  font-size: 13px;
+  line-height: 1.85;
+  letter-spacing: -0.01em;
 }
 
 /* ===============================================
@@ -181,9 +189,9 @@ header.header-hidden {
 }
 
 .details h2 {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
-  margin-bottom: 32px;
+  margin-bottom: 20px;
 }
 
 /* GRID */

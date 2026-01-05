@@ -240,14 +240,14 @@ body[data-page="log"] header .shop-toggle{ display: none !important; }
   position: absolute;
   top: 14px;
   right: 14px;
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   border-radius: 999px;
   border: 0;
   background: transparent;
   color: var(--fg);
   cursor: pointer;
-  font-size: 20px;
+  font-size: 18px;
   display: grid;
   place-items: center;
   z-index: 300;

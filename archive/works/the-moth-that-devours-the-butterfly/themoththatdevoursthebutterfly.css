@@ -99,7 +99,7 @@ header.header-hidden {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 120px 24px 64px;
+  padding: 120px 24px 50px;
 }
 
 /* IMAGE ROW */
@@ -143,11 +143,31 @@ header.header-hidden {
 .image-row img {
   display: block;
   width: 250px;
-  max-width: 70vw;
   aspect-ratio: 3 / 4;
   object-fit: cover;
   box-shadow: 0 0px 5px rgba(0,0,0,.1);
 }
+
+.image-row{
+  scroll-snap-type: x mandatory;
+}
+
+.image-row{
+  width: 100vw;
+  max-width: none;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}
+
+.image-row{ justify-content: center; }
+
+
+
+
+.img-btn{
+  scroll-snap-align: center;
+}
+
 
 /* TEXT BLOCKS */
 .art-head {
@@ -186,80 +206,125 @@ header.header-hidden {
   color: rgba(203, 203, 203, 0.95);
 }
 
-/* LIGHTBOX */
-.lightbox {
+.art-section .text.kor{
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+/* LIGHTBOX, butterfly trap style */
+
+body.popup-open header,
+body.popup-open .pp-header,
+body.popup-open .list-toggle{
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: translateY(-40px) !important;
+}
+
+.lightbox{
   position: fixed;
   inset: 0;
   z-index: 9999;
-  display: none;
-}
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-.lightbox.is-open { display: block; }
-
-.lightbox-backdrop {
-  position: absolute;
-  inset: 0;
   background: rgba(0,0,0,.72);
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
 }
 
-.lightbox-shell {
+.lightbox.is-open{
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* 안전영역, 이미지가 화살표 영역을 침범하지 않게 */
+.lightbox{
+  padding: 88px 110px 88px;
+  box-sizing: border-box;
+}
+
+/* 기존 backdrop과 shell은 유지해도 되지만, overlay는 lightbox가 담당 */
+.lightbox-backdrop{
   position: absolute;
   inset: 0;
+  background: transparent;
+}
+
+.lightbox-shell{
+  position: relative;
+  width: 100%;
+  height: 100%;
   display: grid;
   place-items: center;
-  padding: 24px;
+  pointer-events: none;
 }
 
-.lightbox-img {
-  max-width: min(92vw, 1100px);
-  max-height: 86vh;
-  width: auto;
+/* 이미지 */
+.lightbox-img{
+  width: 100%;
   height: auto;
-  box-shadow: 0 24px 90px rgba(0,0,0,.45);
+  max-width: calc(100vw - 220px);
+  max-height: calc(100vh - 176px);
+  object-fit: contain;
   border-radius: 0px;
+  display: block;
+  pointer-events: auto;
 }
 
-.lightbox-close {
-  position: absolute;
-  top: 22px;
-  right: 18px;
-  width: 44px;
-  height: 44px;
-  border: 0;
-  border-radius: 999px;
-  background: transparent;
-  color: rgba(255,255,255,.92);
-  font-size: 18px;
-  line-height: 44px;
-  cursor: pointer;
-}
-
-.lightbox-nav {
-  position: absolute;
+/* 화살표는 화면 고정 */
+.lightbox-nav{
+  position: fixed;
   top: 50%;
   transform: translateY(-50%);
-  width: 52px;
-  height: 52px;
-  border: 0;
-  border-radius: 999px;
-  background: transparent;
-  color: rgba(255,255,255,.92);
-  font-size: 24px;
-  line-height: 52px;
+  font-size: 25px;
+  color: #fff;
+  opacity: 0.65;
+  padding: 14px 16px;
   cursor: pointer;
+  user-select: none;
+  z-index: 10010;
+  border: 0;
+  background: none;
+  pointer-events: auto;
 }
 
-.lightbox-nav.prev { left: 14px; }
-.lightbox-nav.next { right: 14px; }
+.lightbox-nav.prev{ left: 18px; }
+.lightbox-nav.next{ right: 18px; }
+.lightbox-nav:hover{ opacity: 1; }
 
-@media (max-width: 900px) {
-  .page { padding: 110px 16px 56px; }
+/* 닫기도 화면 고정 */
+.lightbox-close{
+  position: fixed;
+  top: 18px;
+  right: 22px;
+  width: 40px;
+  height: 40px;
+  font-size: 18px;
+  line-height: 40px;
+  color: #fff;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  z-index: 10010;
+  opacity: 0.7;
+  pointer-events: auto;
+}
 
-  .image-row { gap: 16px; max-width: 100%; padding: 6px 2px 12px; }
+.lightbox-close:hover{ opacity: 1; }
 
-  .image-row img { width: 78vw; max-width: 380px; }
+/* mobile */
+@media (max-width: 768px){
+  .lightbox{
+    padding: 84px 74px 84px;
+  }
 
-  .list-toggle { right: 14px; }
+  .lightbox-img{
+    max-width: calc(100vw - 148px);
+    max-height: calc(100vh - 168px);
+  }
 
-  .lightbox-nav { width: 44px; height: 44px; font-size: 30px; line-height: 44px; }
 }

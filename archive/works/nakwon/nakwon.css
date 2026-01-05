@@ -323,7 +323,7 @@ header.header-hidden {
 
 .art-section p {
   line-height: 1.7;
-  margin: 0 0px 45px;
+  margin: 0 0px 35px;
   font-size: 13px;
 
 }
@@ -635,7 +635,7 @@ header.header-hidden {
 
 /* 타이틀 */
 .sub-video-text h3{
-  margin: 0 0 10px;
+  margin: 0 0 15px;
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.2px;
@@ -646,13 +646,13 @@ header.header-hidden {
   margin: 0 0 7px;
   font-size: 10px;
   line-height: 1.7;
-  color: rgba(0,0,0,0.56);
+  color: rgba(0,0,0,0.78);
 }
 
 /* 한글은 본문 느낌 */
 .sub-video-text p{
   margin: 0;
-  font-size: 10px;
+  font-size: 9px;
   line-height: 1.75;
   color: rgba(0,0,0,0.78);
 }
@@ -715,35 +715,45 @@ header.header-hidden {
   justify-content: center;
   z-index: 9999;
   cursor: zoom-out;
+
+  /* ⭐ 화살표 안전영역 (버터플라이 트랩 방식) */
+  padding: 88px 110px 88px;
+  box-sizing: border-box;
 }
 
 .lightbox.is-open{
   display: flex;
 }
 
+/* 이미지는 항상 안전영역 안쪽에서만 */
 .lightbox img{
-  max-width: 92vw;
-  max-height: 92vh;
+  width: 100%;
+  height: auto;
+  max-width: calc(100vw - 220px);
+  max-height: calc(100vh - 176px);
   object-fit: contain;
   cursor: default;
+  display: block;
+  pointer-events: auto;
 }
 
 /* buttons */
 .lb-btn{
-  position: absolute;
+  position: fixed; /* ⭐ 안전하게 화면 기준 고정 */
   border: 0;
   background: transparent;
   color: #fff;
   width: 44px;
   height: 44px;
   border-radius: 999px;
-  font-size: 22px;
+  font-size: 25px;
   line-height: 44px;
   text-align: center;
   cursor: pointer;
   user-select: none;
+  z-index: 10000;
+  pointer-events: auto;
 }
-
 
 .lb-close{
   top: 18px;
@@ -752,18 +762,33 @@ header.header-hidden {
 }
 
 .lb-prev{
+  top: 50%;
   left: 18px;
+  transform: translateY(-50%);
 }
 
 .lb-next{
+  top: 50%;
   right: 18px;
+  transform: translateY(-50%);
 }
 
+/* mobile */
 @media (max-width: 768px){
+  .lightbox{
+    padding: 84px 74px 84px;
+  }
+
+  .lightbox img{
+    max-width: calc(100vw - 148px);
+    max-height: calc(100vh - 168px);
+  }
+
   .lb-prev{ left: 10px; }
   .lb-next{ right: 10px; }
   .lb-close{ top: 10px; right: 10px; }
 }
+
 
 /* ===============================================
    RESPONSIVE
@@ -783,11 +808,13 @@ header.header-hidden {
 
 /* 모바일 공통 */
 @media (max-width: 768px){
-
+  
+  .record-player{
+    margin: 250px auto 100px;
+  }
   /* ===== Nakwon girls 섹션 ===== */
   .sub-video-section{
-    margin: 90px auto;
-    padding: 0 16px;
+    margin: 180px auto;
   }
 
   .sub-video-wrap{
@@ -799,7 +826,8 @@ header.header-hidden {
   .sub-video-text{
     width: 100%;
     max-width: 560px;
-    margin: 0 auto;
+    margin: 30px auto;
+    margin-left: 5px;
   }
 
   .sub-video-text p{ font-size: 13.5px; }
@@ -832,7 +860,7 @@ header.header-hidden {
 
   /* ===== 스틸 슬라이더 ===== */
   .above-slider-link{
-    margin: 40px auto 18px;
+    margin: 20px auto 18px;
   }
 
   .stills-slider{

@@ -263,7 +263,7 @@ body.header-reveal .mobile-header-zone {
    TYPOGRAPHY
 =============================== */
 .info-modal-title {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   letter-spacing: 0.2px;
   margin: 0 0 12px;
@@ -274,13 +274,13 @@ body.header-reveal .mobile-header-zone {
 }
 
 .info-modal .art-meta {
-  font-size: 11px;
+  font-size: 13px;
   line-height: 1.55;
   color: rgba(255, 255, 255, 0.72);
 }
 
 .info-modal .art-meta.medium {
-  font-size: 11px;
+  font-size: 12px;
   line-height: 1.55;
   color: rgba(255, 255, 255, 0.72);
 
@@ -292,7 +292,7 @@ body.header-reveal .mobile-header-zone {
 
 .info-modal-body {
   font-size: 13px;
-  line-height: 1.65;
+  line-height: 1.8;
   opacity: 0.95;
   margin: 0px;
 }
@@ -303,7 +303,7 @@ body.header-reveal .mobile-header-zone {
 
 .info-modal-body .text.kor {
   font-size: 12px;
-  line-height: 1.85;
+  line-height: 1.9;
   letter-spacing: -0.01em
 }
 

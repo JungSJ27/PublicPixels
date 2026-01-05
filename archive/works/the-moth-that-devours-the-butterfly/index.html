@@ -69,15 +69,16 @@
   </main>
 
   <!-- LIGHTBOX MODAL -->
-  <div class="lightbox" id="lightbox" aria-hidden="true">
+  <div id="lightbox" class="lightbox" aria-hidden="true">
     <div class="lightbox-backdrop" data-close="1"></div>
 
-    <div class="lightbox-shell" role="dialog" aria-modal="true" aria-label="Image viewer">
-      <button class="lightbox-close" type="button" aria-label="Close" data-close="1">×</button>
+    <div class="lightbox-shell">
+      <img id="lightboxImg" class="lightbox-img" src="" alt="">
 
-      <button class="lightbox-nav prev" type="button" aria-label="Previous image">‹</button>
-      <img class="lightbox-img" id="lightboxImg" alt="" />
-      <button class="lightbox-nav next" type="button" aria-label="Next image">›</button>
+      <button class="lightbox-nav prev" type="button" aria-label="Previous">‹</button>
+      <button class="lightbox-nav next" type="button" aria-label="Next">›</button>
+
+      <button class="lightbox-close" type="button" data-close="1" aria-label="Close">×</button>
     </div>
   </div>
 

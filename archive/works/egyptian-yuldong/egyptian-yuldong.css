@@ -169,7 +169,7 @@ html, body{
 
 .ey-title{
   margin: 0 0 14px;
-  font-size: 18px;
+  font-size: 16px;
   letter-spacing: 0.02em;
 }
 
@@ -178,6 +178,8 @@ html, body{
   max-width: 76ch;
   line-height: 1.6;
   color: rgba(0,0,0,0.76);
+  font-size: 13px;
+
 }
 
 /* Top three */

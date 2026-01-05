@@ -182,7 +182,6 @@ header.header-hidden {
 }
 
 .art-section h2 {
-  font-size: 15px;
   font-weight: 600;
   margin: 0 0 0px;
   letter-spacing: 0.08em;
@@ -192,7 +191,7 @@ header.header-hidden {
 
 .art-section p {
   line-height: 1.7;
-  margin: 0 0px 72px;
+  margin: 0 0px 52px;
   font-size: 14px;
 
 }
@@ -359,70 +358,89 @@ model-viewer {
 =============================================== */
 body.popup-open header,
 body.popup-open .pp-header,
-body.popup-open .list-toggle {
+body.popup-open .list-toggle{
   opacity: 0 !important;
   pointer-events: none !important;
   transform: translateY(-40px) !important;
 }
 
-.popup {
+.popup{
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.9);
+  z-index: 5000;
+
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 5000;
+
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.25s ease;
 }
 
-.popup.show {
+.popup.show{
   opacity: 1;
   pointer-events: auto;
 }
 
-.popup img {
-  width: 90vw;
-  max-height: 90vh;
-  object-fit: contain;
-  border-radius: 0px;
+/* 이미지가 항상 화살표 안쪽 안전영역에만 존재하도록 패딩 */
+.popup{
+  padding: 88px 110px 88px;
+  box-sizing: border-box;
 }
 
-.popup-close {
+/* 실제 이미지 */
+.popup img{
+  width: 100%;
+  height: auto;
+  max-width: calc(100vw - 220px);
+  max-height: calc(100vh - 176px);
+  object-fit: contain;
+  border-radius: 0px;
+  display: block;
+  pointer-events: auto;
+}
+
+/* 화살표는 항상 화면 좌우 가운데 고정 */
+.popup-arrow{
   position: fixed;
-  top: 24px;
-  right: 32px;
-  font-size: 18px;
-  color: white;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 28px;
+  color: #fff;
+  opacity: 0.65;
+  padding: 14px 16px;
+  cursor: pointer;
+  user-select: none;
+  z-index: 6000;
+  pointer-events: auto;
+}
+
+.popup-arrow.left{ left: 18px; }
+.popup-arrow.right{ right: 18px; }
+
+.popup-arrow:hover{ opacity: 1; }
+
+/* 닫기 버튼도 항상 고정 */
+.popup-close{
+  position: fixed;
+  top: 18px;
+  right: 22px;
+  width: 40px;
+  height: 40px;
+  font-size: 22px;
+  line-height: 40px;
+  color: #fff;
   background: none;
   border: none;
   cursor: pointer;
   z-index: 6000;
-  opacity: 0.6;
+  opacity: 0.7;
+  pointer-events: auto;
 }
 
-.popup-arrow {
-  position: fixed;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 25px;
-  color: white;
-  opacity: 0.6;
-  padding: 10px;
-  cursor: pointer;
-  user-select: none;
-}
-
-.popup-arrow.left {
-  left: 20px;
-}
-
-.popup-arrow.right {
-  right: 20px;
-}
-
+.popup-close:hover{ opacity: 1; }
 
 
 /* ===============================================
@@ -486,51 +504,33 @@ body.popup-open .list-toggle {
 
 }
 
-@media (max-width: 768px) {
 
-  .popup {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.9);
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    /* ⭐ 전체를 가운데로 */
-    justify-content: center;
+/* 모바일에서도 화살표를 아래로 내리지 않고 고정 유지 */
+@media (max-width: 768px){
+  .popup{
+    padding: 84px 74px 84px;
   }
 
-  /* 이미지 */
-  .popup img {
-    width: 90vw;
-    max-height: 60vh;
-    object-fit: contain;
-    display: block;
+  .popup img{
+    max-width: calc(100vw - 148px);
+    max-height: calc(100vh - 168px);
   }
 
-  /* 화살표 줄 */
-  .popup-nav {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 20px;   /* 이미지 바로 아래 */
+  .popup-arrow{
+    font-size: 24px;
+    padding: 12px 14px;
   }
 
-  .popup-arrow {
-    position: static;
-    font-size: 20px;
-    color: white;
-    padding: 16px 20px; /* ⬅️ 60px 말고 이 정도가 좋아 */
-    cursor: pointer;
-    user-select: none;
-    opacity: 0.6;
-  }
-
-  .popup-arrow:hover {
-    opacity: 1;
+  .popup-close{
+    top: 14px;
+    right: 14px;
+    width: 40px;
+    height: 40px;
+    font-size: 22px;
+    line-height: 40px;
   }
 }
+
 
 
 #ambient-moths {

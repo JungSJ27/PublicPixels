@@ -120,7 +120,7 @@ header.header-hidden {
 .art-wrap {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 80px 20px 100px;
+  padding: 80px 20px 80px;
 }
 
 /* ===============================================
@@ -134,7 +134,7 @@ header.header-hidden {
   margin-right: calc(50% - 50vw);
   overflow-x: visible;
   overflow-y: hidden;
-  padding-top: 50px;
+  padding-top: 47px;
 }
 
 /* HERO horizontal track */
@@ -351,77 +351,175 @@ header.header-hidden {
 =============================================== */
 body.popup-open header,
 body.popup-open .pp-header,
-body.popup-open .list-toggle {
+body.popup-open .list-toggle{
   opacity: 0 !important;
   pointer-events: none !important;
   transform: translateY(-40px) !important;
 }
 
-.popup {
+.popup{
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.9);
+  z-index: 5000;
+
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 5000;
+
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.25s ease;
 }
 
-.popup.show {
+.popup.show{
   opacity: 1;
   pointer-events: auto;
 }
 
-.popup img {
-  width: 90vw;
-  max-height: 90vh;
-  object-fit: contain;
-  border-radius: 0px;
+/* 이미지가 항상 화살표 안쪽 안전영역에만 존재하도록 패딩 */
+.popup{
+  padding: 88px 110px 88px;
+  box-sizing: border-box;
 }
 
-.popup-close {
+/* 실제 이미지 */
+.popup img{
+  width: 100%;
+  height: auto;
+  max-width: calc(100vw - 220px);
+  max-height: calc(100vh - 176px);
+  object-fit: contain;
+  border-radius: 0px;
+  display: block;
+  pointer-events: auto;
+}
+
+/* 화살표는 항상 화면 좌우 가운데 고정 */
+.popup-arrow{
   position: fixed;
-  top: 24px;
-  right: 32px;
-  font-size: 18px;
-  color: white;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 28px;
+  color: #fff;
+  opacity: 0.65;
+  padding: 14px 16px;
+  cursor: pointer;
+  user-select: none;
+  z-index: 6000;
+  pointer-events: auto;
+}
+
+.popup-arrow.left{ left: 18px; }
+.popup-arrow.right{ right: 18px; }
+
+.popup-arrow:hover{ opacity: 1; }
+
+/* 닫기 버튼도 항상 고정 */
+.popup-close{
+  position: fixed;
+  top: 18px;
+  right: 22px;
+  width: 40px;
+  height: 40px;
+  font-size: 22px;
+  line-height: 40px;
+  color: #fff;
   background: none;
   border: none;
   cursor: pointer;
   z-index: 6000;
-  opacity: 0.6;
+  opacity: 0.7;
+  pointer-events: auto;
 }
 
-.popup-arrow {
-  position: fixed;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 25px;
-  color: white;
-  opacity: 0.6;
-  padding: 10px;
-  cursor: pointer;
-  user-select: none;
-}
-
-.popup-arrow.left {
-  left: 20px;
-}
-
-.popup-arrow.right {
-  right: 20px;
-}
+.popup-close:hover{ opacity: 1; }
 
 
-
-
-
+/* ===============================================
+   MOBILE RESPONSIVE
+=============================================== */
 @media (max-width: 768px) {
 
-  .hero-strip {
-    padding-top: 0px; /* 또는 40px */
+
+    /* 텍스트와 3D 사이 간격 줄이기 */
+  .art-section p {
+    margin-bottom: 32px;   /* 기존 72px → 32px */
+  }
+
+  /* 3D 모델 위 여백 줄이기 */
+  .model-viewer-wrap {
+    margin-top: 12px;      /* 거의 바로 붙게 */
+    height: 360px;         /* 모바일에서 높이도 줄이는 게 좋아 */
+  }
+
+
+  .above-slider-link2 {
+    margin: 0 auto 20px;
+  }
+  
+  /* 슬라이더 전체 래퍼 중앙 정렬 */
+  .stills-slider {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .still-frame {
+      width: 100%;
+      max-width: none;
+      box-sizing: border-box;   /* ⭐⭐⭐ 핵심 */
+      max-height: 55vh;
+      margin: 0 auto;
+    }
+
+    .still-frame img {
+      width: 100%;
+      height: auto;
+      max-height: 55vh;
+      object-fit: contain;
+    }
+
+  /* 컨트롤 */
+  .slider-controls {
+    margin-top: 8px;
+    gap: 14px;
+    justify-content: center;
+  }
+
+  .slider-btn {
+    font-size: 16px;
+  }
+
+  .page-indicator {
+    font-size: 12px;
+  }
+
+}
+
+
+/* 모바일에서도 화살표를 아래로 내리지 않고 고정 유지 */
+@media (max-width: 768px){
+  .popup{
+    padding: 84px 74px 84px;
+  }
+
+  .popup img{
+    max-width: calc(100vw - 148px);
+    max-height: calc(100vh - 168px);
+  }
+
+  .popup-arrow{
+    font-size: 24px;
+    padding: 12px 14px;
+  }
+
+  .popup-close{
+    top: 14px;
+    right: 14px;
+    width: 40px;
+    height: 40px;
+    font-size: 22px;
+    line-height: 40px;
   }
 }
