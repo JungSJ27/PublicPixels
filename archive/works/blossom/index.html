@@ -1,0 +1,73 @@
+<!-- blossom.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blossom | Archive</title>
+
+  <!-- Global CSS -->
+  <link rel="stylesheet" href="/front/styles.css" />
+  <link rel="stylesheet" href="/front/header.css" />
+
+  <!-- Page CSS -->
+  <link rel="stylesheet" href="blossom.css" />
+
+  <!-- Header Loader -->
+  <script src="/front/headerLoader.js" defer></script>
+
+  <!-- Page JS -->
+  <script src="blossom.js" defer></script>
+</head>
+
+<body data-page="log">
+  <!-- background pattern layer -->
+  <div id="patternBg" aria-hidden="true"></div>
+
+  <!-- HEADER INCLUDE -->
+  <div data-include="header"></div>
+
+  <main class="blossomMain">
+    <!-- Top big image -->
+    <figure class="hero">
+      <img
+        src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/blossom/blossom1.jpg"
+        alt="Blossom 1"
+        loading="eager"
+      />
+    </figure>
+
+    <!-- Description -->
+    <section class="desc">
+      <h1 class="title">Blossom</h1>
+      <p class="text">
+        여기에 프로젝트 설명을 넣어줘. 작업 배경, 재료, 제작 방식, 패턴이 어떤 방식으로 확장되는지 같은 내용을 짧게 정리하면 좋아.
+      </p>
+    </section>
+
+    <!-- Small image -->
+    <figure class="subShot">
+      <img
+        src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/blossom/blossom2.jpg"
+        alt="Blossom 2"
+        loading="lazy"
+      />
+    </figure>
+
+    <!-- Pattern picker grid -->
+    <section class="patternSection" aria-label="Pattern backgrounds">
+      <div class="patternGrid" id="patternGrid">
+        <!-- JS will render tiles -->
+      </div>
+
+      <p class="hint">
+        패턴을 클릭하면 배경이 바뀌어. 다시 흰 배경으로 돌리려면 Reset 버튼을 눌러줘.
+      </p>
+
+      <div class="actions">
+        <button class="btn" id="resetBg" type="button">Reset</button>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
