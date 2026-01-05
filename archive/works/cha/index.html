@@ -1,0 +1,94 @@
+<!-- cha.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CHA | Archive</title>
+
+  <!-- Global CSS -->
+  <link rel="stylesheet" href="/front/styles.css">
+  <link rel="stylesheet" href="/front/header.css">
+
+  <!-- Page CSS -->
+  <link rel="stylesheet" href="cha.css">
+
+  <!-- Header Loader -->
+  <script src="/front/headerLoader.js" defer></script>
+
+  <!-- Page JS -->
+  <script type="module" src="cha.js"></script>
+</head>
+
+<body data-page="log">
+  <div data-include="header"></div>
+
+  <div class="list-toggle" onclick="location.href='/archive/'" aria-label="Back to list" role="button" tabindex="0">
+    <svg viewBox="0 0 24 24" class="ic-list" aria-hidden="true">
+      <g fill="none" stroke="currentColor" stroke-width="1.6">
+        <line x1="4" y1="6"  x2="20" y2="6"></line>
+        <line x1="4" y1="12" x2="20" y2="12"></line>
+        <line x1="4" y1="18" x2="20" y2="18"></line>
+      </g>
+    </svg>
+  </div>
+
+  <main class="cha-page">
+    <section class="pattern-stage" aria-label="CHA pattern wall">
+      <div class="pattern-viewport" id="patternViewport">
+        <div class="pattern-track" id="patternTrack"></div>
+      </div>
+      <div class="stage-hint" aria-hidden="true">Swipe or drag to browse</div>
+    </section>
+
+    <section class="info" aria-label="Project information">
+      <div class="info-col left">
+        <h1 class="title">CHA</h1>
+        <p class="meta">
+          2026<br>
+          Pattern study
+        </p>
+      </div>
+
+      <div class="info-col mid">
+        <p class="desc">
+          A pattern wall where every tile keeps the same scale so the rhythm comes only from the motif.
+        </p>
+        <p class="desc kor">
+          모든 패턴 타일의 크기를 동일하게 고정해서, 모티프 자체의 리듬과 대비만 보이도록 구성한 패턴 월.
+        </p>
+      </div>
+
+      <div class="info-col right">
+        <p class="stat" id="statCount">0 tiles</p>
+        <p class="stat">Horizontal scroll</p>
+      </div>
+    </section>
+  </main>
+
+  <div class="cha-modal" id="chaModal" aria-hidden="true">
+    <div class="modal-backdrop" data-close="1"></div>
+
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-label="Pattern preview">
+      <button class="modal-close" type="button" data-close="1" aria-label="Close">×</button>
+
+      <div class="modal-media">
+        <img id="modalImg" alt="">
+      </div>
+
+      <div class="modal-meta">
+        <p class="modal-kicker">CHA</p>
+        <h2 class="modal-title" id="modalTitle">cha1</h2>
+        <p class="modal-sub" id="modalSub">Pattern</p>
+      </div>
+
+      <div class="modal-actions">
+        <button class="modal-btn" type="button" id="modalPrev" aria-label="Previous">Prev</button>
+        <button class="modal-btn" type="button" id="modalNext" aria-label="Next">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <script defer src="/front/favicons.js"></script>
+</body>
+</html>
