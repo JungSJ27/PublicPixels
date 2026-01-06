@@ -10,13 +10,13 @@ const patterns = [
   { id: 15, group: "motif 1 var", size: "size-md" },
   { id: 2, group: "motif 1 var", size: "size-tall" },
 
-  { id: 14, group: "motif 1 2", size: "size-lg" },
+  { id: 14, group: "motif 1 2", size: "size-xl" },
 
   { id: 16, group: "geometric", size: "size-md" },
   { id: 9, group: "geometric", size: "size-md" },
   { id: 11, group: "geometric", size: "size-md" },
   { id: 4, group: "geometric", size: "size-tall" },
-  { id: 10, group: "geometric", size: "size-md" },
+  { id: 10, group: "geometric", size: "size-tall" },
   { id: 12, group: "geometric", size: "size-tall" },
 
   { id: 13, group: "butterfly", size: "size-lg" },

@@ -1,40 +1,13 @@
-// saz.js
-const BASE = "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/saz/";
+// cha.js
+const BASE = "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/cha/";
 
 /* ===============================
    DATA
 ================================ */
-const patterns = [
-  { id: 7, group: "motif 1", size: "size-xl" },
-  { id: 17, group: "motif 1 var", size: "size-md" },
-  { id: 15, group: "motif 1 var", size: "size-md" },
-  { id: 2, group: "motif 1 var", size: "size-tall" },
-
-  { id: 14, group: "motif 1 2", size: "size-lg" },
-
-  { id: 16, group: "geometric", size: "size-md" },
-  { id: 9, group: "geometric", size: "size-md" },
-  { id: 11, group: "geometric", size: "size-md" },
-  { id: 4, group: "geometric", size: "size-tall" },
-  { id: 10, group: "geometric", size: "size-md" },
-  { id: 12, group: "geometric", size: "size-tall" },
-
-  { id: 13, group: "butterfly", size: "size-lg" },
-  { id: 8, group: "butterfly", size: "size-md" },
-
-  { id: 5, group: "flower", size: "size-lg" },
-  { id: 3, group: "flower var", size: "size-md" },
-  { id: 18, group: "flower var", size: "size-md" },
-  { id: 1, group: "flower var", size: "size-tall" }
-];
+const patterns = Array.from({ length: 18 }, (_, i) => ({ id: i + 1 }));
 
 function imgUrl(id){
-  return `${BASE}saz${id}.png`;
-}
-
-function clampIndex(i){
-  const n = patterns.length;
-  return ((i % n) + n) % n;
+  return `${BASE}cha${id}.png`;
 }
 
 /* ===============================
@@ -43,8 +16,11 @@ function clampIndex(i){
 const track = document.getElementById("patternTrack");
 const viewport = document.getElementById("patternViewport");
 
-/* modal dom */
-const modal = document.getElementById("sazModal");
+/* modal dom
+   HTML에서 id를 바꾸지 않았다면 sazModal 그대로 사용
+   만약 HTML에서 id="chaModal"로 바꿨으면 아래 줄도 chaModal로 바꿔 */
+const modal = document.getElementById("chaModal");
+
 const mixMainImg = document.getElementById("mixMainImg");
 const mixTopImg = document.getElementById("mixTopImg");
 const mixBottomImg = document.getElementById("mixBottomImg");
@@ -58,12 +34,18 @@ const modalNext = document.getElementById("modalNext");
 function makeTile(item, index){
   const btn = document.createElement("button");
   btn.type = "button";
-  btn.className = `tile ${item.size}`;
+
+  // ✅ size 클래스 제거 (모든 타일 동일 크기)
+  btn.className = "tile";
+
   btn.dataset.index = String(index);
 
   const img = document.createElement("img");
   img.loading = "lazy";
-  img.alt = `saz${item.id}`;
+
+  // ✅ alt saz -> cha
+  img.alt = `cha${item.id}`;
+
   img.src = imgUrl(item.id);
   img.draggable = false;
 
@@ -202,96 +184,47 @@ if (listToggle){
 }
 
 /* ===============================
-   MIX MODAL LOGIC (fortune title)
+   MIX MODAL LOGIC (single pattern)
 ================================ */
 
 let current = 0;
-let randA = 0;
-let randB = 0;
 
-function pickTwoRandomIndices(excludeIndex){
-  const pool = [];
-  for (let i = 0; i < patterns.length; i++){
-    if (i !== excludeIndex) pool.push(i);
-  }
-
-  // 안전장치: 패턴이 3개 미만이면 랜덤 두 개 못 뽑음
-  if (pool.length < 2){
-    return [excludeIndex, excludeIndex];
-  }
-
-  const a = pool.splice(Math.floor(Math.random() * pool.length), 1)[0];
-  const b = pool.splice(Math.floor(Math.random() * pool.length), 1)[0];
-  return [a, b];
-}
-
-function makeFortuneTitle(mainId, aId, bId){
-  const badges = ["FORTUNE", "LUCK", "AURA", "OMEN", "TAROT", "ORACLE", "VIBE", "SIGN"];
-  const moods = ["대길", "길", "중길", "소길", "상승", "호조", "재물", "연애", "영감", "집중", "전환", "확장"];
-  const verbs = ["열리는", "끌리는", "번지는", "겹치는", "정렬되는", "흐르는", "반짝이는", "진입하는"];
-  const nouns = ["패턴운", "색감운", "리듬운", "관계운", "작업운", "선택운", "공간운", "감각운"];
-  const extras = [
-    "오늘은 과감히",
-    "지금은 믹스가 답",
-    "왼쪽이 주인공",
-    "대칭이 행운",
-    "블루가 키 컬러",
-    "텍스처가 승부",
-    "반복이 안정",
-    "변주가 포인트"
-  ];
-
-  const badge = badges[Math.floor(Math.random() * badges.length)];
-  const mood = moods[Math.floor(Math.random() * moods.length)];
-  const verb = verbs[Math.floor(Math.random() * verbs.length)];
-  const noun = nouns[Math.floor(Math.random() * nouns.length)];
-  const extra = extras[Math.floor(Math.random() * extras.length)];
-
-  return {
-    badge,
-    text: `${mood} ${verb} ${noun} · ${extra}`
-  };
-}
-
-function rollRandoms(){
-  const [a, b] = pickTwoRandomIndices(current);
-  randA = a;
-  randB = b;
+function clampIndex(i){
+  const n = patterns.length;
+  return (i % n + n) % n;
 }
 
 function syncMix(){
   if (!modal) return;
 
   const main = patterns[current];
-  const top = patterns[randA];
-  const bottom = patterns[randB];
+  if (!main) return;
 
-  if (!main || !top || !bottom) return;
-
+  // 선택된 한 장만 표시
   if (mixMainImg){
     mixMainImg.src = imgUrl(main.id);
-    mixMainImg.alt = `saz${main.id}`;
-  }
-  if (mixTopImg){
-    mixTopImg.src = imgUrl(top.id);
-    mixTopImg.alt = `saz${top.id}`;
-  }
-  if (mixBottomImg){
-    mixBottomImg.src = imgUrl(bottom.id);
-    mixBottomImg.alt = `saz${bottom.id}`;
+    mixMainImg.alt = `cha${main.id}`;
   }
 
+  // 기존 3분할용 이미지 비우기
+  if (mixTopImg){
+    mixTopImg.src = "";
+    mixTopImg.alt = "";
+  }
+  if (mixBottomImg){
+    mixBottomImg.src = "";
+    mixBottomImg.alt = "";
+  }
+
+  // 타이틀도 심플하게
   if (mixTitle){
-    const t = makeFortuneTitle(main.id, top.id, bottom.id);
-    // CSS에서 .mix-badge 스타일 적용됨
-    mixTitle.innerHTML = `<span class="mix-badge">${t.badge}</span>${t.text}`;
+    mixTitle.textContent = `cha${main.id}`;
   }
 }
 
 function openMixModal(index){
   if (!modal) return;
   current = clampIndex(index);
-  rollRandoms();
   syncMix();
   modal.classList.add("show");
   modal.setAttribute("aria-hidden", "false");
@@ -307,7 +240,6 @@ function closeMixModal(){
 if (modalPrev){
   modalPrev.addEventListener("click", () => {
     current = clampIndex(current - 1);
-    rollRandoms();
     syncMix();
   });
 }
@@ -315,19 +247,15 @@ if (modalPrev){
 if (modalNext){
   modalNext.addEventListener("click", () => {
     current = clampIndex(current + 1);
-    rollRandoms();
     syncMix();
   });
 }
 
-/* backdrop + close
-   data-close="1"이 backdrop, X버튼, Close버튼(있다면) 중 원하는 곳에 붙어있으면 닫힘 */
+/* backdrop + close */
 if (modal){
   modal.addEventListener("click", (e) => {
     const t = e.target;
     if (!(t instanceof HTMLElement)) return;
-
-    // backdrop 클릭 또는 닫기 요소 클릭
     if (t.dataset.close === "1") closeMixModal();
   });
 }
