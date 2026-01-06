@@ -117,14 +117,14 @@ header.header-hidden {
   --ey-max: 1080px;
   --ey-pad: 24px;
   --ey-gap: 18px;
-  --ey-gap-lg: 22px;
+  --ey-gap-lg: 40px;
 
   --ey-bg: #ffffff;
   --ey-fg: #111111;
   --ey-muted: rgba(0,0,0,0.62);
 
   --ticker-h: 84px;
-  --cap-size: 12px;
+  --cap-size: 9px;
   --cap-tracking: 0.06em;
 }
 
@@ -141,7 +141,7 @@ html, body{
 .ey-page{
   width: min(var(--ey-max), calc(100% - (var(--ey-pad) * 2)));
   margin: 0 auto;
-  padding: 56px 0 calc(var(--ticker-h) + 60px);
+  padding: 56px 0 calc(var(--ticker-h) + 40px);
 }
 
 .ey-section{
@@ -159,28 +159,61 @@ html, body{
 }
 
 .ey-cap{
-  margin-top: 10px;
+  margin-top: 8px;
   font-size: var(--cap-size);
   letter-spacing: var(--cap-tracking);
   color: var(--ey-muted);
   text-align: left;
   line-height: 1.2;
+  margin-left: 3px;
 }
 
-.ey-title{
-  margin: 0 0 14px;
+/* TITLE + META */
+.art-head{
+  margin-top: 10px;
+  margin-bottom: 0px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.art-title{
+  margin: 0 0 10px;
   font-size: 16px;
-  letter-spacing: 0.02em;
+  font-weight: 600;
 }
 
-.ey-paras p{
-  margin: 0 0 12px;
-  max-width: 76ch;
-  line-height: 1.6;
-  color: rgba(0,0,0,0.76);
+.art-meta{
   font-size: 13px;
-
+  color: #000000;
+  line-height: 1.;
 }
+
+.art-meta.medium{
+  padding-bottom: 8px;
+  margin-bottom: 0px;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+/* BODY TEXT */
+.art-section{
+  margin-top: -10px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.art-section p{
+  line-height: 1.7;
+  margin: 0 0px 25px;
+  font-size: 14px;
+}
+
+.art-section p.text.kor{
+  line-height: 1.85;
+  font-size: 13px;
+  letter-spacing: -0.01em;
+  margin-bottom: 50px;
+}
+
 
 /* Top three */
 .ey-top3{
@@ -198,11 +231,33 @@ html, body{
   align-items: start;
 }
 
+/* EY4, EY5만 작게 */
+.ey-two-small .ey-figure{
+  width: 75%;
+  margin: 0 auto;
+  margin-top: 50px;
+  margin-bottom: 60px;
+}
+
+/* EY4, EY5만 간격 줄이기 */
+.ey-two-small{
+  gap: 12px;
+}
+
+.ey-two-small .ey-figure:first-child{
+  margin-right: 20px;
+}
+.ey-two-small .ey-figure:last-child{
+  margin-left: 20px;
+}
+
 /* Stack */
 .ey-stack{
   display: grid;
   grid-template-columns: 1fr;
   gap: 26px;
+  margin-top: 60px;
+  margin-bottom: 60px;
 }
 
 /* Single centered */
@@ -216,7 +271,7 @@ html, body{
 }
 
 .ey-cap-center{
-  text-align: center;
+  text-align: start;
 }
 
 /* Fixed ticker */
@@ -270,7 +325,7 @@ html, body{
 /* Mobile */
 @media (max-width: 860px){
   .ey-page{
-    padding-top: 34px;
+    padding-top: 50px;
   }
 
   .ey-top3{
@@ -278,11 +333,26 @@ html, body{
     gap: 16px;
   }
 
+  .ey-two-small .ey-figure:first-child{
+    margin-top: 30px;
+  margin-bottom: 0px;
+  }
+  
+  .ey-two-small .ey-figure:last-child{
+    margin-top: 0px;
+    margin-bottom: 50px;
+  }
+
   .ey-two{
     grid-template-columns: 1fr;
     gap: 20px;
   }
 
+
+  .ey-two-small .ey-figure{
+    width: 100%;
+  }
+  
   .ey-single-figure{
     width: min(560px, 94%);
   }

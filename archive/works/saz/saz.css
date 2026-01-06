@@ -62,8 +62,8 @@ header,
   position: fixed;
   top: 11px;
   right: 24px;
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
   z-index: 3500;
   cursor: pointer;
   color: rgba(0, 0, 0, 0.7);
@@ -397,11 +397,12 @@ html, body{
   right: 10px;
   z-index: 10;
 
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
   border-radius: 0px;
   border: 1px solid rgba(0,0,0,0.22);
   background: rgba(255,255,255,0.92);
+  opacity: 1;
   cursor: pointer;
   border-radius: 3px;
   display: grid;
