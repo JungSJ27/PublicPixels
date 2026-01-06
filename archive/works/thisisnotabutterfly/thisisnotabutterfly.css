@@ -290,7 +290,7 @@ body[data-page="log"] header .shop-toggle{ display: none !important; }
   background: transparent;
   color: var(--fg);
   cursor: pointer;
-  font-size: 18px;
+  font-size: 23px;
   display: grid;
   place-items: center;
   z-index: 300;
