@@ -1,17 +1,23 @@
-<!-- cha.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CHA | Archive</title>
+
+  <title>Cha | Archive</title>
 
   <!-- Global CSS -->
-  <link rel="stylesheet" href="/front/styles.css">
   <link rel="stylesheet" href="/front/header.css">
 
   <!-- Page CSS -->
   <link rel="stylesheet" href="cha.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <!-- model-viewer (한 번만) -->
+  <script
+    type="module"
+    src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
+  </script>
 
   <!-- Header Loader -->
   <script src="/front/headerLoader.js" defer></script>
@@ -20,71 +26,115 @@
   <script type="module" src="cha.js"></script>
 </head>
 
+
 <body data-page="log">
+
+  <!-- HEADER INCLUDE -->
   <div data-include="header"></div>
 
-  <div class="list-toggle" onclick="location.href='/archive/'" aria-label="Back to list" role="button" tabindex="0">
-    <svg viewBox="0 0 24 24" class="ic-list" aria-hidden="true">
+  <!-- LIST BUTTON -->
+  <div class="list-toggle" onclick="location.href='/archive/'">
+    <svg viewBox="0 0 24 24" class="ic-list">
       <g fill="none" stroke="currentColor" stroke-width="1.6">
-        <line x1="4" y1="6"  x2="20" y2="6"></line>
-        <line x1="4" y1="12" x2="20" y2="12"></line>
-        <line x1="4" y1="18" x2="20" y2="18"></line>
+        <line x1="4" y1="6"  x2="20" y2="6"/>
+        <line x1="4" y1="12" x2="20" y2="12"/>
+        <line x1="4" y1="18" x2="20" y2="18"/>
       </g>
     </svg>
   </div>
 
-  <main class="cha-page">
-    <section class="pattern-stage" aria-label="CHA pattern wall">
+
+  <main class="saz-page">
+
+    <!-- TOP PATTERN STAGE -->
+    <section class="pattern-stage" aria-label="SAZ pattern wall">
       <div class="pattern-viewport" id="patternViewport">
         <div class="pattern-track" id="patternTrack"></div>
       </div>
-      <div class="stage-hint" aria-hidden="true">Swipe or drag to browse</div>
+
     </section>
 
-    <section class="info" aria-label="Project information">
-      <div class="info-col left">
-        <h1 class="title">CHA</h1>
-        <p class="meta">
-          2026<br>
-          Pattern study
-        </p>
-      </div>
+    <!-- BOTTOM INFO -->
+<section class="info" aria-label="Project information">
+  <div class="info-inner">
 
+    <div class="info-col left">
+      <h1 class="title">Cha</h1>
+      <p class="meta">
+        2022<br>
+        Digital illustration,<br>
+        Tie-dyed textile, digital pattern branding
+      </p>
+
+
+      <a class="info-link" href="/studiolog/log/201910/" target="_blank">
+        <svg class="ic-arrow" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M7 17 L17 7" stroke="currentColor" stroke-width="1.5" fill="none"/>
+          <path d="M10 7h7v7" stroke="currentColor" stroke-width="1.5" fill="none"/>
+        </svg>
+      Explore Exhibition
+    </a>
+    </div>
+
+    <!-- mid + right를 한 덩어리로 묶어서 "화면 중앙"에 오게 -->
+    <div class="info-pack">
       <div class="info-col mid">
         <p class="desc">
-          A pattern wall where every tile keeps the same scale so the rhythm comes only from the motif.
-        </p>
-        <p class="desc kor">
-          모든 패턴 타일의 크기를 동일하게 고정해서, 모티프 자체의 리듬과 대비만 보이도록 구성한 패턴 월.
-        </p>
+          Patterns were developed from tie-dyed textiles for a tea ceremony brand.
+          The dyed fabrics were scanned and digitally restructured into repeatable pattern units.
+        <br><br>
+          타이다이 염색으로 제작한 텍스타일을 기반으로, 다도 브랜드를 위한 패턴을 개발했다.
+          염색된 원단을 스캔한 뒤 디지털로 재구성하여 반복 가능한 리핏 패턴으로 완성했다.        </p>
       </div>
 
       <div class="info-col right">
-        <p class="stat" id="statCount">0 tiles</p>
-        <p class="stat">Horizontal scroll</p>
+        <figure class="info-photo">
+          <img
+            src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/cha/DSC_5406.jpg"
+            alt="Cha tie dye textile photo"
+            loading="lazy"
+          />
+        </figure>
       </div>
-    </section>
+    </div>
+  </div>
+  
+</section>
+
+
   </main>
 
-  <div class="cha-modal" id="chaModal" aria-hidden="true">
-    <div class="modal-backdrop" data-close="1"></div>
+  <!-- MODAL 3 PATTERN MIX -->
+  <div class="saz-modal" id="sazModal" aria-hidden="true">
+    <div class="modal-backdrop" data-close="1" aria-hidden="true"></div>
 
-    <div class="modal-panel" role="dialog" aria-modal="true" aria-label="Pattern preview">
-      <button class="modal-close" type="button" data-close="1" aria-label="Close">×</button>
+    <div class="mix-panel" role="dialog" aria-modal="true" aria-label="Pattern mix preview">
+      <button class="mix-x" type="button" data-close="1" aria-label="Close">×</button>
 
-      <div class="modal-media">
-        <img id="modalImg" alt="">
+      <div class="mix-grid" aria-label="Pattern mix layout">
+        <div class="mix-main">
+          <img id="mixMainImg" alt="" draggable="false">
+        </div>
+
+        <div class="mix-side">
+          <div class="mix-top">
+            <img id="mixTopImg" alt="" draggable="false">
+          </div>
+          <div class="mix-bottom">
+            <img id="mixBottomImg" alt="" draggable="false">
+          </div>
+        </div>
       </div>
 
-      <div class="modal-meta">
-        <p class="modal-kicker">CHA</p>
-        <h2 class="modal-title" id="modalTitle">cha1</h2>
-        <p class="modal-sub" id="modalSub">Pattern</p>
-      </div>
+      <div class="mix-bar">
+        <div class="mix-title" id="mixTitle">
+          Wall Bloom
+        </div>
 
-      <div class="modal-actions">
-        <button class="modal-btn" type="button" id="modalPrev" aria-label="Previous">Prev</button>
-        <button class="modal-btn" type="button" id="modalNext" aria-label="Next">Next</button>
+        <div class="mix-nav">
+          <button id="modalPrev" aria-label="Previous">Prev</button>
+          <button id="modalNext" aria-label="Next">Next</button>
+        </div>
       </div>
     </div>
   </div>

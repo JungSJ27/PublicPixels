@@ -1,6 +1,97 @@
-/* cha.css */
+/* ===============================================
+   FIX PUBLICPIXELS DEFAULT LAYOUT EFFECTS
+=============================================== */
 
-* { box-sizing: border-box; }
+body[data-page="log"] .pp-main::before,
+body[data-page="log"] .art-main::before{
+  display: none !important;
+}
+
+/* ===============================================
+   GLOBAL PAGE BODY
+=============================================== */
+body{
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: #fff;
+  color: #111;
+}
+
+/* ===============================
+   HEADER (전시 페이지 모드)
+=============================== */
+body[data-page="log"] header{
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  padding-top: 10px !important;
+  z-index: 3000;
+}
+
+body[data-page="log"] header .logo-brand,
+body[data-page="log"] header .logo-roman,
+body[data-page="log"] header .logo-korean{
+  color: rgba(0, 0, 0, 0.7) !important;
+}
+
+/* 검색, 카트 아이콘 숨기기 */
+body[data-page="log"] header .search-icon,
+body[data-page="log"] header .shop-toggle{
+  display: none !important;
+}
+
+/* 스크롤에 따라 숨길 때 쓸 클래스 */
+header,
+.pp-header{
+  transition: opacity 0.35s ease;
+}
+
+.header-hidden{
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ===============================
+   LIST TOGGLE (목록으로 돌아가기)
+=============================== */
+.list-toggle{
+  position: fixed;
+  top: 11px;
+  right: 24px;
+  width: 26px;
+  height: 26px;
+  z-index: 3500;
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.7);
+  opacity: 0.9;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.list-toggle:hover{
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.ic-list{
+  width: 24px;
+  height: 24px;
+}
+
+/* 헤더 숨길 때 같이 사라지도록 */
+.list-toggle.header-hidden{
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ===============================================
+   SAZ
+=============================================== */
+
+*{ box-sizing: border-box; }
 
 :root{
   --bg: #ffffff;
@@ -8,22 +99,23 @@
   --muted: rgba(10,10,10,0.58);
   --line: rgba(0,0,0,0.10);
 
-  --radius: 22px;
+  --radius: 0px;
   --gap: 18px;
 
   --tile-shadow: 0 10px 34px rgba(0,0,0,0.10);
   --tile-shadow-hover: 0 14px 44px rgba(0,0,0,0.14);
 
-  /* 직사각형 타일 */
-  --tile-w: 240px;
-  --tile-h: 320px;
+  /* JS가 실제 header 높이로 덮어씌움 */
+  --header-h: 64px;
 
-  /* 타일 2행을 정확히 담는 패턴 스테이지 높이 */
-  --stage-pad-y: 18px;
-  --stage-h: calc((var(--tile-h) * 2) + var(--gap) + (var(--stage-pad-y) * 2));
+  /* 글 영역 높이 */
+  --info-h: 300px;
 
-  /* 정보 영역 높이 */
-  --info-h: 22vh;
+  /* 패턴 위 여백 */
+  --pattern-top-pad: 0px;
+
+  /* 마지막 타일이 끝에 붙지 않게 */
+  --pattern-end-pad: 140px;
 }
 
 html, body{
@@ -34,102 +126,68 @@ html, body{
   font-family: Poppins, system-ui, sans-serif;
 }
 
-body[data-page="log"]{
+/* 헤더 밑부터 화면을 딱 2줄로 나눔 */
+.saz-page{
+  height: 100vh;
+  padding-top: var(--header-h);
+  display: grid;
+  grid-template-rows: 1fr var(--info-h);
   overflow: hidden;
 }
 
-/* 헤더 아이콘 숨기기 */
-body[data-page="log"] header .search-icon,
-body[data-page="log"] header .shop-toggle{
-  display: none !important;
-}
-
-/* 목록보기 버튼 */
-.list-toggle{
-  position: fixed;
-  top: 12px;
-  right: 24px;
-  width: 34px;
-  height: 34px;
-  z-index: 4000;
-  cursor: pointer;
-  color: rgba(10,10,10,0.78);
-  opacity: 0.9;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 999px;
-  transition: opacity 0.2s ease, transform 0.2s ease, background 0.2s ease;
-}
-
-.list-toggle:hover{
-  opacity: 1;
-  transform: translateY(-1px);
-  background: rgba(0,0,0,0.04);
-}
-
-.ic-list{
-  width: 22px;
-  height: 22px;
-}
-
-.cha-page{
-  height: 100vh;
-  display: grid;
-  grid-template-rows: var(--stage-h) 1fr;
-}
-
+/* 패턴 스테이지 */
 .pattern-stage{
-  width: 100vw;
-  height: var(--stage-h);
+  width: 100%;
   position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #fff;
+  left: auto;
+  transform: none;
+  background: #ffffff;
+  overflow: hidden;
 }
 
+
+/* 패턴만 가로 스크롤 */
 .pattern-viewport{
   height: 100%;
   width: 100%;
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
-  scrollbar-gutter: stable;
-  overscroll-behavior: contain;
+  scroll-behavior: smooth;
+  overscroll-behavior-x: contain;
   cursor: grab;
-}
 
-.pattern-viewport:active{
-  cursor: grabbing;
+  scrollbar-width: none;
 }
+.pattern-viewport::-webkit-scrollbar{ display: none; }
+.pattern-viewport:active{ cursor: grabbing; }
 
-.pattern-viewport::-webkit-scrollbar{ height: 10px; }
-.pattern-viewport::-webkit-scrollbar-thumb{
-  background: rgba(0,0,0,0.18);
-  border-radius: 999px;
-}
-.pattern-viewport::-webkit-scrollbar-track{
-  background: rgba(0,0,0,0.06);
-}
-
-/* 2행 고정, 가로로 계속 이어지는 트랙 */
+/* 핵심 수정: 3줄을 1fr로 나눠서 패턴 영역 세로 꽉 채우기 */
 .pattern-track{
   height: 100%;
   display: grid;
+
+  /* 가로로 계속 흐르게 */
   grid-auto-flow: column;
-  grid-auto-columns: var(--tile-w);
-  grid-template-rows: repeat(2, var(--tile-h));
+  grid-auto-columns: 260px;
+
+  /* ✅ 2줄 고정 */
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+
   gap: var(--gap);
 
-  padding: var(--stage-pad-y) 18px var(--stage-pad-y) 0;
-  padding-left: 0;
-
-  /* 위아래 여백 없이 꽉 차게 */
+  /* 남는 높이 없이 꽉 채움 */
   align-content: stretch;
-  justify-content: start;
+
+  padding-top: var(--pattern-top-pad);
+  padding-left: 0px;
+  padding-bottom: 0px;
+
+  /* 마지막 패턴 여백 */
+  padding-right: var(--pattern-end-pad);
 }
 
-/* 타일 */
+/* 타일 공통 */
 .tile{
   border: 0;
   padding: 0;
@@ -137,9 +195,14 @@ body[data-page="log"] header .shop-toggle{
   border-radius: var(--radius);
   overflow: hidden;
   box-shadow: var(--tile-shadow);
+  transform: translateZ(0);
   cursor: pointer;
   position: relative;
   transition: transform 0.16s ease, box-shadow 0.16s ease;
+
+  /* ✅ 모든 타일 동일 크기 */
+  grid-row: span 1;
+  grid-column: span 1;
 }
 
 .tile:hover{
@@ -154,43 +217,120 @@ body[data-page="log"] header .shop-toggle{
   object-fit: cover;
 }
 
-.tile .tag{
-  position: absolute;
-  left: 12px;
-  bottom: 12px;
-  font-size: 12px;
-  line-height: 1;
-  color: rgba(255,255,255,0.92);
-  background: rgba(0,0,0,0.48);
-  border: 1px solid rgba(255,255,255,0.18);
-  padding: 7px 10px;
-  border-radius: 999px;
-  backdrop-filter: blur(8px);
+/* ❌ 기존 사이즈 위계 무력화 */
+.tile.size-xl,
+.tile.size-lg,
+.tile.size-md,
+.tile.size-tall,
+.tile.size-wide,
+.tile.size-sm{
+  grid-row: span 1 !important;
+  grid-column: span 1 !important;
 }
 
-.stage-hint{
-  position: absolute;
-  left: 18px;
-  bottom: 10px;
-  font-size: 12px;
-  color: rgba(0,0,0,0.45);
-  user-select: none;
-  pointer-events: none;
-}
 
-/* 하단 정보 */
+/* ✅ 하단 텍스트 영역: 하단 영역 안에서 '세로 중앙' */
 .info{
   border-top: 1px solid var(--line);
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(6px);
+
+  /* 핵심 */
   display: grid;
-  grid-template-columns: 320px 1fr 220px;
-  gap: 36px;
-  padding: 22px 42px;
-  align-items: end;
+  place-items: center;       /* ✅ 세로, 가로 모두 중앙 */
+  padding: 18px 24px;
 }
 
+/* 하단 info 영역 세로 중앙 */
+.info{
+  border-top: 1px solid var(--line);
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(6px);
+
+  height: var(--info-h);
+  display: flex;
+  align-items: center;
+
+  padding: 0 28px;
+}
+
+/* -------------------------------
+   LEFT
+-------------------------------- */
+
+/* 왼쪽 info 컬럼 안의 링크 */
+.info-col.left .info-link{
+  margin-top: 16px;
+  font-size: 10px;
+  text-decoration: none;
+  color: #000000;
+  opacity: 0.6;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* hover */
+.info-col.left .info-link:hover{
+  opacity: 1;
+  color: #1cd3b4;
+}
+
+/* 아이콘 */
+.ic-arrow,
+.ic-insta{
+  width: 11px;
+  height: 11px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
+/* -------------------------------
+   INFO LAYOUT
+-------------------------------- */
+
+/* 전체는 화면 폭에 고르게 퍼지되 */
+.info-inner{
+  width: 100%;
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  align-items: start;
+}
+
+/* 왼쪽 컬럼 약간만 오른쪽 */
+.info-col.left{
+  padding-left: 10px;
+}
+
+/* ✅ 2번째 3번째 칼럼 덩어리: 오른쪽 정렬 */
+.info-pack{
+  display: grid;
+  grid-template-columns: minmax(360px, 480px) minmax(320px, 540px);
+  gap: 150px;
+
+  width: min(1100px, 100%);
+
+  /* 핵심: 가운데 정렬(0 auto) 대신 오른쪽으로 붙이기 */
+  margin: 0 0 0 auto;
+
+  align-items: start;
+}
+
+/* ✅ 세번째 칼럼(오른쪽) 자체를 오른쪽 끝으로 */
+.info-col.right{
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* -------------------------------
+   TEXT STYLES
+-------------------------------- */
+
 .title{
-  margin: 0 0 10px;
-  font-size: 18px;
+  margin: 0 0 12px;
+  font-size: 16px;
   letter-spacing: 0.4px;
 }
 
@@ -202,7 +342,7 @@ body[data-page="log"] header .shop-toggle{
 }
 
 .desc{
-  margin: 0 0 10px;
+  margin: 0;
   font-size: 13px;
   line-height: 1.65;
   color: rgba(0,0,0,0.76);
@@ -210,138 +350,376 @@ body[data-page="log"] header .shop-toggle{
 
 .desc.kor{
   margin: 0;
-  color: rgba(0,0,0,0.58);
+  font-size: 12.5px;
+  line-height: 1.75;
+  color: rgba(0,0,0,0.55);
 }
 
-.stat{
-  margin: 0 0 6px;
-  font-size: 12px;
-  color: rgba(0,0,0,0.60);
-  text-align: left;
+/* -------------------------------
+   RIGHT PHOTO
+-------------------------------- */
+
+.info-photo{
+  margin: 0;
+  width: 100%;
 }
 
-/* 모달 */
-.cha-modal{
+/* ✅ 사진이 더 오른쪽에 붙고, 크기는 과하지 않게 */
+.info-photo img{
+  width: 90%;
+  max-height: 150px;
+  height: auto;
+  object-fit: cover;
+
+  display: block;
+  border-radius: var(--radius);
+  box-shadow: var(--tile-shadow);
+}
+
+/* -------------------------------
+   MOBILE
+-------------------------------- */
+
+@media (max-width: 900px){
+  body[data-page="log"]{ overflow: auto; }
+
+  .saz-page{
+    height: auto;
+    grid-template-rows: 72vh auto;
+    overflow: visible;
+  }
+
+  .pattern-track{
+    grid-auto-columns: 220px;
+    grid-auto-rows: 160px;
+  }
+
+  .info{
+    height: auto;
+    display: block;
+    padding: 22px 18px 28px;
+  }
+
+  .info-inner{
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .info-col.left{
+    padding-left: 0;
+  }
+
+  .title{
+    margin-top: 40px;
+  }
+
+  .info-pack{
+    width: 100%;
+    margin: 0;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .desc{
+    margin-top: 30px;
+  }
+
+  .desc,
+  .desc.kor{
+    max-width: 70ch;
+  }
+
+  .desc.kor{
+    margin-bottom: 40px;
+  }
+
+  .info-photo{ margin-top: 16px; }
+
+  /* 모바일에서는 사진 너무 오른쪽 치우치지 않게 */
+  .info-col.right{
+    justify-content: flex-start;
+  }
+
+  .info-photo img{
+    width: 100%;
+    max-height: 180px;
+  }
+}
+
+
+/* ===============================
+   SAZ MIX MODAL (3 patterns, final)
+================================ */
+
+/* overlay */
+.saz-modal{
   position: fixed;
   inset: 0;
+  z-index: 6000;
   display: none;
-  z-index: 9999;
+  align-items: center;
+  justify-content: center;
 }
 
-.cha-modal.show{
-  display: block;
-}
+.saz-modal.show{ display: flex; }
 
-.modal-backdrop{
+.saz-modal .modal-backdrop{
   position: absolute;
   inset: 0;
   background: rgba(0,0,0,0.55);
 }
 
-.modal-panel{
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: min(980px, calc(100% - 40px));
+/* panel */
+.saz-modal .mix-panel{
+  position: relative;
+  z-index: 1;
+
+  width: min(900px, calc(100vw - 90px));
+  height: min(720px, calc(100vh - var(--header-h, 0px) - 90px));
+
   background: #fff;
-  border-radius: 22px;
   overflow: hidden;
-  box-shadow: 0 22px 80px rgba(0,0,0,0.28);
+  border-radius: 0px;
+  box-shadow: 0 18px 70px rgba(0,0,0,0.25);
+
+  display: grid;
+  grid-template-rows: 1fr auto;
 }
 
-.modal-close{
+/* close X (only one close) */
+.saz-modal .mix-x{
   position: absolute;
-  top: 12px;
-  right: 14px;
-  width: 36px;
-  height: 36px;
-  border-radius: 999px;
-  border: 1px solid rgba(0,0,0,0.10);
-  background: rgba(255,255,255,0.9);
+  top: 10px;
+  right: 10px;
+  z-index: 10;
+
+  width: 20px;
+  height: 20px;
+  border-radius: 0px;
+  border: 1px solid rgba(0,0,0,0.22);
+  background: rgba(255,255,255,0.92);
+  opacity: 1;
   cursor: pointer;
-  font-size: 22px;
+  border-radius: 3px;
+  display: grid;
+  place-items: center;
   line-height: 1;
 }
 
-.modal-media{
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  background: rgba(0,0,0,0.06);
+.saz-modal .mix-x:hover{
+  background: rgba(255,255,255,1);
+  border-color: rgba(0,0,0,0.32);
 }
 
-.modal-media img{
+/* 3-pattern grid */
+.saz-modal .mix-grid{
+  min-height: 0;
+  height: 100%;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* left 1/2, right 1/2 */
+}
+
+/* cells */
+.saz-modal .mix-main,
+.saz-modal .mix-side,
+.saz-modal .mix-top,
+.saz-modal .mix-bottom{
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #ffffff; /* fallback */
+}
+
+/* right = 2/3 + 1/3 */
+.saz-modal .mix-side{
+  display: grid;
+  grid-template-rows: 2fr 1fr;
+}
+
+/* image behavior
+   기본은 cover (임팩트)
+   덜 꽉차게 하고 싶으면 아래 주석의 contain 버전으로 바꿔도 됨 */
+.saz-modal .mix-grid img{
   width: 100%;
   height: 100%;
-  object-fit: cover;
   display: block;
+  object-fit: cover;
+  /* object-position: center; */
 }
 
-.modal-meta{
-  padding: 16px 18px 0;
+/* ======= OPTIONAL: less “too tight” frame look =======
+   위의 object-fit: cover; 대신 아래를 쓰면 덜 꽉 차 보임
+.saz-modal .mix-grid img{
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  background: #fff;
+}
+====================================================== */
+
+/* bottom bar */
+.saz-modal .mix-bar{
+  border-top: 1px solid rgba(0,0,0,0.10);
+  background: #fff;
+
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 14px;
+
+  padding: 14px 16px;
 }
 
-.modal-kicker{
-  margin: 0;
-  font-size: 12px;
-  color: rgba(0,0,0,0.55);
-}
-
-.modal-title{
-  margin: 6px 0 0;
-  font-size: 18px;
-}
-
-.modal-sub{
-  margin: 8px 0 0;
+/* title: more playful + “fortune label” vibe */
+.saz-modal .mix-title{
   font-size: 13px;
-  color: rgba(0,0,0,0.60);
+  line-height: 1.2;
+  color: rgba(0,0,0,0.86);
+  letter-spacing: 0.02em;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.modal-actions{
-  padding: 14px 18px 18px;
+.saz-modal .mix-title .mix-badge{
+  display: inline-block;
+  margin-right: 10px;
+  padding: 4px 10px;
+  border: 1px solid rgba(0,0,0,0.14);
+  border-radius: 999px;
+  font-size: 11px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: rgba(0,0,0,0.70);
+  background: rgba(0,0,0,0.02);
+}
+
+.saz-modal .mix-actions{
   display: flex;
   gap: 10px;
-  justify-content: flex-end;
+  align-items: center;
 }
 
-.modal-btn{
-  border: 1px solid rgba(0,0,0,0.14);
-  background: #fff;
-  padding: 10px 14px;
-  border-radius: 999px;
-  cursor: pointer;
+.saz-modal .mix-btn{
+  border: none;
+  background: transparent;
+  padding: 0;
   font-size: 13px;
+  color: #111;
+  cursor: pointer;
+  position: relative;
 }
 
-/* 반응형 */
+.saz-modal .mix-btn::after{
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0%;
+  height: 1px;
+  background: currentColor;
+  transition: width .25s ease;
+}
+
+.saz-modal .mix-btn:hover::after{
+  width: 100%;
+}
+
+.saz-modal .mix-nav{
+  display: flex;
+  gap: 20px;
+  padding: 8px 14px;
+  background: rgba(0,0,0,0.00); /* 아주 연한 회색 */
+}
+
+.saz-modal .mix-nav button{
+  background: none;
+  border: none;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 0;
+}
+
+
+/* mobile */
 @media (max-width: 900px){
-  body[data-page="log"]{ overflow: auto; }
-
-  :root{
-    --tile-w: 200px;
-    --tile-h: 280px;
+  .saz-modal .mix-panel{
+    width: calc(100vw - 28px);
+    height: calc(100vh - var(--header-h, 0px) - 28px);
   }
 
-  .cha-page{
-    height: auto;
-    grid-template-rows: var(--stage-h) auto;
-  }
-
-  .pattern-stage{
-    height: var(--stage-h);
-  }
-
-  .info{
-    grid-template-columns: 1fr;
-    padding: 18px 18px 26px;
-    gap: 14px;
+  .saz-modal .mix-title{
+    font-size: 12px;
   }
 }
 
-@media (max-width: 520px){
-  :root{
-    --tile-w: 170px;
-    --tile-h: 240px;
+/* ===============================
+   FIX iOS BLUE TEXT (MODAL)
+================================ */
+
+/* iOS 기본 link / button 색 제거 */
+.saz-modal,
+.saz-modal *{
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Prev / Next 버튼 */
+.saz-modal .mix-nav button{
+  color: rgba(0,0,0,0.85) !important;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* 혹시 a 태그로 인식되는 경우 대비 */
+.saz-modal a{
+  color: rgba(0,0,0,0.85);
+  text-decoration: none;
+}
+
+/* Fortune title 텍스트 */
+.saz-modal .mix-title{
+  color: rgba(0,0,0,0.86);
+}
+
+/* ===============================
+   FIX iOS BLUE TEXT (MODAL)
+================================ */
+
+/* iOS 기본 link / button 색 제거 */
+.saz-modal,
+.saz-modal *{
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Prev / Next 버튼 */
+.saz-modal .mix-nav button{
+  color: rgba(0,0,0,0.85) !important;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* 혹시 a 태그로 인식되는 경우 대비 */
+.saz-modal a{
+  color: rgba(0,0,0,0.85);
+  text-decoration: none;
+}
+
+/* Fortune title 텍스트 */
+.saz-modal .mix-title{
+  color: rgba(0,0,0,0.86);
+}
+
+
+@media (max-width: 900px){
+  .saz-modal .mix-panel{
+    width: calc(100vw - 28px);
+    height: min(
+      640px,
+      calc(100vh - var(--header-h, 0px) - 60px)
+    );
   }
 }
