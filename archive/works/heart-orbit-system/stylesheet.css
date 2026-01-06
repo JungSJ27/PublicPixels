@@ -365,3 +365,42 @@ body.header-reveal .mobile-header-zone {
   }
 
 }
+
+@media (max-width: 768px) {
+  :root{
+    --info-modal-header-offset: 80px; /* 위 코드랑 같은 개념 */
+  }
+
+  /* 모달 카드 자체 */
+  .info-modal-inner{
+    width: 80vw;
+    max-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    min-height: 0;
+    box-sizing: border-box;
+  }
+
+  /* 스크롤은 이 래퍼에서 담당 */
+  .info-modal-content{
+    justify-content: flex-start;
+
+    height: 100dvh;      /* 핵심 */
+    min-height: 0;
+    box-sizing: border-box;
+
+    padding-top: var(--info-modal-header-offset);
+    padding-left: 40px;
+    padding-right: 40px;
+
+    padding-bottom: calc(120px + env(safe-area-inset-bottom)); /* 하단 여백 */
+    overflow-y: auto;    /* 핵심 */
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+  }
+
+  /* 기존 viewport 방식은 모바일에서는 해제
+     (height 70vh + margin-bottom 30vh 구조는 스크롤 먹통 만들기 쉬움) */
+  .info-modal-viewport{
+    height: auto;
+    margin-bottom: 0;
+  }
+}
