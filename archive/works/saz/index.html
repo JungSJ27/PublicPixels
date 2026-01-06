@@ -93,40 +93,41 @@
 
 
   </main>
-  
-  <!-- MODAL 3 MIX -->
+
+  <!-- MODAL 3 PATTERN MIX -->
   <div class="saz-modal" id="sazModal" aria-hidden="true">
-    <div class="modal-backdrop" data-close="1"></div>
+    <div class="modal-backdrop" data-close="1" aria-hidden="true"></div>
 
-    <div class="modal-panel" role="dialog" aria-modal="true" aria-label="Pattern mix preview">
-      <button class="modal-close" type="button" data-close="1" aria-label="Close">×</button>
+    <div class="mix-panel" role="dialog" aria-modal="true" aria-label="Pattern mix preview">
+      <button class="mix-x" type="button" data-close="1" aria-label="Close">×</button>
 
-      <div class="mix-grid" aria-label="Mix layout">
-        <figure class="mix-main">
-          <img id="mixMainImg" alt="">
-        </figure>
+      <div class="mix-grid" aria-label="Pattern mix layout">
+        <div class="mix-main">
+          <img id="mixMainImg" alt="" draggable="false">
+        </div>
 
         <div class="mix-side">
-          <figure class="mix-top">
-            <img id="mixTopImg" alt="">
-          </figure>
-          <figure class="mix-bottom">
-            <img id="mixBottomImg" alt="">
-          </figure>
+          <div class="mix-top">
+            <img id="mixTopImg" alt="" draggable="false">
+          </div>
+          <div class="mix-bottom">
+            <img id="mixBottomImg" alt="" draggable="false">
+          </div>
         </div>
       </div>
 
-      <footer class="mix-footer">
-        <div class="mix-title" id="mixTitle">Saz mix</div>
-
-        <div class="mix-actions">
-          <button class="mix-btn" type="button" id="modalPrev" aria-label="Previous">Prev</button>
-          <button class="mix-btn" type="button" id="modalNext" aria-label="Next">Next</button>
+      <div class="mix-bar">
+        <div class="mix-title" id="mixTitle">
+          Wall Bloom
         </div>
-      </footer>
+
+        <div class="mix-nav">
+          <button id="modalPrev" aria-label="Previous">Prev</button>
+          <button id="modalNext" aria-label="Next">Next</button>
+        </div>
+      </div>
     </div>
   </div>
-
 
   <script defer src="/front/favicons.js"></script>
 </body>

@@ -42,12 +42,12 @@ function clampIndex(i){
 const track = document.getElementById("patternTrack");
 const viewport = document.getElementById("patternViewport");
 
+/* modal dom */
 const modal = document.getElementById("sazModal");
 const mixMainImg = document.getElementById("mixMainImg");
 const mixTopImg = document.getElementById("mixTopImg");
 const mixBottomImg = document.getElementById("mixBottomImg");
 const mixTitle = document.getElementById("mixTitle");
-
 const modalPrev = document.getElementById("modalPrev");
 const modalNext = document.getElementById("modalNext");
 
@@ -67,7 +67,7 @@ function makeTile(item, index){
   img.draggable = false;
 
   btn.appendChild(img);
-  btn.addEventListener("click", () => openModal(index));
+  btn.addEventListener("click", () => openMixModal(index));
   return btn;
 }
 
@@ -114,7 +114,6 @@ function waitForHeaderThenInit(){
   if (header){
     removeHeaderActions();
     syncHeaderHeight();
-
     if ("ResizeObserver" in window){
       const ro = new ResizeObserver(syncHeaderHeight);
       ro.observe(header);
@@ -129,7 +128,6 @@ function waitForHeaderThenInit(){
       clearInterval(timer);
       removeHeaderActions();
       syncHeaderHeight();
-
       if ("ResizeObserver" in window){
         const ro = new ResizeObserver(syncHeaderHeight);
         ro.observe(h);
@@ -203,16 +201,22 @@ if (listToggle){
 }
 
 /* ===============================
-   MIX MODAL (3 patterns)
+   MIX MODAL LOGIC (fortune title)
 ================================ */
+
 let current = 0;
 let randA = 0;
 let randB = 0;
 
-function pickTwoRandom(excludeIndex){
+function pickTwoRandomIndices(excludeIndex){
   const pool = [];
   for (let i = 0; i < patterns.length; i++){
     if (i !== excludeIndex) pool.push(i);
+  }
+
+  // 안전장치: 패턴이 3개 미만이면 랜덤 두 개 못 뽑음
+  if (pool.length < 2){
+    return [excludeIndex, excludeIndex];
   }
 
   const a = pool.splice(Math.floor(Math.random() * pool.length), 1)[0];
@@ -220,59 +224,89 @@ function pickTwoRandom(excludeIndex){
   return [a, b];
 }
 
-function makeComboName(mainId, aId, bId){
-  const w1 = ["Saz", "Turuqurie", "Ornament", "Rhythm", "Weave", "Tile", "Wall", "Mix"];
-  const w2 = ["Echo", "Bloom", "Grid", "Stripe", "Pulse", "Garden", "Night", "Drift"];
-  const A = w1[Math.floor(Math.random() * w1.length)];
-  const B = w2[Math.floor(Math.random() * w2.length)];
-  return `${A} ${B} saz${mainId} · saz${aId} · saz${bId}`;
+function makeFortuneTitle(mainId, aId, bId){
+  const badges = ["FORTUNE", "LUCK", "AURA", "OMEN", "TAROT", "ORACLE", "VIBE", "SIGN"];
+  const moods = ["대길", "길", "중길", "소길", "상승", "호조", "재물", "연애", "영감", "집중", "전환", "확장"];
+  const verbs = ["열리는", "끌리는", "번지는", "겹치는", "정렬되는", "흐르는", "반짝이는", "진입하는"];
+  const nouns = ["패턴운", "색감운", "리듬운", "관계운", "작업운", "선택운", "공간운", "감각운"];
+  const extras = [
+    "오늘은 과감히",
+    "지금은 믹스가 답",
+    "왼쪽이 주인공",
+    "대칭이 행운",
+    "블루가 키 컬러",
+    "텍스처가 승부",
+    "반복이 안정",
+    "변주가 포인트"
+  ];
+
+  const badge = badges[Math.floor(Math.random() * badges.length)];
+  const mood = moods[Math.floor(Math.random() * moods.length)];
+  const verb = verbs[Math.floor(Math.random() * verbs.length)];
+  const noun = nouns[Math.floor(Math.random() * nouns.length)];
+  const extra = extras[Math.floor(Math.random() * extras.length)];
+
+  return {
+    badge,
+    text: `${mood} ${verb} ${noun} · ${extra}`
+  };
+}
+
+function rollRandoms(){
+  const [a, b] = pickTwoRandomIndices(current);
+  randA = a;
+  randB = b;
 }
 
 function syncMix(){
-  if (!mixMainImg || !mixTopImg || !mixBottomImg) return;
+  if (!modal) return;
 
   const main = patterns[current];
   const top = patterns[randA];
   const bottom = patterns[randB];
 
-  mixMainImg.src = imgUrl(main.id);
-  mixMainImg.alt = `saz${main.id}`;
+  if (!main || !top || !bottom) return;
 
-  mixTopImg.src = imgUrl(top.id);
-  mixTopImg.alt = `saz${top.id}`;
-
-  mixBottomImg.src = imgUrl(bottom.id);
-  mixBottomImg.alt = `saz${bottom.id}`;
+  if (mixMainImg){
+    mixMainImg.src = imgUrl(main.id);
+    mixMainImg.alt = `saz${main.id}`;
+  }
+  if (mixTopImg){
+    mixTopImg.src = imgUrl(top.id);
+    mixTopImg.alt = `saz${top.id}`;
+  }
+  if (mixBottomImg){
+    mixBottomImg.src = imgUrl(bottom.id);
+    mixBottomImg.alt = `saz${bottom.id}`;
+  }
 
   if (mixTitle){
-    mixTitle.textContent = makeComboName(main.id, top.id, bottom.id);
+    const t = makeFortuneTitle(main.id, top.id, bottom.id);
+    // CSS에서 .mix-badge 스타일 적용됨
+    mixTitle.innerHTML = `<span class="mix-badge">${t.badge}</span>${t.text}`;
   }
 }
 
-function openModal(index){
+function openMixModal(index){
   if (!modal) return;
-
   current = clampIndex(index);
-  [randA, randB] = pickTwoRandom(current);
+  rollRandoms();
   syncMix();
-
   modal.classList.add("show");
   modal.setAttribute("aria-hidden", "false");
-  document.body.classList.add("modal-open");
 }
 
-function closeModal(){
+function closeMixModal(){
   if (!modal) return;
-
   modal.classList.remove("show");
   modal.setAttribute("aria-hidden", "true");
-  document.body.classList.remove("modal-open");
 }
 
+/* buttons */
 if (modalPrev){
   modalPrev.addEventListener("click", () => {
     current = clampIndex(current - 1);
-    [randA, randB] = pickTwoRandom(current);
+    rollRandoms();
     syncMix();
   });
 }
@@ -280,17 +314,20 @@ if (modalPrev){
 if (modalNext){
   modalNext.addEventListener("click", () => {
     current = clampIndex(current + 1);
-    [randA, randB] = pickTwoRandom(current);
+    rollRandoms();
     syncMix();
   });
 }
 
-/* backdrop or close button */
+/* backdrop + close
+   data-close="1"이 backdrop, X버튼, Close버튼(있다면) 중 원하는 곳에 붙어있으면 닫힘 */
 if (modal){
   modal.addEventListener("click", (e) => {
     const t = e.target;
     if (!(t instanceof HTMLElement)) return;
-    if (t.dataset.close === "1") closeModal();
+
+    // backdrop 클릭 또는 닫기 요소 클릭
+    if (t.dataset.close === "1") closeMixModal();
   });
 }
 
@@ -298,7 +335,7 @@ if (modal){
 document.addEventListener("keydown", (e) => {
   if (!modal || !modal.classList.contains("show")) return;
 
-  if (e.key === "Escape") closeModal();
+  if (e.key === "Escape") closeMixModal();
   if (e.key === "ArrowLeft" && modalPrev) modalPrev.click();
   if (e.key === "ArrowRight" && modalNext) modalNext.click();
 });
