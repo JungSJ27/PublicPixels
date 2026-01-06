@@ -21,41 +21,41 @@ document.addEventListener("DOMContentLoaded", () => {
   ======================================================= */
 
   window.addEventListener("load", () => {
-    const header =
-      document.querySelector("header.pp-header") ||
-      document.querySelector(".pp-header") ||
-      document.querySelector("header");
+  const header =
+    document.querySelector("header.pp-header") ||
+    document.querySelector(".pp-header") ||
+    document.querySelector("header");
 
-    const listToggle = document.querySelector(".list-toggle");
-    if (!header) return;
+  const listToggle = document.querySelector(".list-toggle");
+  if (!header) return;
 
-    function applyHidden(isHidden) {
-      header.classList.toggle("header-hidden", isHidden);
-      // listToggle은 숨기지 말기 (항상 클릭 가능)
+  function applyHidden(isHidden) {
+    header.classList.toggle("header-hidden", isHidden);
+
+    // 목록 아이콘도 같이 숨기기
+    if (listToggle) listToggle.classList.toggle("header-hidden", isHidden);
+  }
+
+  let lastY = window.scrollY;
+
+  if (window.scrollY > 10) applyHidden(true);
+  else applyHidden(false);
+
+  window.addEventListener("scroll", () => {
+    const y = window.scrollY;
+
+    if (y < 10) {
+      applyHidden(false);
+      lastY = y;
+      return;
     }
 
+    if (y < lastY - 2) applyHidden(false);
+    else if (y > lastY + 2) applyHidden(true);
 
-    let lastY = window.scrollY;
-
-    if (window.scrollY > 10) applyHidden(true);
-    else applyHidden(false);
-
-    window.addEventListener("scroll", () => {
-      const y = window.scrollY;
-
-      if (y < 10) {
-        applyHidden(false);
-        lastY = y;
-        return;
-      }
-
-      if (y < lastY - 2) applyHidden(false);
-      else if (y > lastY + 2) applyHidden(true);
-
-      lastY = y;
-    });
+    lastY = y;
   });
-
+});
 
   /* =======================================================
      POPUP SHARED

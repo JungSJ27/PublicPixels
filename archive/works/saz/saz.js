@@ -3,13 +3,13 @@ const BASE = "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/saz/";
 
 const patterns = [
   // 1 motif 1 and 3 variations
-  { id: 1, group: "motif 1", size: "size-xl" },
-  { id: 2, group: "motif 1 var", size: "size-md" },
-  { id: 3, group: "motif 1 var", size: "size-md" },
+  { id: 7, group: "motif 1", size: "size-xl" },
+  { id: 5, group: "motif 1 var", size: "size-md" },
+  { id: 6, group: "motif 1 var", size: "size-md" },
   { id: 4, group: "motif 1 var", size: "size-tall" },
 
   // 1 2
-  { id: 5, group: "motif 1 2", size: "size-lg" },
+  { id: 2, group: "motif 1 2", size: "size-lg" },
 
   // solids 2
   { id: 6, group: "solid", size: "size-wide" },
@@ -185,3 +185,28 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") modalPrev.click();
   if (e.key === "ArrowRight") modalNext.click();
 });
+
+// saz.js
+(function(){
+  function syncHeaderHeight(){
+    const header = document.querySelector('header');
+    if(!header) return;
+
+    const h = Math.ceil(header.getBoundingClientRect().height);
+    document.documentElement.style.setProperty('--header-h', `${h}px`);
+  }
+
+  // 초기
+  syncHeaderHeight();
+
+  // 폰트 로딩이나 레이아웃 변동 대응
+  window.addEventListener('load', syncHeaderHeight);
+  window.addEventListener('resize', syncHeaderHeight);
+
+  // 헤더 내용이 바뀌면 높이 다시 계산
+  const header = document.querySelector('header');
+  if(header && 'ResizeObserver' in window){
+    const ro = new ResizeObserver(syncHeaderHeight);
+    ro.observe(header);
+  }
+})();

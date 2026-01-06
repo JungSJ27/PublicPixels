@@ -1,6 +1,99 @@
+/* ===============================================
+   FIX PUBLICPIXELS DEFAULT LAYOUT EFFECTS
+=============================================== */
+
+body[data-page="log"] .pp-main::before,
+body[data-page="log"] .art-main::before{
+  display: none !important;
+}
+
+/* ===============================================
+   GLOBAL PAGE BODY
+=============================================== */
+body{
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: #fff;
+  color: #111;
+}
+
+/* ===============================
+   HEADER (전시 페이지 모드)
+=============================== */
+body[data-page="log"] header{
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  padding-top: 10px !important;
+  z-index: 3000;
+}
+
+body[data-page="log"] header .logo-brand,
+body[data-page="log"] header .logo-roman,
+body[data-page="log"] header .logo-korean{
+  color: rgba(0, 0, 0, 0.7) !important;
+}
+
+/* 검색, 카트 아이콘 숨기기 */
+body[data-page="log"] header .search-icon,
+body[data-page="log"] header .shop-toggle{
+  display: none !important;
+}
+
+/* 스크롤에 따라 숨길 때 쓸 클래스 */
+header,
+.pp-header{
+  transition: opacity 0.35s ease;
+}
+
+.header-hidden{
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ===============================
+   LIST TOGGLE (목록으로 돌아가기)
+=============================== */
+.list-toggle{
+  position: fixed;
+  top: 12px;
+  right: 24px;
+  width: 28px;
+  height: 28px;
+  z-index: 3500;
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.7);
+  opacity: 0.9;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.list-toggle:hover{
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.ic-list{
+  width: 24px;
+  height: 24px;
+}
+
+/* 헤더 숨길 때 같이 사라지도록 */
+.list-toggle.header-hidden{
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ===============================================
+   SAZ
+=============================================== */
+
 /* saz.css */
 
-* { box-sizing: border-box; }
+*{ box-sizing: border-box; }
 
 :root{
   --bg: #ffffff;
@@ -8,14 +101,20 @@
   --muted: rgba(10,10,10,0.58);
   --line: rgba(0,0,0,0.10);
 
-  --radius: 22px;
+  --radius: 0px;
   --gap: 18px;
-
-  --stage-h: 78vh;
-  --info-h: 22vh;
 
   --tile-shadow: 0 10px 34px rgba(0,0,0,0.10);
   --tile-shadow-hover: 0 14px 44px rgba(0,0,0,0.14);
+
+  /* JS가 실제 header 높이로 덮어씌움 */
+  --header-h: 64px;
+
+  /* 글 영역 높이 (원하면 여기만 조절) */
+  --info-h: 300px;
+
+  /* 패턴 위 여백 (원하면 여기만 조절) */
+  --pattern-top-pad: 7px;
 }
 
 html, body{
@@ -26,90 +125,43 @@ html, body{
   font-family: Poppins, system-ui, sans-serif;
 }
 
-/* 큰 화면에서는 한 화면 고정 */
-body[data-page="log"]{
+/* ✅ 헤더 밑부터 화면을 딱 2줄로 나눔: 위 패턴, 아래 텍스트 */
+.saz-page{
+  height: 100vh;
+  padding-top: var(--header-h);
+  display: grid;
+  grid-template-rows: 1fr var(--info-h);
   overflow: hidden;
 }
 
-/* 헤더 아이콘 숨기기 */
-body[data-page="log"] header .search-icon,
-body[data-page="log"] header .shop-toggle{
-  display: none !important;
-}
-
-/* 목록보기 버튼 */
-.list-toggle{
-  position: fixed;
-  top: 12px;
-  right: 24px;
-  width: 34px;
-  height: 34px;
-  z-index: 4000;
-  cursor: pointer;
-  color: rgba(10,10,10,0.78);
-  opacity: 0.9;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 999px;
-  transition: opacity 0.2s ease, transform 0.2s ease, background 0.2s ease;
-}
-
-.list-toggle:hover{
-  opacity: 1;
-  transform: translateY(-1px);
-  background: rgba(0,0,0,0.04);
-}
-
-.ic-list{
-  width: 22px;
-  height: 22px;
-}
-
-/* 페이지 래퍼 */
-.saz-page{
-  height: 100vh;
-  display: grid;
-  grid-template-rows: var(--stage-h) var(--info-h);
-}
-
-/* 패턴 스테이지를 화면 끝까지 */
+/* 패턴 스테이지 */
 .pattern-stage{
   width: 100vw;
   position: relative;
   left: 50%;
   transform: translateX(-50%);
-  background: #fff;
+  background: #ffffff;
+  overflow: hidden;
 }
 
-/* 패턴만 스크롤 */
+/* 패턴만 가로 스크롤 */
 .pattern-viewport{
   height: 100%;
   width: 100%;
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
-  scrollbar-gutter: stable;
   scroll-behavior: smooth;
-  overscroll-behavior: contain;
+  overscroll-behavior-x: contain;
   cursor: grab;
-}
 
-.pattern-viewport:active{
-  cursor: grabbing;
+  /* 스크롤바 숨김 */
+  scrollbar-width: none;
 }
+.pattern-viewport::-webkit-scrollbar{ display: none; }
+.pattern-viewport:active{ cursor: grabbing; }
 
-/* 얇은 스크롤바 */
-.pattern-viewport::-webkit-scrollbar{ height: 10px; }
-.pattern-viewport::-webkit-scrollbar-thumb{
-  background: rgba(0,0,0,0.18);
-  border-radius: 999px;
-}
-.pattern-viewport::-webkit-scrollbar-track{
-  background: rgba(0,0,0,0.06);
-}
-
-/* 타일 트랙 */
+/* 타일 트랙은 위에서 시작 */
 .pattern-track{
   height: 100%;
   display: grid;
@@ -117,13 +169,13 @@ body[data-page="log"] header .shop-toggle{
   grid-auto-columns: 260px;
   grid-auto-rows: 180px;
   gap: var(--gap);
-  padding: 18px 18px 22px 0; /* 왼쪽 여백 제거 포인트 */
-  align-content: center;
-}
 
-/* 왼쪽에 진짜 0으로 붙이고 싶으면 이 값만 0으로 */
-.pattern-track{
-  padding-left: 0;
+  align-content: start;
+  padding-top: var(--pattern-top-pad);
+
+  padding-right: 18px;
+  padding-left: 0px;
+  padding-bottom: 0px;
 }
 
 /* 타일 */
@@ -175,27 +227,28 @@ body[data-page="log"] header .shop-toggle{
   backdrop-filter: blur(8px);
 }
 
-/* 안내 문구 */
-.stage-hint{
-  position: absolute;
-  left: 18px;
-  bottom: 14px;
-  font-size: 12px;
-  color: rgba(0,0,0,0.45);
-  user-select: none;
-  pointer-events: none;
-}
-
-/* 하단 정보 */
+/* ✅ 하단 텍스트 영역: 하단 영역 안에서 '세로 중앙' */
 .info{
   border-top: 1px solid var(--line);
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(6px);
+
+  /* 핵심 */
+  display: grid;
+  place-items: center;       /* ✅ 세로, 가로 모두 중앙 */
+  padding: 18px 24px;
+}
+
+/* ✅ 실제 텍스트 그리드는 가운데 고정 폭으로 */
+.info-inner{
+  width: min(1100px, calc(100% - 24px));
   display: grid;
   grid-template-columns: 320px 1fr 220px;
   gap: 36px;
-  padding: 22px 42px;
-  align-items: end;
+  align-items: center;       /* ✅ 내부 컬럼들도 세로 중앙 정렬 */
 }
 
+/* 텍스트 스타일 */
 .title{
   margin: 0 0 10px;
   font-size: 18px;
@@ -228,6 +281,35 @@ body[data-page="log"] header .shop-toggle{
   text-align: left;
 }
 
+/* 반응형 */
+@media (max-width: 900px){
+  body[data-page="log"]{ overflow: auto; }
+
+  .saz-page{
+    height: auto;
+    grid-template-rows: 72vh auto;
+    overflow: visible;
+  }
+
+  .pattern-track{
+    grid-auto-columns: 220px;
+    grid-auto-rows: 160px;
+  }
+
+  .info{
+    place-items: center;     /* ✅ 모바일도 하단 영역 안에서 중앙 */
+    padding: 18px 18px 26px;
+  }
+
+  .info-inner{
+    grid-template-columns: 1fr;
+    gap: 12px;
+    align-items: center;
+  }
+}
+
+
+
 /* 모달 */
 .saz-modal{
   position: fixed;
@@ -236,9 +318,7 @@ body[data-page="log"] header .shop-toggle{
   z-index: 9999;
 }
 
-.saz-modal.show{
-  display: block;
-}
+.saz-modal.show{ display: block; }
 
 .modal-backdrop{
   position: absolute;
@@ -285,9 +365,7 @@ body[data-page="log"] header .shop-toggle{
   display: block;
 }
 
-.modal-meta{
-  padding: 16px 18px 0;
-}
+.modal-meta{ padding: 16px 18px 0; }
 
 .modal-kicker{
   margin: 0;
@@ -322,28 +400,3 @@ body[data-page="log"] header .shop-toggle{
   font-size: 13px;
 }
 
-/* 반응형 */
-@media (max-width: 900px){
-  body[data-page="log"]{ overflow: auto; }
-  .saz-page{
-    height: auto;
-    grid-template-rows: auto auto;
-  }
-
-  .pattern-stage{
-    height: 72vh;
-  }
-
-  .pattern-track{
-    grid-auto-columns: 220px;
-    grid-auto-rows: 160px;
-  }
-
-  .info{
-    grid-template-columns: 1fr;
-    padding: 18px 18px 26px;
-    gap: 14px;
-  }
-
-  .stat{ text-align: left; }
-}
