@@ -6,25 +6,26 @@ const BASE = "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/saz/";
 ================================ */
 const patterns = [
   { id: 7, group: "motif 1", size: "size-xl" },
-  { id: 5, group: "motif 1 var", size: "size-md" },
-  { id: 6, group: "motif 1 var", size: "size-md" },
-  { id: 4, group: "motif 1 var", size: "size-tall" },
+  { id: 17, group: "motif 1 var", size: "size-md" },
+  { id: 15, group: "motif 1 var", size: "size-md" },
+  { id: 2, group: "motif 1 var", size: "size-tall" },
 
-  { id: 2, group: "motif 1 2", size: "size-lg" },
+  { id: 14, group: "motif 1 2", size: "size-lg" },
 
-  { id: 8, group: "geometric", size: "size-md" },
+  { id: 16, group: "geometric", size: "size-md" },
   { id: 9, group: "geometric", size: "size-md" },
-  { id: 10, group: "geometric", size: "size-md" },
   { id: 11, group: "geometric", size: "size-md" },
+  { id: 4, group: "geometric", size: "size-tall" },
+  { id: 10, group: "geometric", size: "size-md" },
   { id: 12, group: "geometric", size: "size-tall" },
 
   { id: 13, group: "butterfly", size: "size-lg" },
-  { id: 14, group: "butterfly", size: "size-md" },
+  { id: 8, group: "butterfly", size: "size-md" },
 
-  { id: 15, group: "flower", size: "size-lg" },
-  { id: 16, group: "flower var", size: "size-md" },
-  { id: 17, group: "flower var", size: "size-md" },
-  { id: 18, group: "flower var", size: "size-tall" }
+  { id: 5, group: "flower", size: "size-lg" },
+  { id: 3, group: "flower var", size: "size-md" },
+  { id: 18, group: "flower var", size: "size-md" },
+  { id: 1, group: "flower var", size: "size-tall" }
 ];
 
 function imgUrl(id){
