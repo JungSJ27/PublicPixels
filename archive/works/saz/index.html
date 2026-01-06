@@ -11,6 +11,7 @@
 
   <!-- Page CSS -->
   <link rel="stylesheet" href="saz.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
 
   <!-- model-viewer (한 번만) -->
   <script
@@ -56,54 +57,76 @@
     <!-- BOTTOM INFO -->
 <section class="info" aria-label="Project information">
   <div class="info-inner">
-    
+
     <div class="info-col left">
       <h1 class="title">SAZ</h1>
       <p class="meta">
         2022<br>
-        Digital illustration, Pattern and Textile design
+        Digital illustration,<br>
+        Pattern and Textile design
       </p>
     </div>
 
-    <div class="info-col mid">
-      <p class="desc">
-        A sample wall of five motifs and eighteen variations, arranged like a woven archive.
-        Each tile explores density, symmetry, and ornament through small shifts in structure.
-      </p>
-      <p class="desc kor">
-        다섯 가지 모티프를 바탕으로 열여덟 개 변주를 확장한 패턴 스터디.
-        화면을 좌우로 넘기며 샘플 월처럼 감상하도록 구성했다.
-      </p>
+    <!-- mid + right를 한 덩어리로 묶어서 "화면 중앙"에 오게 -->
+    <div class="info-pack">
+      <div class="info-col mid">
+        <p class="desc">
+          SAZ is a pattern series created using the visual language of Turuqurie.
+          The work draws from Islamic ornamental traditions, which typically avoid figurative imagery,
+          and reworks them in a contemporary way.
+          While maintaining Turuqurie rhythm and color, the series uses the butterfly as a recurring motif,
+          treated as a symbolic element rather than a literal figure.
+        </p>
+      </div>
+
+      <div class="info-col right">
+        <p class="desc kor">
+          SAZ는 튀르크리 스타일의 시각 언어를 기반으로 제작된 패턴 시리즈이다.
+          이슬라믹 장식 문양의 비구상적 구성 방식을 참고해 이를 현대적인 패턴으로 풀어냈으며,
+          튀르크리 특유의 리듬과 색감을 유지한 채 나비 모티브를 반복적으로 사용했다.
+        </p>
+      </div>
     </div>
 
   </div>
 </section>
 
-  </main>
 
-  <!-- MODAL -->
+  </main>
+  
+  <!-- MODAL 3 MIX -->
   <div class="saz-modal" id="sazModal" aria-hidden="true">
     <div class="modal-backdrop" data-close="1"></div>
 
-    <div class="modal-panel" role="dialog" aria-modal="true" aria-label="Pattern preview">
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-label="Pattern mix preview">
       <button class="modal-close" type="button" data-close="1" aria-label="Close">×</button>
 
-      <div class="modal-media">
-        <img id="modalImg" alt="">
+      <div class="mix-grid" aria-label="Mix layout">
+        <figure class="mix-main">
+          <img id="mixMainImg" alt="">
+        </figure>
+
+        <div class="mix-side">
+          <figure class="mix-top">
+            <img id="mixTopImg" alt="">
+          </figure>
+          <figure class="mix-bottom">
+            <img id="mixBottomImg" alt="">
+          </figure>
+        </div>
       </div>
 
-      <div class="modal-meta">
-        <p class="modal-kicker">SAZ</p>
-        <h2 class="modal-title" id="modalTitle">saz1</h2>
-        <p class="modal-sub" id="modalSub">Motif</p>
-      </div>
+      <footer class="mix-footer">
+        <div class="mix-title" id="mixTitle">Saz mix</div>
 
-      <div class="modal-actions">
-        <button class="modal-btn" type="button" id="modalPrev" aria-label="Previous">Prev</button>
-        <button class="modal-btn" type="button" id="modalNext" aria-label="Next">Next</button>
-      </div>
+        <div class="mix-actions">
+          <button class="mix-btn" type="button" id="modalPrev" aria-label="Previous">Prev</button>
+          <button class="mix-btn" type="button" id="modalNext" aria-label="Next">Next</button>
+        </div>
+      </footer>
     </div>
   </div>
+
 
   <script defer src="/front/favicons.js"></script>
 </body>

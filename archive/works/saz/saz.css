@@ -60,7 +60,7 @@ header,
 =============================== */
 .list-toggle{
   position: fixed;
-  top: 12px;
+  top: 11px;
   right: 24px;
   width: 28px;
   height: 28px;
@@ -91,8 +91,6 @@ header,
    SAZ
 =============================================== */
 
-/* saz.css */
-
 *{ box-sizing: border-box; }
 
 :root{
@@ -110,11 +108,14 @@ header,
   /* JS가 실제 header 높이로 덮어씌움 */
   --header-h: 64px;
 
-  /* 글 영역 높이 (원하면 여기만 조절) */
+  /* 글 영역 높이 */
   --info-h: 300px;
 
-  /* 패턴 위 여백 (원하면 여기만 조절) */
-  --pattern-top-pad: 7px;
+  /* 패턴 위 여백 */
+  --pattern-top-pad: 0px;
+
+  /* 마지막 타일이 끝에 붙지 않게 */
+  --pattern-end-pad: 140px;
 }
 
 html, body{
@@ -125,7 +126,7 @@ html, body{
   font-family: Poppins, system-ui, sans-serif;
 }
 
-/* ✅ 헤더 밑부터 화면을 딱 2줄로 나눔: 위 패턴, 아래 텍스트 */
+/* 헤더 밑부터 화면을 딱 2줄로 나눔 */
 .saz-page{
   height: 100vh;
   padding-top: var(--header-h);
@@ -136,13 +137,14 @@ html, body{
 
 /* 패턴 스테이지 */
 .pattern-stage{
-  width: 100vw;
+  width: 100%;
   position: relative;
-  left: 50%;
-  transform: translateX(-50%);
+  left: auto;
+  transform: none;
   background: #ffffff;
   overflow: hidden;
 }
+
 
 /* 패턴만 가로 스크롤 */
 .pattern-viewport{
@@ -155,27 +157,33 @@ html, body{
   overscroll-behavior-x: contain;
   cursor: grab;
 
-  /* 스크롤바 숨김 */
   scrollbar-width: none;
 }
 .pattern-viewport::-webkit-scrollbar{ display: none; }
 .pattern-viewport:active{ cursor: grabbing; }
 
-/* 타일 트랙은 위에서 시작 */
+/* 핵심 수정: 3줄을 1fr로 나눠서 패턴 영역 세로 꽉 채우기 */
 .pattern-track{
   height: 100%;
   display: grid;
+
   grid-auto-flow: column;
   grid-auto-columns: 260px;
-  grid-auto-rows: 180px;
+
+  /* 기존 grid-auto-rows 제거하고 3줄 고정 */
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+
   gap: var(--gap);
 
-  align-content: start;
-  padding-top: var(--pattern-top-pad);
+  /* start 말고 stretch로 해서 남는 높이 없이 꽉 채움 */
+  align-content: stretch;
 
-  padding-right: 18px;
+  padding-top: var(--pattern-top-pad);
   padding-left: 0px;
   padding-bottom: 0px;
+
+  /* 마지막 패턴이 안쪽으로 들어오게 */
+  padding-right: var(--pattern-end-pad);
 }
 
 /* 타일 */
@@ -212,20 +220,6 @@ html, body{
 .tile.size-wide{ grid-column: span 2; }
 .tile.size-sm{ grid-row: span 1; }
 
-/* 작은 라벨 */
-.tile .tag{
-  position: absolute;
-  left: 12px;
-  bottom: 12px;
-  font-size: 12px;
-  line-height: 1;
-  color: rgba(255,255,255,0.92);
-  background: rgba(0,0,0,0.48);
-  border: 1px solid rgba(255,255,255,0.18);
-  padding: 7px 10px;
-  border-radius: 999px;
-  backdrop-filter: blur(8px);
-}
 
 /* ✅ 하단 텍스트 영역: 하단 영역 안에서 '세로 중앙' */
 .info{
@@ -239,19 +233,47 @@ html, body{
   padding: 18px 24px;
 }
 
-/* ✅ 실제 텍스트 그리드는 가운데 고정 폭으로 */
+/* 하단 info 영역 세로 중앙 */
+.info{
+  border-top: 1px solid var(--line);
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(6px);
+
+  height: var(--info-h);
+  display: flex;
+  align-items: center;
+
+  padding: 0 28px;
+}
+
+/* 전체는 화면 폭에 고르게 퍼지되, 가운데 덩어리는 중앙 정렬 */
 .info-inner{
-  width: min(1100px, calc(100% - 24px));
+  width: 100%;
   display: grid;
-  grid-template-columns: 320px 1fr 220px;
-  gap: 36px;
-  align-items: center;       /* ✅ 내부 컬럼들도 세로 중앙 정렬 */
+  grid-template-columns: 400px 1fr;
+  align-items: start;
+}
+
+/* 타이틀은 아주 약간만 오른쪽으로 */
+.info-col.left{
+  padding-left: 10px;
+}
+
+/* 2번째 3번째 칼럼 덩어리 */
+.info-pack{
+  display: grid;
+  grid-template-columns: minmax(360px, 520px) minmax(320px, 520px);
+  gap: 80px;
+
+  width: min(1100px, 100%);
+  margin: 0 auto;
+  align-items: start;
 }
 
 /* 텍스트 스타일 */
 .title{
-  margin: 0 0 10px;
-  font-size: 18px;
+  margin: 0 0 12px;
+  font-size: 16px;
   letter-spacing: 0.4px;
 }
 
@@ -263,7 +285,7 @@ html, body{
 }
 
 .desc{
-  margin: 0 0 10px;
+  margin: 0;
   font-size: 13px;
   line-height: 1.65;
   color: rgba(0,0,0,0.76);
@@ -271,17 +293,12 @@ html, body{
 
 .desc.kor{
   margin: 0;
-  color: rgba(0,0,0,0.58);
+  font-size: 12.5px;
+  line-height: 1.75;
+  color: rgba(0,0,0,0.55);
 }
 
-.stat{
-  margin: 0 0 6px;
-  font-size: 12px;
-  color: rgba(0,0,0,0.60);
-  text-align: left;
-}
 
-/* 반응형 */
 @media (max-width: 900px){
   body[data-page="log"]{ overflow: auto; }
 
@@ -297,106 +314,179 @@ html, body{
   }
 
   .info{
-    place-items: center;     /* ✅ 모바일도 하단 영역 안에서 중앙 */
-    padding: 18px 18px 26px;
+    height: auto;
+    display: block;
+    padding: 22px 18px 28px;
   }
 
   .info-inner{
     grid-template-columns: 1fr;
     gap: 12px;
-    align-items: center;
+  }
+
+  .info-col.left{
+    padding-left: 0;
+  }
+  .title{
+    margin-top: 40px;
+  }
+
+  .info-pack{
+    width: 100%;
+    margin: 0;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .desc{
+    margin-top: 30px;
+  }
+  
+  .desc,
+  .desc.kor{
+    max-width: 70ch;
+  }
+  .desc.kor{
+    margin-bottom: 40px;
   }
 }
 
+/* ===============================================
+   MIX MODAL (3 patterns)
+=============================================== */
 
-
-/* 모달 */
 .saz-modal{
   position: fixed;
   inset: 0;
+  z-index: 6000;
   display: none;
-  z-index: 9999;
+  align-items: center;
+  justify-content: center;
 }
 
-.saz-modal.show{ display: block; }
+.saz-modal.show{ display: flex; }
 
-.modal-backdrop{
+.saz-modal .modal-backdrop{
   position: absolute;
   inset: 0;
   background: rgba(0,0,0,0.55);
 }
 
-.modal-panel{
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: min(980px, calc(100% - 40px));
+/* 카드 크기 */
+.saz-modal .modal-panel{
+  position: relative;
+  z-index: 1;
+
+  width: min(1120px, calc(100vw - 80px));
+  height: min(760px, calc(100vh - 80px));
+
   background: #fff;
-  border-radius: 22px;
+  border-radius: 0px;
   overflow: hidden;
-  box-shadow: 0 22px 80px rgba(0,0,0,0.28);
+
+  display: grid;
+  grid-template-rows: 1fr 78px;
+
+  box-shadow: 0 18px 70px rgba(0,0,0,0.28);
 }
 
-.modal-close{
+/* 닫기 */
+.saz-modal .modal-close{
   position: absolute;
-  top: 12px;
+  top: 14px;
   right: 14px;
-  width: 36px;
-  height: 36px;
-  border-radius: 999px;
-  border: 1px solid rgba(0,0,0,0.10);
-  background: rgba(255,255,255,0.9);
+  z-index: 5;
+
+  width: 34px;
+  height: 34px;
+
+  border: 1px solid rgba(0,0,0,0.22);
+  background: rgba(255,255,255,0.92);
+  border-radius: 0px;
   cursor: pointer;
-  font-size: 22px;
-  line-height: 1;
 }
 
-.modal-media{
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  background: rgba(0,0,0,0.06);
+/* 3패턴 레이아웃 */
+.mix-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 왼쪽 반, 오른쪽 반 */
+  height: 100%;
 }
 
-.modal-media img{
+.mix-main,
+.mix-top,
+.mix-bottom{
+  margin: 0;
+  background: #f3f3f3;
+  overflow: hidden;
+}
+
+.mix-main img,
+.mix-top img,
+.mix-bottom img{
   width: 100%;
   height: 100%;
-  object-fit: cover;
   display: block;
+  object-fit: cover;
 }
 
-.modal-meta{ padding: 16px 18px 0; }
-
-.modal-kicker{
-  margin: 0;
-  font-size: 12px;
-  color: rgba(0,0,0,0.55);
+/* 오른쪽은 위 2/3, 아래 1/3 */
+.mix-side{
+  display: grid;
+  grid-template-rows: 2fr 1fr;
+  height: 100%;
 }
 
-.modal-title{
-  margin: 6px 0 0;
-  font-size: 18px;
+/* 하단 바 */
+.mix-footer{
+  border-top: 1px solid rgba(0,0,0,0.10);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 18px;
+  background: rgba(255,255,255,0.96);
+  backdrop-filter: blur(6px);
 }
 
-.modal-sub{
-  margin: 8px 0 0;
-  font-size: 13px;
-  color: rgba(0,0,0,0.60);
+.mix-title{
+  font-size: 14px;
+  color: rgba(0,0,0,0.78);
+  letter-spacing: 0.2px;
+
+  max-width: 70%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.modal-actions{
-  padding: 14px 18px 18px;
+.mix-actions{
   display: flex;
   gap: 10px;
-  justify-content: flex-end;
+  align-items: center;
 }
 
-.modal-btn{
-  border: 1px solid rgba(0,0,0,0.14);
-  background: #fff;
-  padding: 10px 14px;
+.mix-btn{
+  border: 1px solid rgba(0,0,0,0.18);
+  background: rgba(255,255,255,0.92);
   border-radius: 999px;
+  padding: 8px 12px;
   cursor: pointer;
-  font-size: 13px;
+  font-size: 12px;
 }
 
+.mix-btn:hover{
+  background: rgba(255,255,255,1);
+  border-color: rgba(0,0,0,0.26);
+}
+
+/* 모바일 */
+@media (max-width: 900px){
+  .saz-modal .modal-panel{
+    width: calc(100vw - 28px);
+    height: calc(100vh - 28px);
+    grid-template-rows: 1fr 70px;
+  }
+
+  .mix-title{ max-width: 60%; }
+}
