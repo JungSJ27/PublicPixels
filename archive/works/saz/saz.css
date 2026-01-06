@@ -560,3 +560,70 @@ html, body{
     font-size: 12px;
   }
 }
+
+/* ===============================
+   FIX iOS BLUE TEXT (MODAL)
+================================ */
+
+/* iOS 기본 link / button 색 제거 */
+.saz-modal,
+.saz-modal *{
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Prev / Next 버튼 */
+.saz-modal .mix-nav button{
+  color: rgba(0,0,0,0.85) !important;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* 혹시 a 태그로 인식되는 경우 대비 */
+.saz-modal a{
+  color: rgba(0,0,0,0.85);
+  text-decoration: none;
+}
+
+/* Fortune title 텍스트 */
+.saz-modal .mix-title{
+  color: rgba(0,0,0,0.86);
+}
+
+/* ===============================
+   FIX iOS BLUE TEXT (MODAL)
+================================ */
+
+/* iOS 기본 link / button 색 제거 */
+.saz-modal,
+.saz-modal *{
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Prev / Next 버튼 */
+.saz-modal .mix-nav button{
+  color: rgba(0,0,0,0.85) !important;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* 혹시 a 태그로 인식되는 경우 대비 */
+.saz-modal a{
+  color: rgba(0,0,0,0.85);
+  text-decoration: none;
+}
+
+/* Fortune title 텍스트 */
+.saz-modal .mix-title{
+  color: rgba(0,0,0,0.86);
+}
+
+
+@media (max-width: 900px){
+  .saz-modal .mix-panel{
+    width: calc(100vw - 28px);
+    height: min(
+      640px,
+      calc(100vh - var(--header-h, 0px) - 60px)
+    );
+  }
+}
