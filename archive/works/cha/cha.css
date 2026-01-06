@@ -596,6 +596,10 @@ html, body{
   .saz-modal .mix-title{
     font-size: 12px;
   }
+
+  .saz-modal .mix-bar{
+  padding: 10px 16px;
+}
 }
 
 /* ===============================
@@ -625,4 +629,10 @@ html, body{
 
 .saz-modal .mix-grid{
   align-items: center;
+}
+
+/* iOS에서 X가 파랗게 변하는 현상 고정 */
+.saz-modal .mix-x{
+  color: rgba(0,0,0,0.85) !important;
+  -webkit-text-fill-color: rgba(0,0,0,0.85) !important;
 }

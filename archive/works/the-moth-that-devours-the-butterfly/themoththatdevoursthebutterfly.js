@@ -1,69 +1,45 @@
 /* =======================================================
-   Header show and hide
+   HARD FIX LIST TOGGLE CLICK
+   always on top, never hidden, capture click
 ======================================================= */
-(function () {
-  function getHeaderEl() {
-    return (
-      document.querySelector("header.pp-header") ||
-      document.querySelector(".pp-header") ||
-      document.querySelector("header")
-    );
-  }
+document.addEventListener("DOMContentLoaded", () => {
+  const listToggle = document.querySelector(".list-toggle");
+  if (!listToggle) return;
 
-  function initHeaderScroll() {
-    const header = getHeaderEl();
-    const listToggle = document.querySelector(".list-toggle");
-    if (!header) return false;
+  // 혹시 header 안으로 들어가 있으면 body로 빼기
+  if (listToggle.closest("header")) document.body.appendChild(listToggle);
 
-    function applyHidden(isHidden) {
-      if (isHidden) {
-        header.classList.add("header-hidden");
-        if (listToggle) listToggle.classList.add("header-hidden");
-      } else {
-        header.classList.remove("header-hidden");
-        if (listToggle) listToggle.classList.remove("header-hidden");
-      }
-    }
-
-    let lastY = window.scrollY;
-
-    if (window.scrollY > 10) applyHidden(true);
-    else applyHidden(false);
-
-    window.addEventListener(
-      "scroll",
-      () => {
-        const y = window.scrollY;
-
-        if (y < 10) {
-          applyHidden(false);
-          lastY = y;
-          return;
-        }
-
-        if (y < lastY - 2) applyHidden(false);
-        else if (y > lastY + 2) applyHidden(true);
-
-        lastY = y;
-      },
-      { passive: true }
-    );
-
-    return true;
-  }
-
-  window.addEventListener("DOMContentLoaded", () => {
-    if (initHeaderScroll()) return;
-
-    let tries = 0;
-    const maxTries = 60;
-
-    const t = setInterval(() => {
-      tries += 1;
-      if (initHeaderScroll() || tries >= maxTries) clearInterval(t);
-    }, 50);
+  // 최상단 고정
+  Object.assign(listToggle.style, {
+    position: "fixed",
+    top: "3px",
+    right: "16px",
+    width: "44px",
+    height: "44px",
+    zIndex: "999999",
+    pointerEvents: "auto"
   });
-})();
+
+  // 어떤 코드가 header-hidden 붙여도 무력화
+  const killHidden = () => listToggle.classList.remove("header-hidden");
+  killHidden();
+
+  // 스크롤 중 토글될 수 있어서 한번 더 안전장치
+  window.addEventListener("scroll", killHidden, { passive: true });
+
+  // 클릭 캡처로 무조건 이동
+  listToggle.addEventListener(
+    "click",
+    (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const href = listToggle.getAttribute("href") || "/archive/";
+      window.location.href = href;
+    },
+    true
+  );
+});
+
 
 /* =======================================================
    Lightbox popup for images, butterfly trap behavior
@@ -170,3 +146,5 @@
     }, { passive: true });
   });
 })();
+
+ 
