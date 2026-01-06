@@ -320,14 +320,6 @@ body.header-reveal .mobile-header-zone {
     -webkit-overflow-scrolling: touch;
   }
 
-  /* p5 캔버스는 배경으로 고정 */
-  canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 0;
-  }
-
   /* 텍스트 컨테이너는 캔버스 위 */
   .art-info,
   .art-text,
