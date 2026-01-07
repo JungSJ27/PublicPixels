@@ -387,6 +387,20 @@ document.addEventListener("DOMContentLoaded", initBookletEmbed);
     touchStartY = t.clientY;
   }
 
+  function onTouchMove(e){
+    if(!lightbox.classList.contains("is-open")) return;
+    const t = e.touches && e.touches[0];
+    if(!t) return;
+
+    const dx = t.clientX - touchStartX;
+    const dy = t.clientY - touchStartY;
+
+    // 가로 스와이프가 더 강하면 스크롤을 막아야 iOS에서 안정적
+    if(Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 8){
+      e.preventDefault();
+    }
+  }
+
   function onTouchEnd(e){
     if(!lightbox.classList.contains("is-open")) return;
     const t = e.changedTouches && e.changedTouches[0];
@@ -395,7 +409,6 @@ document.addEventListener("DOMContentLoaded", initBookletEmbed);
     const dx = t.clientX - touchStartX;
     const dy = t.clientY - touchStartY;
 
-    // 수평 스와이프만 인정 (세로 스크롤 제스처 방지)
     if(Math.abs(dx) < 50) return;
     if(Math.abs(dx) < Math.abs(dy)) return;
 
@@ -403,6 +416,8 @@ document.addEventListener("DOMContentLoaded", initBookletEmbed);
     else next();
   }
 
-  // 라이트박스 전체에서 스와이프 인식
-  lightbox.addEventListener("touchstart", onTouchStart, { passive: true });
-  lightbox.addEventListener("touchend", onTouchEnd, { passive: true });
+  // ✅ 라이트박스 이미지에서만 스와이프 잡는 게 제일 안전
+  // (배경 스크롤, 버튼 터치랑 충돌 적음)
+  lightboxImg.addEventListener("touchstart", onTouchStart, { passive: true });
+  lightboxImg.addEventListener("touchmove", onTouchMove, { passive: false });
+  lightboxImg.addEventListener("touchend", onTouchEnd, { passive: true });

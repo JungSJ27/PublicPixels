@@ -549,6 +549,18 @@ html, body{
 }
 
 
+/* mobile */
+@media (max-width: 900px){
+  .saz-modal .mix-panel{
+    width: calc(100vw - 28px);
+    height: calc(100vh - var(--header-h, 0px) - 28px);
+  }
+
+  .saz-modal .mix-title{
+    font-size: 12px;
+  }
+}
+
 /* ===============================
    FIX iOS BLUE TEXT (MODAL)
 ================================ */
