@@ -1,24 +1,35 @@
-<!-- blossom.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Blossom | Archive</title>
 
   <!-- Global CSS -->
-  <link rel="stylesheet" href="/front/styles.css" />
-  <link rel="stylesheet" href="/front/header.css" />
+  <link rel="stylesheet" href="/front/styles.css">
+  <link rel="stylesheet" href="/front/header.css">
+
+  <!-- Ambient Moths -->
+  <link rel="stylesheet" href="/highlight/ambient-moths.css">
+  <script src="/highlight/ambient-moths.js" defer></script>
 
   <!-- Page CSS -->
-  <link rel="stylesheet" href="blossom.css" />
+  <link rel="stylesheet" href="blossom.css">
+
+  <!-- model-viewer (한 번만) -->
+  <script
+    type="module"
+    src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
+  </script>
 
   <!-- Header Loader -->
   <script src="/front/headerLoader.js" defer></script>
 
   <!-- Page JS -->
-  <script src="blossom.js" defer></script>
+  <script type="module" src="blossom.js"></script>
 </head>
+
 
 <body data-page="log">
   <!-- background pattern layer -->
@@ -26,6 +37,17 @@
 
   <!-- HEADER INCLUDE -->
   <div data-include="header"></div>
+
+    <!-- LIST BUTTON -->
+  <div class="list-toggle" onclick="location.href='/archive/'">
+    <svg viewBox="0 0 24 24" class="ic-list">
+      <g fill="none" stroke="currentColor" stroke-width="1.6">
+        <line x1="4" y1="6"  x2="20" y2="6"/>
+        <line x1="4" y1="12" x2="20" y2="12"/>
+        <line x1="4" y1="18" x2="20" y2="18"/>
+      </g>
+    </svg>
+  </div>
 
   <main class="blossomMain">
     <!-- Top big image -->
@@ -37,13 +59,35 @@
       />
     </figure>
 
-    <!-- Description -->
-    <section class="desc">
-      <h1 class="title">Blossom</h1>
-      <p class="text">
-        여기에 프로젝트 설명을 넣어줘. 작업 배경, 재료, 제작 방식, 패턴이 어떤 방식으로 확장되는지 같은 내용을 짧게 정리하면 좋아.
+    <!-- Title + Basic Info -->
+    <section class="art-head">
+      <h1 class="art-title">Blossom</h1>
+
+      <p class="art-meta medium">
+        2024<br>
+        Digital illustration, pattern design<br>
+        Variable dimensions
       </p>
     </section>
+
+    <!-- Overview -->
+    <section class="art-section">
+      <p>
+        <i>Blossom</i> is a pattern-based project that explores growth, repetition, 
+        and transformation through modular visual structures. Beginning from a single motif, 
+        the pattern expands through repetition and variation, creating a visual rhythm that 
+        suggests organic blooming and spatial continuity. The work reflects on how small visual 
+        units can evolve into larger systems through accumulation and subtle change.
+      </p>
+      <br>
+      <p class="text kor">
+        <i>Blossom</i>은 하나의 모티브에서 출발해 반복과 변주를 통해 확장되는 패턴 작업이다. 
+        작은 시각적 단위가 점차 축적되며 리듬을 형성하고, 유기적인 성장과 확산의 이미지를 만들어낸다. 
+        패턴은 고정된 형태라기보다 끊임없이 변화하는 구조로 작동하며, 반복 속에서 발생하는 미세한 차이를 통해 
+        시각적 흐름과 공간감을 드러낸다. 이 작업은 축적과 반복을 통해 형성되는 시스템적 구조와 그 안에서의 변화를 탐구한다.
+      </p>
+    </section>
+
 
     <!-- Small image -->
     <figure class="subShot">
@@ -52,7 +96,11 @@
         alt="Blossom 2"
         loading="lazy"
       />
+      <figcaption class="subShot-caption">
+        Blossom, detail view
+      </figcaption>
     </figure>
+
 
     <!-- Pattern picker grid -->
     <section class="patternSection" aria-label="Pattern backgrounds">
@@ -60,14 +108,13 @@
         <!-- JS will render tiles -->
       </div>
 
-      <p class="hint">
-        패턴을 클릭하면 배경이 바뀌어. 다시 흰 배경으로 돌리려면 Reset 버튼을 눌러줘.
-      </p>
 
       <div class="actions">
         <button class="btn" id="resetBg" type="button">Reset</button>
       </div>
     </section>
   </main>
+
+<script defer src="/front/favicons.js"></script>
 </body>
 </html>

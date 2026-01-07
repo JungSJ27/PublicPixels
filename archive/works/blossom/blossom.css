@@ -1,3 +1,119 @@
+/* ===============================================
+   FIX PUBLICPIXELS DEFAULT LAYOUT EFFECTS
+=============================================== */
+
+body[data-page="log"] .pp-main::before,
+body[data-page="log"] .art-main::before {
+  display: none !important;
+}
+
+/* ===============================================
+   GLOBAL PAGE BODY
+=============================================== */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;  /* styles.css 기준 */
+  background: #fff;
+  color: #111;
+}
+
+/* ===============================
+   HEADER (전시 페이지 모드)
+   =============================== */
+
+body[data-page="log"] header {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: transparent !important;
+  color: rgb(241, 238, 255) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  padding-top: 10px !important;
+  z-index: 3000;
+}
+
+body[data-page="log"] header .logo-brand,
+body[data-page="log"] header .logo-roman,
+body[data-page="log"] header .logo-korean {
+  color: rgba(234, 234, 236, 0.95) !important;
+}
+
+/* 검색, 카트 아이콘 숨기기 */
+body[data-page="log"] header .search-icon,
+body[data-page="log"] header .shop-toggle {
+  display: none !important;
+}
+
+/* 스크롤에 따라 숨길 때 쓸 클래스 */
+header,
+.pp-header {
+  transition: opacity 0.35s ease;
+}
+
+.header-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ===============================
+   LIST TOGGLE (목록으로 돌아가기)
+   =============================== */
+
+.list-toggle {
+  position: fixed;
+  top: 12px;
+  right: 24px;
+  width: 28px;
+  height: 28px;
+  z-index: 3500;
+  cursor: pointer;
+  color:  rgba(234, 234, 236, 0.95);
+  opacity: 0.9;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.list-toggle:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.ic-list {
+  width: 24px;
+  height: 24px;
+}
+
+/* 헤더 숨길 때 같이 사라지도록 */
+.list-toggle.header-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ===============================
+   HEADER SLIDE ANIMATION
+   =============================== */
+
+/* 기본 상태: 보임 + 제자리 */
+body[data-page="log"] header {
+  transform: translateY(0);
+  transition: opacity 0.35s ease, transform 0.4s ease;
+}
+
+/* 숨김 상태: 살짝 위로 올려서 사라지는 느낌 */
+header.header-hidden {
+  opacity: 0;
+  transform: translateY(-28px);
+  pointer-events: none;
+}
+
+/* 리스트 버튼도 같이 위로 올라가게 */
+.list-toggle.header-hidden {
+  opacity: 0;
+  transform: translateY(-28px);
+}
+
+
 /* blossom.css */
 
 * { box-sizing: border-box; }
@@ -5,7 +121,7 @@
 :root{
   --max: 980px;
   --pad: 18px;
-  --radius: 16px;
+  --radius: 0px;
   --shadow: 0 10px 30px rgba(0,0,0,0.10);
   --card: rgba(255,255,255,0.92);
   --ink: #111;
@@ -64,37 +180,74 @@ body{
   display: block;
 }
 
-/* description card */
-.desc{
-  margin-top: 18px;
-  padding: 18px 18px;
-  border-radius: var(--radius);
-  background: var(--card);
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(6px);
+/* ===============================================
+   TITLE + META
+=============================================== */
+.art-head {
+  margin-top: 10px;
+  margin-bottom: 0px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
-.title{
+.art-title {
   margin: 0 0 10px;
-  font-size: 18px;
-  letter-spacing: 0.2px;
+  font-size: 16px;
+  font-weight: 600;
 }
 
-.text{
-  margin: 0;
+.art-meta {
   font-size: 13px;
-  line-height: 1.6;
-  color: var(--muted);
+  color: #000000;
+  line-height: 1.;
 }
+
+.art-meta.medium {
+  padding-bottom: 8px;   /* ⭐ 이 값이 선 위치를 결정 */
+  margin-bottom: 0px;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+
+/* SECTIONS */
+.art-section {
+  margin-top: 0px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 70px;
+}
+
+.art-section h2 {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 0px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #555;
+}
+
+.art-section p {
+  line-height: 1.7;
+  margin: 0 0px 10px;
+  font-size: 14px;
+
+}
+
+
+.art-section p.text.kor {
+  line-height: 1.85;    /* ⭐ 한글 가독성 */
+  font-size: 13px;      /* 살짝 작게 */
+  letter-spacing: -0.01em;
+}
+
 
 /* small image */
 .subShot{
   margin: 22px auto 0;
-  width: min(620px, 100%);
+  width: min(580px, 100%);
   border-radius: var(--radius);
   overflow: hidden;
-  box-shadow: var(--shadow);
-  background: #fff;
+  background: transparent;
 }
 
 .subShot img{
@@ -103,14 +256,27 @@ body{
   display: block;
 }
 
+/* caption below image */
+.subShot figcaption{
+  margin: 8px 0 0;
+  padding-left: 2px;
+
+  font-size: 11px;
+  line-height: 1.4;
+  color: rgba(0,0,0,0.55);
+  text-align: left;
+}
+
+
 /* pattern grid section */
 .patternSection{
-  margin-top: 26px;
+  margin-top: 80px;
   padding: 18px;
   border-radius: var(--radius);
   background: var(--card);
   box-shadow: var(--shadow);
   backdrop-filter: blur(6px);
+  margin-bottom: -20px;
 }
 
 .patternGrid{
@@ -124,7 +290,7 @@ body{
   padding: 0;
   background: transparent;
   cursor: pointer;
-  border-radius: 14px;
+  border-radius: 6px;
   overflow: hidden;
   box-shadow: 0 10px 20px rgba(0,0,0,0.10);
   transform: translateY(0);
@@ -149,13 +315,6 @@ body{
   display: block;
 }
 
-/* small helper text */
-.hint{
-  margin: 14px 0 0;
-  font-size: 12px;
-  line-height: 1.5;
-  color: var(--muted);
-}
 
 .actions{
   margin-top: 12px;
