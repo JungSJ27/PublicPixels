@@ -71,13 +71,15 @@ window.addEventListener("load", () => {
   const base = "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/blossom/";
 
   const patterns = [
-    { id: "blossom3", src: base + "blossom3.jpg", alt: "Blossom 3 pattern" },
-    { id: "blossom4", src: base + "blossom4.jpg", alt: "Blossom 4 pattern" },
-    { id: "blossom5", src: base + "blossom5.jpg", alt: "Blossom 5 pattern" },
-    { id: "blossom6", src: base + "blossom6.jpg", alt: "Blossom 6 pattern" },
-    { id: "blossom7", src: base + "blossom7.jpg", alt: "Blossom 7 pattern" },
-    { id: "blossom8", src: base + "blossom8.jpg", alt: "Blossom 8 pattern" },
-    { id: "blossom9", src: base + "blossom9.jpg", alt: "Blossom 9 pattern" }
+    { id: "blossom3", src: base + "blossom3.png", alt: "Blossom 1 pattern" },
+    { id: "blossom4", src: base + "blossom4.png", alt: "Blossom 2 pattern" },
+    { id: "blossom11", src: base + "blossom11.png", alt: "Blossom 3 pattern" },
+    { id: "blossom5", src: base + "blossom5.png", alt: "Blossom 4 pattern" },
+    { id: "blossom6", src: base + "blossom6.png", alt: "Blossom 5 pattern" },
+    { id: "blossom7", src: base + "blossom7.png", alt: "Blossom 6 pattern" },
+    { id: "blossom8", src: base + "blossom8.png", alt: "Blossom 7 pattern" },
+    { id: "blossom9", src: base + "blossom9.png", alt: "Blossom 8 pattern" },
+    { id: "blossom10", src: base + "blossom10.png", alt: "Blossom 9 pattern" }
   ];
 
   const bg = document.getElementById("patternBg");
