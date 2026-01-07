@@ -590,31 +590,51 @@ html, body{
 }
 
 /* ===============================
-   FIX iOS BLUE TEXT (MODAL)
+   FIX iOS BLUE (CLOSE X)
 ================================ */
 
-/* iOS 기본 link / button 색 제거 */
+/* iOS 기본 탭 하이라이트 제거 */
 .saz-modal,
 .saz-modal *{
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Prev / Next 버튼 */
-.saz-modal .mix-nav button{
+/* 모달 안의 a 태그가 파래지는 것 방지 */
+.saz-modal a,
+.saz-modal a:visited{
   color: rgba(0,0,0,0.85) !important;
+  text-decoration: none !important;
+}
+
+/* 모달 안 버튼 기본 파란색 제거 */
+.saz-modal button{
   -webkit-appearance: none;
   appearance: none;
-}
-
-/* 혹시 a 태그로 인식되는 경우 대비 */
-.saz-modal a{
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  font: inherit;
   color: rgba(0,0,0,0.85);
-  text-decoration: none;
 }
 
-/* Fortune title 텍스트 */
-.saz-modal .mix-title{
-  color: rgba(0,0,0,0.86);
+/* X 버튼에 정확히 색 강제
+   아래 클래스 중 네 HTML에 있는 걸로 하나만 남겨도 됨 */
+.saz-modal .mix-close,
+.saz-modal .modal-close,
+.saz-modal .lb-close,
+.saz-modal .mix-panel .close,
+.saz-modal .mix-panel .x{
+  color: rgba(0,0,0,0.85) !important;
+  text-decoration: none !important;
+}
+
+/* X가 svg 아이콘이면 이게 결정타 */
+.saz-modal .mix-close svg,
+.saz-modal .modal-close svg,
+.saz-modal .lb-close svg{
+  fill: currentColor !important;
+  stroke: currentColor !important;
 }
 
 

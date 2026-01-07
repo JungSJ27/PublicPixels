@@ -1,15 +1,16 @@
 /* =======================================================
    PAGE INIT
 ======================================================= */
+
 window.addEventListener("DOMContentLoaded", () => {
+  // headerLoader가 header를 DOM에 넣은 다음 프레임에 실행
   requestAnimationFrame(() => {
-    if (typeof initHeaderScroll === "function") initHeaderScroll();
+    initHeaderScroll();
   });
 
-  if (typeof initVideoFade === "function") initVideoFade();
-  if (typeof initImageSlider === "function") initImageSlider();
+  initVideoFade();
+  initImageSlider();
 });
-
 
 /* =======================================================
    HEADER SHOW / HIDE  (scroll up = show, scroll down = hide)
@@ -63,10 +64,10 @@ window.addEventListener("load", () => {
     lastY = y;
   });
 });
-
-// blossom.js
-
-(function(){
+/* =======================================================
+   BLOSSOM PATTERN BACKGROUND
+======================================================= */
+(function () {
   const base = "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/archive/blossom/";
 
   const patterns = [
@@ -81,12 +82,14 @@ window.addEventListener("load", () => {
 
   const bg = document.getElementById("patternBg");
   const grid = document.getElementById("patternGrid");
-  const resetBtn = document.getElementById("resetBg");
+  if (!bg || !grid) return;
 
-  if(!bg || !grid) return;
+  let currentUrl = null;
 
-  function setPattern(url, tileW, tileH){
-    if(!url){
+  function setPattern(url, tileW, tileH) {
+    currentUrl = url || null;
+
+    if (!url) {
       bg.style.backgroundImage = "none";
       bg.style.backgroundColor = "#ffffff";
       return;
@@ -97,16 +100,14 @@ window.addEventListener("load", () => {
     bg.style.backgroundRepeat = "repeat";
     bg.style.backgroundPosition = "0 0";
 
-    // 핵심: 클릭한 썸네일에 보이는 크기 그대로 반복되게
-    if(tileW && tileH){
+    if (tileW && tileH) {
       bg.style.backgroundSize = `${Math.round(tileW)}px ${Math.round(tileH)}px`;
-    }else{
-      // 혹시 값이 없으면 적당한 기본값
+    } else {
       bg.style.backgroundSize = "240px 170px";
     }
   }
 
-  function render(){
+  function render() {
     const frag = document.createDocumentFragment();
 
     patterns.forEach((p) => {
@@ -128,46 +129,50 @@ window.addEventListener("load", () => {
     grid.appendChild(frag);
   }
 
-  function bind(){
+  function bind() {
+    // 타일 클릭 하면 배경 적용
     grid.addEventListener("click", (e) => {
       const btn = e.target.closest(".patternTile");
-      if(!btn) return;
+      if (!btn) return;
 
       const url = btn.getAttribute("data-pattern");
-      if(!url) return;
+      if (!url) return;
 
-      // 클릭된 타일 안의 img가 화면에 표시되는 실제 크기
       const img = btn.querySelector("img");
-      if(img){
+      if (img) {
         const r = img.getBoundingClientRect();
         setPattern(url, r.width, r.height);
-      }else{
+      } else {
         setPattern(url);
       }
     });
 
-    if(resetBtn){
-      resetBtn.addEventListener("click", () => setPattern(null));
-    }
+    // 패턴 섹션 밖 아무 곳 클릭 하면 리셋
+    document.addEventListener("click", (e) => {
+      if (!currentUrl) return;
 
-    // 창 크기 바뀌면 현재 배경도 새로운 타일 크기에 맞춰 갱신
+      const clickedInsidePanel = e.target.closest(".patternSection");
+      if (clickedInsidePanel) return;
+
+      const clickedTile = e.target.closest(".patternTile");
+      if (clickedTile) return;
+
+      setPattern(null);
+    });
+
+    // 리사이즈 시 현재 패턴이면 타일 크기에 맞춰 다시 계산
     window.addEventListener("resize", () => {
-      const current = bg.style.backgroundImage;
-      if(!current || current === "none") return;
+      if (!currentUrl) return;
 
-      const activeImg = grid.querySelector(".patternTile img");
-      if(!activeImg) return;
+      const anyImg = grid.querySelector(".patternTile img");
+      if (!anyImg) return;
 
-      const r = activeImg.getBoundingClientRect();
-      // backgroundImage 문자열에서 url 추출
-      const match = current.match(/url\(["']?(.*?)["']?\)/);
-      if(!match) return;
-      setPattern(match[1], r.width, r.height);
+      const r = anyImg.getBoundingClientRect();
+      setPattern(currentUrl, r.width, r.height);
     });
   }
 
   render();
   bind();
-
   setPattern(null);
 })();
