@@ -773,6 +773,17 @@ header.header-hidden {
   transform: translateY(-50%);
 }
 
+/* 모바일 스와이프 안정화 */
+.lightbox{
+  -webkit-tap-highlight-color: transparent;
+}
+
+.lightbox img{
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+
 /* mobile */
 @media (max-width: 768px){
   .lightbox{

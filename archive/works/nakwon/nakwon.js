@@ -372,3 +372,37 @@ document.addEventListener("DOMContentLoaded", initBookletEmbed);
 
   window.addEventListener("resize", () => requestAnimationFrame(sizeAll));
 })();
+
+  /* ===============================
+     MOBILE SWIPE (lightbox)
+  =============================== */
+  let touchStartX = 0;
+  let touchStartY = 0;
+
+  function onTouchStart(e){
+    if(!lightbox.classList.contains("is-open")) return;
+    const t = e.touches && e.touches[0];
+    if(!t) return;
+    touchStartX = t.clientX;
+    touchStartY = t.clientY;
+  }
+
+  function onTouchEnd(e){
+    if(!lightbox.classList.contains("is-open")) return;
+    const t = e.changedTouches && e.changedTouches[0];
+    if(!t) return;
+
+    const dx = t.clientX - touchStartX;
+    const dy = t.clientY - touchStartY;
+
+    // 수평 스와이프만 인정 (세로 스크롤 제스처 방지)
+    if(Math.abs(dx) < 50) return;
+    if(Math.abs(dx) < Math.abs(dy)) return;
+
+    if(dx > 0) prev();
+    else next();
+  }
+
+  // 라이트박스 전체에서 스와이프 인식
+  lightbox.addEventListener("touchstart", onTouchStart, { passive: true });
+  lightbox.addEventListener("touchend", onTouchEnd, { passive: true });
