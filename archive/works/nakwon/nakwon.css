@@ -781,6 +781,7 @@ header.header-hidden {
 .lightbox img{
   -webkit-user-select: none;
   user-select: none;
+  touch-action: pan-y;
 }
 
 
