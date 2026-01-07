@@ -369,11 +369,7 @@ document.addEventListener("DOMContentLoaded", initBookletEmbed);
     if(e.key === "ArrowLeft") prev();
     if(e.key === "ArrowRight") next();
   });
-
-  window.addEventListener("resize", () => requestAnimationFrame(sizeAll));
-})();
-
-    /* ===============================
+  /* ===============================
      MOBILE SWIPE (lightbox)
   =============================== */
   let touchStartX = 0;
@@ -395,6 +391,7 @@ document.addEventListener("DOMContentLoaded", initBookletEmbed);
     const dx = t.clientX - touchStartX;
     const dy = t.clientY - touchStartY;
 
+    // 가로 스와이프 의도일 때만 스크롤 방지
     if(Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 8){
       e.preventDefault();
     }
@@ -415,6 +412,11 @@ document.addEventListener("DOMContentLoaded", initBookletEmbed);
     else next();
   }
 
-  lightboxImg.addEventListener("touchstart", onTouchStart, { passive: true });
-  lightboxImg.addEventListener("touchmove", onTouchMove, { passive: false });
-  lightboxImg.addEventListener("touchend", onTouchEnd, { passive: true });
+  // 팝업 전체에 붙이면 버튼 영역 포함해서 더 안정적임
+  lightbox.addEventListener("touchstart", onTouchStart, { passive: true });
+  lightbox.addEventListener("touchmove", onTouchMove, { passive: false });
+  lightbox.addEventListener("touchend", onTouchEnd, { passive: true });
+
+  window.addEventListener("resize", () => requestAnimationFrame(sizeAll));
+})();
+

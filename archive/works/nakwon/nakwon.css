@@ -784,6 +784,13 @@ header.header-hidden {
   touch-action: pan-y;
 }
 
+#lightbox,
+#lightbox-img{
+  -webkit-user-drag: none;
+  user-select: none;
+  touch-action: pan-y;
+}
+
 
 /* mobile */
 @media (max-width: 768px){
