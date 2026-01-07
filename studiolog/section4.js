@@ -5,7 +5,7 @@ const NEWS = [
     hero: "studiolog/secass4/NewsKorUS.png",
     href: "studiolog/log/202606/",
     bg: "#0a0a0a",
-    title: "Korea-U.S. Group Show",
+    title: "-",
     host:  "-",
     when:  "JUN 2026",
     where: "Seoul, South Korea",
