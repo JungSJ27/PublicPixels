@@ -41,35 +41,37 @@
     </section>
 
     <section class="prod-right">
-      <h1 id="title"></h1>
-      <p id="price" class="prod-price"></p>
+      <div class="prod-panel">
 
-      <!-- Color -->
-      <div class="block">
-        <p class="label">Color</p>
-        <div id="colors" class="opt-colors"></div>
-      </div>
+        <h1 id="title"></h1>
+        <p id="price" class="prod-price"></p>
 
-      <!-- Size -->
-      <div class="block">
-        <p class="label">Size</p>
-        <div id="sizes" class="opt-sizes"></div>
-      </div>
-
-      <!-- Quantity -->
-      <div class="block">
-        <p class="label">Quantity</p>
-        <div class="qty-box">
-          <button id="qty-minus">−</button>
-          <span id="qty-num">1</span>
-          <button id="qty-plus">+</button>
+        <!-- Color -->
+        <div class="block">
+          <p class="label">Color</p>
+          <div id="colors" class="opt-colors"></div>
         </div>
-      </div>
 
-      <button id="btnAdd" class="btn-add">Add to Cart</button>
+        <!-- Size -->
+        <div class="block">
+          <p class="label">Size</p>
+          <div id="sizes" class="opt-sizes"></div>
+        </div>
 
-      <p id="desc" class="desc"></p>
-      
+        <!-- Quantity -->
+        <div class="block">
+          <p class="label">Quantity</p>
+          <div class="qty-box">
+            <button id="qty-minus" type="button">−</button>
+            <span id="qty-num">1</span>
+            <button id="qty-plus" type="button">+</button>
+          </div>
+        </div>
+
+        <button id="btnAdd" class="btn-add" type="button">Add to Cart</button>
+
+        <p id="desc" class="desc"></p>
+
         <details>
           <summary>Notes</summary>
           <div id="notes"></div>
@@ -90,9 +92,11 @@
           <p id="care"></p>
         </details>
 
+      </div>
     </section>
 
   </main>
+
 
   <!-- product logic (모듈 버전) -->
   <script type="module" src="./heart-necklace.js"></script>

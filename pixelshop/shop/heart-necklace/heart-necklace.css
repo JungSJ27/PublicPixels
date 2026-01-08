@@ -2,18 +2,14 @@
    DETAIL PAGE — HALF LAYOUT (LEFT BIG IMAGE)
    ========================================= */
 /* 전체 레이아웃 */
-.prod-wrap{
+.prod-wrap {
   display: grid;
   grid-template-columns: 1fr 0.9fr;
   width: 100%;
   max-width: 3000px;
   margin: 0 auto;
   align-items: start;
-
-  padding: 0 clamp(18px, 2vw, 48px);
-  column-gap: clamp(24px, 4vw, 90px);
 }
-
 
 /* 왼쪽 전체 칼럼 — 여백 제거 */
 .prod-left {
@@ -43,17 +39,16 @@
 }
 
 /* 오른쪽 칼럼은 그대로 sticky 유지 */
+/* 오른쪽 칼럼은 그대로 sticky 유지 */
 .prod-right{
   position: sticky;
   top: 170px;
-
-  width: min(550px, 100%);
-  max-width: none;
-
+  max-width: 550px;
   padding-top: clamp(40px, 3vw, 300px);
 
-  margin-left: 0;          /* ✅ 없애기 */
-  justify-self: center;    /* ✅ 그리드 칸 안에서 중앙 */
+  margin-left: 0;          /* ✅ 이거로 교체 */
+  justify-self: center;    /* ✅ 추가: 오른쪽 칸의 가로 중앙 */
+  width: min(550px, 100%); /* ✅ 추가: 폭 안정 */
 }
 
 
@@ -263,8 +258,6 @@ details p::before {
 /* ===========================
    모바일 레이아웃
    =========================== */
-
-
 @media (max-width: 900px) {
 
   .prod-wrap {
