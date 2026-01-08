@@ -431,12 +431,15 @@ select {
 /* 📱 Order ID modal – mobile breathing space */
 @media (max-width: 480px){
   .copy-box{
-    width: auto;                /* 기존 300px override */
-    max-width: calc(100vw - 30px); /* 좌우 24px 여백 */
-    padding: 24px 20px;         /* 내부도 살짝 압축 */
+    width: calc(100vw - 32px);  /* 좌우 16px */
+    max-width: 360px;           /* 너무 커지지 않게 상한 */
+    padding: 26px 22px;
   }
-    .copy-box button{
-    padding: 11px;
-    font-size: 14px;
+
+  #copyBtn,
+  #closeCopy{
+    padding: 12px;
+    font-size: 15px;
   }
 }
+
