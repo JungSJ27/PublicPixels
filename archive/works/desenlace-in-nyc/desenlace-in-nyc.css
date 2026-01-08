@@ -277,54 +277,69 @@ header.header-hidden {
 }
 
 /* ===============================
-   BUTTONS
+   BUTTONS (CLOSE / PREV / NEXT)
 ================================ */
 
 .modal-close,
 .modal-prev,
-.modal-next {
+.modal-next{
   position: fixed;
-  top: 18px;
-  right: 22px;
-  width: 40px;
-  height: 40px;
-  font-size: 22px;
-  line-height: 40px;
+  z-index: 6000;
+
   color: #fff;
   background: none;
   border: none;
   cursor: pointer;
-  z-index: 6000;
-  opacity: 0.7;
+
+  opacity: 0.65;
   pointer-events: auto;
+  user-select: none;
+
+  font-family: 'Poppins', system-ui, sans-serif;
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
 }
 
-/* 닫기 */
-.modal-close {
-  top: 20px;
-  right: 30px;
-  font-size: 15px;
-}
-
-/* 이전 / 다음 */
-.modal-prev {
-  left: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.modal-next {
-  right: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-/* 버튼 hover */
 .modal-close:hover,
 .modal-prev:hover,
-.modal-next:hover {
+.modal-next:hover{
   opacity: 1;
 }
+
+
+/* ===============================
+   CLOSE BUTTON
+================================ */
+.modal-close{
+  top: 18px;
+  right: 22px;
+
+  width: 40px;
+  height: 40px;
+
+  font-size: 15px;
+  line-height: 40px;
+  text-align: center;
+}
+
+
+/* ===============================
+   ARROWS (PREV / NEXT)
+================================ */
+.modal-prev,
+.modal-next{
+  top: 50%;
+  transform: translateY(-50%);
+
+  font-size: 28px;
+  padding: 14px 16px;
+}
+
+.modal-prev{ left: 18px; }
+.modal-next{ right: 18px; }
+
+
 
 /* ===============================
    INFO LAYOUT (3 COLUMNS)

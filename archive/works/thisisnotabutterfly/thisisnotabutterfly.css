@@ -16,7 +16,7 @@ body[data-page="log"] .art-main::before{
 /* theme */
 :root{
   --bg: #05060a;
-  --fg: rgba(62, 62, 62, 0.95);
+  --fg: rgba(74, 74, 74, 0.95);
   --muted: rgba(234, 234, 236, 0.68);
 }
 
@@ -280,21 +280,22 @@ body[data-page="log"] header .shop-toggle{ display: none !important; }
 
 /* close button */
 .modal-close{
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  width: 30px;
-  height: 30px;
-  border-radius: 999px;
-  border: 0;
-  background: transparent;
+  position: fixed;
+  top: 18px;
+  right: 22px;
+  width: 40px;
+  height: 40px;
+  font-size: 22px;
+  line-height: 40px;
   color: var(--fg);
+  background: none;
+  border: none;
   cursor: pointer;
-  font-size: 23px;
-  display: grid;
-  place-items: center;
-  z-index: 300;
+  z-index: 6000;
+  opacity: 0.7;
+  pointer-events: auto;
 }
+
 
 /* body */
 .modal-body{
@@ -345,6 +346,7 @@ body[data-page="log"] header .shop-toggle{ display: none !important; }
   position: relative;
   z-index: 210;
   pointer-events: auto;
+  margin-top: 10px;
 }
 
 @media (max-width: 768px){

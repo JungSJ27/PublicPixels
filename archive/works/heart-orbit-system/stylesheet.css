@@ -346,7 +346,7 @@ body.header-reveal .mobile-header-zone {
 
   .info-modal-viewport {
     height: 70vh;        /* 글 보이는 영역 줄이기 */
-    margin-bottom: 30vh;/* 하단 숨 공간 더 확보 */
+    margin-bottom: 20vh;/* 하단 숨 공간 더 확보 */
   }
 
 

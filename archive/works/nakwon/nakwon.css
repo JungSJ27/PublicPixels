@@ -703,94 +703,120 @@ header.header-hidden {
 }
 
 /* ===============================
-   LIGHTBOX
+   LIGHTBOX (Nakwon) -> Still, Life Goes On style
 ================================ */
 
+/* (선택) 팝업 열릴 때 헤더 숨김이 필요하면 이거도 같이 써 */
+body.lightbox-open header,
+body.lightbox-open .pp-header,
+body.lightbox-open .list-toggle{
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: translateY(-40px) !important;
+}
+
+/* overlay */
 .lightbox{
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.92);
-  display: none;
+  background: rgba(0,0,0,0.9);
+  z-index: 9999;
+
+  display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9999;
-  cursor: zoom-out;
 
-  /* ⭐ 화살표 안전영역 (버터플라이 트랩 방식) */
+  /* fade */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+
+  /* safe area like popup */
   padding: 88px 110px 88px;
   box-sizing: border-box;
+
+  cursor: zoom-out;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .lightbox.is-open{
-  display: flex;
+  opacity: 1;
+  pointer-events: auto;
 }
 
-/* 이미지는 항상 안전영역 안쪽에서만 */
+/* image */
 .lightbox img{
   width: 100%;
   height: auto;
   max-width: calc(100vw - 220px);
   max-height: calc(100vh - 176px);
   object-fit: contain;
-  cursor: default;
+
+  border-radius: 0px;
   display: block;
   pointer-events: auto;
-}
+  cursor: default;
 
-/* buttons */
-.lb-btn{
-  position: fixed; /* ⭐ 안전하게 화면 기준 고정 */
-  border: 0;
-  background: transparent;
-  color: #fff;
-  width: 44px;
-  height: 44px;
-  border-radius: 999px;
-  font-size: 25px;
-  line-height: 44px;
-  text-align: center;
-  cursor: pointer;
-  user-select: none;
-  z-index: 10000;
-  pointer-events: auto;
-}
-
-.lb-close{
-  top: 18px;
-  right: 18px;
-  font-size: 22px;
-}
-
-.lb-prev{
-  top: 50%;
-  left: 18px;
-  transform: translateY(-50%);
-}
-
-.lb-next{
-  top: 50%;
-  right: 18px;
-  transform: translateY(-50%);
-}
-
-/* 모바일 스와이프 안정화 */
-.lightbox{
-  -webkit-tap-highlight-color: transparent;
-}
-
-.lightbox img{
   -webkit-user-select: none;
   user-select: none;
-  touch-action: pan-y;
-}
-
-#lightbox,
-#lightbox-img{
   -webkit-user-drag: none;
-  user-select: none;
   touch-action: pan-y;
 }
 
+/* buttons (popup 느낌으로 통일) */
+.lb-btn{
+  position: fixed;
+  z-index: 10000;
+  color: #fff;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  user-select: none;
+  pointer-events: auto;
+
+  opacity: 0.65;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  box-shadow: none;
+}
+
+.lb-btn:hover{ opacity: 1; }
+
+.lb-btn:focus,
+.lb-btn:focus-visible,
+.lb-btn:active{
+  outline: none;
+  box-shadow: none;
+}
+
+/* arrows */
+.lb-prev,
+.lb-next{
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 23px;
+  padding: 14px 16px;
+}
+
+.lb-prev{ left: 18px; }
+.lb-next{ right: 18px; }
+
+/* close */
+.lb-close{
+  top: 18px;
+  right: 22px;
+
+  width: 40px;
+  height: 40px;
+
+  font-size: 22px;
+  line-height: 40px;
+  text-align: center;
+
+  opacity: 0.7;
+}
+
+.lb-close:hover{ opacity: 1; }
 
 /* mobile */
 @media (max-width: 768px){
@@ -805,7 +831,14 @@ header.header-hidden {
 
   .lb-prev{ left: 10px; }
   .lb-next{ right: 10px; }
-  .lb-close{ top: 10px; right: 10px; }
+  .lb-close{
+    top: 14px;
+    right: 14px;
+    width: 40px;
+    height: 40px;
+    font-size: 22px;
+    line-height: 40px;
+  }
 }
 
 
