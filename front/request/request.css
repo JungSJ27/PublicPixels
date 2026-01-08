@@ -432,8 +432,8 @@ select {
 @media (max-width: 480px){
   .copy-box{
     box-sizing: border-box;
-    width: calc(100vw - 40px) !important;      /* 좌우 20px */
-    max-width: calc(100vw - 40px) !important;
+    width: calc(100vw - 50px) !important;      /* 좌우 20px */
+    max-width: calc(100vw - 50px) !important;
     padding: 26px 22px;
   }
 
