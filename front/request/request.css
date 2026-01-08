@@ -432,9 +432,9 @@ select {
 @media (max-width: 480px){
   .copy-box{
     box-sizing: border-box;
-    width: calc(100vw - 30px) !important;      /* 좌우 15px씩 */
-    max-width: calc(100vw - 30px) !important; /* 90% 무력화 */
-    padding: 26px 20px !important;            /* 너무 답답하면 28px 22px로 */
+    width: calc(100vw - 40px) !important;      /* 좌우 20px */
+    max-width: calc(100vw - 40px) !important;
+    padding: 26px 22px;
   }
 
   #copyBtn,
@@ -443,4 +443,5 @@ select {
     font-size: 15px;
   }
 }
+
 
