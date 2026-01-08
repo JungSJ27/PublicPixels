@@ -38,14 +38,21 @@
   margin-top: 15px; /* 승진이 원하는 값으로 조절 */
 }
 
-/* 오른쪽 칼럼은 그대로 sticky 유지 */
-.prod-right {
+/* 오른쪽 칼럼 sticky 유지 */
+.prod-right{
   position: sticky;
   top: 170px;
   max-width: 550px;
   padding-top: clamp(40px, 3vw, 300px);
-  margin-left: clamp(0px, 6vw, 350px); /* 👈 반응형 간격 */
+
+  /* ✅ 제거: 초광폭에서 쏠림 원인 */
+  margin-left: 0;
+
+  /* ✅ 정렬은 grid에서 */
+  justify-self: end;     /* 오른쪽 칼럼 기준으로 오른쪽에 붙음 */
+  width: 100%;
 }
+
 
 
 /* 모바일 */
@@ -319,6 +326,13 @@ details p::before {
   }
 }
 
+@media (min-width: 1400px){
+  .prod-wrap{
+    grid-template-columns: minmax(0, 1fr) minmax(460px, 560px);
+    column-gap: clamp(40px, 5vw, 140px);
+    max-width: 1800px; /* 선택: 너무 넓어지는 것 방지 */
+  }
+}
 
 @media (max-width: 900px) {
 
