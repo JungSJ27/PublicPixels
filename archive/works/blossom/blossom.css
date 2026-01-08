@@ -172,6 +172,7 @@ body{
   overflow: hidden;
   box-shadow: var(--shadow);
   background: #fff;
+  margin-top: 30px;
 }
 
 .hero img{
