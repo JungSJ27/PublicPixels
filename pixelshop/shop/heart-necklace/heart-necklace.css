@@ -2,14 +2,17 @@
    DETAIL PAGE — HALF LAYOUT (LEFT BIG IMAGE)
    ========================================= */
 /* 전체 레이아웃 */
-.prod-wrap {
+.prod-wrap{
   display: grid;
-  grid-template-columns: 1fr 0.9fr;
+  grid-template-columns: minmax(0, 1fr) minmax(420px, 550px);
+  column-gap: clamp(28px, 4vw, 80px);
   width: 100%;
-  max-width: 3000px;
+  max-width: 1600px;                 /* 3000px 말고 기본은 줄이기 */
   margin: 0 auto;
+  padding: 0 clamp(16px, 2vw, 40px);  /* 화면 가장자리 붙는 느낌 방지 */
   align-items: start;
 }
+
 
 /* 왼쪽 전체 칼럼 — 여백 제거 */
 .prod-left {
@@ -45,13 +48,12 @@
   max-width: 550px;
   padding-top: clamp(40px, 3vw, 300px);
 
-  /* ✅ 제거: 초광폭에서 쏠림 원인 */
   margin-left: 0;
-
-  /* ✅ 정렬은 grid에서 */
-  justify-self: end;     /* 오른쪽 칼럼 기준으로 오른쪽에 붙음 */
   width: 100%;
+
+  justify-self: center;  /* 기본은 center */
 }
+
 
 
 
@@ -260,6 +262,19 @@ details p::before {
 /* ===========================
    모바일 레이아웃
    =========================== */
+
+@media (min-width: 1400px){
+  .prod-wrap{
+    max-width: 1800px;
+    grid-template-columns: minmax(0, 1fr) minmax(460px, 560px);
+    column-gap: clamp(40px, 5vw, 140px);
+  }
+
+  .prod-right{
+    justify-self: end;   /* 초광폭에서만 end */
+  }
+}
+
 @media (max-width: 900px) {
 
   .prod-wrap {
@@ -326,13 +341,6 @@ details p::before {
   }
 }
 
-@media (min-width: 1400px){
-  .prod-wrap{
-    grid-template-columns: minmax(0, 1fr) minmax(460px, 560px);
-    column-gap: clamp(40px, 5vw, 140px);
-    max-width: 1800px; /* 선택: 너무 넓어지는 것 방지 */
-  }
-}
 
 @media (max-width: 900px) {
 
