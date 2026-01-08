@@ -39,13 +39,18 @@
 }
 
 /* 오른쪽 칼럼은 그대로 sticky 유지 */
-.prod-right {
+/* 오른쪽 칼럼은 그대로 sticky 유지 */
+.prod-right{
   position: sticky;
   top: 170px;
   max-width: 550px;
-  padding-top: clamp(40px, 3vw, 300px);
-  margin-left: clamp(0px, 6vw, 350px); /* 👈 반응형 간격 */
+padding-top: clamp(10px, 5vh, 260px);
+
+  margin-left: 0;          /* ✅ 이거로 교체 */
+  justify-self: center;    /* ✅ 추가: 오른쪽 칸의 가로 중앙 */
+  width: min(550px, 100%); /* ✅ 추가: 폭 안정 */
 }
+
 
 
 /* 모바일 */
