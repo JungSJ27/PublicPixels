@@ -44,7 +44,7 @@
   position: sticky;
   top: 170px;
   max-width: 550px;
-  padding-top: clamp(40px, 3vw, 300px);
+padding-top: clamp(24px, 6vh, 260px);
 
   margin-left: 0;          /* ✅ 이거로 교체 */
   justify-self: center;    /* ✅ 추가: 오른쪽 칸의 가로 중앙 */
