@@ -4,13 +4,14 @@
 /* 전체 레이아웃 */
 .prod-wrap{
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(420px, 550px);
-  column-gap: clamp(28px, 4vw, 80px);
+  grid-template-columns: 1fr 0.9fr;
   width: 100%;
-  max-width: 1600px;                 /* 3000px 말고 기본은 줄이기 */
+  max-width: 3000px;
   margin: 0 auto;
-  padding: 0 clamp(16px, 2vw, 40px);  /* 화면 가장자리 붙는 느낌 방지 */
   align-items: start;
+
+  padding: 0 clamp(18px, 2vw, 48px);
+  column-gap: clamp(24px, 4vw, 90px);
 }
 
 
@@ -41,19 +42,19 @@
   margin-top: 15px; /* 승진이 원하는 값으로 조절 */
 }
 
-/* 오른쪽 칼럼 sticky 유지 */
+/* 오른쪽 칼럼은 그대로 sticky 유지 */
 .prod-right{
   position: sticky;
   top: 170px;
-  max-width: 550px;
+
+  width: min(550px, 100%);
+  max-width: none;
+
   padding-top: clamp(40px, 3vw, 300px);
 
-  margin-left: 0;
-  width: 100%;
-
-  justify-self: center;  /* 기본은 center */
+  margin-left: 0;          /* ✅ 없애기 */
+  justify-self: center;    /* ✅ 그리드 칸 안에서 중앙 */
 }
-
 
 
 
@@ -265,13 +266,7 @@ details p::before {
 
 @media (min-width: 1400px){
   .prod-wrap{
-    max-width: 1800px;
-    grid-template-columns: minmax(0, 1fr) minmax(460px, 560px);
-    column-gap: clamp(40px, 5vw, 140px);
-  }
-
-  .prod-right{
-    justify-self: end;   /* 초광폭에서만 end */
+    max-width: 1800px; /* 전체 폭만 살짝 제한 */
   }
 }
 
