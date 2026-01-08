@@ -1,78 +1,61 @@
 /* =========================
-   News.css — card news + ruler/heart
+   News.css — cleaned (same look)
    ========================= */
 
 /* ===== variables ===== */
 :root{
-  --bg:#000; --fg:#ffffffa9; --muted:#bdbdbd79; --line:#1e1e1ecb;
+  --bg:#000;
+  --fg:#ffffffa9;
+  --muted:#bdbdbd79;
+  --line:#1e1e1ecb;
 
-  /* layout */
   --page-pad:5px;
   --grid-top:-35px;
   --stage-h:100svh;
-
   --cards-bottom-gap:45px;
 
-  /* grid knobs */
-  --card-w:clamp(220px, 26vw, 440px);
   --grid-gap:18px;
-
-  /* aspect and row bounds */
   --card-ratio:.78;
   --card-minh:220px;
-  --card-maxh:9999px;
 
-  /* calculated area */
   --zone-h:auto;
   --row-h:auto;
 
-  /* responsive type scale (clamp) — 메타 작게, 타이틀 약간 작게, 장소 약간 크게 */
-  --fs-meta-min: 9px;   --fs-meta-max: 11px;   /* 날짜/메타 ↓ */
-  --fs-title-min: 14px; --fs-title-max: 18px; /* 타이틀 약간 ↓ */
-  --fs-place-min: 8px;  --fs-place-max: 10px; /* 장소 약간 ↑ */
+  /* type scale */
+  --fs-meta-min: 9px;   --fs-meta-max: 11px;
+  --fs-title-min: 14px; --fs-title-max: 18px;
+  --fs-place-min: 8px;  --fs-place-max: 10px;
 
-  /* legacy aliases so 기존 코드도 동작 */
-  --type-scale:1;
-  --title-size:var(--fs-title);
-  --meta-size: var(--fs-meta);
-  --place-size:var(--fs-place);
-
-  /* type rhythm */
   --title-lh:1;
   --text-indent-x:2px;
   --text-shift:7px;
 
-  /* vertical gaps */
-  --title-place-gap: clamp(5px, 1.4cqi, 8px);
   --gap-meta-title: clamp(1px, 0.6cqi, 6px);
-  --place-min-gap: clamp(5px, 1.2cqi, 10px);
   --place-bottom-fixed: clamp(8px, 1.2cqi, 12px);
 
   /* future card */
   --future-bg:#161616;
   --future-bg-hover: linear-gradient(180deg, #0a0a0a 0%, #1f2534 70%, #1a211a 100%);
-  background: var(--future-bg-hover);  
   --future-title-color:#ffffffad;
   --future-meta-color:#e5e5e566;
   --future-place-color:#e5e5e566;
   --future-border:#1e1e1ecb;
 
   /* image look */
-  --ph-gap-top:10px; --ph-gap-x:10px;
   --ph-shadow:0 6px 14px rgba(30,30,30,.35);
   --ph-shadow-hover:0 10px 24px rgba(0,0,0,.45);
 
   /* ruler + heart */
-  --ruler-h:85px; --ruler-line-h:30px;
-  --tick-h:10px; --tick-year-h:12px; --tick-label-offset:24px;
-  --heart-size:42px; --heart-bottom:-3px; --label-bottom:0px;
+  --ruler-h:85px;
+  --ruler-line-h:30px;
+  --tick-h:10px;
+  --tick-year-h:12px;
+  --heart-size:42px;
+  --heart-bottom:-3px;
 
-  /* bottom offset */
   --ruler-offset:-35px;
 
-  /* header height fallback */
   --header-h:0px;
-
   --label-offset-x:0px;
 }
 
@@ -102,11 +85,10 @@ html,body{
     - var(--ruler-h)
     - var(--cards-bottom-gap)
   );
+
   cursor:grab;
 }
-.news-wrap.is-dragging a {
-  pointer-events: none;
-}
+.news-wrap.is-dragging a{ pointer-events:none; }
 
 .news-stage{
   position:relative;
@@ -128,10 +110,10 @@ html,body{
   height:var(--zone-h);
   align-items:stretch;
   align-content:start;
+
   transform:none !important;
   transform-origin:0 0;
   z-index:1;
-
   width:max-content;
 }
 .news-grid.one-row{ grid-template-rows:var(--row-h-final); }
@@ -140,70 +122,62 @@ html,body{
 /* ===== cards ===== */
 .card{
   position:relative;
-  container-type: inline-size;
+  container-type:inline-size;
   height:100%;
   background:#161616;
   border:1px solid var(--line);
   overflow:hidden;
-  display:flex; flex-direction:column;
+  display:flex;
+  flex-direction:column;
   cursor:pointer;
-  padding-bottom: var(--place-bottom-fixed); /* 바닥 여백 확보 */
+  padding-bottom:var(--place-bottom-fixed);
+
   text-decoration:none;
   color:inherit;
-  opacity:0; transform:translateY(12px);
+
+  opacity:0;
+  transform:translateY(12px);
   transition:opacity .5s ease, transform .5s ease, background .25s ease, border-color .2s ease;
 }
-
 .card.is-visible{ opacity:1; transform:translateY(0); }
 .card:not(.card--future):hover{ background:#181818; }
 
-/* ========== 3) 카드 내부 타이포 스케일 ========== */
-/* 카드 폭 기준(cqi) 스케일 — 날짜 가장 작게, 타이틀 중간, 장소 살짝 큼 */
+/* type scale */
 @supports (font-size: 1cqi){
-  /* 카드 폭 대략 260px ~ 420px 가정
-     1cqi = 카드폭의 1% → 2.6px ~ 4.2px */
-  .card .meta  { font-size: clamp(var(--fs-meta-min), 2.8cqi, var(--fs-meta-max)); } /* 날짜 */
-  .card h3     { font-size: clamp(var(--fs-title-min), 3.6cqi, var(--fs-title-max)); } /* 타이틀 */
-  .card .place { font-size: clamp(var(--fs-place-min), 2.4cqi, var(--fs-place-max)); } /* 장소 */
-  .news-grid .card{
-    /* 작은 카드 6px ~ 큰 카드 14px 범위 */
-    --text-shift: clamp(6px, 2cqi, 20px);
-  }
+  .card .meta  { font-size: clamp(var(--fs-meta-min), 2.8cqi, var(--fs-meta-max)); }
+  .card h3     { font-size: clamp(var(--fs-title-min), 3.6cqi, var(--fs-title-max)); }
+  .card .place { font-size: clamp(var(--fs-place-min), 2.4cqi, var(--fs-place-max)); }
+  .news-grid .card{ --text-shift: clamp(6px, 2cqi, 20px); }
 }
-
-/* 폴백: cqi 미지원 브라우저 */
 @supports not (font-size: 1cqi){
   .card .meta  { font-size: clamp(var(--fs-meta-min), 0.62vw, var(--fs-meta-max)); }
   .card h3     { font-size: clamp(var(--fs-title-min), 0.80vw, var(--fs-title-max)); }
   .card .place { font-size: clamp(var(--fs-place-min), 0.55vw, var(--fs-place-max)); }
-  .news-grid .card{
-    --text-shift: clamp(6px, 0.6vw, 14px);
-  }
+  .news-grid .card{ --text-shift: clamp(6px, 0.6vw, 14px); }
 }
-
-
-
-/* 아주 좁은 카드(모바일 2열 등) 더 보수적으로 축소 */
 @container (max-width: 280px){
   .card .meta  { font-size: clamp(var(--fs-meta-min), 1.2cqi, var(--fs-meta-max)); }
   .card h3     { font-size: clamp(var(--fs-title-min), 1.8cqi, var(--fs-title-max)); }
   .card .place { font-size: clamp(var(--fs-place-min), 1.5cqi, var(--fs-place-max)); }
   .news-grid .card{ --text-shift: clamp(4px, 1.1cqi, 10px); }
-
 }
-
 
 /* media */
 .card .fig{ margin:0; padding:10px 10px 0; }
 .card .ph{
   aspect-ratio:1/1;
-  width:100%; height:auto; display:block;
-  object-fit:cover; object-position:center;
-  background:transparent; box-shadow:var(--ph-shadow);
+  width:100%;
+  height:auto;
+  display:block;
+  object-fit:cover;
+  object-position:center;
+  background:transparent;
+  box-shadow:var(--ph-shadow);
   transition:box-shadow .25s ease, transform .25s ease;
 }
 .card:hover .ph{ box-shadow:var(--ph-shadow-hover); transform:translateY(-1px); }
 
+/* meta/title/place */
 .card .meta{
   margin:2px;
   padding:calc(10px + var(--text-shift)) 12px 0;
@@ -212,17 +186,16 @@ html,body{
   text-transform:uppercase;
   color:var(--muted);
 }
-
 .card h3{
   margin:var(--gap-meta-title) 0 0;
   padding:0 12px 0;
   padding-left:calc(12px + var(--text-indent-x));
   line-height:var(--title-lh);
   font-weight:600;
-  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
-
-/* place */
 .card .place{
   margin-top:auto;
   margin-bottom:0;
@@ -231,29 +204,16 @@ html,body{
   text-transform:uppercase;
   color:var(--muted);
   opacity:.95;
-  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
-
-
-/* 제목 ↔ 장소 간격: fill을 고정 높이로 */
-.card .fill{
-  height: var(--title-place-gap);
-  min-height: var(--title-place-gap);
-  flex: none;
-  display:none;
-}
-
-
-/* padding scaling hooks (유지) */
-.card .fig{ padding: calc(8px * var(--type-scale)) calc(10px * var(--type-scale)) 0; }
-.card .meta{ padding-top: calc((0px + var(--text-shift)) * var(--type-scale)); }
-.card h3{ margin-block-end:0px; }
 
 /* future */
 .card--future{ background:var(--future-bg); border:1px solid var(--future-border); }
 .card--future:hover{
   background:var(--future-bg-hover);
-  border-color: color-mix(in srgb, var(--future-border) 85%, #1e1e1ecb 15%);
+  border-color:color-mix(in srgb, var(--future-border) 85%, #1e1e1ecb 15%);
 }
 .card--future h3{ color:var(--future-title-color); }
 .card--future .meta{ color:var(--future-meta-color); }
@@ -272,291 +232,224 @@ html,body{
     rgba(20,21,24,0.85) 95%,
     #0b0b0b 100%
   );
-  --label-bottom:10px; --label-gap:43px;
+  --label-bottom:10px;
+  --label-gap:43px;
 }
 .ruler{
-  position:relative; height:var(--ruler-line-h); width:100%;
-  display:flex; align-items:end; border-bottom:0;
+  position:relative;
+  height:var(--ruler-line-h);
+  width:100%;
+  display:flex;
+  align-items:end;
+  border-bottom:0;
   overflow:visible;
 }
 .ticks{ position:absolute; left:0; right:0; bottom:0; height:var(--ruler-line-h); }
 .tick{ position:absolute; bottom:0; width:1px; height:var(--tick-h); background:#3a3a3a; opacity:.85; }
 .tick--year{ height:var(--tick-year-h); background:#bdbdbd79; }
 .tick-label{
-  position:absolute; transform:translateX(-50%);
-  color:#bdbdbd79; font-weight:700; font-size:8px; letter-spacing:.06em;
-  opacity:.85; bottom:-20px; pointer-events:none; z-index:2;
+  position:absolute;
+  transform:translateX(-50%);
+  color:#bdbdbd79;
+  font-weight:700;
+  font-size:8px;
+  letter-spacing:.06em;
+  opacity:.85;
+  bottom:-20px;
+  pointer-events:none;
+  z-index:2;
 }
 
-/* ===== heart + label ===== */
+/* heart + label */
 .indicator{
-  position:absolute; bottom:var(--heart-bottom);
-  width:var(--heart-size); height:var(--heart-size);
-  pointer-events:none; z-index:2; left:0; transform:translateX(-50%);
+  position:absolute;
+  bottom:var(--heart-bottom);
+  width:var(--heart-size);
+  height:var(--heart-size);
+  pointer-events:none;
+  z-index:2;
+  left:0;
+  transform:translateX(-50%);
   background:none;
-  filter: drop-shadow(0 0 12px rgba(255,255,255,.28))
-          drop-shadow(0 0 26px rgba(255,255,255,.16));
+  filter:drop-shadow(0 0 12px rgba(255,255,255,.28))
+         drop-shadow(0 0 26px rgba(255,255,255,.16));
 }
 .indicator .heart3d{
-  background:transparent !important; position:absolute; inset:0;
-  width:100%; height:100%; display:block;
+  background:transparent !important;
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  display:block;
 }
-
 .indicator-label{
   position:absolute;
   bottom:calc(var(--label-bottom) + var(--label-gap) - 13px);
-  padding:0 7px; border:0; border-radius:8px; background:transparent;
-  color:#bdbdbddb; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
-  font-size:7px; white-space:nowrap; pointer-events:none; backdrop-filter:blur(18px);
-  z-index:2; left:0; transform:translateX(calc(-50% + var(--label-offset-x)));
+  padding:0 7px;
+  border:0;
+  border-radius:8px;
+  background:transparent;
+  color:#bdbdbddb;
+  font-weight:700;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  font-size:7px;
+  white-space:nowrap;
+  pointer-events:none;
+  backdrop-filter:blur(18px);
+  z-index:2;
+  left:0;
+  transform:translateX(calc(-50% + var(--label-offset-x)));
 }
 
+@container (max-width: 320px){
+  .card .meta{
+    padding-top: 7px;
+  }
+  .card .place{
+    padding-top: 2px;
+    font-size: clamp(7px, 2.2cqi, 9px);
+    letter-spacing: .05em;
+  }
+    .news-grid .card{
+    --text-shift: clamp(4px, 1.4cqi, 12px);
+  }
 
+}
 /* ============================
-   NEWS PAGE — COLOR OVERRIDES
-   (Search Panel + Header Icons)
+   NEWS PAGE THEME (Header + Search + Cart)
    ============================ */
 
-body[data-page="news"] {
-  --news-bg: #141518;
-  --news-fg: #ffffffa9;
-  --news-fg-strong: #ffffff;
-  --news-muted: #bdbdbdbb;
+body[data-page="news"]{
+  --news-bg:#141518;
+  --news-fg:#ffffffa9;
+  --news-fg-strong:#ffffff;
+  --news-muted:#bdbdbdbb;
+  --news-border:#22262b;
 
-  --header-icon: var(--news-fg);
-  --header-icon-hover: var(--news-fg-strong);
+  --header-icon:var(--news-fg);
+  --header-icon-hover:var(--news-fg-strong);
 }
 
-/* 헤더 색상 */
-body[data-page="news"] header {
-  background: var(--news-bg);
-  color: var(--news-fg-strong);
-  border-bottom: 1px solid #22262b;
+/* header */
+body[data-page="news"] header{
+  background:var(--news-bg);
+  color:var(--news-fg-strong);
+  border-bottom:1px solid var(--news-border);
 }
-
-/* 로고 */
-body[data-page="news"] .logo-brand {
-  color: var(--news-fg);
-}
+body[data-page="news"] .logo-brand{ color:var(--news-fg); }
 body[data-page="news"] .logo-roman,
-body[data-page="news"] .logo-korean {
-  color: var(--news-muted);
-}
+body[data-page="news"] .logo-korean{ color:var(--news-muted); }
 
-/* 헤더 아이콘 */
-body[data-page="news"] header :is(.icon-btn, .search-icon, .cart-icon, .shop-toggle, .fa) {
-  color: var(--header-icon);
-  transition: color .15s ease;
+/* header icons (stroke sync) */
+body[data-page="news"] header :is(.icon-btn, .search-icon, .cart-icon, .shop-toggle, .fa){
+  color:var(--header-icon);
+  transition:color .15s ease;
 }
-body[data-page="news"] header :is(.icon-btn, .search-icon, .cart-icon, .shop-toggle):hover {
-  color: var(--header-icon-hover);
+body[data-page="news"] header :is(.icon-btn, .search-icon, .cart-icon, .shop-toggle):hover{
+  color:var(--header-icon-hover);
 }
 body[data-page="news"] header :is(.icon-btn, .search-icon, .cart-icon, .shop-toggle) svg,
-body[data-page="news"] header :is(.icon-btn, .search-icon, .cart-icon, .shop-toggle) svg * {
-  stroke: currentColor !important;
+body[data-page="news"] header :is(.icon-btn, .search-icon, .cart-icon, .shop-toggle) svg *{
+  stroke:currentColor !important;
 }
 
-/* ============================
-   SEARCH PANEL DARK THEME
-   ============================ */
+/* search panel */
+body[data-page="news"] #search{
+  background:var(--news-bg);
+  color:var(--news-fg);
+}
+body[data-page="news"] #search-backdrop{ background:rgba(0,0,0,0.45); }
+body[data-page="news"] #search-input{
+  background:transparent;
+  border-bottom:1px solid #ffffff88;
+  color:var(--news-fg);
+  caret-color:var(--news-fg-strong);
+}
+body[data-page="news"] #search-input::placeholder{ color:var(--news-muted); }
+body[data-page="news"] #clear-search{ color:var(--news-fg); }
+body[data-page="news"] .search-results-images .card-title{ color:var(--news-fg); }
+body[data-page="news"] .search-results-grid .card-title{ color:var(--news-fg-strong); }
+body[data-page="news"] .search-results-grid .card-meta{ color:var(--news-muted); }
+body[data-page="news"] .search-results-empty{ color:var(--news-muted); }
 
-/* 검색 패널 배경 */
-body[data-page="news"] #search {
-  background: var(--news-bg);
-  color: var(--news-fg);
+/* cart panel */
+body[data-page="news"] #cart{
+  background:var(--news-bg);
+  color:var(--news-fg-strong);
+  border-left:1px solid var(--news-border);
+  box-shadow:-18px 0 40px rgba(0,0,0,.55);
 }
+body[data-page="news"] #cart-backdrop{ background:rgba(0,0,0,0.65); }
 
-/* 검색 패널 뒤 백드롭 */
-body[data-page="news"] #search-backdrop {
-  background: rgba(0, 0, 0, 0.45);
+body[data-page="news"] .cart__head{
+  background:var(--news-bg);
+  box-shadow:none;
+  border-bottom:0;
 }
+body[data-page="news"] .cart__close{ color:var(--news-fg); }
+body[data-page="news"] .cart__close:hover{ color:var(--news-fg-strong); }
 
-/* 검색 입력창 */
-body[data-page="news"] #search-input {
-  background: transparent;
-  border-bottom: 1px solid #ffffff88;
-  color: var(--news-fg);
-  caret-color: var(--news-fg-strong);
-}
-body[data-page="news"] #search-input::placeholder {
-  color: var(--news-muted);
-}
+body[data-page="news"] .cart-item{ border-bottom:1px solid var(--news-border); }
+body[data-page="news"] .cart-item .title{ color:var(--news-fg-strong); }
+body[data-page="news"] .cart-item .price{ color:var(--news-muted); }
+body[data-page="news"] .cart-item .thumb img{ background:#222328; }
 
-/* X 버튼 */
-body[data-page="news"] #clear-search {
-  color: var(--news-fg);
+body[data-page="news"] .qty .btn{
+  background:var(--news-bg);
+  color:var(--news-fg-strong);
 }
+body[data-page="news"] .qty .btn:hover{ background:#1c1d22; }
+body[data-page="news"] .qty .num{ color:var(--news-fg-strong); }
 
-/* 추천 카드 제목 */
-body[data-page="news"] .search-results-images .card-title {
-  color: var(--news-fg);
-}
+body[data-page="news"] .cart-item .remove{ color:#a890c0; }
+body[data-page="news"] .cart-item .remove:hover{ color:#413f40; }
 
-/* 검색 결과 카드 제목/메타 */
-body[data-page="news"] .search-results-grid .card-title {
-  color: var(--news-fg-strong);
+body[data-page="news"] .cart__foot{
+  background:var(--news-bg);
+  border-top:1px solid var(--news-border);
+  box-shadow:0 -18px 28px -18px rgba(0,0,0,.4);
 }
-body[data-page="news"] .search-results-grid .card-meta {
-  color: var(--news-muted);
-}
-
-/* No results 텍스트 */
-body[data-page="news"] .search-results-empty {
-  color: var(--news-muted);
-}
-
-
-/* ============================
-   NEWS PAGE — CART DARK MODE
-   ============================ */
-
-/* --- Cart wrapper --- */
-body[data-page="news"] #cart {
-  background: var(--news-bg);
-  color: var(--news-fg-strong);
-  border-left: 1px solid #22262b;
-  box-shadow: -18px 0 40px rgba(0,0,0,.55);
-}
-
-/* --- Cart backdrop (뒤 어둡게) --- */
-body[data-page="news"] #cart-backdrop {
-  background: rgba(0,0,0,0.65);
-}
-
-/* --- Cart header (X 포함 상단 영역) --- */
-body[data-page="news"] .cart__head {
-  background: var(--news-bg);
-  box-shadow: none;
-  border-bottom: 0px solid #22262b;
-}
-
-/* X 버튼 */
-body[data-page="news"] .cart__close {
-  color: var(--news-fg);
-}
-body[data-page="news"] .cart__close:hover {
-  color: var(--news-fg-strong);
-}
-
-/* --- Item cell (각 제품 박스) --- */
-body[data-page="news"] .cart-item {
-  border-bottom: 1px solid #22262b;
-}
-
-body[data-page="news"] .cart-item .title {
-  color: var(--news-fg-strong);
-}
-body[data-page="news"] .cart-item .price {
-  color: var(--news-muted);
-}
-
-/* 썸네일 배경 */
-body[data-page="news"] .cart-item .thumb img {
-  background: #222328;
-}
-
-/* --- QTY button --- */
-body[data-page="news"] .qty .btn {
-  background: var(--news-bg);
-  color: var(--news-fg-strong);
-}
-body[data-page="news"] .qty .btn:hover {
-  background: #1c1d22;
-}
-
-body[data-page="news"] .qty .num {
-  color: var(--news-fg-strong);
-}
-
-/* --- Remove (하트) --- */
-body[data-page="news"] .cart-item .remove {
-  color: #a890c0;
-}
-body[data-page="news"] .cart-item .remove:hover {
-  color: #413f40;
-}
-
-/* --- Footer --- */
-body[data-page="news"] .cart__foot {
-  background: var(--news-bg);
-  border-top: 1px solid #22262b;
-  box-shadow: 0 -18px 28px -18px rgba(0,0,0,.4);
-}
-
 body[data-page="news"] .line,
 body[data-page="news"] .line.small,
-body[data-page="news"] #cart-subtotal {
-  color: var(--news-fg-strong);
-}
+body[data-page="news"] #cart-subtotal{ color:var(--news-fg-strong); }
 
-/* --- Buttons --- */
-body[data-page="news"] .btn {
-  background: var(--news-bg);
-  color: var(--news-fg-strong);
-  border-color: #2d2f34;
+body[data-page="news"] .btn{
+  background:var(--news-bg);
+  color:var(--news-fg-strong);
+  border-color:#2d2f34;
 }
-body[data-page="news"] .btn:hover {
-  background: #1c1d22;
-}
+body[data-page="news"] .btn:hover{ background:#1c1d22; }
 
-body[data-page="news"] .btn--primary {
-  background: #15151a;
-  border-color: #2d2f34;
-  color: #ffffff;
-  box-shadow: 0 8px 22px rgba(0,0,0,.25);
+body[data-page="news"] .btn--primary{
+  background:#15151a;
+  border-color:#2d2f34;
+  color:#fff;
+  box-shadow:0 8px 22px rgba(0,0,0,.25);
 }
-body[data-page="news"] .btn--primary:hover {
-  background: linear-gradient(135deg, #000000 0%, #1a1525 100%);
-  filter: brightness(.95);
+body[data-page="news"] .btn--primary:hover{
+  background:linear-gradient(135deg, #000 0%, #1a1525 100%);
+  filter:brightness(.95);
 }
+body[data-page="news"] .cart__empty{ color:var(--news-muted); }
 
-/* --- Empty message --- */
-body[data-page="news"] .cart__empty {
-  color: var(--news-muted);
+/* iOS blue text fix (merged) */
+body[data-page="news"] #cart :is(
+  .qty .btn,
+  [data-cart-status],
+  [data-cart-clear]
+){
+  color:var(--news-fg-strong) !important;
+  -webkit-text-fill-color:var(--news-fg-strong) !important;
+  appearance:none !important;
+  -webkit-appearance:none !important;
+  background:var(--news-bg) !important;
+  border-color:#2d2f34 !important;
 }
-
-/* ============================
-   NEWS PAGE — iOS BLUE BUTTON FIX (Dark Mode)
-   ============================ */
-
-/* 1) - / + 버튼 */
-body[data-page="news"] #cart .qty .btn {
-  color: var(--news-fg-strong) !important;
-  -webkit-text-fill-color: var(--news-fg-strong) !important;
-  appearance: none !important;
-  -webkit-appearance: none !important;
-  background: var(--news-bg) !important;
-  border-color: #2d2f34 !important;
-}
-
-body[data-page="news"] #cart .qty .btn:hover {
-  background: #1c1d22 !important;
-}
-
-/* 2) Order status 버튼 */
-body[data-page="news"] #cart [data-cart-status] {
-  color: var(--news-fg-strong) !important;
-  -webkit-text-fill-color: var(--news-fg-strong) !important;
-  appearance: none !important;
-  -webkit-appearance: none !important;
-  background: var(--news-bg) !important;
-  border-color: #2d2f34 !important;
-}
-
-body[data-page="news"] #cart [data-cart-status]:hover {
-  background: #1c1d22 !important;
-}
-
-/* 3) Clear cart 버튼 */
-body[data-page="news"] #cart [data-cart-clear] {
-  color: var(--news-fg-strong) !important;
-  -webkit-text-fill-color: var(--news-fg-strong) !important;
-  appearance: none !important;
-  -webkit-appearance: none !important;
-  background: var(--news-bg) !important;
-  border-color: #2d2f34 !important;
-}
-
-body[data-page="news"] #cart [data-cart-clear]:hover {
-  background: #1c1d22 !important;
+body[data-page="news"] #cart :is(
+  .qty .btn,
+  [data-cart-status],
+  [data-cart-clear]
+):hover{
+  background:#1c1d22 !important;
 }
