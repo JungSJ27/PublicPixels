@@ -172,7 +172,7 @@ body{
   overflow: hidden;
   box-shadow: var(--shadow);
   background: #fff;
-  margin-top: 30px;
+  margin-top: 50px;
 }
 
 .hero img{
@@ -320,9 +320,15 @@ body{
 @media (max-width: 820px){
   .patternGrid{ grid-template-columns: repeat(2, 1fr); }
   .blossomMain{ width: calc(100% - 28px); padding-top: 84px; }
+  .hero{
+    margin-top: 30px;
+  }
 }
 
 @media (max-width: 520px){
   .patternGrid{ grid-template-columns: 1fr; }
   .patternTile img{ height: 190px; }
+  .hero{
+    margin-top: 30px;
+  }
 }
