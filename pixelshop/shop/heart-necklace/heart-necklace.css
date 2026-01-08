@@ -264,11 +264,6 @@ details p::before {
    모바일 레이아웃
    =========================== */
 
-@media (min-width: 1400px){
-  .prod-wrap{
-    max-width: 1800px; /* 전체 폭만 살짝 제한 */
-  }
-}
 
 @media (max-width: 900px) {
 
