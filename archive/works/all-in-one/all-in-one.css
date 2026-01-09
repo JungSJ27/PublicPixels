@@ -178,18 +178,21 @@ header.header-hidden {
 }
 
 /* HERO ITEM */
-.hero-strip .s3-item {
-  display: flex;             /* li list-item 제거 */
+/* HERO ITEM */
+.hero-strip .s3-item{
+  display: flex;
   flex: 0 0 auto;
   align-items: stretch;
 
-  width: clamp(200px, 32vw, 420px);
+  width: 24vw;        /* 화면이 클수록 커짐 */
+  min-width: 320px;   /* 너무 작아지는 것 방지 */
   height: 70vh;
 
   background: #f2f2f2;
   overflow: hidden;
   scroll-snap-align: center;
 }
+
 
 /* IMAGE VIDEO */
 .hero-strip .s3-item img,
