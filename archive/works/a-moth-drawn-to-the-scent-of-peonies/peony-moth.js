@@ -70,29 +70,27 @@ window.addEventListener("load", () => {
 function initVideoPlayback() {
   const video = document.getElementById("peonyVideo");
   const wrapper = document.querySelector(".split-video");
-
   if (!video || !wrapper) return;
 
-  const attemptPlay = () => {
-    video.play().catch(() => {
-      // ❗ 여기서 fallback 트리거
-      wrapper.classList.add("video-failed");
-    });
-  };
+  const isMobile = window.matchMedia("(max-width: 900px)").matches;
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+                (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 
-  // 데스크탑 시도
-  attemptPlay();
+  // 🔥 iOS 또는 모바일에서는 video 포기하고 fallback
+  if (isMobile || isIOS) {
+    wrapper.classList.add("video-failed");
+    try { video.pause(); } catch(e) {}
+    video.removeAttribute("src");  // 메모리 해제에 도움
+    video.load();
+    return;
+  }
 
-  // iOS Safari: 사용자 제스처 이후 1회 허용
-  const onUserGesture = () => {
-    attemptPlay();
-    document.removeEventListener("touchstart", onUserGesture);
-    document.removeEventListener("click", onUserGesture);
-  };
-
-  document.addEventListener("touchstart", onUserGesture, { once: true });
-  document.addEventListener("click", onUserGesture, { once: true });
+  // 데스크탑만 autoplay 시도
+  video.play().catch(() => {
+    wrapper.classList.add("video-failed");
+  });
 }
+
 
 
 

@@ -383,7 +383,7 @@ header.header-hidden {
 -------------------------------- */
 
 .art-title {
-  margin: 22px 0 0;
+  margin: 21px 0 0;
   font-size: 14px;
   font-weight: 600;
 }
@@ -393,6 +393,13 @@ header.header-hidden {
   font-size: 12px;
   line-height: 1.45;
   opacity: 0.85;
+}
+
+.art-credit {
+  display: block;
+  margin-top: 4px;
+  font-size: 10px;
+  opacity: 0.6;
 }
 
 .info-link {
