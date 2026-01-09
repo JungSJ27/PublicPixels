@@ -383,7 +383,7 @@ header.header-hidden {
 -------------------------------- */
 
 .art-title {
-  margin: 21px 0 0;
+  margin: 20px 0 0;
   font-size: 14px;
   font-weight: 600;
 }
@@ -514,9 +514,13 @@ header.header-hidden {
     background: #000;
   }
 
+  .info-link {
+    margin-top: 20px;
+  }
+
   .info-text-group {
     grid-template-columns: 1fr;
-    gap: 48px;
+    gap: 38px;
   }
   .info-col.middle {
     max-width: 800px;

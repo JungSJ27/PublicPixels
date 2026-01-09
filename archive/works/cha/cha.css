@@ -379,6 +379,21 @@ html, body{
 /* -------------------------------
    MOBILE
 -------------------------------- */
+/* ===============================
+   BIG SCREEN FIX (remove right empty area)
+================================ */
+
+@media (min-width: 1400px){
+  :root{
+    --pattern-end-pad: 24px; /* 140px 너무 커서 큰 화면에서 빈 공간처럼 보임 */
+  }
+
+  .pattern-track{
+    /* 260px 고정 대신 화면에 맞게 커지도록 */
+    grid-auto-columns: clamp(260px, 12vw, 520px);
+  }
+}
+
 
 @media (max-width: 900px){
   body[data-page="log"]{ overflow: auto; }
