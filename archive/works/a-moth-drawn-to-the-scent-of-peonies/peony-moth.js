@@ -3,11 +3,12 @@
 ======================================================= */
 
 window.addEventListener("DOMContentLoaded", () => {
-  // headerLoader 이후 헤더 스크롤 초기화
+  // headerLoader로 헤더가 늦게 들어올 수 있으니 존재 체크
   requestAnimationFrame(() => {
-    initHeaderScroll();
+    if (typeof initHeaderScroll === "function") initHeaderScroll();
   });
 
+  // 비디오 초기화
   initVideoPlayback();
 });
 
@@ -16,57 +17,48 @@ window.addEventListener("DOMContentLoaded", () => {
 ======================================================= */
 
 window.addEventListener("load", () => {
-  // headerLoader로 include된 헤더 잡기
   const header =
     document.querySelector("header.pp-header") ||
     document.querySelector(".pp-header") ||
     document.querySelector("header");
-  const listToggle = document.querySelector(".list-toggle");
 
+  const listToggle = document.querySelector(".list-toggle");
   if (!header) return;
 
   function applyHidden(isHidden) {
-    if (isHidden) {
-      header.classList.add("header-hidden");
-      if (listToggle) listToggle.classList.add("header-hidden");
-    } else {
-      header.classList.remove("header-hidden");
-      if (listToggle) listToggle.classList.remove("header-hidden");
-    }
+    header.classList.toggle("header-hidden", isHidden);
+    if (listToggle) listToggle.classList.toggle("header-hidden", isHidden);
   }
 
   let lastY = window.scrollY;
 
   // 첫 로딩 시 상태
-  if (window.scrollY > 10) applyHidden(true);
-  else applyHidden(false);
+  applyHidden(window.scrollY > 10);
 
-  window.addEventListener("scroll", () => {
-    const y = window.scrollY;
+  window.addEventListener(
+    "scroll",
+    () => {
+      const y = window.scrollY;
 
-    // 맨 위 근처면 항상 보이게
-    if (y < 10) {
-      applyHidden(false);
+      // 맨 위 근처면 항상 보이게
+      if (y < 10) {
+        applyHidden(false);
+        lastY = y;
+        return;
+      }
+
+      // 스크롤 방향에 따라 토글
+      if (y < lastY - 2) applyHidden(false);      // 위로
+      else if (y > lastY + 2) applyHidden(true);  // 아래로
+
       lastY = y;
-      return;
-    }
-
-    // 스크롤 방향에 따라 토글
-    if (y < lastY - 2) {
-      // 위로 스크롤 = 보이기
-      applyHidden(false);
-    } else if (y > lastY + 2) {
-      // 아래로 스크롤 = 숨기기
-      applyHidden(true);
-    }
-
-    lastY = y;
-  });
+    },
+    { passive: true }
+  );
 });
 
-
 /* =======================================================
-   VIDEO PLAYBACK (iOS + Mobile SAFE, but still tries video)
+   VIDEO PLAYBACK (iOS + Mobile SAFE, no crash)
 ======================================================= */
 
 function initVideoPlayback() {
@@ -74,15 +66,14 @@ function initVideoPlayback() {
   const wrapper = document.querySelector(".split-video");
   if (!video || !wrapper) return;
 
-  // 혹시 이전에 실패 클래스가 남아있으면 제거
+  // 이전 실패 상태 제거
   wrapper.classList.remove("video-failed");
 
-  // iOS 감지 (아이패드OS 포함)
   const isIOS =
     /iPad|iPhone|iPod/.test(navigator.userAgent) ||
     (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 
-  // iOS는 자동재생이 더 까다로워서 속성 재확인
+  // iOS에서 더 안정적으로 만들기
   if (isIOS) {
     video.muted = true;
     video.setAttribute("muted", "");
@@ -91,29 +82,40 @@ function initVideoPlayback() {
     video.preload = "auto";
   }
 
-  // 모든 기기에서 일단 재생을 시도
+  let attempted = false;
+
   const tryPlay = () => {
+    if (attempted) return;        // 무한 재시도 방지
+    attempted = true;
+
     const p = video.play();
     if (p && typeof p.catch === "function") {
-      p.catch(() => wrapper.classList.add("video-failed"));
+      p.catch(() => {
+        wrapper.classList.add("video-failed");
+      });
     }
   };
 
-  // 1) 즉시 시도
+  // 1) 즉시 1회 시도
   tryPlay();
 
-  // 2) iOS에서 첫 시도가 막히는 경우가 많아서, 사용자 첫 터치에서 한 번 더 시도
-  // (사용자 인터랙션이 생기면 재생이 풀리는 경우 많음)
-  const resumeOnFirstTouch = () => {
+  // 2) iOS에서 첫 시도가 막히는 경우가 많아서 "첫 인터랙션"에서 한 번 더 시도
+  // (이미 attempted=true이면 실행 안 됨)
+  const tryOnFirstInteraction = () => {
     wrapper.classList.remove("video-failed");
+    attempted = false; // 첫 시도 실패했을 수도 있으니, 인터랙션 때만 한 번 더 기회
     tryPlay();
-    window.removeEventListener("touchstart", resumeOnFirstTouch, { passive: true });
-    window.removeEventListener("click", resumeOnFirstTouch, true);
   };
 
-  window.addEventListener("touchstart", resumeOnFirstTouch, { passive: true });
-  window.addEventListener("click", resumeOnFirstTouch, true);
+  window.addEventListener("touchstart", tryOnFirstInteraction, { passive: true, once: true });
+  window.addEventListener("click", tryOnFirstInteraction, { once: true, capture: true });
+
+  // 영상 자체가 에러 나면 fallback
+  video.addEventListener(
+    "error",
+    () => {
+      wrapper.classList.add("video-failed");
+    },
+    { once: true }
+  );
 }
-
-
-
