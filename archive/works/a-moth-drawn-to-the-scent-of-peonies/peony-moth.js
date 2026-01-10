@@ -63,8 +63,10 @@ window.addEventListener("load", () => {
     lastY = y;
   });
 });
+
+
 /* =======================================================
-   VIDEO PLAYBACK (iOS SAFE)
+   VIDEO PLAYBACK (iOS + Mobile SAFE, but still tries video)
 ======================================================= */
 
 function initVideoPlayback() {
@@ -72,25 +74,46 @@ function initVideoPlayback() {
   const wrapper = document.querySelector(".split-video");
   if (!video || !wrapper) return;
 
-  const isMobile = window.matchMedia("(max-width: 900px)").matches;
-  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-                (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  // 혹시 이전에 실패 클래스가 남아있으면 제거
+  wrapper.classList.remove("video-failed");
 
-  // 🔥 iOS 또는 모바일에서는 video 포기하고 fallback
-  if (isMobile || isIOS) {
-    wrapper.classList.add("video-failed");
-    try { video.pause(); } catch(e) {}
-    video.removeAttribute("src");  // 메모리 해제에 도움
-    video.load();
-    return;
+  // iOS 감지 (아이패드OS 포함)
+  const isIOS =
+    /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
+  // iOS는 자동재생이 더 까다로워서 속성 재확인
+  if (isIOS) {
+    video.muted = true;
+    video.setAttribute("muted", "");
+    video.setAttribute("playsinline", "");
+    video.playsInline = true;
+    video.preload = "auto";
   }
 
-  // 데스크탑만 autoplay 시도
-  video.play().catch(() => {
-    wrapper.classList.add("video-failed");
-  });
-}
+  // 모든 기기에서 일단 재생을 시도
+  const tryPlay = () => {
+    const p = video.play();
+    if (p && typeof p.catch === "function") {
+      p.catch(() => wrapper.classList.add("video-failed"));
+    }
+  };
 
+  // 1) 즉시 시도
+  tryPlay();
+
+  // 2) iOS에서 첫 시도가 막히는 경우가 많아서, 사용자 첫 터치에서 한 번 더 시도
+  // (사용자 인터랙션이 생기면 재생이 풀리는 경우 많음)
+  const resumeOnFirstTouch = () => {
+    wrapper.classList.remove("video-failed");
+    tryPlay();
+    window.removeEventListener("touchstart", resumeOnFirstTouch, { passive: true });
+    window.removeEventListener("click", resumeOnFirstTouch, true);
+  };
+
+  window.addEventListener("touchstart", resumeOnFirstTouch, { passive: true });
+  window.addEventListener("click", resumeOnFirstTouch, true);
+}
 
 
 
