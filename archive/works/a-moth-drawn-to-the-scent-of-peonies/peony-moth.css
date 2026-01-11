@@ -94,51 +94,55 @@ header,
    SPLIT LAYOUT
 ================================ */
 
-.split-wrap {
+.split-wrap{
   display: flex;
   width: 100vw;
-  height: 100vh;        /* ⭐ svh 버림 */
+
+  /* ✅ iOS 주소창 대응 */
+  height: 100svh;
   overflow: hidden;
 }
 
-
 /* LEFT : VIDEO / IMAGE */
-.split-video {
+.split-video{
   flex: 1;
   position: relative;
   background: #fff;
 
-  /* ⭐ 세로 공간 강제 확보 */
   display: flex;
   align-items: center;
   justify-content: center;
+
+  /* ✅ 혹시 100svh 지원 안 되는 브라우저 대비 */
+  min-height: 100vh;
 }
 
 /* ===============================
    VIDEO
 ================================ */
 
-.split-video video {
+.split-video video{
   display: block;
-
   width: 100%;
   height: 100%;
 
-  object-fit: contain;   /* artwork 기준 */
+  /* ✅ 데스크톱은 작품 전체 보이게 */
+  object-fit: contain;
+  object-position: center;
 }
 
 /* ===============================
    FALLBACK IMAGE
 ================================ */
 
-.split-video .video-fallback {
+.split-video .video-fallback{
   position: absolute;
   inset: 0;
-
   width: 100%;
   height: 100%;
 
   object-fit: contain;
+  object-position: center;
   display: none;
 }
 
@@ -146,14 +150,8 @@ header,
    WHEN VIDEO FAILS
 ================================ */
 
-.split-video.video-failed video {
-  display: none;
-}
-
-.split-video.video-failed .video-fallback {
-  display: block;
-}
-
+.split-video.video-failed video{ display: none; }
+.split-video.video-failed .video-fallback{ display: block; }
 
 
 /* ===============================
@@ -274,40 +272,53 @@ header,
   flex-shrink: 0;
 }
 
-@media (max-width: 900px) {
-  .split-wrap {
+@media (max-width: 900px){
+
+  .split-wrap{
     flex-direction: column;
+
+    /* ✅ 스크롤 가능하게 풀기 */
     height: auto;
-    min-height: 100vh;
-    overflow: visible;
+    min-height: 100svh;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
-  .split-video {
-    width: 100%;
-    height: 70vh;        /* ⭐ 꽉 차게 */
-    min-height: 70vh;
+  .split-video{
+    width: 100vw;
+
+    /* ✅ 비디오는 화면에 꽉 차게 */
+    height: 100svh;
+    min-height: 100svh;
+    flex: 0 0 auto;
   }
 
   .split-video video,
-  .split-video .video-fallback {
+  .split-video .video-fallback{
     width: 100%;
     height: 100%;
-    object-fit: contain;
+
+    /* ✅ 여백 없애기 */
+    object-fit: cover;
+    object-position: center;
   }
 
-  .split-text {
+  .split-text{
+    flex: 0 0 auto;
     align-items: flex-start;
   }
 
-  .text-inner {
+  .text-inner{
     width: 100%;
     max-width: none;
-    padding: 60px 40px 45px;
+    padding: 44px 20px 38px;
     overflow: visible;
   }
 
-  .above-slider-link {
-    padding-bottom: 30px;
+  .above-slider-link{
+    padding-bottom: 22px;
   }
 }
 
