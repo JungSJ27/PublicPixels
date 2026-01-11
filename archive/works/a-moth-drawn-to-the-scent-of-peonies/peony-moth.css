@@ -293,6 +293,8 @@ header,
     height: 100svh;
     min-height: 100svh;
     flex: 0 0 auto;
+    background: #fff;
+    overflow: hidden;
   }
 
   .split-video video,
