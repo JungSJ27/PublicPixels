@@ -315,13 +315,14 @@ header,
   .text-inner{
     width: 100%;
     max-width: none;
-    padding: 44px 20px 38px;
+    padding: 44px 20px 00px;
 
     max-height: none;     /* 핵심 */
     overflow: visible;    /* 그대로 */
   }
 
   .above-slider-link{
+    margin-top: 60px;
     padding-bottom: 22px;
   }
 }
