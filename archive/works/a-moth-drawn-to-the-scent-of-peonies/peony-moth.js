@@ -66,51 +66,49 @@ function initVideoPlayback() {
   const wrapper = document.querySelector(".split-video");
   if (!video || !wrapper) return;
 
-  // 이전 실패 상태 제거
   wrapper.classList.remove("video-failed");
 
   const isIOS =
     /iPad|iPhone|iPod/.test(navigator.userAgent) ||
     (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 
-  // iOS에서 더 안정적으로 만들기
-  if (isIOS) {
-    video.muted = true;
-    video.setAttribute("muted", "");
-    video.setAttribute("playsinline", "");
-    video.playsInline = true;
-    video.preload = "auto";
-  }
+  // iOS 안정 세팅
+  video.muted = true;
+  video.setAttribute("muted", "");
+  video.setAttribute("playsinline", "");
+  video.setAttribute("webkit-playsinline", "");
+  video.playsInline = true;
 
-  let attempted = false;
+  // iOS는 과한 preload가 크래시 유발하는 경우가 있어서 줄임
+  video.preload = isIOS ? "metadata" : "auto";
 
-  const tryPlay = () => {
-    if (attempted) return;        // 무한 재시도 방지
-    attempted = true;
+  let hasPlayed = false;
 
-    const p = video.play();
-    if (p && typeof p.catch === "function") {
-      p.catch(() => {
-        wrapper.classList.add("video-failed");
-      });
+  const playOnce = async () => {
+    if (hasPlayed) return;
+    try {
+      await video.play();
+      hasPlayed = true;
+    } catch (err) {
+      // 여기서 fallback으로 넘기지 말기
+      // autoplay 정책, 네트워크 지연 등 흔한 상황이라 깜빡임만 생김
     }
   };
 
-  // 1) 즉시 1회 시도
-  tryPlay();
+  // 데스크톱은 바로 1회 시도
+  if (!isIOS) {
+    playOnce();
+  }
 
-  // 2) iOS에서 첫 시도가 막히는 경우가 많아서 "첫 인터랙션"에서 한 번 더 시도
-  // (이미 attempted=true이면 실행 안 됨)
-  const tryOnFirstInteraction = () => {
-    wrapper.classList.remove("video-failed");
-    attempted = false; // 첫 시도 실패했을 수도 있으니, 인터랙션 때만 한 번 더 기회
-    tryPlay();
+  // iOS는 첫 인터랙션에서만 1회 시도
+  const onFirstInteraction = () => {
+    playOnce();
   };
 
-  window.addEventListener("touchstart", tryOnFirstInteraction, { passive: true, once: true });
-  window.addEventListener("click", tryOnFirstInteraction, { once: true, capture: true });
+  window.addEventListener("touchstart", onFirstInteraction, { passive: true, once: true });
+  window.addEventListener("click", onFirstInteraction, { once: true });
 
-  // 영상 자체가 에러 나면 fallback
+  // 진짜 미디어 에러일 때만 fallback
   video.addEventListener(
     "error",
     () => {
