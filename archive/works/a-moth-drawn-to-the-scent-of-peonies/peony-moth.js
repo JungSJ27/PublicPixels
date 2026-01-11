@@ -66,7 +66,6 @@ function initVideoPlayback() {
   const wrapper = document.querySelector(".split-video");
   if (!video || !wrapper) return;
 
-  // 초기 상태: fallback 이미지는 보이게
   wrapper.classList.remove("video-failed");
   wrapper.classList.remove("is-playing");
 
@@ -74,14 +73,12 @@ function initVideoPlayback() {
     /iPad|iPhone|iPod/.test(navigator.userAgent) ||
     (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 
-  // iOS 안전 세팅
   video.muted = true;
   video.setAttribute("muted", "");
   video.setAttribute("playsinline", "");
   video.setAttribute("webkit-playsinline", "");
   video.playsInline = true;
 
-  // preload 과부하 방지
   video.preload = isIOS ? "metadata" : "auto";
 
   let hasTriedPlay = false;
@@ -92,36 +89,30 @@ function initVideoPlayback() {
 
     try {
       await video.play();
-      // iOS에서 play() promise가 먼저 resolve 될 수 있어서
-      // is-playing은 playing 이벤트에서만 붙이기
+      // 여기서는 is-playing 붙이지 말기
     } catch (err) {
+      // 실패해도 fallback 유지
     }
   };
 
-  // 비디오가 실제로 재생되기 시작하면 fallback 숨김
+  // 실제 프레임이 재생될 때만 포스터 숨김
   video.addEventListener("playing", () => {
     wrapper.classList.add("is-playing");
   });
 
-  // 비디오가 멈추면 fallback 다시 보이게
   video.addEventListener("pause", () => {
     wrapper.classList.remove("is-playing");
   });
 
-  // 데스크톱은 즉시 1회 시도
-  if (!isIOS) {
-    playOnce();
-  }
+  // iOS 포함: "비디오 영역"을 누르면 재생 시도
+  const tryStart = () => playOnce();
+  wrapper.addEventListener("click", tryStart, { passive: true });
+  wrapper.addEventListener("touchstart", tryStart, { passive: true });
 
-  // iOS는 첫 사용자 인터랙션에서만 재생 시도
-  const firstInteraction = () => {
-    playOnce();
-  };
+  // 데스크톱은 로드 직후 1회 시도
+  if (!isIOS) playOnce();
 
-  window.addEventListener("touchstart", firstInteraction, { passive: true, once: true });
-  window.addEventListener("click", firstInteraction, { once: true });
-
-  // 진짜 파일 에러일 때만 fallback 모드
+  // 진짜 에러일 때만 fail
   video.addEventListener(
     "error",
     () => {
