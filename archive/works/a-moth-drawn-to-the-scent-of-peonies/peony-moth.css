@@ -143,6 +143,11 @@ header,
 
   object-fit: contain;
   object-position: center;
+  display: block;
+}
+
+/* 비디오가 실제로 재생되면 숨김 */
+.split-video.is-playing .video-fallback{
   display: none;
 }
 
@@ -280,10 +285,7 @@ header,
     /* ✅ 스크롤 가능하게 풀기 */
     height: auto;
     min-height: 100svh;
-
-    overflow-x: hidden;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    overflow: visible;
   }
 
   .split-video{
@@ -293,8 +295,6 @@ header,
     height: 100svh;
     min-height: 100svh;
     flex: 0 0 auto;
-    background: #fff;
-    overflow: hidden;
   }
 
   .split-video video,
@@ -316,7 +316,9 @@ header,
     width: 100%;
     max-width: none;
     padding: 44px 20px 38px;
-    overflow: visible;
+
+    max-height: none;     /* 핵심 */
+    overflow: visible;    /* 그대로 */
   }
 
   .above-slider-link{

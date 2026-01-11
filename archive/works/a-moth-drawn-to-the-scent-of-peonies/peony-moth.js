@@ -58,7 +58,7 @@ window.addEventListener("load", () => {
 });
 
 /* =======================================================
-   VIDEO PLAYBACK (iOS + Mobile SAFE, no crash)
+   VIDEO PLAYBACK (iOS + Mobile SAFE, no blank, no crash)
 ======================================================= */
 
 function initVideoPlayback() {
@@ -66,53 +66,67 @@ function initVideoPlayback() {
   const wrapper = document.querySelector(".split-video");
   if (!video || !wrapper) return;
 
+  // 초기 상태: fallback 이미지는 보이게
   wrapper.classList.remove("video-failed");
+  wrapper.classList.remove("is-playing");
 
   const isIOS =
     /iPad|iPhone|iPod/.test(navigator.userAgent) ||
     (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 
-  // iOS 안정 세팅
+  // iOS 안전 세팅
   video.muted = true;
   video.setAttribute("muted", "");
   video.setAttribute("playsinline", "");
   video.setAttribute("webkit-playsinline", "");
   video.playsInline = true;
 
-  // iOS는 과한 preload가 크래시 유발하는 경우가 있어서 줄임
+  // preload 과부하 방지
   video.preload = isIOS ? "metadata" : "auto";
 
-  let hasPlayed = false;
+  let hasTriedPlay = false;
 
   const playOnce = async () => {
-    if (hasPlayed) return;
+    if (hasTriedPlay) return;
+    hasTriedPlay = true;
+
     try {
       await video.play();
-      hasPlayed = true;
+      // iOS에서 play() promise가 먼저 resolve 될 수 있어서
+      // is-playing은 playing 이벤트에서만 붙이기
     } catch (err) {
-      // 여기서 fallback으로 넘기지 말기
-      // autoplay 정책, 네트워크 지연 등 흔한 상황이라 깜빡임만 생김
     }
   };
 
-  // 데스크톱은 바로 1회 시도
+  // 비디오가 실제로 재생되기 시작하면 fallback 숨김
+  video.addEventListener("playing", () => {
+    wrapper.classList.add("is-playing");
+  });
+
+  // 비디오가 멈추면 fallback 다시 보이게
+  video.addEventListener("pause", () => {
+    wrapper.classList.remove("is-playing");
+  });
+
+  // 데스크톱은 즉시 1회 시도
   if (!isIOS) {
     playOnce();
   }
 
-  // iOS는 첫 인터랙션에서만 1회 시도
-  const onFirstInteraction = () => {
+  // iOS는 첫 사용자 인터랙션에서만 재생 시도
+  const firstInteraction = () => {
     playOnce();
   };
 
-  window.addEventListener("touchstart", onFirstInteraction, { passive: true, once: true });
-  window.addEventListener("click", onFirstInteraction, { once: true });
+  window.addEventListener("touchstart", firstInteraction, { passive: true, once: true });
+  window.addEventListener("click", firstInteraction, { once: true });
 
-  // 진짜 미디어 에러일 때만 fallback
+  // 진짜 파일 에러일 때만 fallback 모드
   video.addEventListener(
     "error",
     () => {
       wrapper.classList.add("video-failed");
+      wrapper.classList.remove("is-playing");
     },
     { once: true }
   );
