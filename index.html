@@ -73,50 +73,56 @@
   </section>
 
 
-   <!-- ******************************************************************
-     SECTION 2 : INTRO + 3D WORLD + WATER FX
-  ******************************************************************* -->
-  <section id="section2">
+<section id="section2" class="pixel-intro">
 
-    <!-- ⭐ Intro Video Overlay -->
-    <video id="intro-video" autoplay muted playsinline loop></video>
+  <!-- optional soft video background 그대로 유지 가능 -->
+  <video id="intro-video" autoplay muted playsinline loop></video>
 
-    <!-- INTRO UI -->
-    <div id="intro-ui">
-      <img class="title-img" src="archive/secass2/Lonely_Title.png" alt="" />
+  <!-- PIXEL INTRO UI -->
+  <div id="pixel-intro-ui">
 
-      <img id="btn-play" class="btn-img" src="archive/secass2/play.png" alt="play" />
-      <img id="btn-archive" class="btn-img" src="archive/secass2/gotoarchive.png" alt="archive" />
+    <!-- floating gummy shapes -->
+    <div class="gummy g1"></div>
+    <div class="gummy g2"></div>
+    <div class="gummy g3"></div>
+    <div class="gummy g4"></div>
+
+    <!-- Title -->
+    <h1 class="pixel-title">
+      PIXEL<br>
+      PLAYGROUND
+    </h1>
+
+    <p class="pixel-subtitle">
+      a tiny world of playful pixels
+    </p>
+
+    <!-- Menu Buttons -->
+    <div class="pixel-menu">
+      <button id="btn-play" class="pixel-btn">▶ START</button>
+      <button id="btn-archive" class="pixel-btn">▶ GO TO ARCHIVE</button>
     </div>
 
+    <!-- Meta text -->
+    <div class="pixel-meta top-left">Spatial Computing</div>
+    <div class="pixel-meta top-left2">Dynamic Environments</div>
+    <div class="pixel-meta top-right">Digital Sanctuary</div>
 
-    <div id="meta-row">
-      <div class="intro-meta top-left">Spatial Computing</div>
-      <div class="intro-meta top-left2">Dynamic Environments</div>
-      <div class="intro-meta top-right">Digital Sanctuary</div>
+    <div class="pixel-meta bottom-left">
+      Created by JJ Seungjin Jung<br>
+      Interaction & System Design · PublicPixels
     </div>
 
-    <div class="intro-meta bottom-left">
-      Created by JJ Seungjin Jung <br> 
-      Interaction & System Design · PublicPixels 
+    <div class="pixel-meta bottom-right">
+      Controls: WASD to move · Mouse to look · ESC to unlock
     </div>
 
-    <div class="intro-meta bottom-right">
-    Controls: WASD to move · Mouse to look · ESC to unlock
-    </div>
+  </div>
 
-    <!-- 3D Canvas -->
-    <canvas id="c"></canvas>
+  <!-- 3D world canvas stays -->
+  <canvas id="c"></canvas>
 
-    <!-- HUD -->
-    <div id="hud" class="hud" hidden>
-      <ul class="s2-help">
-        <li>WASD to move</li>
-        <li>Mouse to look</li>
-      </ul>
-    </div>
-
-  </section>
+</section>
 
 
 

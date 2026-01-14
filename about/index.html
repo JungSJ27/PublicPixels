@@ -1,127 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About</title>
-
-  <link rel="stylesheet" href="about.css">
-
-  <!-- ✅ three.js import map (index.html이랑 똑같이) -->
-  <script type="importmap">
-  {
-    "imports": {
-      "three": "https://unpkg.com/three@0.166.1/build/three.module.js",
-      "three/addons/": "https://unpkg.com/three@0.166.1/examples/jsm/"
-    }
-  }
-  </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SJ1</title>
+  <link rel="stylesheet" href="./sj1.css" />
 </head>
 
 <body>
-  <div class="about-bg">
-    <div class="about-card">
-      <!-- top header -->
-      <header class="about-header">
-        <div class="header-text">
-          <span class="game-tag">JJ Sim</span>
-          <h1>Choose JJ’s mode</h1>
-          <p>Pick a mode to see a different version of me.</p>
-        </div>
-        <div class="mode-buttons">
-          <button class="mode-btn" data-item="headphones">Interactive</button>
-          <button class="mode-btn" data-item="apron">Textile</button>
-          <button class="mode-btn" data-item="street">Street</button>
-          <button class="mode-btn" data-item="casual">Daily</button>
-        </div>
-      </header>
+  <div id="stage"></div>
 
-      <!-- main body -->
-      <main class="about-main">
-        <!-- avatar column -->
-        <section class="avatar-column">
-          <div class="plumbob"></div>
-          <div class="avatar-turntable">
-            <div class="turntable-ring"></div>
-            <canvas id="avatarCanvas"></canvas>
-          </div>
-          <div class="avatar-label">
-            <div class="avatar-name">JJ Seungjin Jung</div>
-            <div class="avatar-role">Media artist and designer</div>
-          </div>
-        </section>
-
-        <!-- info column -->
-        <section class="info-column">
-          <div class="about-panel">
-            <h3 id="modeTitle">Select a mode</h3>
-            <p id="modeText">
-              Click one of the modes in the top right to change JJ’s story.
-            </p>
-            <div id="modeTags" class="mode-tags"></div>
-          </div>
-
-          <div class="stat-panel">
-            <h4>Stats</h4>
-            <div class="stat-row" data-stat="creative">
-              <span class="stat-label">Creative</span>
-              <div class="stat-bar"><div class="stat-fill"></div></div>
-            </div>
-            <div class="stat-row" data-stat="tech">
-              <span class="stat-label">Tech</span>
-              <div class="stat-bar"><div class="stat-fill"></div></div>
-            </div>
-            <div class="stat-row" data-stat="craft">
-              <span class="stat-label">Craft</span>
-              <div class="stat-bar"><div class="stat-fill"></div></div>
-            </div>
-            <div class="stat-row" data-stat="social">
-              <span class="stat-label">Social</span>
-              <div class="stat-bar"><div class="stat-fill"></div></div>
-            </div>
-          </div>
-
-          <div class="favorites-panel">
-            <h4>Favorites</h4>
-            <div class="fav-grid">
-              <div class="fav-item">
-                <span>☕</span>
-                <p>Strong coffee</p>
-              </div>
-              <div class="fav-item">
-                <span>🎧</span>
-                <p>Weird sound</p>
-              </div>
-              <div class="fav-item">
-                <span>🪡</span>
-                <p>Textile tools</p>
-              </div>
-              <div class="fav-item">
-                <span>🦋</span>
-                <p>Moths and light</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="chat-box">
-            <div class="chat-header">Ask JJ</div>
-            <div class="chat-body" id="chatBody">
-              <div class="chat-bubble jj">
-                Hi, I’m JJ – a humanoid version of me. What do you want to know?
-              </div>
-            </div>
-            <div class="chat-quick">
-              <button data-q="nyc">Why New York?</button>
-              <button data-q="theme">Main themes?</button>
-              <button data-q="moths">Why moths?</button>
-            </div>
-          </div>
-        </section>
-      </main>
+  <aside class="ui">
+    <div class="brand">
+      <div class="title">SJ1</div>
+      <div class="sub">
+        공동묘지를 지나 과수원으로<br />
+        그리고 제일 예쁜 복숭아
+      </div>
     </div>
-  </div>
 
-  <!-- ✅ module 로 로드 -->
-  <script type="module" src="about.js"></script>
+    <div class="tabs">
+      <button class="tab is-on" data-tab="chat">Talk</button>
+      <button class="tab" data-tab="archive">Archive</button>
+    </div>
+
+    <section class="panel is-on" id="panel-chat">
+      <div class="chatlog" id="chatlog">
+        <div class="msg system">
+          SJ1에 오신 걸 환영해요<br />
+          복숭아 위의 휴머노이드와 대화해보세요
+        </div>
+      </div>
+
+      <form class="composer" id="composer">
+        <input id="chatInput" type="text" placeholder="메시지를 입력" autocomplete="off" />
+        <button type="submit">Send</button>
+      </form>
+
+      <div class="hint">
+        지금은 데모 UI야 나중에 API 연결하면 진짜 대화로 바뀜
+      </div>
+    </section>
+
+    <section class="panel" id="panel-archive">
+      <div class="cards">
+        <a class="card" href="./assets/CV.pdf" target="_blank" rel="noopener">CV</a>
+        <a class="card" href="./assets/ArtistStatement.pdf" target="_blank" rel="noopener">Artist Statement</a>
+        <a class="card" href="./assets/childhood.jpg" target="_blank" rel="noopener">Childhood Photo</a>
+        <button class="card ghost" id="btnFocusPeach">Focus Peach</button>
+        <button class="card ghost" id="btnFocusModel">Focus Humanoid</button>
+      </div>
+
+      <div class="note">
+        assets 폴더에 파일이 없으면 링크는 안 열릴 수 있어
+      </div>
+    </section>
+  </aside>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+
+  <script type="module" src="./sj1.js"></script>
 </body>
 </html>

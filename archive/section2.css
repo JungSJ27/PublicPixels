@@ -1,218 +1,139 @@
-/* SECTION 2 BASE */
-#section2 {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  background: #041122;
+/* ===============================
+   PIXEL PLAYGROUND INTRO
+================================ */
+
+.pixel-intro{
+  position:relative;
+  width:100%;
+  height:100vh;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at top left, #ffd6ff, #cdb4ff, #a2d2ff, #9bf6ff);
 }
 
-/* ★ INTRO VIDEO — 인트로 동안만 보임 */
-#intro-video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.08;
-  filter: blur(6px);
-  mix-blend-mode: screen;
-  pointer-events: none;
-  z-index: 1;
-  transition: opacity 1.2s ease, filter 1.2s ease;
+/* Intro UI layer */
+#pixel-intro-ui{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  z-index:5;
+  pointer-events:auto;
 }
 
-#intro-video.hidden {
-  opacity: 0;
-  filter: blur(0px);
+/* Title */
+.pixel-title{
+  font-family:'Press Start 2P', monospace;
+  font-size:clamp(32px,6vw,96px);
+  line-height:1.1;
+  color:#fff;
+  text-shadow:
+    0 0 8px #ffffff,
+    0 0 18px #7afcff,
+    0 0 32px #ff77e9;
+  margin-bottom:18px;
 }
 
-/* CANVAS — 항상 맨 뒤 */
-#section2 canvas#c {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
+.pixel-subtitle{
+  font-family:'Press Start 2P', monospace;
+  font-size:clamp(10px,2vw,18px);
+  color:#ffffffcc;
+  margin-bottom:38px;
 }
 
-/* INTRO UI — 제목 + 버튼 */
-#intro-ui {
-  position: absolute;
-  inset: 0;
-  z-index: 20;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 35px;
-  transform: translateY(-10px);
+/* Buttons */
+.pixel-menu{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
 }
 
-.title-img {
-  width: min(600px, 70vw);
-  animation: floatTitle 3s ease-in-out infinite alternate;
-  margin-bottom: 60px;
+.pixel-btn{
+  font-family:'Press Start 2P', monospace;
+  font-size:clamp(12px,2vw,20px);
+  padding:16px 26px;
+  border:none;
+  border-radius:14px;
+  background:linear-gradient(135deg,#ffe066,#ff8fab,#bdb2ff);
+  color:#222;
+  cursor:pointer;
+  box-shadow:0 6px 0 #ffffff55;
+  transition:transform 0.12s, box-shadow 0.12s;
 }
 
-@keyframes floatTitle {
-  0% { transform: translateY(-6px); }
-  100% { transform: translateY(6px); }
+.pixel-btn:hover{
+  transform:translateY(-4px);
+  box-shadow:0 10px 0 #ffffffaa;
 }
 
-.btn-img {
-  height: 44px;
-  cursor: pointer;
-  transition: transform .2s;
-}
-.btn-img:hover { transform: scale(1.06); }
-
-/* INTRO META — 인트로용 작은 텍스트 */
-.intro-meta {
-  position: absolute;
-  z-index: 25; /* UI보다 위, 비디오보다 훨 위 */
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  color: rgba(255,255,255,.65);
-  font-weight: 300;
-  line-height: 1.5;
-  pointer-events: none;
+/* Meta text reuse positioning */
+.pixel-meta{
+  position:absolute;
+  font-family:'Poppins', sans-serif;
+  font-size:12px;
+  letter-spacing:0.08em;
+  color:#ffffffaa;
 }
 
-.title-desc {
-  top: calc(50% + 160px);
-  width: 100%;
-  text-align: center;
-  font-size: 12px;
+.pixel-meta.top-left{ top:20px; left:26px; }
+.pixel-meta.top-left2{ top:42px; left:26px; }
+.pixel-meta.top-right{ top:20px; right:26px; }
+
+.pixel-meta.bottom-left{
+  bottom:22px;
+  left:26px;
+  font-size:11px;
+  line-height:1.4;
 }
 
-.top-left { 
-  top: 30px;   /* ← 더 위로 올림 (기존 90px → 40px) */
-  left: 40px;
-   opacity: 0.7;
-  font-size: 9px;
+.pixel-meta.bottom-right{
+  bottom:22px;
+  right:26px;
+  font-size:11px;
 }
 
-.top-left2 { 
-  top: 30px;   /* ← 더 위로 올림 (기존 90px → 40px) */
-  left: 180px;
-  opacity: 0.7;
-  font-size: 9px;
+/* floating gummy blobs */
+.gummy{
+  position:absolute;
+  border-radius:50%;
+  opacity:0.9;
+  filter: blur(0.5px);
+  animation: floaty 12s infinite ease-in-out;
 }
 
-
-.top-right {
-  text-align: right;
-  top: 30px;   /* ← 동일하게 위로 */
-  right: 40px;
-  opacity: 0.7;
-  font-size: 9px;
+.g1{
+  width:140px; height:140px;
+  background:radial-gradient(circle at 30% 30%, #fff, #ffafcc);
+  top:12%; left:8%;
+  animation-duration:14s;
 }
 
-
-.bottom-left {
-  bottom: 35px; 
-  left: 40px;
-  opacity: 0.7;
-  font-size: 10px;
+.g2{
+  width:90px; height:90px;
+  background:radial-gradient(circle at 30% 30%, #fff, #bde0fe);
+  bottom:14%; right:10%;
+  animation-duration:11s;
 }
 
-.bottom-right {
-  bottom: 35px; 
-  right: 40px;
-  text-align: right;
-  opacity: 0.7;
-  font-size: 10px;
+.g3{
+  width:70px; height:70px;
+  background:radial-gradient(circle at 30% 30%, #fff, #caffbf);
+  top:18%; right:18%;
+  animation-duration:9s;
 }
 
-/* HUD — Play 이후 등장 */
-.hud {
-  position: absolute;
-  inset: 0;
-  z-index: 40;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity .6s ease;
-}
-.hud.visible { opacity: 1; }
-
-/* MOBILE */
-@media (max-width: 600px) {
-  .title-img {
-    width: 85vw;
-  }
-  .btn-img {
-    height: 38px;
-  }
-  #intro-ui {
-    gap: 22px;
-    padding-bottom: 40px;
-  }
+.g4{
+  width:110px; height:110px;
+  background:radial-gradient(circle at 30% 30%, #fff, #ffc8dd);
+  bottom:18%; left:14%;
+  animation-duration:13s;
 }
 
-/* =========================================================
-   MOBILE INTRO META FIX  (max-width: 600px)
-========================================================= */
-@media (max-width: 600px) {
-
-  /* 상단 타이틀 아래 설명 */
-  .title-desc {
-    top: calc(60% + 80px);
-    font-size: 11px;
-    padding: 0 26px;
-    line-height: 1.4;
-  }
-
-  /* 좌하단 크레딧 */
-  .bottom-left {
-    bottom: 40px;
-    left: 18px;
-    font-size: 10px;
-    line-height: 1.3;
-  }
-
-  /* 우하단 컨트롤 안내 — 모바일에서는 좌측 아래로 이동 */
-  .bottom-right {
-    bottom: 25px;
-    left: 18px;
-    right: auto;
-    font-size: 10px;
-    line-height: 1.3;
-    text-align: left;
-    max-width: calc(100% - 36px);
-  }
-
-  /* 상단 3개의 작은 메타 텍스트 — absolute 해제 */
-  .top-left,
-  .top-left2,
-  .top-right {
-    position: static !important;
-    font-size: 9px;
-    opacity: 0.75;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-    width: auto;
-    white-space: nowrap;
-  }
-
-  /* 3개 메타 텍스트를 가로로 배치 */
-  #meta-row {
-    position: absolute;
-    top: 40px;
-    left: 0;
-    width: 100%;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    gap: 8px;
-    z-index: 30;
-    pointer-events: none;
-  }
-
-  /* 모든 intro-meta의 글자 간격 축소 */
-  .intro-meta {
-    letter-spacing: 0.08em;
-  }
+@keyframes floaty{
+  0%{ transform:translateY(0px) }
+  50%{ transform:translateY(-26px) }
+  100%{ transform:translateY(0px) }
 }
-
