@@ -1,128 +1,163 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
-import { Sky } from "three/addons/objects/Sky.js";
-
-import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
-import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
-import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+import { EXRLoader } from "three/addons/loaders/EXRLoader.js";
+import { Reflector } from "three/addons/objects/Reflector.js";
 
 const stage = document.getElementById("stage");
-
 const scene = new THREE.Scene();
-scene.fog = new THREE.Fog(0x0a0b12, 30, 160);
 
-const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.35;
+renderer.toneMappingExposure = 1.05;
 stage.appendChild(renderer.domElement);
 
-const camera = new THREE.PerspectiveCamera(
-  42,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  400
-);
-camera.position.set(0.8, 3.3, 12.5);
+const camera = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 900);
+camera.position.set(0.9, 3.15, 11.6);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
-controls.target.set(0, 2.0, 0);
-controls.maxDistance = 28;
+controls.target.set(0, 2.05, 0);
 controls.minDistance = 6;
+controls.maxDistance = 28;
 controls.maxPolarAngle = Math.PI * 0.48;
 
 const clock = new THREE.Clock();
 
-/* environment map */
+/* =========================
+   EXR SKY AND ENV
+========================= */
+
 const pmrem = new THREE.PMREMGenerator(renderer);
-scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+pmrem.compileEquirectangularShader();
 
-/* post */
-const composer = new EffectComposer(renderer);
-composer.addPass(new RenderPass(scene, camera));
+let sky = null;
 
-const bloom = new UnrealBloomPass(
-  new THREE.Vector2(window.innerWidth, window.innerHeight),
-  0.45,
-  0.55,
-  0.88
+new EXRLoader().load(
+  "./citrus_orchard_road_puresky_4k.exr",
+  (tex) => {
+    tex.mapping = THREE.EquirectangularReflectionMapping;
+
+    const envRT = pmrem.fromEquirectangular(tex);
+    scene.environment = envRT.texture;
+
+    const skyGeo = new THREE.SphereGeometry(260, 64, 64);
+    const skyMat = new THREE.MeshBasicMaterial({
+      map: tex,
+      side: THREE.BackSide,
+      depthWrite: false
+    });
+
+    sky = new THREE.Mesh(skyGeo, skyMat);
+    sky.rotation.y = Math.PI * 0.5;
+    scene.add(sky);
+
+    scene.background = null;
+
+    console.log("EXR loaded OK");
+  },
+  undefined,
+  (e) => {
+    console.error("EXR load error", e);
+  }
 );
-composer.addPass(bloom);
 
-/* sky */
-const sky = new Sky();
-sky.scale.setScalar(450);
-scene.add(sky);
+/* =========================
+   LIGHTS
+========================= */
 
-const sun = new THREE.Vector3();
-const skyU = sky.material.uniforms;
-skyU.turbidity.value = 4.0;
-skyU.rayleigh.value = 2.2;
-skyU.mieCoefficient.value = 0.006;
-skyU.mieDirectionalG.value = 0.82;
-
-setSun(38, 160);
-
-/* realistic cloud planes */
-const clouds = makeCloudBackdrop();
-scene.add(clouds);
-
-/* lights for glossy ad look */
-const key = new THREE.DirectionalLight(0xffffff, 3.4);
-key.position.set(8, 10, 5);
+const key = new THREE.DirectionalLight(0xffffff, 0.85);
+key.position.set(5, 9, 7);
 scene.add(key);
 
-const fill = new THREE.DirectionalLight(0xcfe0ff, 1.25);
-fill.position.set(-7, 3.0, 6);
+const fill = new THREE.DirectionalLight(0xcfe7ff, 0.55);
+fill.position.set(-6, 4, 6);
 scene.add(fill);
 
-const rim = new THREE.DirectionalLight(0xffc6d8, 1.6);
-rim.position.set(-2, 8, -12);
+const rim = new THREE.DirectionalLight(0xffc6d8, 0.70);
+rim.position.set(-2, 10, -10);
 scene.add(rim);
 
-scene.add(new THREE.AmbientLight(0xffffff, 0.18));
+scene.add(new THREE.AmbientLight(0xffffff, 0.10));
 
-/* subtle floor */
-const ground = new THREE.Mesh(
-  new THREE.CircleGeometry(55, 120),
-  new THREE.MeshStandardMaterial({
-    color: 0x050509,
-    roughness: 1.0,
-    metalness: 0.0
-  })
-);
-ground.rotation.x = -Math.PI / 2;
-ground.position.y = -0.15;
-scene.add(ground);
+/* =========================
+   WATER
+========================= */
 
-/* groups */
+const waterY = 0.0;
+const WATER_SIZE = 260;
+
+const reflector = new Reflector(new THREE.PlaneGeometry(WATER_SIZE, WATER_SIZE), {
+  textureWidth: Math.floor(window.innerWidth * renderer.getPixelRatio()),
+  textureHeight: Math.floor(window.innerHeight * renderer.getPixelRatio()),
+  color: 0x0b1730
+});
+reflector.rotation.x = Math.PI * -0.5;
+reflector.position.y = waterY;
+scene.add(reflector);
+
+const ripple = createRippleCanvas(1024);
+const rippleTex = new THREE.CanvasTexture(ripple.canvas);
+rippleTex.wrapS = THREE.RepeatWrapping;
+rippleTex.wrapT = THREE.RepeatWrapping;
+rippleTex.colorSpace = THREE.SRGBColorSpace;
+
+const waterMat = new THREE.MeshPhysicalMaterial({
+  color: 0x062047,
+  roughness: 0.02,
+  metalness: 0.0,
+
+  transmission: 0.22,
+  thickness: 1.3,
+  ior: 1.333,
+
+  clearcoat: 1.0,
+  clearcoatRoughness: 0.035,
+
+  transparent: true,
+  opacity: 0.18,
+
+  bumpMap: rippleTex,
+  bumpScale: 0.18,
+
+  envMapIntensity: 1.25
+});
+
+const water = new THREE.Mesh(new THREE.PlaneGeometry(WATER_SIZE, WATER_SIZE), waterMat);
+water.rotation.x = Math.PI * -0.5;
+water.position.y = waterY + 0.001;
+scene.add(water);
+
+/* =========================
+   PEACH
+========================= */
+
 const peachGroup = new THREE.Group();
 scene.add(peachGroup);
 
-let peachRoot = null;
-let humanoid = null;
-
-/* materials */
 const peachMat = new THREE.MeshPhysicalMaterial({
-  color: 0xff2a52,
-  roughness: 0.12,
-  metalness: 0.06,
+  color: 0xff1240,
+  roughness: 0.06,
+  metalness: 0.08,
   clearcoat: 1.0,
-  clearcoatRoughness: 0.03,
-  sheen: 0.35,
-  sheenRoughness: 0.6,
-  sheenColor: new THREE.Color(0xffb3c0),
-  transmission: 0.14,
-  thickness: 0.8,
-  ior: 1.46
+  clearcoatRoughness: 0.02,
+  transmission: 0.18,
+  thickness: 0.95,
+  ior: 1.46,
+  sheen: 0.38,
+  sheenRoughness: 0.55,
+  sheenColor: new THREE.Color(0xffb0c4),
+  envMapIntensity: 1.1
 });
 
-/* load peach glb */
+let peachRoot = null;
+let peachRadius = 0.45;
+let peachBaseY = 2.05;
+let humanoid = null;
+
 const gltf = new GLTFLoader();
 gltf.load(
   "./peach.glb",
@@ -132,80 +167,95 @@ gltf.load(
     peachRoot.traverse((c) => {
       if (!c.isMesh) return;
       c.material = peachMat;
+      if (c.geometry) c.geometry.computeVertexNormals();
       c.castShadow = false;
       c.receiveShadow = false;
-      if (c.geometry) c.geometry.computeVertexNormals();
     });
 
-    peachRoot.scale.set(2.35, 2.35, 2.35);
-    peachRoot.position.set(0, 0.9, 0);
-    peachRoot.rotation.y = Math.PI * 0.22;
+    peachRoot.scale.set(2.75, 2.75, 2.75);
+
+    peachRoot.rotation.x = Math.PI;
+    peachRoot.rotation.y = Math.PI * 0.18;
+    peachRoot.position.set(0, peachBaseY, 0);
 
     peachGroup.add(peachRoot);
 
-    const anchor = new THREE.Object3D();
-    anchor.name = "humanoidAnchor";
-    anchor.position.set(0, 2.55, 0.25);
-    peachGroup.add(anchor);
+    const box = new THREE.Box3().setFromObject(peachRoot);
+    const size = new THREE.Vector3();
+    box.getSize(size);
+    peachRadius = Math.max(size.x, size.y, size.z) * 0.30;
 
     humanoid = makeDemoHumanoid();
-    humanoid.position.copy(anchor.position);
-    humanoid.rotation.y = -Math.PI * 0.18;
+    humanoid.position.set(0, 3.75, 0.25);
+    humanoid.rotation.y = Math.PI * -0.16;
     scene.add(humanoid);
+
+    console.log("peach loaded", { peachRadius });
   },
   undefined,
   (err) => console.error("peach.glb load error", err)
 );
 
-/* optional humanoid glb */
-function loadHumanoidGLB(url){
-  gltf.load(
-    url,
-    (res) => {
-      if (humanoid) scene.remove(humanoid);
-      humanoid = res.scene;
+/* contact shadow */
+const contact = new THREE.Mesh(
+  new THREE.CircleGeometry(2.6, 64),
+  new THREE.MeshBasicMaterial({
+    color: 0x000000,
+    transparent: true,
+    opacity: 0.08,
+    depthWrite: false
+  })
+);
+contact.rotation.x = Math.PI * -0.5;
+contact.position.y = waterY + 0.002;
+scene.add(contact);
 
-      humanoid.traverse((c) => {
-        if (!c.isMesh) return;
-        c.castShadow = false;
-        c.receiveShadow = false;
-      });
+/* focus buttons */
+document.getElementById("btnFocusPeach")?.addEventListener("click", () => {
+  controls.target.set(0, 2.05, 0);
+  camera.position.set(0.9, 3.15, 11.6);
+});
+document.getElementById("btnFocusModel")?.addEventListener("click", () => {
+  controls.target.set(0, 3.05, 0.2);
+  camera.position.set(1.6, 3.7, 8.1);
+});
 
-      const anchor = peachGroup.getObjectByName("humanoidAnchor");
-      const pos = anchor ? anchor.position : new THREE.Vector3(0, 2.5, 0.2);
+/* =========================
+   RIPPLE FROM PEACH CONTACT
+========================= */
 
-      humanoid.position.copy(pos);
-      humanoid.rotation.y = -Math.PI * 0.18;
+let wasTouching = false;
+let lastTouchTime = -999;
 
-      scene.add(humanoid);
-    },
-    undefined,
-    (err) => console.error("model.glb load error", err)
-  );
+function worldXZToUV(x, z) {
+  const half = WATER_SIZE * 0.5;
+  const u = THREE.MathUtils.clamp((x + half) / WATER_SIZE, 0, 1);
+  const v = THREE.MathUtils.clamp((z + half) / WATER_SIZE, 0, 1);
+  return { u, v };
 }
 
-/* particles */
-const petals = makePetals(900);
-scene.add(petals);
+function updateContactRipple(t) {
+  if (!peachRoot) return;
 
-const dust = makeDust(650);
-scene.add(dust);
+  const yBottom = peachRoot.position.y - peachRadius;
+  const touching = yBottom <= waterY + 0.01;
 
-/* UI */
-initUI();
-initChatDemo();
+  if (touching && !wasTouching) {
+    if (t - lastTouchTime > 0.25) {
+      lastTouchTime = t;
 
-document.getElementById("btnFocusPeach")?.addEventListener("click", () => {
-  controls.target.set(0, 2.0, 0);
-  camera.position.set(0.8, 3.3, 12.5);
-});
+      const { u, v } = worldXZToUV(peachRoot.position.x, peachRoot.position.z);
+      addRipple(u, v, 1.0);
+    }
+  }
 
-document.getElementById("btnFocusModel")?.addEventListener("click", () => {
-  controls.target.set(0, 2.65, 0.2);
-  camera.position.set(1.6, 3.3, 8.4);
-});
+  wasTouching = touching;
+}
 
-/* render loop */
+/* =========================
+   ANIMATE
+========================= */
+
 function animate(){
   requestAnimationFrame(animate);
 
@@ -214,155 +264,131 @@ function animate(){
 
   controls.update();
 
-  peachGroup.rotation.y = Math.sin(t * 0.18) * 0.18;
-  peachGroup.position.y = 0.10 + Math.sin(t * 0.55) * 0.11;
+  if (peachRoot) {
+    const amp = 0.22;
+    const floatY = peachBaseY + Math.sin(t * 0.85) * amp;
+    peachRoot.position.y = floatY;
 
-  if (peachRoot){
-    peachMat.clearcoatRoughness = 0.03 + (Math.sin(t * 0.6) * 0.006);
+    peachGroup.rotation.y = Math.sin(t * 0.22) * 0.14;
+
+    updateContactRipple(t);
+
+    const dist = Math.max(0, peachRoot.position.y - waterY);
+    contact.material.opacity = THREE.MathUtils.clamp(0.12 - dist * 0.03, 0.03, 0.10);
   }
 
   if (humanoid){
-    humanoid.position.y += Math.sin(t * 0.9) * 0.0018;
+    humanoid.position.y = 3.75 + Math.sin(t * 0.95) * 0.02;
   }
 
-  animatePetals(petals, dt);
-  animateDust(dust, dt);
+  ripple.step(dt);
+  rippleTex.needsUpdate = true;
 
-  clouds.position.x = Math.sin(t * 0.02) * 0.8;
-  clouds.position.y = 22.0 + Math.sin(t * 0.015) * 0.45;
-
-  composer.render();
+  renderer.render(scene, camera);
 }
 animate();
 
-/* resize */
+/* =========================
+   RESIZE
+========================= */
+
 window.addEventListener("resize", () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
-  composer.setSize(window.innerWidth, window.innerHeight);
+
+  reflector.getRenderTarget().setSize(
+    Math.floor(window.innerWidth * renderer.getPixelRatio()),
+    Math.floor(window.innerHeight * renderer.getPixelRatio())
+  );
 });
 
-/* helpers */
-function setSun(elevationDeg, azimuthDeg){
-  const phi = THREE.MathUtils.degToRad(90 - elevationDeg);
-  const theta = THREE.MathUtils.degToRad(azimuthDeg);
+/* =========================
+   RIPPLE CANVAS
+========================= */
 
-  sun.setFromSphericalCoords(1, phi, theta);
-  sky.material.uniforms.sunPosition.value.copy(sun);
-}
+function createRippleCanvas(size){
+  const canvas = document.createElement("canvas");
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext("2d");
 
-function makeCloudBackdrop(){
-  const tex = makeCloudTexture(2048, 1024);
+  const ripples = [];
 
-  const mat = new THREE.MeshBasicMaterial({
-    map: tex,
-    transparent: true,
-    opacity: 0.98,
-    depthWrite: false
-  });
+  function step(dt){
+    ctx.fillStyle = "rgba(128,128,128,0.085)";
+    ctx.fillRect(0, 0, size, size);
 
-  const plane = new THREE.Mesh(
-    new THREE.PlaneGeometry(260, 140),
-    mat
-  );
+    for (let i = ripples.length - 1; i >= 0; i--){
+      const r = ripples[i];
+      r.t += dt;
 
-  plane.position.set(0, 22.0, -110);
-  plane.rotation.y = 0;
+      const life = r.t / r.life;
+      if (life >= 1){
+        ripples.splice(i, 1);
+        continue;
+      }
 
-  const grp = new THREE.Group();
-  grp.add(plane);
+      const radius = r.r0 + life * r.r1;
+      const alpha = (1.0 - life) * r.a;
 
-  const haze = new THREE.Mesh(
-    new THREE.PlaneGeometry(280, 160),
-    new THREE.MeshBasicMaterial({
-      color: 0xffffff,
-      transparent: true,
-      opacity: 0.06,
-      depthWrite: false
-    })
-  );
-  haze.position.set(0, 20.5, -105);
-  grp.add(haze);
+      const cx = r.x * size;
+      const cy = r.y * size;
 
-  return grp;
-}
+      const g = ctx.createRadialGradient(cx, cy, radius * 0.68, cx, cy, radius);
+      g.addColorStop(0, "rgba(128,128,128,0)");
+      g.addColorStop(1, `rgba(255,255,255,${alpha})`);
 
-function makeCloudTexture(w, h){
-  const c = document.createElement("canvas");
-  c.width = w;
-  c.height = h;
-  const ctx = c.getContext("2d");
-
-  const grad = ctx.createLinearGradient(0, 0, 0, h);
-  grad.addColorStop(0, "#3aa0ff");
-  grad.addColorStop(0.55, "#6ec5ff");
-  grad.addColorStop(1, "#cfe9ff");
-  ctx.fillStyle = grad;
-  ctx.fillRect(0, 0, w, h);
-
-  for (let i = 0; i < 38; i++){
-    const cx = Math.random() * w;
-    const cy = (Math.random() * 0.55 + 0.05) * h;
-    const base = (Math.random() * 0.22 + 0.10) * w;
-
-    paintCloud(ctx, cx, cy, base, base * 0.55);
+      ctx.strokeStyle = g;
+      ctx.lineWidth = Math.max(1.0, (1.0 - life) * 12.0);
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+      ctx.stroke();
+    }
   }
 
-  const vignette = ctx.createRadialGradient(w * 0.5, h * 0.55, 50, w * 0.5, h * 0.55, h * 0.95);
-  vignette.addColorStop(0, "rgba(255,255,255,0)");
-  vignette.addColorStop(1, "rgba(0,0,0,0.14)");
-  ctx.fillStyle = vignette;
-  ctx.fillRect(0, 0, w, h);
-
-  const tex = new THREE.CanvasTexture(c);
-  tex.colorSpace = THREE.SRGBColorSpace;
-  tex.anisotropy = 8;
-  tex.needsUpdate = true;
-  return tex;
-}
-
-function paintCloud(ctx, x, y, w, h){
-  ctx.save();
-  ctx.translate(x, y);
-
-  const puffCount = 18 + Math.floor(Math.random() * 18);
-  for (let i = 0; i < puffCount; i++){
-    const px = (Math.random() - 0.5) * w;
-    const py = (Math.random() - 0.5) * h;
-    const r = (Math.random() * 0.22 + 0.14) * Math.min(w, h);
-
-    const g = ctx.createRadialGradient(px, py, 0, px, py, r);
-    g.addColorStop(0, "rgba(255,255,255,0.92)");
-    g.addColorStop(0.55, "rgba(255,255,255,0.62)");
-    g.addColorStop(1, "rgba(255,255,255,0)");
-    ctx.fillStyle = g;
-
-    ctx.beginPath();
-    ctx.arc(px, py, r, 0, Math.PI * 2);
-    ctx.fill();
+  function add(x, y, strength){
+    ripples.push({
+      x,
+      y,
+      t: 0,
+      life: 1.55,
+      r0: 10,
+      r1: 520,
+      a: 0.26 * strength
+    });
   }
 
-  ctx.restore();
+  ctx.fillStyle = "rgb(128,128,128)";
+  ctx.fillRect(0, 0, size, size);
+
+  return { canvas, step, add };
 }
 
-/* demo humanoid */
+function addRipple(x, y, strength){
+  ripple.add(x, y, strength);
+}
+
+/* =========================
+   DEMO HUMANOID
+========================= */
+
 function makeDemoHumanoid(){
   const g = new THREE.Group();
 
   const mat = new THREE.MeshStandardMaterial({
     color: 0xffffff,
-    roughness: 0.32,
-    metalness: 0.08,
+    roughness: 0.26,
+    metalness: 0.12,
     transparent: true,
     opacity: 0.92
   });
 
   const head = new THREE.Mesh(new THREE.SphereGeometry(0.34, 32, 32), mat);
-  head.position.y = 2.85;
+  head.position.y = 3.12;
 
   const body = new THREE.Mesh(new THREE.CapsuleGeometry(0.28, 0.95, 10, 24), mat);
-  body.position.y = 2.15;
+  body.position.y = 2.45;
 
   const aura = new THREE.Mesh(
     new THREE.SphereGeometry(1.35, 32, 32),
@@ -372,177 +398,8 @@ function makeDemoHumanoid(){
       opacity: 0.05
     })
   );
-  aura.position.y = 2.25;
+  aura.position.y = 2.55;
 
   g.add(aura, head, body);
   return g;
-}
-
-/* petals */
-function makePetals(count){
-  const geo = new THREE.BufferGeometry();
-  const pos = new Float32Array(count * 3);
-  const vel = new Float32Array(count * 3);
-  const seed = new Float32Array(count);
-
-  for (let i = 0; i < count; i++){
-    const ix = i * 3;
-
-    pos[ix + 0] = THREE.MathUtils.randFloatSpread(65);
-    pos[ix + 1] = THREE.MathUtils.randFloat(2, 36);
-    pos[ix + 2] = THREE.MathUtils.randFloatSpread(65);
-
-    vel[ix + 0] = THREE.MathUtils.randFloat(-0.20, 0.20);
-    vel[ix + 1] = THREE.MathUtils.randFloat(-0.60, -0.10);
-    vel[ix + 2] = THREE.MathUtils.randFloat(-0.20, 0.20);
-
-    seed[i] = Math.random();
-  }
-
-  geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
-  geo.setAttribute("velocity", new THREE.BufferAttribute(vel, 3));
-  geo.setAttribute("seed", new THREE.BufferAttribute(seed, 1));
-
-  const mat = new THREE.PointsMaterial({
-    size: 0.09,
-    transparent: true,
-    opacity: 0.55,
-    depthWrite: false,
-    color: 0xffd6df
-  });
-
-  const pts = new THREE.Points(geo, mat);
-  pts.frustumCulled = false;
-  return pts;
-}
-
-function animatePetals(points, dt){
-  const p = points.geometry.attributes.position;
-  const v = points.geometry.attributes.velocity;
-  const s = points.geometry.attributes.seed;
-  const now = performance.now() * 0.001;
-
-  for (let i = 0; i < p.count; i++){
-    const ix = i * 3;
-    const sway = Math.sin(now + s.getX(i) * 10) * 0.03;
-
-    p.array[ix + 0] += (v.array[ix + 0] + sway) * dt * 4.4;
-    p.array[ix + 1] += v.array[ix + 1] * dt * 4.4;
-    p.array[ix + 2] += v.array[ix + 2] * dt * 4.4;
-
-    if (p.array[ix + 1] < -1.0){
-      p.array[ix + 0] = THREE.MathUtils.randFloatSpread(65);
-      p.array[ix + 1] = THREE.MathUtils.randFloat(20, 38);
-      p.array[ix + 2] = THREE.MathUtils.randFloatSpread(65);
-    }
-  }
-
-  p.needsUpdate = true;
-}
-
-/* dust */
-function makeDust(count){
-  const geo = new THREE.BufferGeometry();
-  const pos = new Float32Array(count * 3);
-  const vel = new Float32Array(count * 3);
-
-  for (let i = 0; i < count; i++){
-    const ix = i * 3;
-
-    pos[ix + 0] = THREE.MathUtils.randFloatSpread(45);
-    pos[ix + 1] = THREE.MathUtils.randFloat(0, 26);
-    pos[ix + 2] = THREE.MathUtils.randFloatSpread(45);
-
-    vel[ix + 0] = THREE.MathUtils.randFloat(-0.05, 0.05);
-    vel[ix + 1] = THREE.MathUtils.randFloat(-0.02, 0.06);
-    vel[ix + 2] = THREE.MathUtils.randFloat(-0.05, 0.05);
-  }
-
-  geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
-  geo.setAttribute("velocity", new THREE.BufferAttribute(vel, 3));
-
-  const mat = new THREE.PointsMaterial({
-    size: 0.028,
-    transparent: true,
-    opacity: 0.32,
-    depthWrite: false,
-    color: 0xcdd6ff
-  });
-
-  const pts = new THREE.Points(geo, mat);
-  pts.frustumCulled = false;
-  return pts;
-}
-
-function animateDust(points, dt){
-  const p = points.geometry.attributes.position;
-  const v = points.geometry.attributes.velocity;
-
-  for (let i = 0; i < p.count; i++){
-    const ix = i * 3;
-
-    p.array[ix + 0] += v.array[ix + 0] * dt * 3.0;
-    p.array[ix + 1] += v.array[ix + 1] * dt * 3.0;
-    p.array[ix + 2] += v.array[ix + 2] * dt * 3.0;
-
-    if (p.array[ix + 1] > 30){
-      p.array[ix + 0] = THREE.MathUtils.randFloatSpread(45);
-      p.array[ix + 1] = THREE.MathUtils.randFloat(0, 7);
-      p.array[ix + 2] = THREE.MathUtils.randFloatSpread(45);
-    }
-  }
-
-  p.needsUpdate = true;
-}
-
-/* UI */
-function initUI(){
-  const tabs = document.querySelectorAll(".tab");
-  const chatPanel = document.getElementById("panel-chat");
-  const arcPanel = document.getElementById("panel-archive");
-
-  tabs.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      tabs.forEach((b) => b.classList.remove("is-on"));
-      btn.classList.add("is-on");
-
-      const tab = btn.dataset.tab;
-      chatPanel.classList.toggle("is-on", tab === "chat");
-      arcPanel.classList.toggle("is-on", tab === "archive");
-    });
-  });
-}
-
-function initChatDemo(){
-  const chatlog = document.getElementById("chatlog");
-  const composer = document.getElementById("composer");
-  const chatInput = document.getElementById("chatInput");
-
-  composer?.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const text = (chatInput?.value || "").trim();
-    if (!text) return;
-
-    pushMsg("user", text);
-    chatInput.value = "";
-
-    const reply = demoReply(text);
-    setTimeout(() => pushMsg("system", reply), 240);
-  });
-
-  function pushMsg(type, text){
-    const el = document.createElement("div");
-    el.className = `msg ${type}`;
-    el.textContent = text;
-    chatlog.appendChild(el);
-    chatlog.scrollTop = chatlog.scrollHeight;
-  }
-
-  function demoReply(text){
-    const t = text.toLowerCase();
-    if (t.includes("복숭아")) return "복숭아는 너의 시작점이야 가장 선명한 좌표";
-    if (t.includes("엄마")) return "지나침과 도착의 서사야 정리 후 결실";
-    if (t.includes("cv")) return "Archive 탭에서 CV를 열 수 있어";
-    return "나는 SJ1 너의 기억과 작업을 연결하는 휴머노이드";
-  }
 }

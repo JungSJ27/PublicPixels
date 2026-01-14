@@ -19,42 +19,17 @@
       </div>
     </div>
 
-    <div class="tabs">
-      <button class="tab is-on" data-tab="chat">Talk</button>
-      <button class="tab" data-tab="archive">Archive</button>
+    <div class="actions">
+      <button class="btn" id="btnFocusPeach">Focus Peach</button>
+      <button class="btn" id="btnFocusModel">Focus Humanoid</button>
+      <a class="btn ghost" href="./assets/CV.pdf" target="_blank" rel="noopener">CV</a>
+      <a class="btn ghost" href="./assets/ArtistStatement.pdf" target="_blank" rel="noopener">Artist Statement</a>
+      <a class="btn ghost" href="./assets/childhood.jpg" target="_blank" rel="noopener">Childhood Photo</a>
     </div>
 
-    <section class="panel is-on" id="panel-chat">
-      <div class="chatlog" id="chatlog">
-        <div class="msg system">
-          SJ1에 오신 걸 환영해요<br />
-          복숭아 위의 휴머노이드와 대화해보세요
-        </div>
-      </div>
-
-      <form class="composer" id="composer">
-        <input id="chatInput" type="text" placeholder="메시지를 입력" autocomplete="off" />
-        <button type="submit">Send</button>
-      </form>
-
-      <div class="hint">
-        지금은 데모 UI야 나중에 API 연결하면 진짜 대화로 바뀜
-      </div>
-    </section>
-
-    <section class="panel" id="panel-archive">
-      <div class="cards">
-        <a class="card" href="./assets/CV.pdf" target="_blank" rel="noopener">CV</a>
-        <a class="card" href="./assets/ArtistStatement.pdf" target="_blank" rel="noopener">Artist Statement</a>
-        <a class="card" href="./assets/childhood.jpg" target="_blank" rel="noopener">Childhood Photo</a>
-        <button class="card ghost" id="btnFocusPeach">Focus Peach</button>
-        <button class="card ghost" id="btnFocusModel">Focus Humanoid</button>
-      </div>
-
-      <div class="note">
-        assets 폴더에 파일이 없으면 링크는 안 열릴 수 있어
-      </div>
-    </section>
+    <div class="note">
+      assets 폴더에 파일이 없으면 링크는 안 열릴 수 있어요
+    </div>
   </aside>
 
   <script type="importmap">
