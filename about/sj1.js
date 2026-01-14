@@ -37,7 +37,7 @@ pmrem.compileEquirectangularShader();
 let sky = null;
 
 new EXRLoader().load(
-  "./citrus_orchard_road_puresky_4k.exr",
+  "./citrus_orchard_road_puresky_1k.exr",
   (tex) => {
     tex.mapping = THREE.EquirectangularReflectionMapping;
 
