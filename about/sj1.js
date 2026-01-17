@@ -4,6 +4,85 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { EXRLoader } from "three/addons/loaders/EXRLoader.js";
 import { Reflector } from "three/addons/objects/Reflector.js";
 
+/* =========================
+   UI
+========================= */
+
+const chatPanel = document.getElementById("chatPanel");
+const chatLog = document.getElementById("chatLog");
+const chatForm = document.getElementById("chatForm");
+const chatInput = document.getElementById("chatInput");
+
+const btnChatOpen = document.getElementById("btnChatOpen");
+const btnChatClose = document.getElementById("btnChatClose");
+const btnMenuToggle = document.getElementById("btnMenuToggle");
+const menuBody = document.getElementById("menuBody");
+
+btnMenuToggle?.addEventListener("click", () => {
+  menuBody?.classList.toggle("is-collapsed");
+});
+
+function openChat(){
+  chatPanel?.classList.add("is-open");
+  chatPanel?.setAttribute("aria-hidden", "false");
+  setTimeout(() => chatInput?.focus(), 0);
+
+  if (!chatLog?.dataset?.booted){
+    chatLog.dataset.booted = "1";
+    addMsg("bot", "Hi Seungjin. I am SJ1. Tell me what you want to explore with the avatar today.");
+  }
+}
+
+function closeChat(){
+  chatPanel?.classList.remove("is-open");
+  chatPanel?.setAttribute("aria-hidden", "true");
+}
+
+btnChatOpen?.addEventListener("click", openChat);
+btnChatClose?.addEventListener("click", closeChat);
+
+function addMsg(role, text){
+  const div = document.createElement("div");
+  div.className = `msg ${role}`;
+  div.textContent = text;
+  chatLog.appendChild(div);
+  chatLog.scrollTop = chatLog.scrollHeight;
+}
+
+function simpleSJ1Reply(userText){
+  const t = userText.toLowerCase();
+
+  if (t.includes("hi") || t.includes("hello") || t.includes("안녕")){
+    return "Hi. Do you want to talk about the work, the avatar behavior, or the world setting?";
+  }
+  if (t.includes("world") || t.includes("environment") || t.includes("sky") || t.includes("하늘")){
+    return "We can tune sky exposure, water clarity, and reflections. Tell me what mood you want. calm, dreamy, surreal, or realistic.";
+  }
+  if (t.includes("water") || t.includes("물") || t.includes("ripple") || t.includes("물결")){
+    return "I can increase ripple strength, change frequency, or make the water clearer. Tell me which direction you want.";
+  }
+  if (t.includes("avatar") || t.includes("humanoid") || t.includes("아바타")){
+    return "For the avatar, we can add head turn to camera, idle breathing, and a gesture on message. Which one first?";
+  }
+  return "Got it. Say a bit more. What should SJ1 do next on screen?";
+}
+
+chatForm?.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const text = (chatInput.value || "").trim();
+  if (!text) return;
+
+  addMsg("user", text);
+  chatInput.value = "";
+
+  const reply = simpleSJ1Reply(text);
+  setTimeout(() => addMsg("bot", reply), 160);
+});
+
+/* =========================
+   THREE SETUP
+========================= */
+
 const stage = document.getElementById("stage");
 const scene = new THREE.Scene();
 
@@ -12,7 +91,7 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.05;
+renderer.toneMappingExposure = 1.0;
 stage.appendChild(renderer.domElement);
 
 const camera = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 900);
@@ -34,35 +113,23 @@ const clock = new THREE.Clock();
 const pmrem = new THREE.PMREMGenerator(renderer);
 pmrem.compileEquirectangularShader();
 
-let sky = null;
-
 new EXRLoader().load(
   "./citrus_orchard_road_puresky_2k.exr",
   (tex) => {
     tex.mapping = THREE.EquirectangularReflectionMapping;
+    tex.needsUpdate = true;
 
     const envRT = pmrem.fromEquirectangular(tex);
     scene.environment = envRT.texture;
 
-    const skyGeo = new THREE.SphereGeometry(260, 64, 64);
-    const skyMat = new THREE.MeshBasicMaterial({
-      map: tex,
-      side: THREE.BackSide,
-      depthWrite: false
-    });
-
-    sky = new THREE.Mesh(skyGeo, skyMat);
-    sky.rotation.y = Math.PI * 0.5;
-    scene.add(sky);
-
-    scene.background = null;
+    scene.background = tex;
+    scene.backgroundIntensity = 1.0;
+    scene.backgroundBlurriness = 0.0;
 
     console.log("EXR loaded OK");
   },
   undefined,
-  (e) => {
-    console.error("EXR load error", e);
-  }
+  (e) => console.error("EXR load error", e)
 );
 
 /* =========================
@@ -106,30 +173,41 @@ rippleTex.wrapT = THREE.RepeatWrapping;
 rippleTex.colorSpace = THREE.SRGBColorSpace;
 
 const waterMat = new THREE.MeshPhysicalMaterial({
-  color: 0x062047,
-  roughness: 0.02,
+  color: 0x0d3c6b,
+  roughness: 0.01,
   metalness: 0.0,
 
-  transmission: 0.22,
-  thickness: 1.3,
+  transmission: 0.86,
+  thickness: 0.50,
   ior: 1.333,
 
+  attenuationColor: new THREE.Color(0xcff2ff),
+  attenuationDistance: 10.0,
+
   clearcoat: 1.0,
-  clearcoatRoughness: 0.035,
+  clearcoatRoughness: 0.02,
 
   transparent: true,
-  opacity: 0.18,
+  opacity: 0.10,
 
   bumpMap: rippleTex,
-  bumpScale: 0.18,
+  bumpScale: 0.14,
 
-  envMapIntensity: 1.25
+  envMapIntensity: 1.7
 });
 
 const water = new THREE.Mesh(new THREE.PlaneGeometry(WATER_SIZE, WATER_SIZE), waterMat);
 water.rotation.x = Math.PI * -0.5;
 water.position.y = waterY + 0.001;
 scene.add(water);
+
+/* petals on water */
+const petals = makePetals({
+  count: 240,
+  area: WATER_SIZE * 0.42,
+  y: waterY + 0.012
+});
+scene.add(petals.group);
 
 /* =========================
    PEACH
@@ -173,17 +251,23 @@ gltf.load(
     });
 
     peachRoot.scale.set(2.75, 2.75, 2.75);
-
     peachRoot.rotation.x = Math.PI;
     peachRoot.rotation.y = Math.PI * 0.18;
     peachRoot.position.set(0, peachBaseY, 0);
-
     peachGroup.add(peachRoot);
 
     const box = new THREE.Box3().setFromObject(peachRoot);
     const size = new THREE.Vector3();
     box.getSize(size);
     peachRadius = Math.max(size.x, size.y, size.z) * 0.30;
+
+    /* float rule
+       최고점에서는 바닥이 수면보다 확실히 위
+       최저점에서는 살짝 닿아서 물결 */
+    floatAmp = 0.12;
+    const clearanceAtPeak = 0.12;
+    peachBaseY = waterY + peachRadius + clearanceAtPeak - floatAmp;
+    peachRoot.position.y = peachBaseY;
 
     humanoid = makeDemoHumanoid();
     humanoid.position.set(0, 3.75, 0.25);
@@ -215,7 +299,7 @@ document.getElementById("btnFocusPeach")?.addEventListener("click", () => {
   controls.target.set(0, 2.05, 0);
   camera.position.set(0.9, 3.15, 11.6);
 });
-document.getElementById("btnFocusModel")?.addEventListener("click", () => {
+document.getElementById("btnFocusHumanoid")?.addEventListener("click", () => {
   controls.target.set(0, 3.05, 0.2);
   camera.position.set(1.6, 3.7, 8.1);
 });
@@ -226,6 +310,7 @@ document.getElementById("btnFocusModel")?.addEventListener("click", () => {
 
 let wasTouching = false;
 let lastTouchTime = -999;
+let floatAmp = 0.12;
 
 function worldXZToUV(x, z) {
   const half = WATER_SIZE * 0.5;
@@ -240,12 +325,17 @@ function updateContactRipple(t) {
   const yBottom = peachRoot.position.y - peachRadius;
   const touching = yBottom <= waterY + 0.01;
 
-  if (touching && !wasTouching) {
-    if (t - lastTouchTime > 0.25) {
+  if (touching) {
+    const isFirstHit = touching && !wasTouching;
+    const minGap = isFirstHit ? 0.12 : 0.22;
+
+    if (t - lastTouchTime > minGap) {
       lastTouchTime = t;
 
       const { u, v } = worldXZToUV(peachRoot.position.x, peachRoot.position.z);
-      addRipple(u, v, 1.0);
+      addRipple(u, v, isFirstHit ? 1.0 : 0.55);
+
+      petals.pulse(peachRoot.position.x, peachRoot.position.z, isFirstHit ? 1.0 : 0.6);
     }
   }
 
@@ -265,8 +355,7 @@ function animate(){
   controls.update();
 
   if (peachRoot) {
-    const amp = 0.22;
-    const floatY = peachBaseY + Math.sin(t * 0.85) * amp;
+    const floatY = peachBaseY + Math.sin(t * 0.85) * floatAmp;
     peachRoot.position.y = floatY;
 
     peachGroup.rotation.y = Math.sin(t * 0.22) * 0.14;
@@ -283,6 +372,8 @@ function animate(){
 
   ripple.step(dt);
   rippleTex.needsUpdate = true;
+
+  petals.update(t, dt);
 
   renderer.render(scene, camera);
 }
@@ -367,6 +458,150 @@ function createRippleCanvas(size){
 
 function addRipple(x, y, strength){
   ripple.add(x, y, strength);
+}
+
+/* =========================
+   PETALS
+========================= */
+
+function makePetals({ count, area, y }){
+  const tex = makePetalTexture(256);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.needsUpdate = true;
+
+  const geo = new THREE.PlaneGeometry(0.34, 0.34);
+  const mat = new THREE.MeshBasicMaterial({
+    map: tex,
+    transparent: true,
+    opacity: 0.95,
+    depthWrite: false,
+    side: THREE.DoubleSide
+  });
+
+  const mesh = new THREE.InstancedMesh(geo, mat, count);
+  mesh.frustumCulled = false;
+
+  const dummy = new THREE.Object3D();
+  const data = [];
+
+  for (let i = 0; i < count; i++){
+    const x = (Math.random() * 2 - 1) * area;
+    const z = (Math.random() * 2 - 1) * area;
+    const r = Math.random() * Math.PI * 2;
+    const s = THREE.MathUtils.lerp(0.55, 1.15, Math.random());
+
+    dummy.position.set(x, y + Math.random() * 0.006, z);
+    dummy.rotation.set(Math.PI * -0.5, r, (Math.random() * 2 - 1) * 0.22);
+    dummy.scale.set(s, s, s);
+    dummy.updateMatrix();
+    mesh.setMatrixAt(i, dummy.matrix);
+
+    data.push({
+      x,
+      z,
+      y: dummy.position.y,
+      r,
+      s,
+      driftX: (Math.random() * 2 - 1) * 0.010,
+      driftZ: (Math.random() * 2 - 1) * 0.010,
+      bob: Math.random() * 10,
+      pulse: 0
+    });
+  }
+
+  mesh.instanceMatrix.needsUpdate = true;
+
+  function update(t, dt){
+    for (let i = 0; i < count; i++){
+      const p = data[i];
+
+      p.pulse = Math.max(0, p.pulse - dt * 0.9);
+
+      p.x += p.driftX * dt;
+      p.z += p.driftZ * dt;
+
+      const limit = area;
+      if (p.x > limit) p.x = -limit;
+      if (p.x < -limit) p.x = limit;
+      if (p.z > limit) p.z = -limit;
+      if (p.z < -limit) p.z = limit;
+
+      const bobY = Math.sin(t * 0.9 + p.bob) * 0.004;
+      const tilt = Math.sin(t * 0.7 + p.bob) * 0.10;
+
+      const pulseLift = p.pulse * 0.010;
+      const pulseTilt = p.pulse * 0.25;
+
+      dummy.position.set(p.x, p.y + bobY + pulseLift, p.z);
+      dummy.rotation.set(
+        Math.PI * -0.5 + tilt * 0.15,
+        p.r + Math.sin(t * 0.25 + p.bob) * 0.06,
+        tilt + pulseTilt
+      );
+      dummy.scale.set(p.s, p.s, p.s);
+      dummy.updateMatrix();
+      mesh.setMatrixAt(i, dummy.matrix);
+    }
+    mesh.instanceMatrix.needsUpdate = true;
+  }
+
+  function pulse(wx, wz, strength){
+    const s = THREE.MathUtils.clamp(strength, 0, 1.0);
+
+    for (let i = 0; i < count; i++){
+      const p = data[i];
+      const dx = p.x - wx;
+      const dz = p.z - wz;
+      const d2 = dx * dx + dz * dz;
+
+      if (d2 < 4.5 * 4.5){
+        const k = 1.0 - Math.sqrt(d2) / 4.5;
+        p.pulse = Math.max(p.pulse, k * 0.9 * s);
+      }
+    }
+  }
+
+  return { group: mesh, update, pulse };
+}
+
+function makePetalTexture(size){
+  const c = document.createElement("canvas");
+  c.width = size;
+  c.height = size;
+  const ctx = c.getContext("2d");
+
+  ctx.clearRect(0, 0, size, size);
+
+  const cx = size * 0.5;
+  const cy = size * 0.55;
+
+  const grad = ctx.createRadialGradient(cx, cy, size * 0.05, cx, cy, size * 0.52);
+  grad.addColorStop(0.0, "rgba(255,235,245,0.98)");
+  grad.addColorStop(0.35, "rgba(255,176,210,0.92)");
+  grad.addColorStop(1.0, "rgba(255,120,170,0.0)");
+
+  ctx.fillStyle = grad;
+
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.rotate(Math.PI * 0.15);
+  ctx.beginPath();
+  ctx.moveTo(0, -size * 0.46);
+  ctx.bezierCurveTo(size * 0.36, -size * 0.35, size * 0.42, size * 0.12, 0, size * 0.44);
+  ctx.bezierCurveTo(-size * 0.42, size * 0.12, -size * 0.36, -size * 0.35, 0, -size * 0.46);
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+
+  ctx.globalCompositeOperation = "source-atop";
+  const core = ctx.createRadialGradient(cx, cy + size * 0.10, size * 0.02, cx, cy + size * 0.10, size * 0.22);
+  core.addColorStop(0.0, "rgba(255,255,255,0.35)");
+  core.addColorStop(1.0, "rgba(255,255,255,0.0)");
+  ctx.fillStyle = core;
+  ctx.fillRect(0, 0, size, size);
+  ctx.globalCompositeOperation = "source-over";
+
+  return new THREE.CanvasTexture(c);
 }
 
 /* =========================

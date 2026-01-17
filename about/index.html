@@ -10,26 +10,51 @@
 <body>
   <div id="stage"></div>
 
-  <aside class="ui">
-    <div class="brand">
-      <div class="title">SJ1</div>
-      <div class="sub">
-        Seungjin Jung
+  <section class="menu" aria-label="top menu">
+    <div class="menu-head">
+      <div class="menu-brand">
+        <div class="menu-title">SJ1</div>
+        <div class="menu-sub">Seungjin Jung</div>
       </div>
+      <button id="btnMenuToggle" class="icon-btn" aria-label="toggle menu">☰</button>
     </div>
 
-    <div class="actions">
-      <button class="btn" id="btnFocusPeach">Focus Peach</button>
-      <button class="btn" id="btnFocusModel">Focus Humanoid</button>
-      <a class="btn ghost" href="./assets/CV.pdf" target="_blank" rel="noopener">CV</a>
-      <a class="btn ghost" href="./assets/ArtistStatement.pdf" target="_blank" rel="noopener">Artist Statement</a>
-      <a class="btn ghost" href="./assets/childhood.jpg" target="_blank" rel="noopener">Childhood Photo</a>
+    <div id="menuBody" class="menu-body">
+      <div class="menu-row">
+        <button id="btnFocusPeach" class="chip">Focus Peach</button>
+        <button id="btnFocusHumanoid" class="chip">Focus Humanoid</button>
+      </div>
+
+      <div class="menu-row">
+        <a class="chip ghost" href="./assets/CV.pdf" target="_blank" rel="noopener">CV</a>
+        <a class="chip ghost" href="./assets/ArtistStatement.pdf" target="_blank" rel="noopener">Artist Statement</a>
+      </div>
+
+      <div class="menu-row">
+        <a class="chip ghost" href="./assets/childhood.jpg" target="_blank" rel="noopener">Childhood Photo</a>
+      </div>
+
+      <div class="menu-row">
+        <button id="btnChatOpen" class="chip primary">Start Chat</button>
+      </div>
+
+      <p class="menu-note">assets 폴더에 파일이 없으면 링크는 안 열릴 수 있어요</p>
+    </div>
+  </section>
+
+  <section id="chatPanel" class="chat" aria-hidden="true">
+    <div class="chat-top">
+      <div class="chat-title">Talk with SJ1</div>
+      <button id="btnChatClose" class="icon-btn" aria-label="close chat">✕</button>
     </div>
 
-    <div class="note">
-      assets 폴더에 파일이 없으면 링크는 안 열릴 수 있어요
-    </div>
-  </aside>
+    <div id="chatLog" class="chat-log" role="log" aria-live="polite"></div>
+
+    <form id="chatForm" class="chat-form" autocomplete="off">
+      <input id="chatInput" class="chat-input" type="text" placeholder="Type a message" />
+      <button class="chat-send" type="submit">Send</button>
+    </form>
+  </section>
 
   <script type="importmap">
     {
@@ -41,5 +66,6 @@
   </script>
 
   <script type="module" src="./sj1.js"></script>
+  <script defer src="/front/favicons.js"></script>
 </body>
 </html>
