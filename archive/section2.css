@@ -11,6 +11,33 @@
     radial-gradient(circle at top left, #ffd6ff, #cdb4ff, #a2d2ff, #9bf6ff);
 }
 
+/* optional soft video background */
+#intro-video{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:0.15;
+  filter: blur(1px) saturate(1.1);
+  z-index:0;
+  pointer-events:none;
+}
+
+/* 3D canvas or 2D game canvas */
+#c{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  z-index:1;
+  pointer-events:auto;
+
+  /* pixel look */
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
 /* Intro UI layer */
 #pixel-intro-ui{
   position:absolute;
@@ -22,6 +49,7 @@
   text-align:center;
   z-index:5;
   pointer-events:auto;
+  padding:24px;
 }
 
 /* Title */
@@ -42,18 +70,21 @@
   font-size:clamp(10px,2vw,18px);
   color:#ffffffcc;
   margin-bottom:38px;
+  max-width: min(720px, 92vw);
 }
 
-/* Buttons */
+/* Menu Buttons */
 .pixel-menu{
   display:flex;
   flex-direction:column;
-  gap:18px;
+  gap:16px;
+  align-items:center;
 }
 
+/* Buttons */
 .pixel-btn{
   font-family:'Press Start 2P', monospace;
-  font-size:clamp(12px,2vw,20px);
+  font-size:clamp(12px,2vw,18px);
   padding:16px 26px;
   border:none;
   border-radius:14px;
@@ -61,21 +92,30 @@
   color:#222;
   cursor:pointer;
   box-shadow:0 6px 0 #ffffff55;
-  transition:transform 0.12s, box-shadow 0.12s;
+  transition:transform 0.12s, box-shadow 0.12s, filter 0.12s;
+  min-width:min(320px, 86vw);
+  letter-spacing:0.02em;
 }
 
 .pixel-btn:hover{
   transform:translateY(-4px);
   box-shadow:0 10px 0 #ffffffaa;
+  filter:saturate(1.06);
 }
 
-/* Meta text reuse positioning */
+.pixel-btn:active{
+  transform:translateY(0px);
+  box-shadow:0 6px 0 #ffffff55;
+}
+
+/* Meta text */
 .pixel-meta{
   position:absolute;
   font-family:'Poppins', sans-serif;
   font-size:12px;
   letter-spacing:0.08em;
   color:#ffffffaa;
+  user-select:none;
 }
 
 .pixel-meta.top-left{ top:20px; left:26px; }
@@ -93,6 +133,8 @@
   bottom:22px;
   right:26px;
   font-size:11px;
+  line-height:1.4;
+  text-align:right;
 }
 
 /* floating gummy blobs */
@@ -102,6 +144,8 @@
   opacity:0.9;
   filter: blur(0.5px);
   animation: floaty 12s infinite ease-in-out;
+  pointer-events:none;
+  z-index:2;
 }
 
 .g1{
@@ -136,4 +180,46 @@
   0%{ transform:translateY(0px) }
   50%{ transform:translateY(-26px) }
   100%{ transform:translateY(0px) }
+}
+
+/* Small screens polish */
+@media (max-width: 520px){
+  .pixel-meta.top-left,
+  .pixel-meta.top-left2,
+  .pixel-meta.top-right{
+    display:none;
+  }
+
+  .pixel-meta.bottom-left{
+    left:16px;
+    right:16px;
+    bottom:14px;
+    font-size:10px;
+  }
+
+  .pixel-meta.bottom-right{
+    right:16px;
+    bottom:14px;
+    font-size:10px;
+    max-width: 48vw;
+  }
+
+  .pixel-btn{
+    padding:14px 18px;
+    border-radius:12px;
+  }
+
+  .pixel-subtitle{
+    margin-bottom:28px;
+  }
+}
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce){
+  .gummy{
+    animation:none;
+  }
+  .pixel-btn{
+    transition:none;
+  }
 }
