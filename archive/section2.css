@@ -3,223 +3,225 @@
 ================================ */
 
 .pixel-intro{
-  position:relative;
-  width:100%;
-  height:100vh;
-  overflow:hidden;
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+
+  /* pixel tile style background */
   background:
-    radial-gradient(circle at top left, #ffd6ff, #cdb4ff, #a2d2ff, #9bf6ff);
+    linear-gradient(180deg, rgba(11,18,36,0.78), rgba(11,18,36,0.78)),
+    repeating-linear-gradient(
+      90deg,
+      rgba(162,210,255,0.18) 0px,
+      rgba(162,210,255,0.18) 16px,
+      rgba(255,214,255,0.14) 16px,
+      rgba(255,214,255,0.14) 32px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(189,178,255,0.12) 0px,
+      rgba(189,178,255,0.12) 16px,
+      rgba(155,246,255,0.10) 16px,
+      rgba(155,246,255,0.10) 32px
+    );
 }
 
 /* optional soft video background */
 #intro-video{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  opacity:0.15;
-  filter: blur(1px) saturate(1.1);
-  z-index:0;
-  pointer-events:none;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.10;
+  filter: blur(2px) saturate(1.05);
+  z-index: 0;
+  pointer-events: none;
 }
 
-/* 3D canvas or 2D game canvas */
+/* game canvas */
 #c{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  z-index:1;
-  pointer-events:auto;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
 
-  /* pixel look */
   image-rendering: pixelated;
   image-rendering: crisp-edges;
 }
 
 /* Intro UI layer */
 #pixel-intro-ui{
-  position:absolute;
-  inset:0;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  z-index:5;
-  pointer-events:auto;
-  padding:24px;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  z-index: 5;
+  pointer-events: auto;
+  padding: 24px;
+}
+
+/* HUD like panel behind title and buttons */
+.pixel-panel{
+  width: min(760px, 92vw);
+  padding: 26px 22px;
+  border-radius: 16px;
+  border: 2px solid rgba(255,214,255,0.55);
+  background:
+    linear-gradient(180deg, rgba(162,210,255,0.16), rgba(255,214,255,0.10)),
+    rgba(0,0,0,0.32);
+  box-shadow:
+    0 0 0 2px rgba(0,0,0,0.25),
+    0 18px 0 rgba(0,0,0,0.18);
 }
 
 /* Title */
 .pixel-title{
-  font-family:'Press Start 2P', monospace;
-  font-size:clamp(32px,6vw,96px);
-  line-height:1.1;
-  color:#fff;
+  font-family: "Press Start 2P", monospace;
+  font-size: clamp(28px, 5vw, 72px);
+  line-height: 1.15;
+  color: #fff;
+  margin: 4px 0 14px 0;
   text-shadow:
-    0 0 8px #ffffff,
-    0 0 18px #7afcff,
-    0 0 32px #ff77e9;
-  margin-bottom:18px;
+    2px 2px 0 rgba(0,0,0,0.35),
+    0 0 10px rgba(255,119,233,0.35);
 }
 
 .pixel-subtitle{
-  font-family:'Press Start 2P', monospace;
-  font-size:clamp(10px,2vw,18px);
-  color:#ffffffcc;
-  margin-bottom:38px;
-  max-width: min(720px, 92vw);
+  font-family: "Press Start 2P", monospace;
+  font-size: clamp(10px, 1.8vw, 14px);
+  color: rgba(255,255,255,0.78);
+  margin: 0 0 18px 0;
 }
 
 /* Menu Buttons */
 .pixel-menu{
-  display:flex;
-  flex-direction:column;
-  gap:16px;
-  align-items:center;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+  margin-top: 14px;
 }
 
-/* Buttons */
 .pixel-btn{
-  font-family:'Press Start 2P', monospace;
-  font-size:clamp(12px,2vw,18px);
-  padding:16px 26px;
-  border:none;
-  border-radius:14px;
-  background:linear-gradient(135deg,#ffe066,#ff8fab,#bdb2ff);
-  color:#222;
-  cursor:pointer;
-  box-shadow:0 6px 0 #ffffff55;
-  transition:transform 0.12s, box-shadow 0.12s, filter 0.12s;
-  min-width:min(320px, 86vw);
-  letter-spacing:0.02em;
+  font-family: "Press Start 2P", monospace;
+  font-size: clamp(12px, 2vw, 18px);
+  padding: 14px 22px;
+  border: 2px solid rgba(255,214,255,0.75);
+  border-radius: 10px;
+
+  background:
+    linear-gradient(180deg, rgba(255,214,255,0.22), rgba(162,210,255,0.18)),
+    rgba(0,0,0,0.25);
+
+  color: rgba(255,255,255,0.92);
+  cursor: pointer;
+
+  box-shadow:
+    0 0 0 2px rgba(0,0,0,0.25),
+    0 10px 0 rgba(0,0,0,0.25);
+
+  transition: transform 0.12s, box-shadow 0.12s, filter 0.12s;
+  min-width: min(340px, 86vw);
+  letter-spacing: 0.02em;
 }
 
 .pixel-btn:hover{
-  transform:translateY(-4px);
-  box-shadow:0 10px 0 #ffffffaa;
-  filter:saturate(1.06);
+  transform: translateY(-3px);
+  box-shadow:
+    0 0 0 2px rgba(0,0,0,0.25),
+    0 13px 0 rgba(0,0,0,0.25);
+  filter: saturate(1.08);
 }
 
 .pixel-btn:active{
-  transform:translateY(0px);
-  box-shadow:0 6px 0 #ffffff55;
+  transform: translateY(0px);
+  box-shadow:
+    0 0 0 2px rgba(0,0,0,0.25),
+    0 10px 0 rgba(0,0,0,0.25);
 }
 
-/* Meta text */
-.pixel-meta{
-  position:absolute;
-  font-family:'Poppins', sans-serif;
-  font-size:12px;
-  letter-spacing:0.08em;
-  color:#ffffffaa;
-  user-select:none;
+/* little help text inside intro */
+.pixel-help{
+  margin-top: 18px;
+  font-family: "Press Start 2P", monospace;
+  font-size: 10px;
+  color: rgba(255,255,255,0.60);
+  line-height: 1.6;
 }
 
-.pixel-meta.top-left{ top:20px; left:26px; }
-.pixel-meta.top-left2{ top:42px; left:26px; }
-.pixel-meta.top-right{ top:20px; right:26px; }
-
-.pixel-meta.bottom-left{
-  bottom:22px;
-  left:26px;
-  font-size:11px;
-  line-height:1.4;
-}
-
-.pixel-meta.bottom-right{
-  bottom:22px;
-  right:26px;
-  font-size:11px;
-  line-height:1.4;
-  text-align:right;
-}
-
-/* floating gummy blobs */
+/* floating blobs toned down to match game */
 .gummy{
-  position:absolute;
-  border-radius:50%;
-  opacity:0.9;
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.22;
   filter: blur(0.5px);
   animation: floaty 12s infinite ease-in-out;
-  pointer-events:none;
-  z-index:2;
+  pointer-events: none;
+  z-index: 2;
 }
 
 .g1{
-  width:140px; height:140px;
-  background:radial-gradient(circle at 30% 30%, #fff, #ffafcc);
-  top:12%; left:8%;
-  animation-duration:14s;
+  width: 160px;
+  height: 160px;
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(255,175,204,0.7));
+  top: 10%;
+  left: 8%;
+  animation-duration: 14s;
 }
 
 .g2{
-  width:90px; height:90px;
-  background:radial-gradient(circle at 30% 30%, #fff, #bde0fe);
-  bottom:14%; right:10%;
-  animation-duration:11s;
+  width: 110px;
+  height: 110px;
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(189,224,254,0.7));
+  bottom: 12%;
+  right: 10%;
+  animation-duration: 11s;
 }
 
 .g3{
-  width:70px; height:70px;
-  background:radial-gradient(circle at 30% 30%, #fff, #caffbf);
-  top:18%; right:18%;
-  animation-duration:9s;
+  width: 90px;
+  height: 90px;
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(202,255,191,0.7));
+  top: 18%;
+  right: 18%;
+  animation-duration: 9s;
 }
 
 .g4{
-  width:110px; height:110px;
-  background:radial-gradient(circle at 30% 30%, #fff, #ffc8dd);
-  bottom:18%; left:14%;
-  animation-duration:13s;
+  width: 130px;
+  height: 130px;
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(255,200,221,0.7));
+  bottom: 18%;
+  left: 14%;
+  animation-duration: 13s;
 }
 
 @keyframes floaty{
-  0%{ transform:translateY(0px) }
-  50%{ transform:translateY(-26px) }
-  100%{ transform:translateY(0px) }
+  0%{ transform: translateY(0px) }
+  50%{ transform: translateY(-18px) }
+  100%{ transform: translateY(0px) }
 }
 
-/* Small screens polish */
 @media (max-width: 520px){
-  .pixel-meta.top-left,
-  .pixel-meta.top-left2,
-  .pixel-meta.top-right{
-    display:none;
+  .pixel-panel{
+    padding: 22px 16px;
   }
-
-  .pixel-meta.bottom-left{
-    left:16px;
-    right:16px;
-    bottom:14px;
-    font-size:10px;
-  }
-
-  .pixel-meta.bottom-right{
-    right:16px;
-    bottom:14px;
-    font-size:10px;
-    max-width: 48vw;
-  }
-
   .pixel-btn{
-    padding:14px 18px;
-    border-radius:12px;
+    padding: 14px 18px;
+    border-radius: 10px;
   }
-
-  .pixel-subtitle{
-    margin-bottom:28px;
+  .pixel-help{
+    font-size: 9px;
   }
 }
 
-/* Reduce motion */
 @media (prefers-reduced-motion: reduce){
-  .gummy{
-    animation:none;
-  }
-  .pixel-btn{
-    transition:none;
-  }
+  .gummy{ animation: none; }
+  .pixel-btn{ transition: none; }
 }
