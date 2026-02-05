@@ -1,0 +1,163 @@
+:root{
+  --bg:#fff;
+  --fg:#111;
+  --muted: rgba(17,17,17,.62);
+  --line:#e7e7e9;
+
+  --maxw: 1500px;
+  --pad: clamp(16px, 3vw, 36px);
+
+  --gap-x: 36px;
+  --gap-y: 48px;
+
+  --tile-min: 300px;
+
+  --ctl-h: 40px;
+}
+
+*{ box-sizing:border-box; }
+html, body{ height:100%; }
+
+body{
+  margin:0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: Inter, Pretendard, system-ui, Segoe UI, Roboto, Helvetica, Arial, "Noto Sans KR", sans-serif;
+}
+
+.page{
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: calc(var(--header-h,56px) + 26px) var(--pad) 100px;
+}
+
+/* toolbar */
+.toolbar{
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr auto;
+  gap: 14px;
+  align-items: center;
+  margin: 10px auto 26px;
+}
+
+.search, .select, .reset{
+  width:100%;
+  height: var(--ctl-h);
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background: #fff;
+  color: var(--fg);
+  font-size: 13px;
+  padding: 0 12px;
+  outline: none;
+}
+
+.search::placeholder{ color: rgba(17,17,17,.38); }
+
+.search:focus, .select:focus{
+  border-color: rgba(17,17,17,.30);
+  box-shadow: 0 0 0 3px rgba(0,0,0,.06);
+}
+
+/* reset button */
+.reset{
+  width: auto;
+  cursor: pointer;
+  padding: 0 14px;
+}
+
+.reset:active{
+  transform: translateY(1px);
+}
+
+/* custom select arrow and position control */
+.select{
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  padding-right: 38px;
+
+  background-image: url("data:image/svg+xml;utf8,\
+<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'>\
+<path d='M2 4.5L6 8.5L10 4.5' fill='none' stroke='%23111' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/>\
+</svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
+
+/* 화살표 위치 바꾸고 싶으면 여기 숫자만 조절 */
+.select.arrow-in{ background-position: right 18px center; }
+.select.arrow-out{ background-position: right 8px center; }
+
+.grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--tile-min), 1fr));
+  column-gap: var(--gap-x);
+  row-gap: var(--gap-y);
+  max-width: var(--maxw);
+  margin: 0 auto;
+}
+
+/* card */
+.card{
+  background:#fff;
+  border:0;
+  border-radius:0;
+  overflow:hidden;
+}
+
+.media{
+  display:block;
+  width:100%;
+  aspect-ratio: 4 / 3;
+  background:#f5f5f6;
+  overflow:hidden;
+}
+
+.img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+.body{
+  padding: 12px 14px 14px;
+}
+
+.title{
+  margin-left: -8px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: .1px;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.meta{
+  margin: 6px 0 0;
+  margin-left: -8px;
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.empty{
+  margin: 28px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* mobile */
+@media (max-width: 900px){
+  :root{ --tile-min: 240px; --ctl-h: 44px; }
+  .toolbar{ grid-template-columns: 1fr; }
+  .search, .select, .reset{ font-size: 16px; }
+  .reset{ width: 100%; }
+}

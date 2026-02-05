@@ -42,7 +42,7 @@ if(archiveBtn){
 
 if(commissionBtn){
   commissionBtn.addEventListener("click", ()=>{
-    location.href = "/commission/";
+location.href = "../commission/";
   });
 }
 
