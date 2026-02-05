@@ -79,7 +79,7 @@
 
     // assets
     const mothImg = new Image();
-    mothImg.src = "/front/Moth.png";
+    mothImg.src = "Moth.png";
 
     const GLOW_NEAR = "rgba(148, 115, 155, 0.88)";
     const GLOW_FAR = "rgba(97, 54, 165, 0.64)";
