@@ -8,7 +8,8 @@
 body {
   margin: 0;
   padding: 0 !important;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Inter","Pretendard",system-ui,-apple-system,
+               "Segoe UI",Roboto,"Noto Sans KR",sans-serif;
   background: #fff;
   color: #444;
 }
@@ -155,7 +156,7 @@ body[data-page="log"] header .shop-toggle {
 }
 
 .exhibition-info strong {
-  font-weight: 600;
+  font-weight: 500;
 }
 
 
@@ -176,7 +177,7 @@ body[data-page="log"] header .shop-toggle {
 }
 
 .text.kor {
-  font-family: "Noto Sans KR", sans-serif;
+  font-family: "Pretendard","Noto Sans KR",sans-serif;
   font-size: 11px;
   opacity: 0.85;
   margin-top: 55px;
@@ -189,7 +190,7 @@ body[data-page="log"] header .shop-toggle {
    ======================================================= */
 .above-slider-link {
   text-align: center;
-  margin: 100px auto 50px;
+  margin: 0px auto 50px;
   display: flex;
   flex-direction: column;
   gap: 4px;   /* 두 링크 간 간격 */

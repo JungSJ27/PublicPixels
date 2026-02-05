@@ -19,8 +19,8 @@
   box-sizing: border-box;
 }
 
-html, body {
-  font-family: 'Poppins', sans-serif;
+html, body{
+  font-family: "Inter", "Pretendard", system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
   color: #333;
   line-height: 1.5;
   background: #fff;

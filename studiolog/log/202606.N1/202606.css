@@ -10,11 +10,11 @@ body {
   align-items: center;
   justify-content: center;
   background: #e7e7e7;
-  font-family: 'Poppins', sans-serif;
   color: #1a1a1a;
   position: relative;
   overflow-x: hidden;
 }
+
 
 /* =======================================================
    HEADER (전시 페이지 전용)
@@ -109,7 +109,7 @@ body[data-page="log"] header .shop-toggle {
   display: block;
   margin-bottom: 1px;
   letter-spacing: 0.1px;
-  font-weight: 30;
+  font-weight: 200;
 }
 
 .poster-main .subtitle {

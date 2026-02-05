@@ -20,12 +20,37 @@ header{
 /* ---- 2) 로고 ---- */
 .logo{ display:flex; align-items:flex-end; gap:.3rem; }
 .logo a{ text-decoration:none; color:inherit; }
-.logo-brand{ font-size:1.5rem; font-weight:600; color:rgba(0,0,0,.75); line-height:1; }
-.logo-roman{ font-size:.75rem; margin-left:.3rem; padding-bottom:7px; color:rgba(0,0,0,.6); line-height:1; }
-.logo-korean{
-  font-size:.75rem; font-weight:400; color:rgba(0,0,0,.55);
-  margin-left:.25rem; padding:0; padding-bottom:7px; transform:translateY(1px); line-height:1;
+
+.logo-brand{
+  font-size:1.5rem;
+  font-weight:650;
+  color:rgba(0,0,0,.75);
+  line-height:1;
+  letter-spacing:-0.02em;
 }
+
+.logo-roman{
+  font-size:.75rem;
+  margin-left:.6rem;
+  padding-bottom:7px;
+  color:rgba(0,0,0,.6);
+  line-height:1;
+  letter-spacing:0;
+}
+
+.logo-korean{
+  font-size:.75rem;
+  font-weight:400;
+  color:rgba(0,0,0,.55);
+  margin-left:.25rem;
+  padding:0;
+  padding-bottom:7px;
+  transform:translateY(1px);
+  line-height:1;
+  letter-spacing:0;
+}
+
+
 
 /* ---- 3) 우측 액션(돋보기/쇼핑백) ---- */
 /* 아이콘 사이즈 토큰 */
