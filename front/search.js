@@ -162,7 +162,7 @@ export function ensureSearchPanel() {
     { title: "SJ1",                 url: "/about/",                             image: "/front/SJ1.png" },
     { title: "Still, Life goes on", url: "/archive/works/still-life-goes-on/",  image: "/front/recstill.png" },
     { title: "Rent-a-JJ Chat",      url: "/pixelshop/shop/rent-a-jjchat/",      image: "/front/jjchat.png" },
-    { title: "Group Exhibition of Artists Based in the Americas", url: "/studiolog/log/202606/",            image: "/front/CNKorUS.png" },
+    { title: "Brooklyn to Gangnam Magazine Volume 2", url: "/studiolog/log/202603/",   image: "/front/0315.png" },
   ];
 
   function renderDemo() {

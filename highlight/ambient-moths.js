@@ -8,7 +8,7 @@
     count: Math.floor(Math.random()*8), // 0~7 랜덤
     mothSize: 11,
     mothAlpha: 1,                     // 0~1
-    glow: 'rgba(238, 141, 202, 0.92)',
+    glow: 'rgba(60, 228, 203, 0.92)',
 
     shadowBlur: 10,
 
@@ -86,7 +86,7 @@
   dotSprite.width = dotSprite.height = 32;
   const dctx = dotSprite.getContext('2d');
   const gdot = dctx.createRadialGradient(16,16,0,16,16,14);
-  gdot.addColorStop(0,'rgb(200, 80, 120)');
+  gdot.addColorStop(0,'rgb(126, 48, 189)');
   gdot.addColorStop(0.4,'rgba(250, 180, 200, 0.55)');
   gdot.addColorStop(1,'rgba(255,255,255,0)');
   dctx.fillStyle = gdot;

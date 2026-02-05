@@ -117,7 +117,7 @@ body[data-page="log"] header .shop-toggle {
 }
 
 .info-block {
-  margin-top: 70px;
+  margin-top: 100px;
   font-size: 12px;
 }
 
@@ -132,7 +132,7 @@ body[data-page="log"] header .shop-toggle {
 }
 
 .block.kr {
-  margin-top: 20px;
+  margin-top: -70px;
 }
 
 
