@@ -1,511 +1,477 @@
 // ===============================
-// News.js — vertical first, fixed-ratio cards, no scale glitch
+// News.js
+// long sliding ruler track
+// year width grows by event count with a minimum width
+// no hiding, no second scrollbar
 // ===============================
 (() => {
-/* ===== helpers ===== */
-const $  = (s, el=document)=> el.querySelector(s);
-const $$ = (s, el=document)=> [...el.querySelectorAll(s)];
-const clamp = (v,a,b)=> Math.min(b, Math.max(a,v));
-const fmtMonYr = iso => new Date(iso+"T00:00:00")
-  .toLocaleString("en-US",{month:"short",year:"numeric"}).toUpperCase();
-const fmtMonYrFromMs = ms => new Date(ms)
-  .toLocaleString("en-US",{month:"short",year:"numeric"}).toUpperCase();
-const isFutureDate = iso => {
-  if (!iso) return false;
-  const d=new Date(iso+"T00:00:00");
-  const today=new Date(); today.setHours(0,0,0,0);
-  return d>today;
-};
-const cssNum = name =>
-  parseFloat(getComputedStyle(document.documentElement).getPropertyValue(name)) || 0;
+  /* ===== helpers ===== */
+  const $  = (s, el=document)=> el.querySelector(s);
+  const $$ = (s, el=document)=> [...el.querySelectorAll(s)];
+  const fmtMonYr = iso => new Date(iso + "T00:00:00")
+    .toLocaleString("en-US",{month:"short",year:"numeric"}).toUpperCase();
+  const isFutureDate = iso => {
+    if (!iso) return false;
+    const d=new Date(iso+"T00:00:00");
+    const today=new Date(); today.setHours(0,0,0,0);
+    return d>today;
+  };
+  const cssNum = name =>
+    parseFloat(getComputedStyle(document.documentElement).getPropertyValue(name)) || 0;
 
-/* ===== cards ===== */
-// News.js
-function makeCard(item){
-  const img = item.image
-    ? `<img class="ph" src="${item.image}" alt="${item.title} preview" />`
-    : `<div class="ph"></div>`;
-  const futureClass = isFutureDate(item.date) ? ' card--future' : '';
-  const placeBlock = item.location
-    ? `<div class="fill" aria-hidden="true"></div><p class="place">${item.location}</p>`
-    : '';
+  const addMonths = (y, m, delta) => {
+    const t = y*12 + m + delta;
+    const ny = Math.floor(t/12);
+    const nm = ((t%12)+12)%12;
+    return { y: ny, m: nm };
+  };
 
-  // 핵심: article 대신 a.card 사용
-  return `
-    <a class="card${futureClass}" href="${item.href || '#'}" data-date="${item.date}" aria-label="${item.title}">
-      <figure class="fig">${img}</figure>
-      <p class="meta">${fmtMonYr(item.date)}</p>
-      <h3>${item.title}</h3>
-      ${placeBlock}
-    </a>`;
-}
+  /* ===== cards ===== */
+  function makeCard(item){
+    const img = item.image
+      ? `<img class="ph" src="${item.image}" alt="${item.title} preview" />`
+      : `<div class="ph"></div>`;
+    const futureClass = isFutureDate(item.date) ? " card--future" : "";
+    const placeBlock = item.location
+      ? `<div class="fill" aria-hidden="true"></div><p class="place">${item.location}</p>`
+      : "";
 
-
-/* ===== ruler (weighted ticks) ===== */
-function buildRulerWeightedTicks(items, {
-  minWeight = 0.5,
-  padNewestMonths = 10,
-  padOldestMonths = 10
-} = {}){
-  if (!items?.length) return null;
-
-  const newestDate  = new Date(items[0].date);   // newest → oldest 가정
-  const oldestDate  = new Date(items[items.length-1].date);
-
-  const newestYear  = newestDate.getFullYear();
-  const oldestYear  = oldestDate.getFullYear();
-  const newestMonth = newestDate.getMonth();
-  const oldestMonth = oldestDate.getMonth();
-
-  // 연도별 개수 → 가중치
-  const countByYear = {};
-  items.forEach(it=>{
-    const y = new Date(it.date).getFullYear();
-    countByYear[y] = (countByYear[y] || 0) + 1;
-  });
-
-  const years = [];
-  for(let y=newestYear; y>=oldestYear; y--){
-    const c = countByYear[y] || 0;
-    const w = c>0 ? c : minWeight;
-    years.push({year:y, count:c, weight:w});
+    return `
+      <a class="card${futureClass}" href="${item.href || "#"}" data-date="${item.date}" aria-label="${item.title}">
+        <figure class="fig">${img}</figure>
+        <p class="meta">${fmtMonYr(item.date)}</p>
+        <h3>${item.title}</h3>
+        ${placeBlock}
+      </a>`;
   }
-  const totalW = years.reduce((s,r)=>s+r.weight, 0);
-  let acc = 0;
-  years.forEach(seg=>{
-    seg.start = acc / totalW;
-    seg.end   = (acc + seg.weight) / totalW;
-    acc += seg.weight;
-  });
 
-  const byYear = new Map(years.map(s=>[s.year, s]));
-  const monthToRaw = (y,m)=>{
-    const seg = byYear.get(y); if(!seg) return null;
-    const t = (11 - m)/12;  // Dec(11)=0 → Jan(0)=1
-    return seg.start + t * (seg.end - seg.start);
-  };
+  /* ===== reveal ===== */
+  function isInView(el, root){
+    const rv=root?root.getBoundingClientRect():{left:0,width:window.innerWidth};
+    const r=el.getBoundingClientRect();
+    const left=r.left-(root?rv.left:0), right=left+r.width;
+    return right>0 && left<(root?rv.width:window.innerWidth);
+  }
+  function setupReveal(){
+    const cards=$$(".card"); if(!cards.length) return;
+    if(!("IntersectionObserver" in window)){
+      cards.forEach(c=>c.classList.add("is-visible")); return;
+    }
+    const root=$("#news-wrap");
+    const io=new IntersectionObserver((ents)=>{
+      ents.forEach(e=>{
+        if(e.isIntersecting){ e.target.classList.add("is-visible"); io.unobserve(e.target); }
+      });
+    },{root,threshold:.05});
+    cards.forEach(c=>{ io.observe(c); if(isInView(c,root)) c.classList.add("is-visible"); });
+    setTimeout(()=>{
+      if(!document.querySelector(".card.is-visible")) cards.forEach(c=>c.classList.add("is-visible"));
+    },300);
+  }
 
-  // 실제 데이터 스팬
-  const rawStart = monthToRaw(newestYear, newestMonth);
-  const rawEnd   = monthToRaw(oldestYear, oldestMonth);
-  const span     = Math.max(1e-9, rawEnd - rawStart);
-  const norm     = r => (r - rawStart) / span;
-  const denorm   = u => rawStart + u * span;
+  /* ===== ruler: long px track, year width depends on event count ===== */
+  function buildRulerFixedTrack(items, {
+    minYearPx = 180,            // 연도 최소 폭
+    extraPerEventPx = 34,       // 이벤트 1개당 추가 폭
+    minMonthPx = 10,            // 월 간격이 너무 좁아지지 않게
+    padOldestMonths = 8,        // 가장 오래된 쪽에 약간 여백
+    minExtraBeyondViewport = 320 // 큰 화면에서도 viewport보다 더 길게 만들기
+  } = {}){
+    const ticksEl = $("#ticks");
+    const rulerEl = $(".ruler");
+    if (!ticksEl || !rulerEl || !items?.length) return null;
 
-  // month +/- helper
-  const addYM = (y,m,delta)=>{
-    let tot = y*12 + m + delta;
-    const ny = Math.floor(tot/12);
-    const nm = ((tot%12)+12)%12;
-    return {y:ny, m:nm};
-  };
+    // newest to oldest 가정
+    const newest = new Date(items[0].date + "T00:00:00");
+    const oldest = new Date(items[items.length-1].date + "T00:00:00");
 
-  // 눈금은 데이터 바깥까지
-  const padStart = addYM(newestYear, newestMonth, +padNewestMonths);
-  const padEnd   = addYM(oldestYear, oldestMonth, -padOldestMonths);
+    const newestY = newest.getFullYear();
+    const oldestY = oldest.getFullYear();
 
-  const ticksEl = $('#ticks'); if(!ticksEl) return null;
-  ticksEl.innerHTML = '';
+    // 연도별 이벤트 개수
+    const countByYear = {};
+    items.forEach(it=>{
+      const y = new Date(it.date + "T00:00:00").getFullYear();
+      countByYear[y] = (countByYear[y] || 0) + 1;
+    });
 
-  const newestStr = fmtMonYrFromMs(new Date(newestYear, newestMonth, 1).getTime());
-  const oldestStr = fmtMonYrFromMs(new Date(oldestYear, oldestMonth, 1).getTime());
+    // 연도 세그먼트 생성 (이벤트 없는 연도는 제외)
+    const years = [];
+    for (let y = newestY; y >= oldestY; y--){
+      const c = countByYear[y] || 0;
+      if (c <= 0) continue;
+      const w = Math.max(minYearPx, minYearPx + c * extraPerEventPx);
+      years.push({ year: y, count: c, widthPx: w });
+    }
 
-  for(let y=padStart.y, m=padStart.m;;){
-    const r = monthToRaw(y,m);
-    if (r!=null){
-      const leftPct = norm(r) * 100;
-      const isYearBoundary = (m===0);
+    // 혹시 데이터가 한 해에만 몰려있는 경우 대비
+    if (!years.length){
+      years.push({ year: newestY, count: (countByYear[newestY] || 0), widthPx: minYearPx });
+    }
 
-      const t = document.createElement('div');
-      t.className = 'tick' + (isYearBoundary ? ' tick--year' : '');
-      t.style.left = leftPct + '%';
-      ticksEl.appendChild(t);
+    // 누적 x 범위 계산
+    let acc = 0;
+    years.forEach(seg=>{
+      seg.x0 = acc;
+      seg.x1 = acc + seg.widthPx;
+      acc = seg.x1;
+    });
 
-      if (isYearBoundary){
-        const lab = document.createElement('div');
-        lab.className = 'tick-label';
-        lab.textContent = String(y);
-        lab.style.left = leftPct + '%';
-        ticksEl.appendChild(lab);
+    // 가장 오래된 쪽 패딩은 "개월" 단위로 뒤에 추가 (월 간격은 마지막 연도 기준)
+    let approxPxPerMonthLast = Math.max(minMonthPx, years.at(-1).widthPx / 12);
+    const padPx = Math.max(0, padOldestMonths) * approxPxPerMonthLast;
+
+    // track 길이
+    let trackW = Math.max(1, acc + padPx);
+
+    // 큰 화면에서도 track이 viewport보다 확실히 길도록 보정
+    const viewW = Math.max(1, rulerEl.getBoundingClientRect().width);
+    const minTrackW = viewW + Math.max(0, minExtraBeyondViewport);
+    if (trackW < minTrackW){
+      const scale = minTrackW / trackW;
+      years.forEach(seg=>{
+        seg.widthPx *= scale;
+      });
+      acc = 0;
+      years.forEach(seg=>{
+        seg.x0 = acc;
+        seg.x1 = acc + seg.widthPx;
+        acc = seg.x1;
+      });
+      approxPxPerMonthLast = Math.max(minMonthPx, years.at(-1).widthPx / 12);
+      trackW = Math.max(1, acc + Math.max(0, padOldestMonths) * approxPxPerMonthLast);
+    }
+
+    // 렌더
+    ticksEl.innerHTML = "";
+    ticksEl.style.width = trackW + "px";
+
+    years.forEach(seg=>{
+      const step = Math.max(minMonthPx, seg.widthPx / 12);
+
+      for (let i=0; i<=12; i++){
+        const x = seg.x0 + i * step;
+
+        const t = document.createElement("div");
+        t.className = "tick";
+        t.style.left = x + "px";
+
+        // year boundary는 해당 연도 시작점 (여기서는 i===12를 Jan 라인으로 취급)
+        const isYearBoundary = (i === 12);
+        if (isYearBoundary){
+          t.classList.add("tick--year");
+          t.dataset.year = String(seg.year);
+
+          const lab = document.createElement("div");
+          lab.className = "tick-label";
+          lab.textContent = String(seg.year);
+          lab.style.left = x + "px";
+          lab.dataset.year = String(seg.year);
+          ticksEl.appendChild(lab);
+        }
+
+        ticksEl.appendChild(t);
+      }
+    });
+
+    // 맨 마지막(가장 오래된) 패딩 부분에도 작은 tick 몇 개 추가 (선택)
+    if (padPx > 0){
+      const baseX = acc;
+      const step = Math.max(minMonthPx, approxPxPerMonthLast);
+      const n = Math.floor(padPx / step);
+      for (let i=1; i<=n; i++){
+        const t = document.createElement("div");
+        t.className = "tick";
+        t.style.left = (baseX + i * step) + "px";
+        ticksEl.appendChild(t);
       }
     }
-    if (y===padEnd.y && m===padEnd.m) break;
-    m -= 1; if (m<0){ y -= 1; m=11; }
+
+    return {
+      years,
+      trackW,
+      newestYear: years[0].year,
+      oldestYear: years.at(-1).year,
+      dateAtProgress(p){
+        // progress -> 어느 연도 구간인지 역산
+        const rp = Math.min(1, Math.max(0, p));
+        const x = rp * trackW;
+
+        // years 범위 내에서 찾기
+        let seg = years.find(s => x >= s.x0 && x <= s.x1) || years.at(-1);
+        const local = (x - seg.x0) / Math.max(1e-9, (seg.x1 - seg.x0));
+        const monthIdx = 11 - Math.floor(Math.min(0.999999, Math.max(0, local)) * 12);
+        return new Date(seg.year, monthIdx, 1);
+      }
+    };
   }
 
-  return {
-    years, monthToRaw, norm, denorm,
-    labelMinRatio: 0, labelMaxRatio: 1,
-    newestStr, oldestStr
-  };
-}
+  /* ===== sync: card scroll drives ruler sliding + heart position ===== */
+  function makeSyncSlidingTrack(model){
+    if(!model) return;
 
-/* ===== reveal ===== */
-function isInView(el, root){
-  const rv=root?root.getBoundingClientRect():{left:0,width:window.innerWidth};
-  const r=el.getBoundingClientRect();
-  const left=r.left-(root?rv.left:0), right=left+r.width;
-  return right>0 && left<(root?rv.width:window.innerWidth);
-}
-function setupReveal(){
-  const cards=$$('.card'); if(!cards.length) return;
-  if(!('IntersectionObserver' in window)){
-    cards.forEach(c=>c.classList.add('is-visible')); return;
-  }
-  const root=$('#news-wrap');
-  const io=new IntersectionObserver((ents)=>{
-    ents.forEach(e=>{
-      if(e.isIntersecting){ e.target.classList.add('is-visible'); io.unobserve(e.target); }
-    });
-  },{root,threshold:.05});
-  cards.forEach(c=>{ io.observe(c); if(isInView(c,root)) c.classList.add('is-visible'); });
-  setTimeout(()=>{ if(!document.querySelector('.card.is-visible')) cards.forEach(c=>c.classList.add('is-visible')); },300);
-}
+    const wrap   = $("#news-wrap");
+    const heart  = $("#indicator");
+    const label  = $("#indicator-label");
+    const rulerEl= $(".ruler");
+    const ticksEl= $("#ticks");
+    if (!wrap || !heart || !label || !rulerEl || !ticksEl) return;
 
-/* ===== heart + label sync ===== */
-function makeSyncWeighted(model){
-  if(!model) return;
-  const wrap   = document.getElementById('news-wrap');   // 스크롤 컨테이너
-  const grid   = document.getElementById('news-grid');   // 내용물
-  const heart  = document.getElementById('indicator');
-  const label  = document.getElementById('indicator-label');
-  const rulerEl= document.querySelector('.ruler');
-  const ticksEl= document.getElementById('ticks');
-  if (!wrap || !grid || !heart || !label || !rulerEl || !ticksEl) return;
+    const getMaxScroll = () => Math.max(0, wrap.scrollWidth - wrap.clientWidth);
 
-  const OVERSHOOT = Math.max(480, window.innerWidth * 0.6);
-  const EDGE_SAFE_EXTRA = -30;
+    function setProgress(p){
+      const rp = Math.min(1, Math.max(0, p));
 
-  function getBounds(){
-    const rr = rulerEl.getBoundingClientRect();
-    const tr = ticksEl.getBoundingClientRect();
-    return { offset: tr.left - rr.left, width: tr.width, rulerW: rr.width };
-  }
-  const ratioToX = u => {
-    const { offset, width } = getBounds();
-    return offset + u * Math.max(1, width);
-  };
+      // slide the long ticks track inside fixed viewport
+      const viewW = Math.max(1, rulerEl.getBoundingClientRect().width);
+      const maxShift = Math.max(0, model.trackW - viewW);
+      const shiftX = rp * maxShift;
 
-  function labelTextAtX(x){
-    const { offset, width } = getBounds();
-    const w = Math.max(1, width);
-    const u = (x - offset) / w;
+      ticksEl.style.transform = `translateX(${-shiftX}px)`;
 
-    if (u <= 0)  return model.newestStr;
-    if (u >= 1)  return model.oldestStr;
+      // heart moves within viewport
+      const safe = Math.max(10, Math.floor((heart.clientWidth || 42) * 0.5));
+      const x = safe + rp * (viewW - safe*2);
 
-    const ratio = model.denorm ? model.denorm(u) : u;
-    const seg = model.years.find(s => ratio >= s.start && ratio <= s.end)
-             || model.years.find(s => ratio <= s.end) || model.years.at(-1);
-    const local = (ratio - seg.start) / Math.max(1e-9, (seg.end - seg.start));
-    const monthIdx = 11 - Math.floor(Math.min(0.999999, Math.max(0, local)) * 12);
-    return new Date(seg.year, monthIdx, 1)
-      .toLocaleString("en-US",{month:"short",year:"numeric"}).toUpperCase();
-  }
+      heart.style.left = x + "px";
+      label.style.left = x + "px";
+      label.style.transform = "translateX(calc(-50% + var(--label-offset-x)))";
 
-  // 핵심: maxScroll을 wrap 기준으로 계산 (스케일/오버플로우 변화에 안전)
-  const getMaxScroll = () => Math.max(0, wrap.scrollWidth - wrap.clientWidth);
-  const edgeSafePx   = () => Math.max(-5, Math.floor(heart.clientWidth/2) + EDGE_SAFE_EXTRA);
+      const d = model.dateAtProgress(rp);
+      label.textContent = d.toLocaleString("en-US",{month:"short",year:"numeric"}).toUpperCase();
 
-  function placeByProgress(p){
-    const { rulerW } = getBounds();
-    const safe = edgeSafePx();
-
-    const xLeftSnap  = ratioToX(model.labelMinRatio ?? 0);
-    const xRightSnap = ratioToX(model.labelMaxRatio ?? 1);
-
-    const minX = Math.max(safe,          xLeftSnap  - OVERSHOOT);
-    const maxX = Math.min(rulerW - safe, xRightSnap + OVERSHOOT);
-
-    const x = minX + p * (maxX - minX);
-    heart.style.left = x + 'px';
-    label.style.left = x + 'px';
-    label.style.transform = 'translateX(calc(-50% + var(--label-offset-x)))';
-
-    if (p <= 0.001) label.textContent = model.newestStr;
-    else if (p >= 0.999) label.textContent = model.oldestStr;
-    else label.textContent = labelTextAtX(x);
-  }
-
-  let rAF = 0;
-  function update(){
-    cancelAnimationFrame(rAF);
-    rAF = requestAnimationFrame(()=>{
-      const maxScroll = getMaxScroll();
-      const pRaw = maxScroll ? (wrap.scrollLeft / maxScroll) : 0;
-      const p = Math.min(1, Math.max(0, pRaw));
-      placeByProgress(p);
-      window.__newsHeart?.setProgress?.(p);
-    });
-  }
-
-  placeByProgress(0);
-  window.__newsHeart?.setProgress?.(0);
-
-  // 리스너
-  wrap.addEventListener('scroll', update, { passive:true });
-  window.addEventListener('resize', update, { passive:true });
-  document.addEventListener('visibilitychange', update, { passive:true });
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(update).catch(()=>{});
-  window.addEventListener('load', update, { passive:true });
-
-  // 키/휠 보조
-  window.addEventListener('wheel', update, { passive:true });
-  window.addEventListener('keydown', e=>{
-    if (["ArrowLeft","ArrowRight","Home","End","PageUp","PageDown"].includes(e.key)) update();
-  }, { passive:true });
-
-  return { updateUI: update };
-}
-
-/* ===== Vertical-first row controller =====
-   세로 px 기준으로 1열 또는 2열을 결정
-   카드 영역은 헤더 아래 ~ 룰러 위까지 꽉 채움
-*/
-function makeVerticalLayoutController(){
-  const wrap = $('#news-wrap');
-  const grid = $('#news-grid');
-  if (!wrap || !grid) return { apply(){}, destroy(){} };
-
-  const SAFE_PAD = 8;
-
-  function getAvailableZoneH(){
-    const headerH = cssNum('--header-h') || 56;
-    const topGap  = cssNum('--grid-top') || 0;
-    const rulerH  = cssNum('--ruler-h')  || 85;
-    const extraBottom = cssNum('--cards-bottom-gap') || 0;
-    const vh = Math.max(window.innerHeight, document.documentElement.clientHeight || 0);
-    return Math.max(0, vh - (headerH + topGap) - (rulerH + SAFE_PAD + extraBottom));
-  }
-
-  function setRows(mode){
-    grid.classList.toggle('one-row', mode === 1);
-    grid.classList.toggle('two-row', mode === 2);
-  }
-
-  function apply(){
-  const zoneH = getAvailableZoneH();
-  document.documentElement.style.setProperty('--zone-h', `${zoneH}px`);
-
-  const GAP      = cssNum('--grid-gap')   || 18;
-  const ROW_MIN  = cssNum('--card-minh')  || 280;
-
-  // 세로가 두 줄 만들기에 모자라면 1줄
-  const SWITCH_NEED = ROW_MIN * 2 + GAP;
-
-  const isNarrowW = window.innerWidth <= 880;
-  const isShortH  = zoneH < SWITCH_NEED;
-
-  if (isNarrowW || isShortH){
-    setRows(1);
-    document.documentElement.style.setProperty('--row-h', `${zoneH}px`);
-  } else {
-    const row = Math.floor((zoneH - GAP) / 2);
-    setRows(2);
-    document.documentElement.style.setProperty('--row-h', `${row}px`);
-  }
-
-  const grid = document.getElementById('news-grid');
-  if (grid) grid.style.transform = 'none';
-  window.__newsSync?.updateUI?.();
-}
-
-
-  const onResize = () => apply();
-  window.addEventListener('resize', onResize, { passive:true });
-  window.addEventListener('orientationchange', onResize, { passive:true });
-  window.addEventListener('load', onResize, { passive:true });
-
-  grid.querySelectorAll('img').forEach(img=>{
-    if (!img.complete){
-      img.addEventListener('load', apply,  { once:true });
-      img.addEventListener('error', apply, { once:true });
+      window.__newsHeart?.setProgress?.(rp);
     }
-  });
 
-  return {
-    apply,
-    destroy(){
-      window.removeEventListener('resize', onResize);
-      window.removeEventListener('orientationchange', onResize);
-      window.removeEventListener('load', onResize);
+    let rAF = 0;
+    function update(){
+      cancelAnimationFrame(rAF);
+      rAF = requestAnimationFrame(()=>{
+        const maxScroll = getMaxScroll();
+        const p = maxScroll ? (wrap.scrollLeft / maxScroll) : 0;
+        setProgress(p);
+      });
     }
-  };
-}
 
+    // init
+    setProgress(0);
 
-// =============================================
-// boot — 렌더 → 리빌 → 룰러/하트 → 레이아웃/스케일 → 리스너
-// =============================================
-document.addEventListener('DOMContentLoaded', async ()=>{
-  // A. 헤더 높이 → CSS 변수 반영
-  const header = document.querySelector('header');
-  const setHeaderVars = () => {
-    const h = header ? header.offsetHeight : 56;
-    document.documentElement.style.setProperty('--header-h', h + 'px');
-    document.documentElement.style.setProperty('--top-gap', (h + 8) + 'px');
-  };
-  setHeaderVars();
+    wrap.addEventListener("scroll", update, { passive:true });
+    window.addEventListener("resize", update, { passive:true });
+    window.addEventListener("orientationchange", update, { passive:true });
+    document.addEventListener("visibilitychange", update, { passive:true });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(update).catch(()=>{});
+    window.addEventListener("load", update, { passive:true });
 
-  const grid = document.getElementById('news-grid');
-
-  // B. 데이터 로드/렌더
-  let data = [];
-  try{
-    const res = await fetch('./current.data.json',{ cache:'no-store' });
-    data = await res.json();
-    if (!Array.isArray(data)) data = [];
-  }catch(e){ console.error('Failed to load News.data.json', e); }
-
-  if (!data.length){
-    grid.innerHTML = `<div style="opacity:.7;padding:24px">No news items.</div>`;
-  }else{
-    data.sort((a,b)=> a.date < b.date ? 1 : -1); // newest → oldest
-    grid.innerHTML = data.map(makeCard).join('');
+    return { updateUI: update, setProgress };
   }
 
-  // C. 리빌
-  setupReveal();
+  /* ===== Vertical-first row controller ===== */
+  function makeVerticalLayoutController(){
+    const grid = $("#news-grid");
+    if (!grid) return { apply(){}, destroy(){} };
 
-  // D. 룰러/하트 세팅(전역 저장)
-  let model = null;
-  try{
-    model = buildRulerWeightedTicks(data, {
-      minWeight: 0.5, padNewestMonths: 10, padOldestMonths: 10
-    });
-    window.__newsSync = makeSyncWeighted(model);   // <- 전역
-  }catch(e){ console.error('[ruler/sync init error]', e); }
+    const SAFE_PAD = 8;
 
-  // E. 세로 우선 레이아웃 컨트롤러
-  const layout = makeVerticalLayoutController();
-
-  // F. 높이 맞춰 스케일(세로 꽉 채움)
-  window.fitNewsGridByScale = function fitNewsGridByScale(){
-    const wrap = document.getElementById('news-wrap');
-    const grid = document.getElementById('news-grid');
-    if(!wrap || !grid) return;
-
-    const cssVar = n => parseFloat(getComputedStyle(document.documentElement).getPropertyValue(n)) || 0;
-    const headerH = cssVar('--header-h') || 56;
-    const gridTop = cssVar('--grid-top') || 30;
-    const rulerH  = cssVar('--ruler-h')  || 85;
-    const availH  = Math.max(0, window.innerHeight - (headerH + gridTop) - (rulerH + 8));
-
-    // zone 고정
-    document.documentElement.style.setProperty('--zone-h', `${availH}px`);
-
-    // 자연 높이 측정
-    const prev = grid.style.transform;
-    grid.style.transform = 'none';
-    void grid.offsetHeight; // reflow
-    const naturalH = grid.getBoundingClientRect().height;
-    grid.style.transform = prev;
-
-    if (naturalH > 0){
-      const s = availH / naturalH;
-      const sClamped = Math.max(0.65, Math.min(3.0, s));
-      grid.style.transformOrigin = '0 0';
-      grid.style.transform = `scale(${sClamped})`;
+    function getAvailableZoneH(){
+      const headerH = cssNum("--header-h") || 56;
+      const topGap  = cssNum("--grid-top") || 0;
+      const rulerH  = cssNum("--ruler-h")  || 85;
+      const extraBottom = cssNum("--cards-bottom-gap") || 0;
+      const vh = Math.max(window.innerHeight, document.documentElement.clientHeight || 0);
+      return Math.max(0, vh - (headerH + topGap) - (rulerH + SAFE_PAD + extraBottom));
     }
-  };
 
-  // 최초 맞춤
-  const firstFit = ()=>{
-    layout.apply();
-    window.__newsSync?.updateUI?.();
-  };
+    function setRows(mode){
+      grid.classList.toggle("one-row", mode === 1);
+      grid.classList.toggle("two-row", mode === 2);
+    }
 
-  // ===== wheel/drag → horizontal scroll =====
+    function apply(){
+      const zoneH = getAvailableZoneH();
+      document.documentElement.style.setProperty("--zone-h", `${zoneH}px`);
+
+      const GAP      = cssNum("--grid-gap")   || 18;
+      const ROW_MIN  = cssNum("--card-minh")  || 280;
+
+      const SWITCH_NEED = ROW_MIN * 2 + GAP;
+      const isNarrowW = window.innerWidth <= 880;
+      const isShortH  = zoneH < SWITCH_NEED;
+
+      if (isNarrowW || isShortH){
+        setRows(1);
+        document.documentElement.style.setProperty("--row-h", `${zoneH}px`);
+      } else {
+        const row = Math.floor((zoneH - GAP) / 2);
+        setRows(2);
+        document.documentElement.style.setProperty("--row-h", `${row}px`);
+      }
+
+      window.__newsSync?.updateUI?.();
+    }
+
+    const onResize = () => apply();
+    window.addEventListener("resize", onResize, { passive:true });
+    window.addEventListener("orientationchange", onResize, { passive:true });
+    window.addEventListener("load", onResize, { passive:true });
+
+    grid.querySelectorAll("img").forEach(img=>{
+      if (!img.complete){
+        img.addEventListener("load", apply,  { once:true });
+        img.addEventListener("error", apply, { once:true });
+      }
+    });
+
+    return {
+      apply,
+      destroy(){
+        window.removeEventListener("resize", onResize);
+        window.removeEventListener("orientationchange", onResize);
+        window.removeEventListener("load", onResize);
+      }
+    };
+  }
+
+  /* ===== wheel drag scroll ===== */
   function enableHScrollGestures(el){
-  if (!el) return;
+    if (!el) return;
 
-  // 세로 휠 → 가로 스크롤
-  el.addEventListener('wheel', (e)=>{
-    if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-      e.preventDefault();
-      el.scrollLeft += e.deltaY * 1.1;
+    el.addEventListener("wheel", (e)=>{
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        e.preventDefault();
+        el.scrollLeft += e.deltaY * 1.1;
+      }
+    }, { passive:false });
+
+    let pid=null, startX=0, startLeft=0, dragging=false, movedPx=0;
+
+    el.addEventListener("pointerdown", (e)=>{
+      if (e.button !== 0) return;
+      if (e.target.closest("a, button, input, textarea, select")) return;
+      pid = e.pointerId;
+      startX = e.clientX;
+      startLeft = el.scrollLeft;
+      movedPx = 0;
+      dragging = false;
+    }, { passive:true });
+
+    el.addEventListener("pointermove", (e)=>{
+      if (pid == null) return;
+      movedPx = Math.max(movedPx, Math.abs(e.clientX - startX));
+
+      if (!dragging && movedPx > 8) {
+        dragging = true;
+        try { el.setPointerCapture(pid); } catch {}
+        el.classList.add("is-dragging");
+      }
+
+      if (dragging) {
+        el.scrollLeft = startLeft - (e.clientX - startX);
+        e.preventDefault();
+      }
+    }, { passive:false });
+
+    function endDrag(){
+      if (pid != null) { try{ el.releasePointerCapture(pid); }catch(_){} }
+      pid = null;
+      dragging = false;
+      el.classList.remove("is-dragging");
     }
-  }, { passive:false });
 
-  let pid=null, startX=0, startLeft=0, dragging=false, movedPx=0;
-
-  el.addEventListener('pointerdown', (e)=>{
-    // 좌클릭만, a/button/input 위 클릭은 기본 동작 우선
-    if (e.button !== 0) return;
-    if (e.target.closest('a, button, input, textarea, select')) return;
-
-    pid = e.pointerId;
-    startX = e.clientX;
-    startLeft = el.scrollLeft;
-    movedPx = 0;
-    dragging = false;
-    // ❌ 여기서는 setPointerCapture 하지 않음 (클릭 살리기)
-  }, { passive:true });
-
-  el.addEventListener('pointermove', (e)=>{
-    if (pid == null) return;
-
-    movedPx = Math.max(movedPx, Math.abs(e.clientX - startX));
-
-    // 드래그로 판정되는 순간에만 캡처 시작
-    if (!dragging && movedPx > 8) {
-      dragging = true;
-      try { el.setPointerCapture(pid); } catch {}
-      el.classList.add('is-dragging');
-    }
-
-    if (dragging) {
-      el.scrollLeft = startLeft - (e.clientX - startX);
-      e.preventDefault(); // 드래그일 때만 기본 막음
-    }
-  }, { passive:false });
-
-  function endDrag(e){
-    if (pid != null) { try{ el.releasePointerCapture(pid); }catch(_){} }
-
-    // 드래그가 아니면: 아무 것도 하지 않음 → 기본 클릭이 그대로 동작
-    // 드래그였다면: 클래스만 정리
-    pid = null;
-    dragging = false;
-    el.classList.remove('is-dragging');
+    el.addEventListener("pointerup", endDrag, { passive:true });
+    el.addEventListener("pointercancel", endDrag, { passive:true });
+    el.addEventListener("mouseleave", endDrag, { passive:true });
   }
 
-  el.addEventListener('pointerup', endDrag, { passive:true });
-  el.addEventListener('pointercancel', endDrag, { passive:true });
-  el.addEventListener('mouseleave', endDrag, { passive:true });
-}
+  /* ===== boot ===== */
+  document.addEventListener("DOMContentLoaded", async ()=>{
+    const header = $("header");
+    const setHeaderVars = () => {
+      const h = header ? header.offsetHeight : 56;
+      document.documentElement.style.setProperty("--header-h", h + "px");
+      document.documentElement.style.setProperty("--top-gap", (h + 8) + "px");
+    };
+    setHeaderVars();
 
+    const grid = $("#news-grid");
 
-  // DOMContentLoaded 내부에서…
-  enableHScrollGestures(document.getElementById('news-wrap'));
+    // load data
+    let data = [];
+    try{
+      const res = await fetch("./current.data.json",{ cache:"no-store" });
+      data = await res.json();
+      if (!Array.isArray(data)) data = [];
+    }catch(e){ console.error("Failed to load current.data.json", e); }
 
-  // 이미지가 모두 준비되면 한 번 더
-  const imgs = grid.querySelectorAll('img');
-  let pending = imgs.length;
-  if (!pending) firstFit();
-  imgs.forEach(img=>{
-    if (img.complete){
-      if (--pending === 0) firstFit();
-    }else{
-      img.addEventListener('load', ()=>{ if(--pending===0) firstFit(); }, { once:true });
-      img.addEventListener('error',()=>{ if(--pending===0) firstFit(); }, { once:true });
+    if (!data.length){
+      grid.innerHTML = `<div style="opacity:.7;padding:24px">No news items.</div>`;
+      return;
     }
+
+    data.sort((a,b)=> a.date < b.date ? 1 : -1);
+    grid.innerHTML = data.map(makeCard).join("");
+
+    setupReveal();
+
+    // layout
+    const layout = makeVerticalLayoutController();
+
+    // ruler track build
+    const model = buildRulerFixedTrack(data, {
+      minYearPx: 180,
+      extraPerEventPx: 34,
+      minMonthPx: 10,
+      padOldestMonths: 8,
+      minExtraBeyondViewport: 320
+    });
+
+    // sync
+    window.__newsSync = makeSyncSlidingTrack(model);
+
+    // gestures
+    enableHScrollGestures($("#news-wrap"));
+
+    // first fit after images
+    const firstFit = ()=>{
+      layout.apply();
+      window.__newsSync?.updateUI?.();
+    };
+
+    const imgs = grid.querySelectorAll("img");
+    let pending = imgs.length;
+    if (!pending) firstFit();
+    imgs.forEach(img=>{
+      if (img.complete){
+        if (--pending === 0) firstFit();
+      }else{
+        img.addEventListener("load", ()=>{ if(--pending===0) firstFit(); }, { once:true });
+        img.addEventListener("error",()=>{ if(--pending===0) firstFit(); }, { once:true });
+      }
+    });
+
+    // resize
+    const onResizeAll = ()=>{
+      setHeaderVars();
+      layout.apply();
+
+      // resize 시 track이 viewport보다 짧아질 수 있어서 rebuild
+      const rebuilt = buildRulerFixedTrack(data, {
+        minYearPx: 180,
+        extraPerEventPx: 34,
+        minMonthPx: 10,
+        padOldestMonths: 8,
+        minExtraBeyondViewport: 320
+      });
+      window.__newsSync = makeSyncSlidingTrack(rebuilt);
+
+      window.__newsSync?.updateUI?.();
+    };
+
+    window.addEventListener("resize", onResizeAll, { passive:true });
+    window.addEventListener("orientationchange", onResizeAll, { passive:true });
+    window.addEventListener("load", onResizeAll, { passive:true });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(onResizeAll).catch(()=>{});
+
+    setTimeout(onResizeAll, 0);
   });
-
-  // H. 리스너 — 여기만 기억해
-  const onResizeAll = ()=>{
-    setHeaderVars();          // 헤더 변화 반영
-    layout.apply();           // 1↔2열 재판정
-   //window.fitNewsGridByScale(); // 세로 꽉 채우기
-    window.__newsSync?.updateUI?.(); // 하트 위치 재계산
-  };
-  window.addEventListener('resize', onResizeAll, { passive:true });
-  window.addEventListener('orientationchange', onResizeAll, { passive:true });
-  window.addEventListener('load', onResizeAll, { passive:true });
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(onResizeAll).catch(()=>{});
-
-  // I. 마지막 안전망
-  setTimeout(onResizeAll, 0);
-});
 })();
-

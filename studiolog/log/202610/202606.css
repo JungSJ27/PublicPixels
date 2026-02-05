@@ -1,0 +1,188 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e7e7e7;
+  color: #1a1a1a;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* =======================================================
+   HEADER (전시 페이지 전용)
+   ======================================================= */
+body[data-page="log"] header {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: transparent !important;
+  color: #fff !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  padding-top: 10px !important;
+  z-index: 3000;
+}
+
+
+/* 서치/카트 아이콘 숨기기 */
+body[data-page="log"] header .search-icon,
+body[data-page="log"] header .shop-toggle {
+  display: none !important;
+}
+
+
+
+/* =======================================================
+   LIST ICON (Back to Log)
+   ======================================================= */
+.list-toggle {
+  position: fixed;           /* hero 위에 고정 */
+  top: 9px;
+  right: 22px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 3500;
+  opacity: 0.8;
+}
+
+.ic-list {
+  width: 24px;
+  height: 24px;
+}
+
+.list-toggle:hover {
+  opacity: 1;
+}
+
+
+
+
+/* Ambient canvas */
+#ambient-moths {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.poster {
+  background: rgba(255, 255, 255, 0.4);
+  border: 0px solid rgba(116, 116, 116, 0.25);
+  padding: 48px 40px 44px;
+  max-width: 480px;
+  width: 90vw;
+  letter-spacing: 0.02em;
+  position: relative;
+  z-index: 10;
+}
+
+.poster-top {
+  font-size: 11px;
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 40px;
+  opacity: 0.5;
+}
+
+.poster-main {
+  text-align: left;
+  margin-bottom: 100px;
+  line-height: 1.4;
+}
+
+.poster-main .big-number {
+  font-size: 20px;
+  line-height: 1;
+  display: block;
+  margin-bottom: 1px;
+  letter-spacing: 0.1px;
+  font-weight: 200;
+}
+
+.poster-main .subtitle {
+  font-size: 25px;
+  font-weight: 400;
+}
+
+.info-block {
+  margin-top: 70px;
+  font-size: 12px;
+}
+
+.info-block + .info-block {
+  margin-top: 6px;
+}
+
+.info-block.kor {
+  opacity: 0.75;
+  font-size: 10px;
+  margin-top: 2px;
+}
+
+.block.kr {
+  margin-top: 20px;
+}
+
+
+.poster-bottom {
+  text-align: center;
+  font-size: 10px;
+  opacity: 0.75;
+}
+
+/* 🔥 영어와 한국어 사이 간격 */
+.poster-bottom.kor {
+  margin-top: 10px;   /* ← 여기 숫자를 조절해 */
+  font-size: 10px;
+  opacity: 0.75;
+}
+
+
+.divider {
+  border: none;
+  border-top: 1px solid rgba(112, 112, 112, 0.25);
+  margin: 18px 0;
+}
+
+.poster-bottom {
+  text-align: center;
+  font-size: 10px;
+  margin-top: 35px;
+  margin-bottom: -5px;
+  opacity: 0.75;
+}
+
+
+
+@media (max-width: 480px) {
+ 
+  .poster-main .big-number {
+    font-size: 20px;
+  }
+  .poster-main .subtitle {
+    font-size: 22px;
+  }
+
+  .list-toggle {
+    width: 26px;
+    height: 26px;
+    right: 12px;
+  }
+
+  .ic-list {
+    width: 24px;
+    height: 24px;
+  }
+}

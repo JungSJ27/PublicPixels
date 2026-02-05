@@ -244,21 +244,45 @@ html,body{
   border-bottom:0;
   overflow:visible;
 }
-.ticks{ position:absolute; left:0; right:0; bottom:0; height:var(--ruler-line-h); }
-.tick{ position:absolute; bottom:0; width:1px; height:var(--tick-h); background:#3a3a3a; opacity:.85; }
-.tick--year{ height:var(--tick-year-h); background:#bdbdbd79; }
-.tick-label{
-  position:absolute;
-  transform:translateX(-50%);
-  color:#bdbdbd79;
-  font-weight:700;
-  font-size:8px;
-  letter-spacing:.06em;
-  opacity:.85;
-  bottom:-20px;
-  pointer-events:none;
-  z-index:2;
+
+
+/* ticks wrapper */
+#ticks{
+  position: relative;
+  will-change: transform;
 }
+
+/* tick lines */
+.tick{
+  position: absolute;
+  bottom: 0;
+  width: 1px;
+  height: var(--tick-h);
+  background: #3a3a3a;
+  opacity: .85;
+}
+
+.tick--year{
+  height: var(--tick-year-h);
+  background: #bdbdbd79;
+}
+
+/* year numbers under the ruler line */
+.tick-label{
+  position: absolute;
+  left: 0;
+  transform: translateX(-50%);
+  bottom: -20px; /* ✅ 눈금 아래로 */
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  color: #bdbdbd79;
+  opacity: .85;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 2;
+}
+
 
 /* heart + label */
 .indicator{
@@ -314,8 +338,11 @@ html,body{
     .news-grid .card{
     --text-shift: clamp(4px, 1.4cqi, 12px);
   }
-
 }
+
+
+
+
 /* ============================
    NEWS PAGE THEME (Header + Search + Cart)
    ============================ */

@@ -2,13 +2,13 @@
 
 const NEWS = [
   {
-    hero: "studiolog/secass4/NewsKorUS.png",
-    href: "studiolog/log/202606/",
+    hero: "studiolog/secass4/0315Front.png",
+    href: "studiolog/log/202603/",
     bg: "#0a0a0a",
-    title: "-",
-    host:  "-",
-    when:  "JUN 2026",
-    where: "Seoul, South Korea",
+    title: "Volume 2",
+    host:  "Brooklyn to Gangnam Magazine",
+    when:  "MAR 2026",
+    where: "New York, USA",
     rw:6, rh:7, shift:0
   },
   {
