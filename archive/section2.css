@@ -1,46 +1,27 @@
-/* ===============================
-   PIXEL PLAYGROUND INTRO
-================================ */
-
 .pixel-intro{
   position: relative;
   width: 100%;
   height: 100vh;
   overflow: hidden;
 
-  /* pixel tile style background */
   background:
-    linear-gradient(180deg, rgba(11,18,36,0.78), rgba(11,18,36,0.78)),
-    repeating-linear-gradient(
-      90deg,
-      rgba(162,210,255,0.18) 0px,
-      rgba(162,210,255,0.18) 16px,
-      rgba(255,214,255,0.14) 16px,
-      rgba(255,214,255,0.14) 32px
-    ),
-    repeating-linear-gradient(
-      0deg,
-      rgba(189,178,255,0.12) 0px,
-      rgba(189,178,255,0.12) 16px,
-      rgba(155,246,255,0.10) 16px,
-      rgba(155,246,255,0.10) 32px
-    );
+    radial-gradient(circle at 20% 20%, rgba(255,214,255,0.18), transparent 40%),
+    radial-gradient(circle at 80% 40%, rgba(162,210,255,0.16), transparent 42%),
+    linear-gradient(180deg, rgba(11,18,36,0.92), rgba(11,18,36,0.78));
 }
 
-/* optional soft video background */
 #intro-video{
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.10;
+  opacity: 0.06;
   filter: blur(2px) saturate(1.05);
   z-index: 0;
   pointer-events: none;
 }
 
-/* game canvas */
 #c{
   position: absolute;
   inset: 0;
@@ -50,178 +31,129 @@
 
   image-rendering: pixelated;
   image-rendering: crisp-edges;
+  touch-action: none;
 }
 
-/* Intro UI layer */
+/* Intro UI overlay */
 #pixel-intro-ui{
   position: absolute;
   inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  z-index: 5;
-  pointer-events: auto;
+  z-index: 6;
+  display: grid;
+  place-items: center;
   padding: 24px;
 }
 
-/* HUD like panel behind title and buttons */
 .pixel-panel{
-  width: min(760px, 92vw);
+  width: min(780px, 92vw);
   padding: 26px 22px;
-  border-radius: 16px;
-  border: 2px solid rgba(255,214,255,0.55);
+  border-radius: 18px;
+  border: 2px solid rgba(162,210,255,0.35);
+
   background:
-    linear-gradient(180deg, rgba(162,210,255,0.16), rgba(255,214,255,0.10)),
-    rgba(0,0,0,0.32);
+    linear-gradient(180deg, rgba(162,210,255,0.10), rgba(255,214,255,0.06)),
+    rgba(0,0,0,0.28);
+
   box-shadow:
     0 0 0 2px rgba(0,0,0,0.25),
     0 18px 0 rgba(0,0,0,0.18);
+
+  text-align: center;
 }
 
-/* Title */
 .pixel-title{
   font-family: "Press Start 2P", monospace;
-  font-size: clamp(28px, 5vw, 72px);
-  line-height: 1.15;
+  font-size: clamp(40px, 7vw, 96px);
+  line-height: 1.05;
   color: #fff;
-  margin: 4px 0 14px 0;
+  margin: 6px 0 12px 0;
+
   text-shadow:
-    2px 2px 0 rgba(0,0,0,0.35),
-    0 0 10px rgba(255,119,233,0.35);
+    2px 2px 0 rgba(0,0,0,0.32),
+    0 0 10px rgba(162,210,255,0.22);
 }
 
 .pixel-subtitle{
   font-family: "Press Start 2P", monospace;
-  font-size: clamp(10px, 1.8vw, 14px);
-  color: rgba(255,255,255,0.78);
+  font-size: clamp(10px, 2vw, 14px);
+  color: rgba(255,255,255,0.76);
   margin: 0 0 18px 0;
+  line-height: 1.7;
 }
 
-/* Menu Buttons */
 .pixel-menu{
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
   align-items: center;
-  margin-top: 14px;
+  margin-top: 12px;
 }
 
 .pixel-btn{
   font-family: "Press Start 2P", monospace;
-  font-size: clamp(12px, 2vw, 18px);
+  font-size: clamp(12px, 2.2vw, 18px);
   padding: 14px 22px;
-  border: 2px solid rgba(255,214,255,0.75);
+  border: 2px solid rgba(162,210,255,0.45);
   border-radius: 10px;
 
   background:
-    linear-gradient(180deg, rgba(255,214,255,0.22), rgba(162,210,255,0.18)),
-    rgba(0,0,0,0.25);
+    linear-gradient(180deg, rgba(162,210,255,0.12), rgba(255,214,255,0.08)),
+    rgba(0,0,0,0.22);
 
   color: rgba(255,255,255,0.92);
   cursor: pointer;
 
   box-shadow:
     0 0 0 2px rgba(0,0,0,0.25),
-    0 10px 0 rgba(0,0,0,0.25);
+    0 10px 0 rgba(0,0,0,0.22);
 
-  transition: transform 0.12s, box-shadow 0.12s, filter 0.12s;
+  transition: transform 0.12s, filter 0.12s;
   min-width: min(340px, 86vw);
-  letter-spacing: 0.02em;
 }
 
 .pixel-btn:hover{
-  transform: translateY(-3px);
-  box-shadow:
-    0 0 0 2px rgba(0,0,0,0.25),
-    0 13px 0 rgba(0,0,0,0.25);
-  filter: saturate(1.08);
+  transform: translateY(-2px);
+  filter: brightness(1.06);
 }
 
 .pixel-btn:active{
   transform: translateY(0px);
-  box-shadow:
-    0 0 0 2px rgba(0,0,0,0.25),
-    0 10px 0 rgba(0,0,0,0.25);
 }
 
-/* little help text inside intro */
 .pixel-help{
-  margin-top: 18px;
+  margin-top: 14px;
   font-family: "Press Start 2P", monospace;
   font-size: 10px;
-  color: rgba(255,255,255,0.60);
-  line-height: 1.6;
+  color: rgba(255,255,255,0.62);
+  line-height: 1.7;
 }
 
-/* floating blobs toned down to match game */
-.gummy{
+/* Quit button */
+#pixels-quit{
   position: absolute;
-  border-radius: 50%;
-  opacity: 0.22;
-  filter: blur(0.5px);
-  animation: floaty 12s infinite ease-in-out;
-  pointer-events: none;
-  z-index: 2;
+  z-index: 8;
+  top: 14px;
+  right: 14px;
+
+  display: none;
+
+  font-family: "Press Start 2P", monospace;
+  font-size: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 2px solid rgba(255,214,255,0.40);
+
+  background: rgba(0,0,0,0.22);
+  color: rgba(255,255,255,0.90);
+
+  cursor: pointer;
+  user-select: none;
 }
 
-.g1{
-  width: 160px;
-  height: 160px;
-  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(255,175,204,0.7));
-  top: 10%;
-  left: 8%;
-  animation-duration: 14s;
-}
-
-.g2{
-  width: 110px;
-  height: 110px;
-  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(189,224,254,0.7));
-  bottom: 12%;
-  right: 10%;
-  animation-duration: 11s;
-}
-
-.g3{
-  width: 90px;
-  height: 90px;
-  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(202,255,191,0.7));
-  top: 18%;
-  right: 18%;
-  animation-duration: 9s;
-}
-
-.g4{
-  width: 130px;
-  height: 130px;
-  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(255,200,221,0.7));
-  bottom: 18%;
-  left: 14%;
-  animation-duration: 13s;
-}
-
-@keyframes floaty{
-  0%{ transform: translateY(0px) }
-  50%{ transform: translateY(-18px) }
-  100%{ transform: translateY(0px) }
-}
-
-@media (max-width: 520px){
-  .pixel-panel{
-    padding: 22px 16px;
-  }
-  .pixel-btn{
-    padding: 14px 18px;
-    border-radius: 10px;
-  }
-  .pixel-help{
-    font-size: 9px;
-  }
+#pixels-quit:hover{
+  filter: brightness(1.06);
 }
 
 @media (prefers-reduced-motion: reduce){
-  .gummy{ animation: none; }
   .pixel-btn{ transition: none; }
 }

@@ -1,27 +1,21 @@
-// Pixel Playground mini game
-// Controls: WASD or Arrow keys
-// Enter gate: E or Enter
-// Rewards: Dust from butterflies, Shards from gates
-// Dust 5: Treasure Gate spawns near you
-// Gate 3: Wings upgrade visual
-
 const playBtn = document.getElementById("btn-play");
 const archiveBtn = document.getElementById("btn-archive");
 const commissionBtn = document.getElementById("btn-commission");
 const introUi = document.getElementById("pixel-intro-ui");
 
 const canvas = document.getElementById("c");
-const ctx = canvas.getContext("2d");
+const ctx = canvas.getContext("2d", { alpha: true });
 
-// Internal resolution fixed for pixel look
-const VW = 384;
-const VH = 216;
+/* internal resolution for more detail */
+const VW = 640;
+const VH = 360;
 
 const buffer = document.createElement("canvas");
 buffer.width = VW;
 buffer.height = VH;
 const btx = buffer.getContext("2d");
 btx.imageSmoothingEnabled = false;
+ctx.imageSmoothingEnabled = false;
 
 function resizeCanvas(){
   const rect = canvas.getBoundingClientRect();
@@ -34,340 +28,570 @@ function resizeCanvas(){
 window.addEventListener("resize", resizeCanvas);
 resizeCanvas();
 
-if(archiveBtn){
-  archiveBtn.addEventListener("click", ()=>{
-    location.href = "/archive/";
-  });
-}
-
-if(commissionBtn){
-  commissionBtn.addEventListener("click", ()=>{
-location.href = "../commission/";
-  });
-}
-
-const keys = new Set();
-window.addEventListener("keydown", (e)=>{
-  const k = e.key.toLowerCase();
-  keys.add(k);
-  if(["arrowup","arrowdown","arrowleft","arrowright"," ","enter"].includes(k)){
-    e.preventDefault();
-  }
-});
-window.addEventListener("keyup", (e)=>{
-  keys.delete(e.key.toLowerCase());
-});
-
 function clamp(v,a,b){ return Math.max(a, Math.min(b, v)); }
 function pickRandom(arr){ return arr[Math.floor(Math.random() * arr.length)]; }
 function dist2(ax,ay,bx,by){ const dx=ax-bx; const dy=ay-by; return dx*dx+dy*dy; }
 
-async function loadArtworks(){
-  try{
-    const res = await fetch("./artworks.json", { cache: "no-store" });
-    if(!res.ok) throw new Error("artworks.json fetch failed");
-    const data = await res.json();
-    if(!Array.isArray(data)) throw new Error("artworks.json must be an array");
-    return data.filter(a => a && typeof a.href === "string" && a.href.length > 1);
-  }catch(e){
-    console.warn(e);
-    return [];
-  }
+async function loadJson(path){
+  const res = await fetch(path, { cache: "no-store" });
+  if(!res.ok) throw new Error("fetch failed " + path);
+  return await res.json();
 }
 
-let artworks = [];
-let running = false;
-let lastTime = 0;
-let animTime = 0;
+/* special links live in js */
+const SPECIAL_LINKS = [
+  { href: "/archive/works/hidden-room-01/", title: "Secret 01" },
+  { href: "/archive/works/hidden-room-02/", title: "Secret 02" }
+];
 
+/* palette */
 const palette = {
   void: "#0b1224",
-  floor1: "#dbe7ff",
-  floor2: "#c9dbff",
-  floor3: "#b7cdfa",
-  wall1: "#9aa7ff",
-  wall2: "#7f8eff",
-  wall3: "#6b78ea",
-  frame1: "#ffd6ff",
-  frame2: "#a2d2ff",
-  pink: "#ff77e9",
-  gold: "#ffe066",
+  floorA: "#cfe0ff",
+  floorB: "#bcd3ff",
+  floorC: "#dbe7ff",
+  wallA: "#7f8eff",
+  wallB: "#6b78ea",
+  wallC: "#5864d8",
+  neonPink: "rgba(255,119,233,0.90)",
+  neonCyan: "rgba(122,252,255,0.92)",
+  neonLilac: "rgba(255,214,255,0.86)",
+  gold: "rgba(255,224,102,0.92)",
   glowPink: "rgba(255,119,233,0.18)",
-  glowGold: "rgba(255,224,102,0.22)"
+  glowCyan: "rgba(122,252,255,0.18)",
+  glowGold: "rgba(255,224,102,0.18)"
 };
 
-// Tile map
+/* tile map */
 const TILE = 16;
-const mapW = 120;
-const mapH = 80;
+const mapW = 140;
+const mapH = 90;
 const map = new Array(mapW * mapH).fill(0);
-// 0 floor
-// 1 wall
-// 2 decor
-// 3 bridge trigger
+/*
+0 floor
+1 wall
+2 detail
+3 sparkle
+*/
 
 function setTile(x,y,v){
   if(x < 0 || y < 0 || x >= mapW || y >= mapH) return;
   map[y*mapW + x] = v;
 }
+function getTile(x,y){
+  if(x < 0 || y < 0 || x >= mapW || y >= mapH) return 1;
+  return map[y*mapW + x];
+}
+function isWallTile(tx,ty){ return getTile(tx,ty) === 1; }
+function isFloorTile(tx,ty){ return getTile(tx,ty) !== 1; }
 
+/* new map generation: roads first, blocks second, always navigable */
 function buildTileMap(){
-  map.fill(0);
+  map.fill(1);
 
-  // Outer walls
+  /* carve main roads */
+  const roadXs = [12, 34, 56, 78, 100, 122];
+  const roadYs = [10, 26, 42, 58, 74];
+
+  for(const x of roadXs){
+    for(let y=2; y<mapH-2; y++){
+      setTile(x, y, 0);
+      setTile(x+1, y, 0);
+      setTile(x-1, y, 0);
+    }
+  }
+
+  for(const y of roadYs){
+    for(let x=2; x<mapW-2; x++){
+      setTile(x, y, 0);
+      setTile(x, y+1, 0);
+      setTile(x, y-1, 0);
+    }
+  }
+
+  /* open up neighborhoods around intersections */
+  for(const x of roadXs){
+    for(const y of roadYs){
+      for(let oy=-3; oy<=3; oy++){
+        for(let ox=-3; ox<=3; ox++){
+          if(Math.abs(ox) + Math.abs(oy) <= 5) setTile(x+ox, y+oy, 0);
+        }
+      }
+    }
+  }
+
+  /* carve random alleys connecting roads */
+  for(let i=0; i<18; i++){
+    const x = roadXs[Math.floor(Math.random()*roadXs.length)] + (Math.random() < 0.5 ? -8 : 8);
+    const y0 = 4 + Math.floor(Math.random() * (mapH-8));
+    for(let t=0; t<10 + Math.floor(Math.random()*22); t++){
+      const y = clamp(y0 + t, 2, mapH-3);
+      setTile(x, y, 0);
+      if(Math.random() < 0.35) setTile(x+1, y, 0);
+    }
+  }
+
+  /* add details on floor */
+  for(let i=0; i<420; i++){
+    const x = 2 + Math.floor(Math.random() * (mapW-4));
+    const y = 2 + Math.floor(Math.random() * (mapH-4));
+    if(getTile(x,y) !== 0) continue;
+    if(Math.random() < 0.35) setTile(x,y,2);
+    if(Math.random() < 0.08) setTile(x,y,3);
+  }
+
+  /* keep borders walls */
   for(let x=0; x<mapW; x++){
-    setTile(x, 0, 1);
-    setTile(x, mapH-1, 1);
+    setTile(x,0,1);
+    setTile(x,mapH-1,1);
   }
   for(let y=0; y<mapH; y++){
-    setTile(0, y, 1);
-    setTile(mapW-1, y, 1);
-  }
-
-  // Interior room structure
-  for(let y=10; y<64; y++){
-    setTile(18, y, 1);
-    setTile(96, y, 1);
-  }
-  for(let x=26; x<92; x++){
-    setTile(x, 18, 1);
-    setTile(x, 56, 1);
-  }
-
-  // Pillars
-  for(let y=14; y<30; y++){
-    setTile(32, y, 1);
-    setTile(82, y, 1);
-  }
-
-  // Small frame decor patch
-  for(let x=42; x<46; x++){
-    for(let y=20; y<22; y++){
-      setTile(x, y, 2);
-    }
-  }
-
-  // Bridge trigger zone
-  for(let x=56; x<60; x++){
-    for(let y=36; y<38; y++){
-      setTile(x, y, 3);
-    }
+    setTile(0,y,1);
+    setTile(mapW-1,y,1);
   }
 }
-buildTileMap();
 
+/* world */
 const world = {
   w: mapW * TILE,
   h: mapH * TILE,
-  gates: [],
-  butterflies: [],
-  portal: null,
-  hiddenGateSpawned: false
+  doors: [],
+  snacks: [],
+  effects: [],
+  specialDoor: null,
+  specialCooldown: 0,
+  callTicketFound: false
 };
 
 const player = {
-  x: world.w * 0.5,
-  y: world.h * 0.6,
+  x: 0,
+  y: 0,
   vx: 0,
   vy: 0,
   r: 10,
-  speed: 560,
+  speed: 640,
   friction: 0.84,
   facing: "down"
 };
 
-const reward = {
-  dust: 0,
-  shards: 0,
-  treasureReady: false,
-  wingsUpgraded: false
-};
+const reward = { score: 0, snack: 0 };
 
+/* collision */
 function isWallAt(px, py){
   const tx = Math.floor(px / TILE);
   const ty = Math.floor(py / TILE);
-  if(tx < 0 || ty < 0 || tx >= mapW || ty >= mapH) return true;
-  const t = map[ty*mapW + tx];
-  return t === 1;
+  return isWallTile(tx,ty);
 }
 
 function resolveTileCollision(nx, ny){
   let x = nx;
   let y = ny;
 
-  const checks = [
-    { x: x - player.r, y: y - player.r },
-    { x: x + player.r, y: y - player.r },
-    { x: x - player.r, y: y + player.r },
-    { x: x + player.r, y: y + player.r }
-  ];
-
-  for(let i=0; i<12; i++){
+  for(let i=0; i<10; i++){
+    const corners = [
+      { x: x - player.r, y: y - player.r },
+      { x: x + player.r, y: y - player.r },
+      { x: x - player.r, y: y + player.r },
+      { x: x + player.r, y: y + player.r }
+    ];
     let hit = false;
-    for(const c of checks){
-      if(isWallAt(c.x, c.y)){
-        hit = true;
-        break;
-      }
+    for(const c of corners){
+      if(isWallAt(c.x, c.y)){ hit = true; break; }
     }
     if(!hit) break;
 
     const pushX = player.vx === 0 ? 0 : (player.vx > 0 ? -1 : 1);
     const pushY = player.vy === 0 ? 0 : (player.vy > 0 ? -1 : 1);
-
-    x += pushX * 1.6;
-    y += pushY * 1.6;
-
-    checks[0].x = x - player.r; checks[0].y = y - player.r;
-    checks[1].x = x + player.r; checks[1].y = y - player.r;
-    checks[2].x = x - player.r; checks[2].y = y + player.r;
-    checks[3].x = x + player.r; checks[3].y = y + player.r;
+    x += pushX * 2.0;
+    y += pushY * 2.0;
   }
 
   return { x, y };
 }
 
-function isFloorTile(tx, ty){
-  if(tx < 0 || ty < 0 || tx >= mapW || ty >= mapH) return false;
-  const t = map[ty*mapW + tx];
-  return t === 0 || t === 2 || t === 3;
+/* doors and pools */
+async function loadPools(){
+  let artworks = [];
+  let commission = [];
+  let doorCfg = [];
+
+  try{
+    const a = await loadJson("./artworks.json");
+    if(Array.isArray(a)) artworks = a.filter(it => it && typeof it.href === "string")
+      .map(it => ({ href: it.href, title: it.title || "Artwork" }));
+  }catch(e){ console.warn(e); }
+
+  try{
+    const c = await loadJson("./commission.json");
+    if(Array.isArray(c)) commission = c.filter(it => it && typeof it.href === "string")
+      .map(it => ({ href: it.href, title: it.title || "Commission" }));
+  }catch(e){ console.warn(e); }
+
+  try{
+    const d = await loadJson("./doors.json");
+    if(Array.isArray(d)) doorCfg = d;
+  }catch(e){ console.warn(e); }
+
+  return { artworks, commission, doorCfg };
 }
 
-function buildGates(){
-  world.gates = [];
-  world.hiddenGateSpawned = false;
-
-  const gateCount = 10 + Math.floor(Math.random() * 3);
+function buildDoors(linkPool){
+  world.doors = [];
+  const doorCount = 26 + Math.floor(Math.random()*10);
 
   let tries = 0;
-  while(world.gates.length < gateCount && tries < 5000){
+  while(world.doors.length < doorCount && tries < 12000){
     tries++;
+    const tx = 2 + Math.floor(Math.random()*(mapW-4));
+    const ty = 2 + Math.floor(Math.random()*(mapH-4));
+    if(!isFloorTile(tx,ty)) continue;
 
-    const radius = 220 + Math.random() * 520;
-    const ang = Math.random() * Math.PI * 2;
-
-    const wx = clamp(player.x + Math.cos(ang) * radius, 80, world.w - 80);
-    const wy = clamp(player.y + Math.sin(ang) * radius, 80, world.h - 80);
-
-    const tx = Math.floor(wx / TILE);
-    const ty = Math.floor(wy / TILE);
-
-    if(!isFloorTile(tx, ty)) continue;
+    const wx = tx*TILE + 3;
+    const wy = ty*TILE + 2;
 
     let ok = true;
-    for(const g of world.gates){
-      if(dist2(wx, wy, g.x, g.y) < 140 * 140){
-        ok = false;
-        break;
-      }
+    for(const d of world.doors){
+      if(dist2(wx,wy,d.x,d.y) < 160*160){ ok = false; break; }
     }
     if(!ok) continue;
 
-    const a = artworks.length ? pickRandom(artworks) : null;
-    const isRare = Math.random() < 0.2;
+    const pick = linkPool.length ? pickRandom(linkPool) : { href: "/archive/", title: "Door" };
+    const rare = Math.random() < 0.18;
 
-    world.gates.push({
-      x: tx * TILE + 3,
-      y: ty * TILE + 2,
-      w: 26,
-      h: 34,
-      href: a ? a.href : "/archive/",
-      title: a ? (a.title || "Artwork") : "Archive Gate",
+    world.doors.push({
+      x: wx,
+      y: wy,
+      w: 28,
+      h: 36,
+      href: pick.href,
+      title: pick.title || "Door",
       glow: 0,
-      tier: isRare ? "rare" : "normal"
+      tier: rare ? "rare" : "normal"
     });
   }
 }
 
-function spawnButterfly(){
-  world.butterflies.push({
-    x: 140 + Math.random() * (world.w - 280),
-    y: 140 + Math.random() * (world.h - 280),
-    vx: (Math.random()*2 - 1) * 90,
-    vy: (Math.random()*2 - 1) * 90,
+/* snacks */
+function spawnSnack(){
+  const tx = 2 + Math.floor(Math.random()*(mapW-4));
+  const ty = 2 + Math.floor(Math.random()*(mapH-4));
+  if(!isFloorTile(tx,ty)) return;
+
+  world.snacks.push({
+    x: tx*TILE + 8,
+    y: ty*TILE + 8,
+    kind: Math.random() < 0.01 ? "call" : "snack",
     t: 0
   });
 }
 
-function maybeSpawnPortal(dt){
-  if(world.portal){
-    world.portal.time -= dt;
-    if(world.portal.time <= 0) world.portal = null;
-    return;
-  }
-  if(Math.random() < dt * 0.028){
-    const a = artworks.length ? pickRandom(artworks) : null;
-    world.portal = {
-      x: 160 + Math.random() * (world.w - 320),
-      y: 160 + Math.random() * (world.h - 320),
-      time: 9,
-      href: a ? a.href : "/archive/",
-      title: a ? (a.title || "Artwork") : "Random Portal"
-    };
+/* effects */
+function burstItems(x, y){
+  for(let i=0; i<18; i++){
+    world.effects.push({
+      x, y,
+      vx: (Math.random()*2 - 1) * 170,
+      vy: (Math.random()*2 - 1) * 170,
+      life: 0.8 + Math.random()*0.7,
+      kind: Math.random() < 0.18 ? "gold" : "pink"
+    });
   }
 }
 
-function spawnTreasureGateNearPlayer(){
-  const a = artworks.length ? pickRandom(artworks) : null;
+/* special door */
+function maybeSpawnSpecialDoor(){
+  if(world.specialDoor) return;
+  if(world.specialCooldown > 0) return;
+  if(reward.score < 120) return;
 
   const tx = Math.floor(player.x / TILE);
   const ty = Math.floor(player.y / TILE);
 
-  const candidates = [
-    { x: tx + 2, y: ty - 3 },
-    { x: tx - 2, y: ty - 3 },
-    { x: tx + 3, y: ty + 2 },
-    { x: tx - 3, y: ty + 2 }
-  ];
-
-  for(const c of candidates){
-    if(!isFloorTile(c.x, c.y)) continue;
-    world.gates.push({
-      x: c.x * TILE + 3,
-      y: c.y * TILE + 2,
-      w: 26,
-      h: 34,
-      href: a ? a.href : "/archive/",
-      title: "Treasure Gate",
-      glow: 1,
-      tier: "rare"
-    });
-    return;
+  const candidates = [];
+  for(let i=0; i<24; i++){
+    const ox = Math.floor(Math.random()*16 - 8);
+    const oy = Math.floor(Math.random()*16 - 8);
+    const cx = clamp(tx + ox, 3, mapW-4);
+    const cy = clamp(ty + oy, 3, mapH-4);
+    if(isFloorTile(cx,cy)) candidates.push({ x: cx, y: cy });
   }
 
-  // fallback
-  world.gates.push({
-    x: clamp(player.x + 40, 80, world.w - 80),
-    y: clamp(player.y - 60, 80, world.h - 80),
-    w: 26,
-    h: 34,
-    href: a ? a.href : "/archive/",
-    title: "Treasure Gate",
+  const place = candidates.length ? pickRandom(candidates) : { x: clamp(tx+4, 3, mapW-4), y: clamp(ty-4, 3, mapH-4) };
+
+  world.specialDoor = {
+    x: place.x*TILE + 3,
+    y: place.y*TILE + 2,
+    w: 30,
+    h: 40,
     glow: 1,
-    tier: "rare"
-  });
+    tier: "special",
+    openTime: 14
+  };
+
+  burstItems(world.specialDoor.x + 10, world.specialDoor.y + 10);
 }
 
+/* enter */
 function tryEnter(){
-  for(const g of world.gates){
-    const gx = g.x + g.w * 0.5;
-    const gy = g.y + g.h * 0.5;
-    if(dist2(player.x, player.y, gx, gy) < 44*44){
-      reward.shards += 1;
-      if(reward.shards >= 3) reward.wingsUpgraded = true;
-      location.href = g.href;
+  const px = player.x;
+  const py = player.y;
+
+  if(world.specialDoor){
+    const gx = world.specialDoor.x + world.specialDoor.w*0.5;
+    const gy = world.specialDoor.y + world.specialDoor.h*0.5;
+    if(dist2(px,py,gx,gy) < 54*54){
+      /* special door means bonus room */
+      spawnBonusBurst(px,py);
+      world.specialDoor = null;
+      world.specialCooldown = 12;
       return;
     }
   }
-  if(world.portal){
-    if(dist2(player.x, player.y, world.portal.x, world.portal.y) < 46*46){
-      reward.shards += 1;
-      if(reward.shards >= 3) reward.wingsUpgraded = true;
-      location.href = world.portal.href;
+
+  for(const d of world.doors){
+    const gx = d.x + d.w*0.5;
+    const gy = d.y + d.h*0.5;
+    if(dist2(px,py,gx,gy) < 54*54){
+      location.href = d.href;
+      return;
     }
   }
 }
 
+function spawnBonusBurst(x,y){
+  /* shower snacks */
+  for(let i=0; i<26; i++){
+    const a = Math.random() * Math.PI * 2;
+    const r = 10 + Math.random()*90;
+    world.snacks.push({
+      x: clamp(x + Math.cos(a)*r, 24, world.w-24),
+      y: clamp(y + Math.sin(a)*r, 24, world.h-24),
+      kind: Math.random() < 0.06 ? "call" : "snack",
+      t: 0
+    });
+  }
+  reward.score += 60;
+  burstItems(x,y);
+}
+
+/* drawing */
+let running = false;
+let lastTime = 0;
+let animTime = 0;
+
+function drawTile(sx, sy, tx, ty, type){
+  if(type === 0){
+    const v = (tx*7 + ty*11) % 3;
+    const c = v === 0 ? palette.floorA : (v === 1 ? palette.floorB : palette.floorC);
+    btx.fillStyle = c;
+    btx.fillRect(sx, sy, TILE, TILE);
+
+    /* tiny dithering */
+    if(((tx*9 + ty*5) % 13) === 0){
+      btx.fillStyle = "rgba(255,255,255,0.10)";
+      btx.fillRect(sx+3, sy+4, 1, 1);
+      btx.fillRect(sx+11, sy+10, 1, 1);
+    }
+    return;
+  }
+
+  if(type === 1){
+    btx.fillStyle = palette.wallA;
+    btx.fillRect(sx, sy, TILE, TILE);
+
+    btx.fillStyle = palette.wallB;
+    btx.fillRect(sx, sy, TILE, 4);
+    btx.fillRect(sx, sy, 4, TILE);
+
+    btx.fillStyle = palette.wallC;
+    btx.fillRect(sx+1, sy+1, TILE-2, 1);
+
+    btx.fillStyle = "rgba(255,255,255,0.12)";
+    btx.fillRect(sx+6, sy+6, 2, 2);
+
+    btx.fillStyle = "rgba(0,0,0,0.10)";
+    btx.fillRect(sx+10, sy+10, 4, 4);
+    return;
+  }
+
+  if(type === 2){
+    btx.fillStyle = "rgba(162,210,255,0.14)";
+    btx.fillRect(sx+6, sy+6, 2, 2);
+    return;
+  }
+
+  if(type === 3){
+    btx.fillStyle = "rgba(255,214,255,0.12)";
+    btx.fillRect(sx+2, sy+2, TILE-4, 1);
+    btx.fillRect(sx+2, sy+TILE-3, TILE-4, 1);
+  }
+}
+
+function drawDoor(door, camX, camY){
+  const gx = Math.floor(door.x - camX);
+  const gy = Math.floor(door.y - camY);
+
+  const glow = door.glow || 0;
+  const tier = door.tier;
+
+  if(glow > 0.05){
+    btx.fillStyle = tier === "special" ? palette.glowCyan : (tier === "rare" ? palette.glowGold : palette.glowPink);
+    btx.fillRect(gx - 5, gy - 5, door.w + 10, door.h + 10);
+  }
+
+  const outer = tier === "special" ? palette.neonCyan : (tier === "rare" ? palette.gold : palette.neonLilac);
+  const inner = tier === "special" ? "rgba(255,214,255,0.30)" : "rgba(162,210,255,0.34)";
+
+  btx.fillStyle = outer;
+  btx.fillRect(gx, gy, door.w, door.h);
+
+  btx.fillStyle = inner;
+  btx.fillRect(gx+2, gy+2, door.w-4, door.h-4);
+
+  btx.fillStyle = "rgba(0,0,0,0.18)";
+  btx.fillRect(gx+6, gy+7, door.w-12, door.h-13);
+
+  btx.fillStyle = "rgba(255,255,255,0.78)";
+  btx.fillRect(gx + door.w - 7, gy + Math.floor(door.h/2), 2, 2);
+}
+
+function drawSnack(s, camX, camY){
+  const x = Math.floor(s.x - camX);
+  const y = Math.floor(s.y - camY);
+
+  const blink = (Math.floor(animTime * 10) % 2) ? 1 : 0;
+
+  if(s.kind === "call"){
+    btx.fillStyle = palette.gold;
+    btx.fillRect(x-4, y-4, 8, 8);
+    btx.fillStyle = "rgba(0,0,0,0.18)";
+    btx.fillRect(x-2, y-2, 4, 4);
+    btx.fillStyle = palette.neonPink;
+    btx.fillRect(x-1+blink, y-6, 2, 2);
+  }else{
+    btx.fillStyle = palette.neonPink;
+    btx.fillRect(x-3, y-3, 6, 6);
+    btx.fillStyle = "rgba(162,210,255,0.90)";
+    btx.fillRect(x-1, y-1, 2, 2);
+  }
+}
+
+function drawEffects(camX, camY){
+  for(const e of world.effects){
+    const x = Math.floor(e.x - camX);
+    const y = Math.floor(e.y - camY);
+    btx.fillStyle = e.kind === "gold" ? palette.gold : palette.neonPink;
+    btx.fillRect(x, y, 2, 2);
+  }
+}
+
+function drawPlayerSprite(px, py, facing, moving){
+  const w = 18;
+  const h = 22;
+  const step = moving ? (Math.floor(animTime * 10) % 2) : 0;
+
+  const x = Math.floor(px - w/2);
+  const y = Math.floor(py - h + 2);
+
+  btx.fillStyle = "rgba(0,0,0,0.22)";
+  btx.fillRect(x+4, y+h-3, 10, 2);
+
+  const flap = step ? 1 : 0;
+
+  btx.fillStyle = "rgba(255,119,233,0.86)";
+  btx.fillRect(x-4, y+8-flap, 6, 8);
+  btx.fillRect(x+w-2, y+8+flap, 6, 8);
+
+  btx.fillStyle = "rgba(162,210,255,0.86)";
+  btx.fillRect(x-2, y+10-flap, 3, 5);
+  btx.fillRect(x+w, y+10+flap, 3, 5);
+
+  btx.fillStyle = "#8c4a23";
+  btx.fillRect(x+3, y+1, 12, 7);
+  btx.fillRect(x+2, y+3, 14, 6);
+
+  btx.fillStyle = "#ffceb2";
+  btx.fillRect(x+5, y+5, 8, 7);
+
+  btx.fillStyle = "#ffffff";
+  btx.fillRect(x+5, y+12, 8, 5);
+
+  btx.fillStyle = "#a2d2ff";
+  btx.fillRect(x+5, y+17, 8, 4);
+
+  btx.fillStyle = "rgba(0,0,0,0.18)";
+  if(step){
+    btx.fillRect(x+6, y+20, 3, 1);
+    btx.fillRect(x+10, y+19, 3, 1);
+  }else{
+    btx.fillRect(x+6, y+19, 3, 1);
+    btx.fillRect(x+10, y+20, 3, 1);
+  }
+}
+
+function drawHUD(){
+  btx.fillStyle = "rgba(0,0,0,0.34)";
+  btx.fillRect(10, 10, 260, 34);
+
+  btx.fillStyle = "rgba(255,255,255,0.92)";
+  btx.font = "12px monospace";
+  btx.fillText(`SCORE ${reward.score}  SNACK ${reward.snack}`, 16, 26);
+
+  btx.fillStyle = "rgba(255,255,255,0.70)";
+  btx.font = "10px monospace";
+  btx.fillText("E OR ENTER TO ENTER DOOR", 16, 40);
+}
+
+function drawEnterHintIfNear(){
+  const px = player.x;
+  const py = player.y;
+  let near = false;
+
+  if(world.specialDoor){
+    const gx = world.specialDoor.x + world.specialDoor.w*0.5;
+    const gy = world.specialDoor.y + world.specialDoor.h*0.5;
+    if(dist2(px,py,gx,gy) < 78*78) near = true;
+  }
+
+  if(!near){
+    for(const d of world.doors){
+      const gx = d.x + d.w*0.5;
+      const gy = d.y + d.h*0.5;
+      if(dist2(px,py,gx,gy) < 78*78){ near = true; break; }
+    }
+  }
+
+  if(!near) return;
+
+  btx.fillStyle = "rgba(0,0,0,0.30)";
+  btx.fillRect(10, VH-32, 210, 22);
+  btx.fillStyle = "rgba(255,255,255,0.90)";
+  btx.font = "12px monospace";
+  btx.fillText("PRESS E OR ENTER", 16, VH-16);
+}
+
+/* input */
+const keys = new Set();
+window.addEventListener("keydown", (e)=>{
+  const k = e.key.toLowerCase();
+  keys.add(k);
+  if(["arrowup","arrowdown","arrowleft","arrowright"," ","enter"].includes(k)) e.preventDefault();
+});
+window.addEventListener("keyup", (e)=>{ keys.delete(e.key.toLowerCase()); });
+
+/* quit button */
+let quitBtn = document.getElementById("pixels-quit");
+if(!quitBtn){
+  quitBtn = document.createElement("button");
+  quitBtn.id = "pixels-quit";
+  quitBtn.textContent = "QUIT";
+  canvas.parentElement.appendChild(quitBtn);
+}
+quitBtn.addEventListener("click", ()=>{
+  stopGameToIntro();
+});
+
+/* loop */
 function update(dt){
   animTime += dt;
 
@@ -400,262 +624,79 @@ function update(dt){
   player.x = resolved.x;
   player.y = resolved.y;
 
-  // Enter gate
   if(keys.has("e") || keys.has("enter")){
     keys.delete("e");
     keys.delete("enter");
     tryEnter();
   }
 
-  // Gate glow
-  for(const g of world.gates){
-    const gx = g.x + g.w * 0.5;
-    const gy = g.y + g.h * 0.5;
-    const near = dist2(player.x, player.y, gx, gy) < 60*60;
-    g.glow += ((near ? 1 : 0) - g.glow) * dt * 8;
-    g.glow = clamp(g.glow, 0, 1);
+  if(world.specialCooldown > 0) world.specialCooldown = Math.max(0, world.specialCooldown - dt);
+
+  for(const d of world.doors){
+    const gx = d.x + d.w*0.5;
+    const gy = d.y + d.h*0.5;
+    const near = dist2(player.x, player.y, gx, gy) < 72*72;
+    d.glow += ((near ? 1 : 0) - d.glow) * dt * 8;
+    d.glow = clamp(d.glow, 0, 1);
   }
 
-  // Butterflies
-  for(const b of world.butterflies){
-    b.t += dt;
-    b.x += b.vx * dt;
-    b.y += b.vy * dt;
+  if(world.specialDoor){
+    const gx = world.specialDoor.x + world.specialDoor.w*0.5;
+    const gy = world.specialDoor.y + world.specialDoor.h*0.5;
+    const near = dist2(player.x, player.y, gx, gy) < 92*92;
+    world.specialDoor.glow += ((near ? 1 : 0) - world.specialDoor.glow) * dt * 8;
+    world.specialDoor.glow = clamp(world.specialDoor.glow, 0, 1);
 
-    if(b.x < 80 || b.x > world.w - 80) b.vx *= -1;
-    if(b.y < 80 || b.y > world.h - 80) b.vy *= -1;
+    world.specialDoor.openTime -= dt;
+    if(world.specialDoor.openTime <= 0){
+      world.specialDoor = null;
+      world.specialCooldown = 12;
+    }
+  }
 
-    b.vx += Math.sin(b.t * 3.1) * dt * 32;
-    b.vy += Math.cos(b.t * 2.6) * dt * 32;
+  if(world.snacks.length < 14 && Math.random() < dt * 1.1) spawnSnack();
 
-    // Catch butterfly reward
-    if(dist2(player.x, player.y, b.x, b.y) < 22*22){
-      reward.dust += 1;
-
-      if(!world.hiddenGateSpawned){
-        world.hiddenGateSpawned = true;
-        const a = artworks.length ? pickRandom(artworks) : null;
-        world.gates.push({
-          x: clamp(player.x + 120, 80, world.w - 80),
-          y: clamp(player.y - 120, 80, world.h - 80),
-          w: 26,
-          h: 34,
-          href: a ? a.href : "/archive/",
-          title: "Hidden Gate",
-          glow: 1,
-          tier: "rare"
-        });
+  for(const s of world.snacks){
+    s.t += dt;
+    if(dist2(player.x, player.y, s.x, s.y) < 20*20){
+      if(s.kind === "call"){
+        world.callTicketFound = true;
+        reward.score += 90;
+        burstItems(s.x, s.y);
+      }else{
+        reward.snack += 1;
+        reward.score += 10;
       }
-
-      if(reward.dust >= 5 && !reward.treasureReady){
-        reward.treasureReady = true;
-        spawnTreasureGateNearPlayer();
-      }
-
-      b.x = -9999;
-      b.y = -9999;
+      s.x = -9999;
+      s.y = -9999;
     }
   }
-  world.butterflies = world.butterflies.filter(b => b.x > -1000);
+  world.snacks = world.snacks.filter(s => s.x > -1000);
 
-  // Portal spawn
-  maybeSpawnPortal(dt);
-
-  // Keep butterflies
-  if(world.butterflies.length < 2 && Math.random() < dt * 0.28){
-    spawnButterfly();
+  for(const e of world.effects){
+    e.life -= dt;
+    e.x += e.vx * dt;
+    e.y += e.vy * dt;
+    e.vx *= Math.pow(0.88, dt * 60);
+    e.vy *= Math.pow(0.88, dt * 60);
   }
+  world.effects = world.effects.filter(e => e.life > 0);
 
-  // Bridge trigger teleport
-  const ptx = Math.floor(player.x / TILE);
-  const pty = Math.floor(player.y / TILE);
-  const t = map[pty*mapW + ptx];
-  if(t === 3){
-    player.x = 1160;
-    player.y = 520;
-    player.vx *= 0.15;
-    player.vy *= 0.15;
-  }
-}
-
-function drawTile(screenX, screenY, tx, ty, type){
-  if(type === 0){
-    const c = ((tx + ty) % 2 === 0) ? palette.floor1 : palette.floor2;
-    btx.fillStyle = c;
-    btx.fillRect(screenX, screenY, TILE, TILE);
-
-    if(((tx*7 + ty*11) % 13) === 0){
-      btx.fillStyle = "rgba(255,255,255,0.14)";
-      btx.fillRect(screenX+3, screenY+4, 1, 1);
-      btx.fillRect(screenX+11, screenY+10, 1, 1);
-    }
-    return;
-  }
-
-  if(type === 1){
-    btx.fillStyle = palette.wall1;
-    btx.fillRect(screenX, screenY, TILE, TILE);
-
-    btx.fillStyle = palette.wall2;
-    btx.fillRect(screenX, screenY, TILE, 4);
-    btx.fillRect(screenX, screenY, 4, TILE);
-
-    btx.fillStyle = "rgba(255,255,255,0.18)";
-    btx.fillRect(screenX+5, screenY+6, 2, 2);
-
-    btx.fillStyle = "rgba(0,0,0,0.10)";
-    btx.fillRect(screenX+10, screenY+10, 4, 4);
-    return;
-  }
-
-  if(type === 2){
-    btx.fillStyle = palette.frame2;
-    btx.fillRect(screenX, screenY, TILE, TILE);
-
-    btx.fillStyle = palette.pink;
-    btx.fillRect(screenX+2, screenY+2, TILE-4, TILE-4);
-
-    btx.fillStyle = "rgba(0,0,0,0.22)";
-    btx.fillRect(screenX+4, screenY+4, TILE-8, TILE-8);
-    return;
-  }
-
-  if(type === 3){
-    const c = ((tx + ty) % 2 === 0) ? palette.floor2 : palette.floor3;
-    btx.fillStyle = c;
-    btx.fillRect(screenX, screenY, TILE, TILE);
-    btx.fillStyle = "rgba(255,224,102,0.25)";
-    btx.fillRect(screenX+2, screenY+2, TILE-4, TILE-4);
-
-    btx.fillStyle = "rgba(0,0,0,0.12)";
-    btx.fillRect(screenX+5, screenY+5, 6, 6);
-  }
-}
-
-function drawPlayerSprite(px, py, facing, moving){
-  const w = 16;
-  const h = 20;
-
-  const step = moving ? (Math.floor(animTime * 10) % 2) : 0;
-  const x = Math.floor(px - w/2);
-  const y = Math.floor(py - h + 2);
-
-  // Shadow
-  btx.fillStyle = "rgba(0,0,0,0.26)";
-  btx.fillRect(x+4, y+h-3, 8, 2);
-
-  // Wings upgrade
-  const wingOuter = reward.wingsUpgraded ? "rgba(255,224,102,0.95)" : palette.pink;
-  const wingInner = reward.wingsUpgraded ? "rgba(255,214,255,0.90)" : "#bdb2ff";
-
-  // Wings
-  const flap = step ? 1 : 0;
-  btx.fillStyle = wingOuter;
-  btx.fillRect(x-3, y+7-flap, 5, 7);
-  btx.fillRect(x+w-2, y+7+flap, 5, 7);
-  btx.fillStyle = wingInner;
-  btx.fillRect(x-2, y+8-flap, 3, 5);
-  btx.fillRect(x+w-1, y+8+flap, 3, 5);
-
-  // Hair
-  btx.fillStyle = "#8c4a23";
-  btx.fillRect(x+3, y+1, 10, 6);
-  btx.fillRect(x+2, y+3, 12, 5);
-
-  // Head
-  btx.fillStyle = "#ffceb2";
-  btx.fillRect(x+4, y+4, 8, 6);
-
-  // Band
-  btx.fillStyle = palette.gold;
-  btx.fillRect(x+4, y+3, 8, 1);
-
-  // Body
-  btx.fillStyle = "#ffffff";
-  btx.fillRect(x+4, y+10, 8, 5);
-
-  // Jeans
-  btx.fillStyle = "#a2d2ff";
-  btx.fillRect(x+4, y+15, 8, 4);
-
-  // Feet step
-  btx.fillStyle = "rgba(0,0,0,0.18)";
-  if(step){
-    btx.fillRect(x+5, y+18, 3, 1);
-    btx.fillRect(x+9, y+17, 3, 1);
-  }else{
-    btx.fillRect(x+5, y+17, 3, 1);
-    btx.fillRect(x+9, y+18, 3, 1);
-  }
-
-  // Tiny face dot
-  btx.fillStyle = "rgba(0,0,0,0.22)";
-  if(facing === "left") btx.fillRect(x+6, y+6, 1, 1);
-  if(facing === "right") btx.fillRect(x+9, y+6, 1, 1);
-  if(facing === "down") btx.fillRect(x+7, y+7, 1, 1);
-  if(facing === "up") btx.fillRect(x+7, y+5, 1, 1);
-}
-
-function drawHUD(){
-  // Top left HUD
-  btx.fillStyle = "rgba(0,0,0,0.36)";
-  btx.fillRect(6, 6, 168, 28);
-
-  btx.fillStyle = "rgba(255,255,255,0.92)";
-  btx.font = "12px monospace";
-  btx.fillText(`DUST ${reward.dust}  SHARD ${reward.shards}`, 12, 24);
-
-  // Small hint
-  btx.fillStyle = "rgba(255,255,255,0.72)";
-  btx.font = "10px monospace";
-  btx.fillText("E OR ENTER TO ENTER", 12, 44);
-}
-
-function drawHintIfNear(){
-  let near = false;
-
-  for(const g of world.gates){
-    const gx = g.x + g.w * 0.5;
-    const gy = g.y + g.h * 0.5;
-    if(dist2(player.x, player.y, gx, gy) < 60*60){
-      near = true;
-      break;
-    }
-  }
-
-  if(!near && world.portal){
-    if(dist2(player.x, player.y, world.portal.x, world.portal.y) < 70*70){
-      near = true;
-    }
-  }
-
-  if(!near) return;
-
-  btx.fillStyle = "rgba(0,0,0,0.34)";
-  btx.fillRect(8, VH-28, 160, 20);
-  btx.fillStyle = "rgba(255,255,255,0.92)";
-  btx.font = "12px monospace";
-  btx.fillText("E OR ENTER  ENTER", 14, VH-14);
+  maybeSpawnSpecialDoor();
 }
 
 function render(){
-  const screenW = VW;
-  const screenH = VH;
+  const camX = clamp(Math.floor(player.x - VW/2), 0, world.w - VW);
+  const camY = clamp(Math.floor(player.y - VH/2), 0, world.h - VH);
 
-  const camX = clamp(Math.floor(player.x - screenW/2), 0, world.w - screenW);
-  const camY = clamp(Math.floor(player.y - screenH/2), 0, world.h - screenH);
-
-  btx.clearRect(0,0,screenW,screenH);
-
-  // Base void
+  btx.clearRect(0,0,VW,VH);
   btx.fillStyle = palette.void;
-  btx.fillRect(0,0,screenW,screenH);
+  btx.fillRect(0,0,VW,VH);
 
-  // Visible tiles
   const startTX = Math.floor(camX / TILE);
   const startTY = Math.floor(camY / TILE);
-  const endTX = startTX + Math.ceil(screenW / TILE) + 2;
-  const endTY = startTY + Math.ceil(screenH / TILE) + 2;
+  const endTX = startTX + Math.ceil(VW / TILE) + 2;
+  const endTY = startTY + Math.ceil(VH / TILE) + 2;
 
   for(let ty=startTY; ty<endTY; ty++){
     for(let tx=startTX; tx<endTX; tx++){
@@ -667,89 +708,27 @@ function render(){
     }
   }
 
-  // Gates, more visible
-  for(const g of world.gates){
-    const gx = Math.floor(g.x - camX);
-    const gy = Math.floor(g.y - camY);
-    const glow = g.glow;
-    const isRare = g.tier === "rare";
+  for(const s of world.snacks) drawSnack(s, camX, camY);
+  for(const d of world.doors) drawDoor(d, camX, camY);
+  if(world.specialDoor) drawDoor(world.specialDoor, camX, camY);
+  drawEffects(camX, camY);
 
-    if(glow > 0.05){
-      btx.fillStyle = isRare ? palette.glowGold : palette.glowPink;
-      btx.fillRect(gx - 4, gy - 4, g.w + 8, g.h + 8);
-    }
-
-    // Frame outer
-    btx.fillStyle = isRare ? "rgba(255,224,102,0.90)" : "rgba(255,214,255,0.80)";
-    btx.fillRect(gx, gy, g.w, g.h);
-
-    // Frame inner
-    btx.fillStyle = isRare ? "rgba(255,143,171,0.85)" : "rgba(162,210,255,0.58)";
-    btx.fillRect(gx + 2, gy + 2, g.w - 4, g.h - 4);
-
-    // Door inside
-    btx.fillStyle = "rgba(0,0,0,0.22)";
-    btx.fillRect(gx + 5, gy + 7, g.w - 10, g.h - 12);
-
-    // Handle pixel
-    btx.fillStyle = "rgba(255,255,255,0.80)";
-    btx.fillRect(gx + g.w - 7, gy + Math.floor(g.h/2), 2, 2);
-
-    // Top icon
-    btx.fillStyle = isRare ? "rgba(255,224,102,0.95)" : "rgba(255,119,233,0.92)";
-    btx.fillRect(gx + Math.floor(g.w/2) - 1, gy - 3, 3, 3);
-
-    // Outline
-    btx.strokeStyle = isRare ? "rgba(255,224,102,0.95)" : "rgba(255,119,233,0.92)";
-    btx.strokeRect(gx + 1, gy + 1, g.w - 2, g.h - 2);
-  }
-
-  // Portal
-  if(world.portal){
-    const px = Math.floor(world.portal.x - camX);
-    const py = Math.floor(world.portal.y - camY);
-    const wobble = Math.sin(animTime * 6) > 0 ? 1 : 0;
-
-    btx.fillStyle = "rgba(122,252,255,0.22)";
-    btx.fillRect(px-8, py-8, 16, 16);
-
-    btx.strokeStyle = "rgba(255,119,233,0.88)";
-    btx.strokeRect(px-9-wobble, py-9+wobble, 18, 18);
-
-    btx.fillStyle = "rgba(255,224,102,0.14)";
-    btx.fillRect(px-12, py-12, 24, 24);
-  }
-
-  // Butterflies
-  for(const b of world.butterflies){
-    const bx = Math.floor(b.x - camX);
-    const by = Math.floor(b.y - camY);
-
-    const flick = (Math.floor(animTime * 12) % 2) ? 1 : 0;
-
-    btx.fillStyle = "rgba(255,119,233,0.90)";
-    btx.fillRect(bx-4, by-1, 3, 3);
-    btx.fillRect(bx+1, by-1, 3, 3);
-
-    btx.fillStyle = "rgba(162,210,255,0.92)";
-    btx.fillRect(bx + flick, by, 1, 1);
-  }
-
-  // Player
   const moving = Math.hypot(player.vx, player.vy) > 6;
-  drawPlayerSprite(Math.floor(screenW/2), Math.floor(screenH/2), player.facing, moving);
+  drawPlayerSprite(Math.floor(VW/2), Math.floor(VH/2), player.facing, moving);
 
-  // HUD and hints
   drawHUD();
-  drawHintIfNear();
+  drawEnterHintIfNear();
 
-  // Draw buffer to screen with integer scaling
   ctx.clearRect(0,0,canvas.width,canvas.height);
-  const scale = Math.max(1, Math.floor(Math.min(canvas.width / VW, canvas.height / VH)));
+
+  const scale = Math.max(canvas.width / VW, canvas.height / VH);
   const drawW = VW * scale;
   const drawH = VH * scale;
+
   const dx = Math.floor((canvas.width - drawW) / 2);
   const dy = Math.floor((canvas.height - drawH) / 2);
+
+  ctx.imageSmoothingEnabled = false;
   ctx.drawImage(buffer, dx, dy, drawW, drawH);
 }
 
@@ -766,37 +745,70 @@ function loop(t){
   requestAnimationFrame(loop);
 }
 
+/* start and stop */
 async function startGame(){
-  artworks = await loadArtworks();
+  const { artworks, commission, doorCfg } = await loadPools();
 
-  reward.dust = 0;
-  reward.shards = 0;
-  reward.treasureReady = false;
-  reward.wingsUpgraded = false;
+  const fixedDoors = [];
+  const randomSources = { artworks, commission };
 
-  player.x = world.w * 0.5;
-  player.y = world.h * 0.6;
+  for(const d of doorCfg){
+    if(d.type === "fixed" && d.to){
+      fixedDoors.push({ href: d.to, title: d.label || "Door" });
+    }
+  }
+
+  let randomPool = [];
+  const randomDef = doorCfg.find(d => d.type === "random");
+  if(randomDef && Array.isArray(randomDef.sources)){
+    for(const s of randomDef.sources){
+      const arr = randomSources[s] || [];
+      randomPool = randomPool.concat(arr);
+    }
+  }
+
+  const linkPool = fixedDoors.concat(randomPool);
+  if(!linkPool.length) linkPool.push({ href: "/archive/", title: "Archive" });
+
+  reward.score = 0;
+  reward.snack = 0;
+
+  world.snacks = [];
+  world.effects = [];
+  world.specialDoor = null;
+  world.specialCooldown = 0;
+  world.callTicketFound = false;
+
+  buildTileMap();
+  buildDoors(linkPool);
+
+  /* place player on a road for sure */
+  player.x = 34 * TILE;
+  player.y = 42 * TILE;
   player.vx = 0;
   player.vy = 0;
+  player.facing = "down";
 
-  buildGates();
-  world.butterflies = [];
-  world.portal = null;
+  for(let i=0; i<8; i++) spawnSnack();
 
-  // Start with some butterflies
-  spawnButterfly();
-  spawnButterfly();
+  introUi.style.display = "none";
+  quitBtn.style.display = "block";
 
   running = true;
   lastTime = 0;
   animTime = 0;
-
   requestAnimationFrame(loop);
 }
 
+function stopGameToIntro(){
+  running = false;
+  quitBtn.style.display = "none";
+  introUi.style.display = "grid";
+}
+
+if(archiveBtn) archiveBtn.addEventListener("click", ()=>{ location.href = "/archive/"; });
+if(commissionBtn) commissionBtn.addEventListener("click", ()=>{ location.href = "/commission/"; });
+
 if(playBtn){
-  playBtn.addEventListener("click", async ()=>{
-    if(introUi) introUi.style.display = "none";
-    await startGame();
-  });
+  playBtn.addEventListener("click", ()=>{ startGame(); });
 }
