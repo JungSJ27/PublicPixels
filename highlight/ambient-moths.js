@@ -8,7 +8,7 @@
     count: Math.floor(Math.random()*8), // 0~7 랜덤
     mothSize: 11,
     mothAlpha: 1,                     // 0~1
-    glow: 'rgba(60, 228, 203, 0.92)',
+    glow: 'rgba(226, 231, 96, 0.92)',
 
     shadowBlur: 10,
 
