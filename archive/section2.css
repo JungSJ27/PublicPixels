@@ -157,3 +157,7 @@
 @media (prefers-reduced-motion: reduce){
   .pixel-btn{ transition: none; }
 }
+
+#pixels-quit{
+  image-rendering: pixelated;
+}

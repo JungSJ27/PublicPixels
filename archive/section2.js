@@ -1,3 +1,10 @@
+// archive/section2.js
+// Cloud Dream World for PublicPixels
+// walk on floating cloud islands
+// stepping into sky triggers falling and respawn on another island
+// fog layers + soft trail
+// E or Enter to enter door
+
 const playBtn = document.getElementById("btn-play");
 const archiveBtn = document.getElementById("btn-archive");
 const commissionBtn = document.getElementById("btn-commission");
@@ -6,14 +13,15 @@ const introUi = document.getElementById("pixel-intro-ui");
 const canvas = document.getElementById("c");
 const ctx = canvas.getContext("2d", { alpha: true });
 
-/* internal resolution for more detail */
+/* internal resolution */
 const VW = 640;
 const VH = 360;
 
 const buffer = document.createElement("canvas");
 buffer.width = VW;
 buffer.height = VH;
-const btx = buffer.getContext("2d");
+const btx = buffer.getContext("2d", { alpha: true });
+
 btx.imageSmoothingEnabled = false;
 ctx.imageSmoothingEnabled = false;
 
@@ -28,127 +36,72 @@ function resizeCanvas(){
 window.addEventListener("resize", resizeCanvas);
 resizeCanvas();
 
+/* base url (works without module) */
+const SCRIPT_URL = new URL(document.currentScript?.src || window.location.href);
+const BASE = new URL(".", SCRIPT_URL);
+
 function clamp(v,a,b){ return Math.max(a, Math.min(b, v)); }
 function pickRandom(arr){ return arr[Math.floor(Math.random() * arr.length)]; }
 function dist2(ax,ay,bx,by){ const dx=ax-bx; const dy=ay-by; return dx*dx+dy*dy; }
 
 async function loadJson(path){
-  const res = await fetch(path, { cache: "no-store" });
-  if(!res.ok) throw new Error("fetch failed " + path);
+  const url = new URL(path, BASE);
+  const res = await fetch(url, { cache: "no-store" });
+  if(!res.ok) throw new Error("fetch failed " + url);
   return await res.json();
 }
 
-/* special links live in js */
-const SPECIAL_LINKS = [
-  { href: "/archive/works/hidden-room-01/", title: "Secret 01" },
-  { href: "/archive/works/hidden-room-02/", title: "Secret 02" }
-];
-
 /* palette */
 const palette = {
-  void: "#0b1224",
-  floorA: "#cfe0ff",
-  floorB: "#bcd3ff",
-  floorC: "#dbe7ff",
-  wallA: "#7f8eff",
-  wallB: "#6b78ea",
-  wallC: "#5864d8",
+  sky0: "#070a18",
+  sky1: "#0b1230",
+  sky2: "#101b44",
+
+  cloudA: "#f7fbff",
+  cloudB: "#e9f2ff",
+  cloudC: "#d6e7ff",
+
+  lilacA: "#efe6ff",
+  lilacB: "#e2d2ff",
+
+  glowPink: "rgba(255,119,233,0.16)",
+  glowCyan: "rgba(122,252,255,0.14)",
+  glowGold: "rgba(255,224,102,0.14)",
+
   neonPink: "rgba(255,119,233,0.90)",
   neonCyan: "rgba(122,252,255,0.92)",
   neonLilac: "rgba(255,214,255,0.86)",
-  gold: "rgba(255,224,102,0.92)",
-  glowPink: "rgba(255,119,233,0.18)",
-  glowCyan: "rgba(122,252,255,0.18)",
-  glowGold: "rgba(255,224,102,0.18)"
+  gold: "rgba(255,224,102,0.92)"
 };
 
-/* tile map */
 const TILE = 16;
-const mapW = 140;
-const mapH = 90;
-const map = new Array(mapW * mapH).fill(0);
+
 /*
-0 floor
-1 wall
-2 detail
-3 sparkle
+tile types
+0 sky (void)
+1 cloud solid (walkable)
+2 cloud edge sparkle detail (walkable)
+3 thin mist detail (walkable)
 */
+const mapW = 140;
+const mapH = 92;
+const map = new Array(mapW * mapH).fill(0);
 
 function setTile(x,y,v){
   if(x < 0 || y < 0 || x >= mapW || y >= mapH) return;
   map[y*mapW + x] = v;
 }
 function getTile(x,y){
-  if(x < 0 || y < 0 || x >= mapW || y >= mapH) return 1;
+  if(x < 0 || y < 0 || x >= mapW || y >= mapH) return 0;
   return map[y*mapW + x];
 }
-function isWallTile(tx,ty){ return getTile(tx,ty) === 1; }
-function isFloorTile(tx,ty){ return getTile(tx,ty) !== 1; }
-
-/* new map generation: roads first, blocks second, always navigable */
-function buildTileMap(){
-  map.fill(1);
-
-  /* carve main roads */
-  const roadXs = [12, 34, 56, 78, 100, 122];
-  const roadYs = [10, 26, 42, 58, 74];
-
-  for(const x of roadXs){
-    for(let y=2; y<mapH-2; y++){
-      setTile(x, y, 0);
-      setTile(x+1, y, 0);
-      setTile(x-1, y, 0);
-    }
-  }
-
-  for(const y of roadYs){
-    for(let x=2; x<mapW-2; x++){
-      setTile(x, y, 0);
-      setTile(x, y+1, 0);
-      setTile(x, y-1, 0);
-    }
-  }
-
-  /* open up neighborhoods around intersections */
-  for(const x of roadXs){
-    for(const y of roadYs){
-      for(let oy=-3; oy<=3; oy++){
-        for(let ox=-3; ox<=3; ox++){
-          if(Math.abs(ox) + Math.abs(oy) <= 5) setTile(x+ox, y+oy, 0);
-        }
-      }
-    }
-  }
-
-  /* carve random alleys connecting roads */
-  for(let i=0; i<18; i++){
-    const x = roadXs[Math.floor(Math.random()*roadXs.length)] + (Math.random() < 0.5 ? -8 : 8);
-    const y0 = 4 + Math.floor(Math.random() * (mapH-8));
-    for(let t=0; t<10 + Math.floor(Math.random()*22); t++){
-      const y = clamp(y0 + t, 2, mapH-3);
-      setTile(x, y, 0);
-      if(Math.random() < 0.35) setTile(x+1, y, 0);
-    }
-  }
-
-  /* add details on floor */
-  for(let i=0; i<420; i++){
-    const x = 2 + Math.floor(Math.random() * (mapW-4));
-    const y = 2 + Math.floor(Math.random() * (mapH-4));
-    if(getTile(x,y) !== 0) continue;
-    if(Math.random() < 0.35) setTile(x,y,2);
-    if(Math.random() < 0.08) setTile(x,y,3);
-  }
-
-  /* keep borders walls */
-  for(let x=0; x<mapW; x++){
-    setTile(x,0,1);
-    setTile(x,mapH-1,1);
-  }
-  for(let y=0; y<mapH; y++){
-    setTile(0,y,1);
-    setTile(mapW-1,y,1);
-  }
+function isCloud(tx,ty){
+  const t = getTile(tx,ty);
+  return t === 1 || t === 2 || t === 3;
+}
+function hash2(x,y){
+  const n = x * 374761393 + y * 668265263;
+  return (n ^ (n >> 13)) >>> 0;
 }
 
 /* world */
@@ -158,9 +111,12 @@ const world = {
   doors: [],
   snacks: [],
   effects: [],
+  fogBack: [],
+  fogFront: [],
+  spawns: [],
+  trails: [],
   specialDoor: null,
-  specialCooldown: 0,
-  callTicketFound: false
+  specialCooldown: 0
 };
 
 const player = {
@@ -171,121 +127,272 @@ const player = {
   r: 10,
   speed: 640,
   friction: 0.84,
-  facing: "down"
+  facing: "down",
+  state: "walk",     // walk | fall
+  fallT: 0
 };
 
 const reward = { score: 0, snack: 0 };
 
-/* collision */
-function isWallAt(px, py){
-  const tx = Math.floor(px / TILE);
-  const ty = Math.floor(py / TILE);
-  return isWallTile(tx,ty);
+/* build dreamy cloud islands */
+function carveBlob(cx, cy, rx, ry){
+  for(let y = cy - ry; y <= cy + ry; y++){
+    for(let x = cx - rx; x <= cx + rx; x++){
+      const dx = (x - cx) / Math.max(1, rx);
+      const dy = (y - cy) / Math.max(1, ry);
+      const d = dx*dx + dy*dy;
+      if(d <= 1.0){
+        setTile(x, y, 1);
+      }
+    }
+  }
 }
 
-function resolveTileCollision(nx, ny){
-  let x = nx;
-  let y = ny;
+function addIslandDetails(){
+  // edges and sparkles
+  for(let y=1; y<mapH-1; y++){
+    for(let x=1; x<mapW-1; x++){
+      if(!isCloud(x,y)) continue;
 
-  for(let i=0; i<10; i++){
-    const corners = [
-      { x: x - player.r, y: y - player.r },
-      { x: x + player.r, y: y - player.r },
-      { x: x - player.r, y: y + player.r },
-      { x: x + player.r, y: y + player.r }
-    ];
-    let hit = false;
-    for(const c of corners){
-      if(isWallAt(c.x, c.y)){ hit = true; break; }
+      const n0 = isCloud(x+1,y) ? 1 : 0;
+      const n1 = isCloud(x-1,y) ? 1 : 0;
+      const n2 = isCloud(x,y+1) ? 1 : 0;
+      const n3 = isCloud(x,y-1) ? 1 : 0;
+
+      const edge = (n0+n1+n2+n3) < 4;
+      const h = hash2(x,y);
+
+      if(edge && (h % 3 === 0)){
+        setTile(x,y,2);
+      }else if(!edge && (h % 29 === 0)){
+        setTile(x,y,3);
+      }
     }
-    if(!hit) break;
+  }
+}
 
-    const pushX = player.vx === 0 ? 0 : (player.vx > 0 ? -1 : 1);
-    const pushY = player.vy === 0 ? 0 : (player.vy > 0 ? -1 : 1);
-    x += pushX * 2.0;
-    y += pushY * 2.0;
+function pickSpawnFromCloud(){
+  // pick a tile that is cloud and not near void too much
+  for(let tries=0; tries<2000; tries++){
+    const tx = 4 + Math.floor(Math.random() * (mapW - 8));
+    const ty = 4 + Math.floor(Math.random() * (mapH - 8));
+    if(!isCloud(tx,ty)) continue;
+
+    // require some neighbors also cloud
+    let ok = 0;
+    for(const d of [[1,0],[-1,0],[0,1],[0,-1],[2,0],[-2,0],[0,2],[0,-2]]){
+      if(isCloud(tx + d[0], ty + d[1])) ok++;
+    }
+    if(ok < 6) continue;
+
+    return { x: tx*TILE + TILE/2, y: ty*TILE + TILE/2 };
+  }
+  return { x: world.w * 0.5, y: world.h * 0.5 };
+}
+
+function buildCloudWorld(){
+  map.fill(0);
+  world.spawns = [];
+
+  // create multiple floating islands
+  const islandCount = 14;
+  for(let i=0; i<islandCount; i++){
+    const cx = 10 + Math.floor(Math.random() * (mapW - 20));
+    const cy = 10 + Math.floor(Math.random() * (mapH - 20));
+    const rx = 8 + Math.floor(Math.random() * 14);
+    const ry = 6 + Math.floor(Math.random() * 10);
+    carveBlob(cx, cy, rx, ry);
+
+    // carve holes for weirdness
+    if(Math.random() < 0.55){
+      const hx = cx + Math.floor(Math.random()*6 - 3);
+      const hy = cy + Math.floor(Math.random()*6 - 3);
+      carveBlob(hx, hy, Math.max(2, Math.floor(rx*0.25)), Math.max(2, Math.floor(ry*0.25)));
+      // turn some of that hole back into sky
+      for(let y=hy-3; y<=hy+3; y++){
+        for(let x=hx-3; x<=hx+3; x++){
+          if(hash2(x,y) % 2 === 0) setTile(x,y,0);
+        }
+      }
+    }
   }
 
-  return { x, y };
-}
-
-/* doors and pools */
-async function loadPools(){
-  let artworks = [];
-  let commission = [];
-  let doorCfg = [];
-
-  try{
-    const a = await loadJson("./artworks.json");
-    if(Array.isArray(a)) artworks = a.filter(it => it && typeof it.href === "string")
-      .map(it => ({ href: it.href, title: it.title || "Artwork" }));
-  }catch(e){ console.warn(e); }
-
-  try{
-    const c = await loadJson("./commission.json");
-    if(Array.isArray(c)) commission = c.filter(it => it && typeof it.href === "string")
-      .map(it => ({ href: it.href, title: it.title || "Commission" }));
-  }catch(e){ console.warn(e); }
-
-  try{
-    const d = await loadJson("./doors.json");
-    if(Array.isArray(d)) doorCfg = d;
-  }catch(e){ console.warn(e); }
-
-  return { artworks, commission, doorCfg };
-}
-
-function buildDoors(linkPool){
-  world.doors = [];
-  const doorCount = 26 + Math.floor(Math.random()*10);
-
-  let tries = 0;
-  while(world.doors.length < doorCount && tries < 12000){
-    tries++;
-    const tx = 2 + Math.floor(Math.random()*(mapW-4));
-    const ty = 2 + Math.floor(Math.random()*(mapH-4));
-    if(!isFloorTile(tx,ty)) continue;
-
-    const wx = tx*TILE + 3;
-    const wy = ty*TILE + 2;
-
-    let ok = true;
-    for(const d of world.doors){
-      if(dist2(wx,wy,d.x,d.y) < 160*160){ ok = false; break; }
+  // add a thin dreamy bridge sometimes
+  for(let i=0; i<4; i++){
+    const a = pickSpawnFromCloud();
+    const b = pickSpawnFromCloud();
+    const ax = Math.floor(a.x / TILE);
+    const ay = Math.floor(a.y / TILE);
+    const bx = Math.floor(b.x / TILE);
+    const by = Math.floor(b.y / TILE);
+    const steps = 36 + Math.floor(Math.random()*50);
+    for(let s=0; s<=steps; s++){
+      const t = s / steps;
+      const x = Math.floor(ax + (bx-ax)*t);
+      const y = Math.floor(ay + (by-ay)*t);
+      if(hash2(x,y) % 4 !== 0) setTile(x,y,1);
+      if(hash2(x,y) % 9 === 0) setTile(x,y,0);
     }
-    if(!ok) continue;
+  }
 
-    const pick = linkPool.length ? pickRandom(linkPool) : { href: "/archive/", title: "Door" };
-    const rare = Math.random() < 0.18;
+  addIslandDetails();
 
-    world.doors.push({
-      x: wx,
-      y: wy,
-      w: 28,
-      h: 36,
-      href: pick.href,
-      title: pick.title || "Door",
-      glow: 0,
-      tier: rare ? "rare" : "normal"
+  // build spawn points
+  for(let i=0; i<10; i++){
+    world.spawns.push(pickSpawnFromCloud());
+  }
+}
+
+/* fog layers */
+function makeFogLayer(count, depth){
+  const arr = [];
+  for(let i=0; i<count; i++){
+    arr.push({
+      x: Math.random() * world.w,
+      y: Math.random() * world.h,
+      r: 24 + Math.random()*72,
+      vx: (Math.random()*2 - 1) * (12 + depth*10),
+      vy: (Math.random()*2 - 1) * (6 + depth*6),
+      a: 0.05 + Math.random()*0.07 + depth*0.02
+    });
+  }
+  return arr;
+}
+
+/* collision and falling */
+function tileAtWorld(px, py){
+  const tx = Math.floor(px / TILE);
+  const ty = Math.floor(py / TILE);
+  return { tx, ty, t: getTile(tx,ty) };
+}
+
+function insideWorld(px, py){
+  return px >= 0 && py >= 0 && px < world.w && py < world.h;
+}
+
+function shouldFall(px, py){
+  if(!insideWorld(px,py)) return true;
+  const { tx, ty } = tileAtWorld(px,py);
+  return !isCloud(tx,ty);
+}
+
+function startFalling(){
+  if(player.state === "fall") return;
+  player.state = "fall";
+  player.fallT = 0;
+  player.vx = 0;
+  player.vy = 0;
+
+  for(let i=0; i<32; i++){
+    world.effects.push({
+      x: player.x,
+      y: player.y,
+      vx: (Math.random()*2 - 1) * 120,
+      vy: (Math.random()*2 - 1) * 120,
+      life: 1.1 + Math.random()*0.8,
+      kind: Math.random() < 0.5 ? "cyan" : "pink"
     });
   }
 }
 
-/* snacks */
-function spawnSnack(){
-  const tx = 2 + Math.floor(Math.random()*(mapW-4));
-  const ty = 2 + Math.floor(Math.random()*(mapH-4));
-  if(!isFloorTile(tx,ty)) return;
+function respawnOnAnotherIsland(){
+  const p = pickRandom(world.spawns.length ? world.spawns : [pickSpawnFromCloud()]);
+  player.x = p.x;
+  player.y = p.y;
+  player.vx = 0;
+  player.vy = 0;
+  player.state = "walk";
+  player.fallT = 0;
 
+  for(let i=0; i<22; i++){
+    world.effects.push({
+      x: player.x,
+      y: player.y,
+      vx: (Math.random()*2 - 1) * 120,
+      vy: (Math.random()*2 - 1) * 120,
+      life: 0.7 + Math.random()*0.7,
+      kind: Math.random() < 0.5 ? "gold" : "pink"
+    });
+  }
+}
+
+/* doors */
+async function loadDoorsConfig(){
+  const candidates = [
+    "./archive/doors.json",
+    "/archive/doors.json",
+    "./doors.json",
+    "/doors.json"
+  ];
+
+  for(const p of candidates){
+    try{
+      const cfg = await loadJson(p);
+      if(Array.isArray(cfg)) return cfg;
+    }catch(e){
+      // try next
+    }
+  }
+  return [];
+}
+
+function normalizeDoor(def){
+  const w = Number(def.w || 52);
+  const h = Number(def.h || 52);
+
+  const door = {
+    id: def.id || ("door_" + Math.random().toString(16).slice(2)),
+    type: def.type || "normal",
+    label: def.label || "Door",
+    x: Number(def.x || 0),
+    y: Number(def.y || 0),
+    w,
+    h,
+    glow: 0,
+    tier: "normal",
+    href: "",
+    pool: []
+  };
+
+  if(door.type === "random" && Array.isArray(def.pool)){
+    door.pool = def.pool.filter(v => typeof v === "string");
+  }else if(typeof def.to === "string"){
+    door.href = def.to;
+  }
+
+  if(door.type === "bonus") door.tier = "special";
+  else if(door.type === "random") door.tier = "rare";
+  else door.tier = "normal";
+
+  return door;
+}
+
+function placeDoorsOnCloud(doors){
+  // Instead of using door x y exactly, snap doors to nearest cloud spawn.
+  // This makes doors always reachable in the floating world.
+  for(const d of doors){
+    const p = pickRandom(world.spawns.length ? world.spawns : [pickSpawnFromCloud()]);
+    d.x = clamp(p.x - d.w*0.5, 12, world.w - d.w - 12);
+    d.y = clamp(p.y - d.h*0.5, 12, world.h - d.h - 12);
+  }
+}
+
+function buildDoorsFromConfig(cfg){
+  world.doors = cfg.map(normalizeDoor);
+  placeDoorsOnCloud(world.doors);
+}
+
+/* collectibles and trail */
+function spawnSnack(){
+  const p = pickRandom(world.spawns.length ? world.spawns : [pickSpawnFromCloud()]);
   world.snacks.push({
-    x: tx*TILE + 8,
-    y: ty*TILE + 8,
-    kind: Math.random() < 0.01 ? "call" : "snack",
+    x: clamp(p.x + (Math.random()*2 - 1)*120, 24, world.w-24),
+    y: clamp(p.y + (Math.random()*2 - 1)*120, 24, world.h-24),
+    kind: Math.random() < 0.12 ? "spark" : "snack",
     t: 0
   });
 }
 
-/* effects */
 function burstItems(x, y){
   for(let i=0; i<18; i++){
     world.effects.push({
@@ -298,40 +405,51 @@ function burstItems(x, y){
   }
 }
 
-/* special door */
+function addTrail(px, py){
+  // soft footprint glow on clouds
+  world.trails.push({ x: px, y: py, life: 1.0 });
+  if(world.trails.length > 220) world.trails.shift();
+}
+
+/* special door (bonus bloom) */
 function maybeSpawnSpecialDoor(){
   if(world.specialDoor) return;
   if(world.specialCooldown > 0) return;
-  if(reward.score < 120) return;
+  if(reward.score < 140) return;
 
-  const tx = Math.floor(player.x / TILE);
-  const ty = Math.floor(player.y / TILE);
-
-  const candidates = [];
-  for(let i=0; i<24; i++){
-    const ox = Math.floor(Math.random()*16 - 8);
-    const oy = Math.floor(Math.random()*16 - 8);
-    const cx = clamp(tx + ox, 3, mapW-4);
-    const cy = clamp(ty + oy, 3, mapH-4);
-    if(isFloorTile(cx,cy)) candidates.push({ x: cx, y: cy });
-  }
-
-  const place = candidates.length ? pickRandom(candidates) : { x: clamp(tx+4, 3, mapW-4), y: clamp(ty-4, 3, mapH-4) };
-
+  const p = pickRandom(world.spawns.length ? world.spawns : [pickSpawnFromCloud()]);
   world.specialDoor = {
-    x: place.x*TILE + 3,
-    y: place.y*TILE + 2,
-    w: 30,
-    h: 40,
+    id: "special_spawn",
+    type: "bonus",
+    label: "BONUS",
+    x: clamp(p.x - 16, 12, world.w - 46),
+    y: clamp(p.y - 22, 12, world.h - 56),
+    w: 34,
+    h: 44,
     glow: 1,
     tier: "special",
     openTime: 14
   };
 
-  burstItems(world.specialDoor.x + 10, world.specialDoor.y + 10);
+  burstItems(world.specialDoor.x + 12, world.specialDoor.y + 12);
 }
 
-/* enter */
+function enterBonusBurst(x,y){
+  for(let i=0; i<28; i++){
+    const a = Math.random() * Math.PI * 2;
+    const r = 12 + Math.random()*100;
+    world.snacks.push({
+      x: clamp(x + Math.cos(a)*r, 24, world.w-24),
+      y: clamp(y + Math.sin(a)*r, 24, world.h-24),
+      kind: Math.random() < 0.20 ? "spark" : "snack",
+      t: 0
+    });
+  }
+  reward.score += 70;
+  burstItems(x,y);
+}
+
+/* entering doors */
 function tryEnter(){
   const px = player.x;
   const py = player.y;
@@ -339,9 +457,8 @@ function tryEnter(){
   if(world.specialDoor){
     const gx = world.specialDoor.x + world.specialDoor.w*0.5;
     const gy = world.specialDoor.y + world.specialDoor.h*0.5;
-    if(dist2(px,py,gx,gy) < 54*54){
-      /* special door means bonus room */
-      spawnBonusBurst(px,py);
+    if(dist2(px,py,gx,gy) < 56*56){
+      enterBonusBurst(px,py);
       world.specialDoor = null;
       world.specialCooldown = 12;
       return;
@@ -351,27 +468,23 @@ function tryEnter(){
   for(const d of world.doors){
     const gx = d.x + d.w*0.5;
     const gy = d.y + d.h*0.5;
-    if(dist2(px,py,gx,gy) < 54*54){
-      location.href = d.href;
+
+    if(dist2(px,py,gx,gy) < 56*56){
+      if(d.type === "random" && d.pool.length){
+        location.href = pickRandom(d.pool);
+        return;
+      }
+      if(d.type === "bonus"){
+        enterBonusBurst(px,py);
+        return;
+      }
+      if(d.href){
+        location.href = d.href;
+        return;
+      }
       return;
     }
   }
-}
-
-function spawnBonusBurst(x,y){
-  /* shower snacks */
-  for(let i=0; i<26; i++){
-    const a = Math.random() * Math.PI * 2;
-    const r = 10 + Math.random()*90;
-    world.snacks.push({
-      x: clamp(x + Math.cos(a)*r, 24, world.w-24),
-      y: clamp(y + Math.sin(a)*r, 24, world.h-24),
-      kind: Math.random() < 0.06 ? "call" : "snack",
-      t: 0
-    });
-  }
-  reward.score += 60;
-  burstItems(x,y);
 }
 
 /* drawing */
@@ -379,52 +492,72 @@ let running = false;
 let lastTime = 0;
 let animTime = 0;
 
+function skyColorAt(px, py){
+  // gentle sky gradient with tiny pulse
+  const y = py / world.h;
+  const pulse = 0.5 + 0.5*Math.sin(animTime*0.25);
+  if(y < 0.33) return palette.sky0;
+  if(y < 0.66) return pulse > 0.5 ? palette.sky1 : palette.sky2;
+  return palette.sky2;
+}
+
 function drawTile(sx, sy, tx, ty, type){
   if(type === 0){
-    const v = (tx*7 + ty*11) % 3;
-    const c = v === 0 ? palette.floorA : (v === 1 ? palette.floorB : palette.floorC);
-    btx.fillStyle = c;
+    // sky tile
+    btx.fillStyle = skyColorAt(tx*TILE, ty*TILE);
     btx.fillRect(sx, sy, TILE, TILE);
 
-    /* tiny dithering */
-    if(((tx*9 + ty*5) % 13) === 0){
-      btx.fillStyle = "rgba(255,255,255,0.10)";
-      btx.fillRect(sx+3, sy+4, 1, 1);
-      btx.fillRect(sx+11, sy+10, 1, 1);
+    const h = hash2(tx,ty);
+    if(h % 43 === 0){
+      btx.fillStyle = "rgba(255,255,255,0.06)";
+      btx.fillRect(sx + 7, sy + 4, 1, 1);
     }
     return;
   }
 
-  if(type === 1){
-    btx.fillStyle = palette.wallA;
-    btx.fillRect(sx, sy, TILE, TILE);
+  // cloud tones
+  const h = hash2(tx,ty);
+  const v = h % 3;
+  let c = v === 0 ? palette.cloudA : (v === 1 ? palette.cloudB : palette.cloudC);
 
-    btx.fillStyle = palette.wallB;
-    btx.fillRect(sx, sy, TILE, 4);
-    btx.fillRect(sx, sy, 4, TILE);
+  btx.fillStyle = c;
+  btx.fillRect(sx, sy, TILE, TILE);
 
-    btx.fillStyle = palette.wallC;
-    btx.fillRect(sx+1, sy+1, TILE-2, 1);
-
-    btx.fillStyle = "rgba(255,255,255,0.12)";
-    btx.fillRect(sx+6, sy+6, 2, 2);
-
-    btx.fillStyle = "rgba(0,0,0,0.10)";
-    btx.fillRect(sx+10, sy+10, 4, 4);
-    return;
-  }
+  // soft edge highlight for dreamy puff
+  btx.fillStyle = "rgba(255,255,255,0.10)";
+  btx.fillRect(sx, sy, TILE, 2);
+  btx.fillRect(sx, sy, 2, TILE);
 
   if(type === 2){
-    btx.fillStyle = "rgba(162,210,255,0.14)";
+    // edge sparkle
+    const blink = (Math.floor(animTime * 6) % 2) ? 1 : 0;
+    btx.fillStyle = blink ? "rgba(122,252,255,0.14)" : "rgba(255,214,255,0.10)";
+    btx.fillRect(sx+4, sy+3, 1, 1);
+    btx.fillRect(sx+11, sy+9, 1, 1);
+    btx.fillRect(sx+7, sy+12, 1, 1);
+  }else if(type === 3){
+    // mist freckles
+    btx.fillStyle = "rgba(255,214,255,0.08)";
     btx.fillRect(sx+6, sy+6, 2, 2);
-    return;
   }
+}
 
-  if(type === 3){
-    btx.fillStyle = "rgba(255,214,255,0.12)";
-    btx.fillRect(sx+2, sy+2, TILE-4, 1);
-    btx.fillRect(sx+2, sy+TILE-3, TILE-4, 1);
-  }
+function drawFogParticle(p, camX, camY, front){
+  const x = p.x - camX;
+  const y = p.y - camY;
+  const r = p.r;
+
+  // pixelated soft blob by stacking rectangles
+  const alpha = p.a * (front ? 1.2 : 0.9);
+  btx.fillStyle = `rgba(255,255,255,${alpha})`;
+
+  const rx = Math.max(10, Math.floor(r));
+  const ry = Math.max(8, Math.floor(r * 0.62));
+
+  // a few puffs
+  btx.fillRect(Math.floor(x - rx), Math.floor(y - 3), rx*2, 6);
+  btx.fillRect(Math.floor(x - rx*0.7), Math.floor(y - ry*0.4), Math.floor(rx*1.4), Math.floor(ry*0.8));
+  btx.fillRect(Math.floor(x - rx*0.5), Math.floor(y - ry*0.65), Math.floor(rx*1.0), Math.floor(ry*0.45));
 }
 
 function drawDoor(door, camX, camY){
@@ -436,11 +569,11 @@ function drawDoor(door, camX, camY){
 
   if(glow > 0.05){
     btx.fillStyle = tier === "special" ? palette.glowCyan : (tier === "rare" ? palette.glowGold : palette.glowPink);
-    btx.fillRect(gx - 5, gy - 5, door.w + 10, door.h + 10);
+    btx.fillRect(gx - 6, gy - 6, door.w + 12, door.h + 12);
   }
 
   const outer = tier === "special" ? palette.neonCyan : (tier === "rare" ? palette.gold : palette.neonLilac);
-  const inner = tier === "special" ? "rgba(255,214,255,0.30)" : "rgba(162,210,255,0.34)";
+  const inner = tier === "special" ? "rgba(255,214,255,0.30)" : "rgba(162,210,255,0.32)";
 
   btx.fillStyle = outer;
   btx.fillRect(gx, gy, door.w, door.h);
@@ -453,6 +586,16 @@ function drawDoor(door, camX, camY){
 
   btx.fillStyle = "rgba(255,255,255,0.78)";
   btx.fillRect(gx + door.w - 7, gy + Math.floor(door.h/2), 2, 2);
+
+  const near = glow > 0.4;
+  if(near && door.label){
+    const text = String(door.label).slice(0, 18);
+    btx.fillStyle = "rgba(0,0,0,0.34)";
+    btx.fillRect(gx - 4, gy - 14, 8 + text.length * 6, 12);
+    btx.fillStyle = "rgba(255,255,255,0.90)";
+    btx.font = "10px monospace";
+    btx.fillText(text, gx, gy - 5);
+  }
 }
 
 function drawSnack(s, camX, camY){
@@ -461,7 +604,7 @@ function drawSnack(s, camX, camY){
 
   const blink = (Math.floor(animTime * 10) % 2) ? 1 : 0;
 
-  if(s.kind === "call"){
+  if(s.kind === "spark"){
     btx.fillStyle = palette.gold;
     btx.fillRect(x-4, y-4, 8, 8);
     btx.fillStyle = "rgba(0,0,0,0.18)";
@@ -480,12 +623,30 @@ function drawEffects(camX, camY){
   for(const e of world.effects){
     const x = Math.floor(e.x - camX);
     const y = Math.floor(e.y - camY);
-    btx.fillStyle = e.kind === "gold" ? palette.gold : palette.neonPink;
+
+    let col = palette.neonPink;
+    if(e.kind === "cyan") col = palette.neonCyan;
+    if(e.kind === "gold") col = palette.gold;
+
+    btx.fillStyle = col;
     btx.fillRect(x, y, 2, 2);
   }
 }
 
-function drawPlayerSprite(px, py, facing, moving){
+function drawTrails(camX, camY){
+  for(const t of world.trails){
+    const x = Math.floor(t.x - camX);
+    const y = Math.floor(t.y - camY);
+    const a = clamp(t.life, 0, 1);
+    btx.fillStyle = `rgba(255,214,255,${0.10 * a})`;
+    btx.fillRect(x-6, y-2, 12, 4);
+    btx.fillStyle = `rgba(122,252,255,${0.08 * a})`;
+    btx.fillRect(x-3, y-1, 6, 2);
+  }
+}
+
+function drawPlayerSprite(px, py, moving){
+  // dreamy walker with soft scarf flutter
   const w = 18;
   const h = 22;
   const step = moving ? (Math.floor(animTime * 10) % 2) : 0;
@@ -493,32 +654,39 @@ function drawPlayerSprite(px, py, facing, moving){
   const x = Math.floor(px - w/2);
   const y = Math.floor(py - h + 2);
 
-  btx.fillStyle = "rgba(0,0,0,0.22)";
+  // shadow
+  btx.fillStyle = "rgba(0,0,0,0.18)";
   btx.fillRect(x+4, y+h-3, 10, 2);
 
-  const flap = step ? 1 : 0;
+  // scarf ribbon
+  const sway = (Math.floor(animTime * 6) % 2) ? 1 : 0;
+  btx.fillStyle = "rgba(255,214,255,0.75)";
+  btx.fillRect(x+2, y+10, 4, 2);
+  btx.fillRect(x-1, y+10+sway, 3, 1);
 
-  btx.fillStyle = "rgba(255,119,233,0.86)";
-  btx.fillRect(x-4, y+8-flap, 6, 8);
-  btx.fillRect(x+w-2, y+8+flap, 6, 8);
-
-  btx.fillStyle = "rgba(162,210,255,0.86)";
-  btx.fillRect(x-2, y+10-flap, 3, 5);
-  btx.fillRect(x+w, y+10+flap, 3, 5);
-
+  // hair
   btx.fillStyle = "#8c4a23";
   btx.fillRect(x+3, y+1, 12, 7);
   btx.fillRect(x+2, y+3, 14, 6);
 
+  // face
   btx.fillStyle = "#ffceb2";
   btx.fillRect(x+5, y+5, 8, 7);
 
+  // eyes
+  btx.fillStyle = "rgba(0,0,0,0.40)";
+  btx.fillRect(x+7, y+8, 1, 1);
+  btx.fillRect(x+11, y+8, 1, 1);
+
+  // shirt
   btx.fillStyle = "#ffffff";
   btx.fillRect(x+5, y+12, 8, 5);
 
+  // pants
   btx.fillStyle = "#a2d2ff";
   btx.fillRect(x+5, y+17, 8, 4);
 
+  // feet
   btx.fillStyle = "rgba(0,0,0,0.18)";
   if(step){
     btx.fillRect(x+6, y+20, 3, 1);
@@ -530,12 +698,12 @@ function drawPlayerSprite(px, py, facing, moving){
 }
 
 function drawHUD(){
-  btx.fillStyle = "rgba(0,0,0,0.34)";
-  btx.fillRect(10, 10, 260, 34);
+  btx.fillStyle = "rgba(0,0,0,0.30)";
+  btx.fillRect(10, 10, 320, 34);
 
   btx.fillStyle = "rgba(255,255,255,0.92)";
   btx.font = "12px monospace";
-  btx.fillText(`SCORE ${reward.score}  SNACK ${reward.snack}`, 16, 26);
+  btx.fillText(`SCORE ${reward.score}  LIGHT ${reward.snack}`, 16, 26);
 
   btx.fillStyle = "rgba(255,255,255,0.70)";
   btx.font = "10px monospace";
@@ -543,6 +711,8 @@ function drawHUD(){
 }
 
 function drawEnterHintIfNear(){
+  if(player.state !== "walk") return;
+
   const px = player.x;
   const py = player.y;
   let near = false;
@@ -550,24 +720,36 @@ function drawEnterHintIfNear(){
   if(world.specialDoor){
     const gx = world.specialDoor.x + world.specialDoor.w*0.5;
     const gy = world.specialDoor.y + world.specialDoor.h*0.5;
-    if(dist2(px,py,gx,gy) < 78*78) near = true;
+    if(dist2(px,py,gx,gy) < 86*86) near = true;
   }
 
   if(!near){
     for(const d of world.doors){
       const gx = d.x + d.w*0.5;
       const gy = d.y + d.h*0.5;
-      if(dist2(px,py,gx,gy) < 78*78){ near = true; break; }
+      if(dist2(px,py,gx,gy) < 86*86){ near = true; break; }
     }
   }
 
   if(!near) return;
 
-  btx.fillStyle = "rgba(0,0,0,0.30)";
-  btx.fillRect(10, VH-32, 210, 22);
+  btx.fillStyle = "rgba(0,0,0,0.26)";
+  btx.fillRect(10, VH-32, 230, 22);
   btx.fillStyle = "rgba(255,255,255,0.90)";
   btx.font = "12px monospace";
   btx.fillText("PRESS E OR ENTER", 16, VH-16);
+}
+
+function drawFallOverlay(){
+  if(player.state !== "fall") return;
+  const a = clamp(player.fallT / 0.9, 0, 1);
+
+  btx.fillStyle = `rgba(11,18,48,${0.28 * a})`;
+  btx.fillRect(0,0,VW,VH);
+
+  btx.fillStyle = `rgba(255,214,255,${0.25 * a})`;
+  btx.font = "12px monospace";
+  btx.fillText("FALLING THROUGH CLOUDS", 16, 56);
 }
 
 /* input */
@@ -592,9 +774,53 @@ quitBtn.addEventListener("click", ()=>{
 });
 
 /* loop */
+function updateFog(dt, arr){
+  for(const p of arr){
+    p.x += p.vx * dt;
+    p.y += p.vy * dt;
+
+    if(p.x < -120) p.x = world.w + 120;
+    if(p.x > world.w + 120) p.x = -120;
+    if(p.y < -120) p.y = world.h + 120;
+    if(p.y > world.h + 120) p.y = -120;
+  }
+}
+
 function update(dt){
   animTime += dt;
 
+  updateFog(dt, world.fogBack);
+  updateFog(dt, world.fogFront);
+
+  // fade trails
+  for(const t of world.trails){
+    t.life -= dt * 0.7;
+  }
+  world.trails = world.trails.filter(t => t.life > 0);
+
+  // fall state
+  if(player.state === "fall"){
+    player.fallT += dt;
+
+    // spiral pull
+    for(let i=0; i<4; i++){
+      world.effects.push({
+        x: player.x + (Math.random()*2 - 1) * 10,
+        y: player.y + (Math.random()*2 - 1) * 10,
+        vx: (Math.random()*2 - 1) * 70,
+        vy: (Math.random()*2 - 1) * 70,
+        life: 0.55 + Math.random()*0.4,
+        kind: Math.random() < 0.5 ? "cyan" : "pink"
+      });
+    }
+
+    if(player.fallT >= 1.0){
+      respawnOnAnotherIsland();
+    }
+    return;
+  }
+
+  // movement
   let ix = 0;
   let iy = 0;
 
@@ -618,11 +844,21 @@ function update(dt){
   player.vx *= Math.pow(player.friction, dt * 60);
   player.vy *= Math.pow(player.friction, dt * 60);
 
-  const nx = clamp(player.x + player.vx * dt, 24, world.w - 24);
-  const ny = clamp(player.y + player.vy * dt, 24, world.h - 24);
-  const resolved = resolveTileCollision(nx, ny);
-  player.x = resolved.x;
-  player.y = resolved.y;
+  const nx = clamp(player.x + player.vx * dt, 0, world.w);
+  const ny = clamp(player.y + player.vy * dt, 0, world.h);
+  player.x = nx;
+  player.y = ny;
+
+  // falling check
+  if(shouldFall(player.x, player.y)){
+    startFalling();
+  }else{
+    // add trail occasionally when walking
+    const moving = Math.hypot(player.vx, player.vy) > 18;
+    if(moving && (Math.floor(animTime * 14) % 2 === 0)){
+      addTrail(player.x, player.y);
+    }
+  }
 
   if(keys.has("e") || keys.has("enter")){
     keys.delete("e");
@@ -635,7 +871,7 @@ function update(dt){
   for(const d of world.doors){
     const gx = d.x + d.w*0.5;
     const gy = d.y + d.h*0.5;
-    const near = dist2(player.x, player.y, gx, gy) < 72*72;
+    const near = dist2(player.x, player.y, gx, gy) < 86*86;
     d.glow += ((near ? 1 : 0) - d.glow) * dt * 8;
     d.glow = clamp(d.glow, 0, 1);
   }
@@ -643,7 +879,7 @@ function update(dt){
   if(world.specialDoor){
     const gx = world.specialDoor.x + world.specialDoor.w*0.5;
     const gy = world.specialDoor.y + world.specialDoor.h*0.5;
-    const near = dist2(player.x, player.y, gx, gy) < 92*92;
+    const near = dist2(player.x, player.y, gx, gy) < 102*102;
     world.specialDoor.glow += ((near ? 1 : 0) - world.specialDoor.glow) * dt * 8;
     world.specialDoor.glow = clamp(world.specialDoor.glow, 0, 1);
 
@@ -654,19 +890,14 @@ function update(dt){
     }
   }
 
-  if(world.snacks.length < 14 && Math.random() < dt * 1.1) spawnSnack();
+  if(world.snacks.length < 16 && Math.random() < dt * 1.0) spawnSnack();
 
   for(const s of world.snacks){
     s.t += dt;
     if(dist2(player.x, player.y, s.x, s.y) < 20*20){
-      if(s.kind === "call"){
-        world.callTicketFound = true;
-        reward.score += 90;
-        burstItems(s.x, s.y);
-      }else{
-        reward.snack += 1;
-        reward.score += 10;
-      }
+      reward.snack += 1;
+      reward.score += (s.kind === "spark" ? 18 : 10);
+      burstItems(s.x, s.y);
       s.x = -9999;
       s.y = -9999;
     }
@@ -686,13 +917,31 @@ function update(dt){
 }
 
 function render(){
-  const camX = clamp(Math.floor(player.x - VW/2), 0, world.w - VW);
-  const camY = clamp(Math.floor(player.y - VH/2), 0, world.h - VH);
+  // camera with gentle float
+  const targetX = clamp(Math.floor(player.x - VW/2), 0, world.w - VW);
+  const targetY = clamp(Math.floor(player.y - VH/2), 0, world.h - VH);
+
+  // simple camera smoothing
+  if(!render.camX && render.camX !== 0){
+    render.camX = targetX;
+    render.camY = targetY;
+  }
+  render.camX += (targetX - render.camX) * 0.10;
+  render.camY += (targetY - render.camY) * 0.10;
+
+  const camX = Math.floor(render.camX);
+  const camY = Math.floor(render.camY);
 
   btx.clearRect(0,0,VW,VH);
-  btx.fillStyle = palette.void;
+
+  // draw sky base
+  btx.fillStyle = palette.sky1;
   btx.fillRect(0,0,VW,VH);
 
+  // fog back
+  for(const p of world.fogBack) drawFogParticle(p, camX, camY, false);
+
+  // tiles
   const startTX = Math.floor(camX / TILE);
   const startTY = Math.floor(camY / TILE);
   const endTX = startTX + Math.ceil(VW / TILE) + 2;
@@ -708,17 +957,28 @@ function render(){
     }
   }
 
+  // trails under player
+  drawTrails(camX, camY);
+
+  // collectibles and doors
   for(const s of world.snacks) drawSnack(s, camX, camY);
   for(const d of world.doors) drawDoor(d, camX, camY);
   if(world.specialDoor) drawDoor(world.specialDoor, camX, camY);
+
   drawEffects(camX, camY);
 
-  const moving = Math.hypot(player.vx, player.vy) > 6;
-  drawPlayerSprite(Math.floor(VW/2), Math.floor(VH/2), player.facing, moving);
+  // fog front
+  for(const p of world.fogFront) drawFogParticle(p, camX, camY, true);
+
+  // player centered
+  const moving = player.state === "walk" && (Math.hypot(player.vx, player.vy) > 10);
+  drawPlayerSprite(Math.floor(VW/2), Math.floor(VH/2), moving);
 
   drawHUD();
   drawEnterHintIfNear();
+  drawFallOverlay();
 
+  // present scaled
   ctx.clearRect(0,0,canvas.width,canvas.height);
 
   const scale = Math.max(canvas.width / VW, canvas.height / VH);
@@ -747,49 +1007,35 @@ function loop(t){
 
 /* start and stop */
 async function startGame(){
-  const { artworks, commission, doorCfg } = await loadPools();
-
-  const fixedDoors = [];
-  const randomSources = { artworks, commission };
-
-  for(const d of doorCfg){
-    if(d.type === "fixed" && d.to){
-      fixedDoors.push({ href: d.to, title: d.label || "Door" });
-    }
-  }
-
-  let randomPool = [];
-  const randomDef = doorCfg.find(d => d.type === "random");
-  if(randomDef && Array.isArray(randomDef.sources)){
-    for(const s of randomDef.sources){
-      const arr = randomSources[s] || [];
-      randomPool = randomPool.concat(arr);
-    }
-  }
-
-  const linkPool = fixedDoors.concat(randomPool);
-  if(!linkPool.length) linkPool.push({ href: "/archive/", title: "Archive" });
+  const doorsCfg = await loadDoorsConfig();
 
   reward.score = 0;
   reward.snack = 0;
 
   world.snacks = [];
   world.effects = [];
+  world.trails = [];
   world.specialDoor = null;
   world.specialCooldown = 0;
-  world.callTicketFound = false;
 
-  buildTileMap();
-  buildDoors(linkPool);
+  buildCloudWorld();
 
-  /* place player on a road for sure */
-  player.x = 34 * TILE;
-  player.y = 42 * TILE;
+  world.fogBack = makeFogLayer(16, 0.2);
+  world.fogFront = makeFogLayer(12, 0.6);
+
+  buildDoorsFromConfig(doorsCfg);
+
+  // spawn on a cloud island
+  const spawn = pickRandom(world.spawns.length ? world.spawns : [pickSpawnFromCloud()]);
+  player.x = spawn.x;
+  player.y = spawn.y;
   player.vx = 0;
   player.vy = 0;
   player.facing = "down";
+  player.state = "walk";
+  player.fallT = 0;
 
-  for(let i=0; i<8; i++) spawnSnack();
+  for(let i=0; i<10; i++) spawnSnack();
 
   introUi.style.display = "none";
   quitBtn.style.display = "block";
@@ -797,6 +1043,9 @@ async function startGame(){
   running = true;
   lastTime = 0;
   animTime = 0;
+  render.camX = undefined;
+  render.camY = undefined;
+
   requestAnimationFrame(loop);
 }
 
@@ -810,5 +1059,12 @@ if(archiveBtn) archiveBtn.addEventListener("click", ()=>{ location.href = "/arch
 if(commissionBtn) commissionBtn.addEventListener("click", ()=>{ location.href = "/commission/"; });
 
 if(playBtn){
-  playBtn.addEventListener("click", ()=>{ startGame(); });
+  playBtn.addEventListener("click", async ()=>{
+    try{
+      await startGame();
+    }catch(err){
+      console.error(err);
+      alert(err?.message || String(err));
+    }
+  });
 }
