@@ -149,7 +149,7 @@ body{
 }
 
 .empty{
-  margin: 28px 0 0;
+  margin: 28px 20px 0;
   color: var(--muted);
   font-size: 13px;
 }
