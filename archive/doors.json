@@ -46,4 +46,6 @@
   },
 
   { "id": "door_bonus_spawn", "type": "bonus", "label": "BONUS", "x": 1460, "y": 520, "w": 72, "h": 72 }
+
+
 ]

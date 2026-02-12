@@ -1,163 +1,158 @@
-.pixel-intro{
+:root{
+  --pp2bg0:#1a0015;
+  --pp2bg1:#2b0030;
+
+  --pp2txt:rgba(255,255,255,.92);
+  --pp2mut:rgba(255,255,255,.62);
+
+  --pp2a:rgba(49, 144, 171, 0.4);
+  --pp2b:rgba(93, 120, 180, 0.28);
+}
+
+.pp2{
+  min-height: 100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  padding: 0;
+  color: var(--pp2txt);
+
+  background:
+    radial-gradient(circle at 18% 18%, rgba(56, 83, 150, 0.28), transparent 48%),
+    radial-gradient(circle at 80% 55%, rgba(43, 79, 171, 0.22), transparent 52%),
+    linear-gradient(180deg, var(--pp2bg0), var(--pp2bg1));
+
   position: relative;
-  width: 100%;
-  height: 100vh;
   overflow: hidden;
+}
 
+/* pixel grid overlay */
+.pp2::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  opacity:.16;
   background:
-    radial-gradient(circle at 20% 20%, rgba(255,214,255,0.18), transparent 40%),
-    radial-gradient(circle at 80% 40%, rgba(162,210,255,0.16), transparent 42%),
-    linear-gradient(180deg, rgba(11,18,36,0.92), rgba(11,18,36,0.78));
+    linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mix-blend-mode: overlay;
 }
 
-#intro-video{
-  position: absolute;
-  inset: 0;
+/* 핵심: inner를 카드가 아니라 '섹션 전체 컨테이너'로 */
+.pp2inner{
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.06;
-  filter: blur(2px) saturate(1.05);
-  z-index: 0;
-  pointer-events: none;
-}
+  max-width: none;
+  margin: 0;
 
-#c{
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
+  padding: 80px clamp(18px, 5vw, 80px) 90px;
 
-  image-rendering: pixelated;
-  image-rendering: crisp-edges;
-  touch-action: none;
-}
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 
-/* Intro UI overlay */
-#pixel-intro-ui{
-  position: absolute;
-  inset: 0;
-  z-index: 6;
-  display: grid;
-  place-items: center;
-  padding: 24px;
-}
-
-.pixel-panel{
-  width: min(780px, 92vw);
-  padding: 26px 22px;
-  border-radius: 18px;
-  border: 2px solid rgba(162,210,255,0.35);
-
-  background:
-    linear-gradient(180deg, rgba(162,210,255,0.10), rgba(255,214,255,0.06)),
-    rgba(0,0,0,0.28);
-
-  box-shadow:
-    0 0 0 2px rgba(0,0,0,0.25),
-    0 18px 0 rgba(0,0,0,0.18);
-
+  position: relative;
   text-align: center;
 }
 
-.pixel-title{
-  font-family: "Press Start 2P", monospace;
-  font-size: clamp(40px, 7vw, 96px);
-  line-height: 1.05;
-  color: #fff;
-  margin: 6px 0 12px 0;
-
+/* 타이틀 크게 */
+.pp2title{
+  margin: 0 0 18px;
+  font-size: clamp(64px, 9vw, 160px);
+  line-height: 1;
+  letter-spacing: 1px;
   text-shadow:
-    2px 2px 0 rgba(0,0,0,0.32),
-    0 0 10px rgba(162,210,255,0.22);
+    2px 2px 0 rgba(0,0,0,.30),
+    0 0 22px rgba(23, 14, 108, 0.3);
 }
 
-.pixel-subtitle{
-  font-family: "Press Start 2P", monospace;
-  font-size: clamp(10px, 2vw, 14px);
-  color: rgba(255,255,255,0.76);
-  margin: 0 0 18px 0;
+.pp2sub{
+  margin: 0 0 26px;
+  color: var(--pp2mut);
+  font-size: clamp(14px, 2vw, 18px);
+  line-height: 1.8;
+}
+
+/* coming soon은 작은 배지처럼 */
+.pp2coming{
+  margin: 0 auto 34px;
+  width: fit-content;
+
+  padding: 12px 18px;
+  border: 2px solid var(--pp2b);
+  border-radius: 14px;
+
+  background: rgba(0,0,0,.18);
+  color: rgba(255,255,255,.88);
+
+  font-size: 12px;
   line-height: 1.7;
+  text-align:center;
+
+  backdrop-filter: blur(6px);
 }
 
-.pixel-menu{
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  align-items: center;
-  margin-top: 12px;
+.pp2comingSub{
+  display:block;
+  margin-top: 6px;
+  font-size: 11px;
+  color: rgba(255,255,255,.66);
 }
 
-.pixel-btn{
-  font-family: "Press Start 2P", monospace;
-  font-size: clamp(12px, 2.2vw, 18px);
-  padding: 14px 22px;
-  border: 2px solid rgba(162,210,255,0.45);
-  border-radius: 10px;
+/* 버튼도 원래처럼 큼직하게 */
+.pp2menu{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap: 14px;
+}
+
+.pp2btn{
+  width: min(760px, 92vw);
+  padding: 18px 22px;
+
+  border: 2px solid rgba(255,170,210,.48);
+  border-radius: 14px;
 
   background:
-    linear-gradient(180deg, rgba(162,210,255,0.12), rgba(255,214,255,0.08)),
-    rgba(0,0,0,0.22);
+    linear-gradient(180deg,
+      rgba(255,190,235,.16),
+      rgba(255,140,205,.08)),
+    rgba(0,0,0,.18);
 
-  color: rgba(255,255,255,0.92);
-  cursor: pointer;
+  color: rgba(255,255,255,.92);
+  cursor:pointer;
+  text-align:left;
 
-  box-shadow:
-    0 0 0 2px rgba(0,0,0,0.25),
-    0 10px 0 rgba(0,0,0,0.22);
-
-  transition: transform 0.12s, filter 0.12s;
-  min-width: min(340px, 86vw);
+  box-shadow: 0 0 0 2px rgba(0,0,0,.18);
+  transition: transform .12s, filter .12s;
 }
 
-.pixel-btn:hover{
+.pp2btn:hover{
   transform: translateY(-2px);
   filter: brightness(1.06);
 }
 
-.pixel-btn:active{
-  transform: translateY(0px);
+.pp2btn:active{
+  transform: translateY(0);
 }
 
-.pixel-help{
-  margin-top: 14px;
-  font-family: "Press Start 2P", monospace;
-  font-size: 10px;
-  color: rgba(255,255,255,0.62);
-  line-height: 1.7;
+.pp2btn:disabled{
+  opacity: .55;
+  cursor: not-allowed;
+  filter:none;
+  transform:none;
 }
 
-/* Quit button */
-#pixels-quit{
-  position: absolute;
-  z-index: 8;
-  top: 14px;
-  right: 14px;
-
-  display: none;
-
-  font-family: "Press Start 2P", monospace;
-  font-size: 10px;
-  padding: 10px 12px;
-  border-radius: 10px;
-  border: 2px solid rgba(255,214,255,0.40);
-
-  background: rgba(0,0,0,0.22);
-  color: rgba(255,255,255,0.90);
-
-  cursor: pointer;
-  user-select: none;
-}
-
-#pixels-quit:hover{
-  filter: brightness(1.06);
-}
-
-@media (prefers-reduced-motion: reduce){
-  .pixel-btn{ transition: none; }
-}
-
-#pixels-quit{
-  image-rendering: pixelated;
+/* 모바일 */
+@media (max-width: 640px){
+  .pp2inner{
+    padding: 70px 16px 80px;
+  }
+  .pp2btn{
+    width: 100%;
+  }
 }

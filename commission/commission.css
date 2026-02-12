@@ -154,10 +154,46 @@ body{
   font-size: 13px;
 }
 
-/* mobile */
+
 @media (max-width: 900px){
   :root{ --tile-min: 240px; --ctl-h: 44px; }
-  .toolbar{ grid-template-columns: 1fr; }
-  .search, .select, .reset{ font-size: 16px; }
-  .reset{ width: 100%; }
+
+  .toolbar{
+    display:flex;
+    gap: 12px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+
+    padding-left: 16px;
+    padding-right: 16px;
+
+    scroll-snap-type: x mandatory;
+
+    /* 이게 핵심. 첫 아이템이 padding 안쪽에서 시작하게 */
+    scroll-padding-left: 12px;
+    scroll-padding-right: 12px;
+  }
+
+  /* 기본: 절반 크기 */
+  .toolbar > *{
+    flex: 0 0 calc(50% - 6px);
+    scroll-snap-align: start;
+  }
+
+  /* Reset은 원래 크기 유지 */
+  .toolbar > .reset{
+    flex: 0 0 5%;
+  }
+
+  .toolbar{
+    scrollbar-width: none;
+  }
+  .toolbar::-webkit-scrollbar{
+    display:none;
+  }
+
+  .search, .select, .reset{
+    font-size: 16px;
+  }
 }

@@ -74,56 +74,26 @@
   </section>
 
 
-<section id="section2" class="pixel-intro">
+  <section id="section2" class="pp2">
+    <div class="pp2inner">
+      <h1 class="pp2title">PIXELS</h1>
+      <p class="pp2sub">a tiny world of playful pixels</p>
 
-  <!-- optional soft video background 그대로 유지 가능 -->
-  <video id="intro-video" autoplay muted playsinline loop></video>
+      <div class="pp2coming" aria-label="Coming soon">
+        COMING SOON
+        <span class="pp2comingSub">new pixel world loading...</span>
+      </div>
 
-  <!-- PIXEL INTRO UI -->
-  <div id="pixel-intro-ui">
-
-    <!-- floating gummy shapes -->
-    <div class="gummy g1"></div>
-    <div class="gummy g2"></div>
-    <div class="gummy g3"></div>
-    <div class="gummy g4"></div>
-
-    <!-- Title -->
-    <h1 class="pixel-title">
-      PIXELS
-    </h1>
-
-    <p class="pixel-subtitle">
-      a tiny world of playful pixels
-    </p>
-
-    <!-- Menu Buttons -->
-    <div class="pixel-menu">
-      <button id="btn-play" class="pixel-btn">▶ START</button>
-      <button id="btn-archive" class="pixel-btn">▶ ARCHIVE</button>
-      <button id="btn-commission" class="pixel-btn">▶ COMMISSION</button>
+      <div class="pp2menu" role="navigation" aria-label="Main menu">
+        <button id="btn-play" class="pp2btn" type="button" disabled>START</button>
+        <button id="btn-archive" class="pp2btn" type="button">ARCHIVE</button>
+        <button id="btn-commission" class="pp2btn" type="button">COMMISSION</button>
+      </div>
     </div>
+  </section>
 
-    <!-- Meta text -->
-    <div class="pixel-meta top-left">Spatial Computing</div>
-    <div class="pixel-meta top-left2">Dynamic Environments</div>
-    <div class="pixel-meta top-right">Digital Sanctuary</div>
-
-    <div class="pixel-meta bottom-left">
-      Created by JJ Seungjin Jung<br>
-      Interaction & System Design · PublicPixels
-    </div>
-
-    <div class="pixel-meta bottom-right">
-      Controls: WASD to move · Mouse to look · ESC to unlock
-    </div>
-
-  </div>
-
-  <!-- 3D world canvas stays -->
-  <canvas id="c"></canvas>
-
-</section>
+  <link rel="stylesheet" href="archive/section2.css" />
+  <script src="archive/section2.js" defer></script>
 
 
 
