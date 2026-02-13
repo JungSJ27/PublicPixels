@@ -156,7 +156,7 @@ body{
 
 
 @media (max-width: 900px){
-  :root{ --tile-min: 240px; --ctl-h: 44px; }
+  :root{ --tile-min: 240px; --ctl-h: 38px; }
 
   .toolbar{
     display:flex;
