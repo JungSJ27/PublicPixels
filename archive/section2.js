@@ -1,280 +1,230 @@
+/* archive/section2.js */
 (() => {
-  const MAP_KEY = "map";
+  const GAME_PARENT_ID = "game-root";
 
-  // 로컬에서 테스트할 때는 false
-  // 배포 환경에서만 true로 바꿔
-  const USE_R2_ASSETS = false;
+  // R2 루트
+  const R2_ROOT = "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/";
 
-  // 맵 json은 로컬에 있는 게 정석
-  // PublicPixels 루트 기준으로 확정 경로로 잡기
-  const MAP_JSON_URL = "pixels.json";
+  // R2에 올라간 경로들
+  const MAP_URL = R2_ROOT + "archive/pixels.json";
+  const R2_PIXELS_DIR = R2_ROOT + "archive/pixels/";
+  const BG_TILE_URL = R2_PIXELS_DIR + "bg_tile.png";
 
-  // R2 base
-  const R2_BASE = "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/";
+  const PLAY_ZOOM = 1.8;
 
-  // 배경 타일
-  // 로컬이면 /archive/pixels/bg_tile.png
-  // R2면 R2_BASE + archive/pixels/bg_tile.png
-  const BG_TILE_LOCAL = "/archive/pixels/bg_tile.png";
-  const BG_TILE_R2 = R2_BASE + "archive/pixels/bg_tile.png";
+  const introEl = document.getElementById("pp2-intro");
+  const sectionEl = document.getElementById("section2");
+  const hudHearts = document.getElementById("pp2-hearts");
 
-  const PLAY_ZOOM_MIN = 1.8;
-  const MIN_ZOOM = 0.4;
-  const MAX_ZOOM = 4.0;
-  const PLAYER_SPEED = 220;
+  const playBtn = document.getElementById("btn-play");
+  const archiveBtn = document.getElementById("btn-archive");
+  const commissionBtn = document.getElementById("btn-commission");
 
-  function normPath(p) {
-    if (!p) return p;
-    let s = String(p);
-    s = s.replace(/\\/g, "/");
-    s = s.replace(/^\.\/+/, "");
-    s = s.replace(/\/{2,}/g, "/");
-    return s;
+  // 버튼은 게임 로딩이 터져도 항상 동작하게 맨 위에서 먼저 연결
+  if (archiveBtn) {
+    archiveBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      location.href = "/archive/";
+    });
+  }
+  if (commissionBtn) {
+    commissionBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      location.href = "/commission/";
+    });
   }
 
-  function withCacheBust(url) {
-    return url + (url.includes("?") ? "&" : "?") + "v=" + Date.now();
+  const LS_HEARTS = "pp2_hearts_v1";
+  function getHearts() {
+    const v = Number(localStorage.getItem(LS_HEARTS) || "0");
+    return Number.isFinite(v) ? v : 0;
+  }
+  function setHearts(v) {
+    const n = Math.max(0, Math.floor(Number(v) || 0));
+    localStorage.setItem(LS_HEARTS, String(n));
+    if (hudHearts) hudHearts.textContent = String(n);
+    return n;
+  }
+  setHearts(getHearts());
+
+  function setPausedUI(isPaused) {
+    if (!sectionEl) return;
+    if (isPaused) sectionEl.classList.add("is-paused");
+    else sectionEl.classList.remove("is-paused");
   }
 
-  function toAssetUrl(imagePath) {
-    const path = normPath(imagePath);
+  // Tiled json 안의 image 경로를 어떤 형태로 넣었든
+  // 최종적으로 R2의 archive/pixels 폴더의 파일명만 쓰도록 정리
+  function toR2TilesetUrl(tiledImagePath) {
+    if (!tiledImagePath) return "";
+    let s = String(tiledImagePath).replace(/\\/g, "/");
 
-    // json 안에 image가 "archive/pixels/Tile.png" 같이 들어있으면
-    // 로컬에서는 "/archive/pixels/Tile.png" 로
-    // R2에서는 "https://.../archive/pixels/Tile.png" 로
-    if (USE_R2_ASSETS) return R2_BASE + path;
+    // 이미 URL이면 그대로
+    if (/^https?:\/\//i.test(s)) return s;
 
-    return path.startsWith("/") ? path : "/" + path;
+    // 경로가 섞여 있어도 파일명만 추출
+    const file = s.split("/").pop();
+    return R2_PIXELS_DIR + file;
   }
+
+  let started = false;
+  setPausedUI(true);
 
   const config = {
     type: Phaser.AUTO,
-    width: window.innerWidth,
-    height: window.innerHeight,
-    parent: "game-root",
+    parent: GAME_PARENT_ID,
     backgroundColor: "#000000",
     pixelArt: true,
-    roundPixels: true,
     scale: {
       mode: Phaser.Scale.RESIZE,
+      width: "100%",
+      height: "100%",
       autoCenter: Phaser.Scale.CENTER_BOTH
     },
-    scene: { preload, create }
+    physics: {
+      default: "arcade",
+      arcade: { debug: false }
+    },
+    scene: { preload, create, update }
   };
 
   const game = new Phaser.Game(config);
 
-  window.addEventListener("resize", () => {
-    game.scale.resize(window.innerWidth, window.innerHeight);
-  });
+  let cursors;
+  let player;
+  let map;
+  let camera;
+  let bg;
 
   function preload() {
+    this.load.setCORS("anonymous");
+
     this.load.on("loaderror", (file) => {
       console.error("loaderror", file && file.key, file && file.src);
     });
 
-    // 1 맵 json 로드
-    this.load.tilemapTiledJSON(MAP_KEY, withCacheBust(MAP_JSON_URL));
+    // 배경 타일
+    this.load.image("bg_tile", BG_TILE_URL);
 
-    // 2 배경 타일 로드
-    const bgUrl = USE_R2_ASSETS ? BG_TILE_R2 : BG_TILE_LOCAL;
-    this.load.image("bg_tile", withCacheBust(bgUrl));
+    // 타일맵 json
+    this.load.tilemapTiledJSON("map", MAP_URL);
+
+    // 타일셋 로딩용 raw json도 한번 더 읽기
+    this.load.json("map_raw", MAP_URL);
+
+    // raw json을 받은 뒤 tileset png들을 로더에 추가
+    this.load.once("filecomplete-json-map_raw", () => {
+      const raw = this.cache.json.get("map_raw");
+      const tilesets = raw && raw.tilesets ? raw.tilesets : [];
+
+      for (const ts of tilesets) {
+        if (!ts || ts.source) continue;
+        if (!ts.name || !ts.image) continue;
+
+        const key = `ts_${ts.name}`;
+        const url = toR2TilesetUrl(ts.image);
+        this.load.image(key, url);
+      }
+    });
+
+    // 임시 플레이어
+    this.textures.generate("player_box", {
+      data: ["2222", "2222", "2222", "2222"],
+      pixelWidth: 6,
+      palette: { 2: 0x66ccff }
+    });
   }
 
   function create() {
-    const scene = this;
-
     // 배경 타일 반복
-    const bg = scene.add.tileSprite(0, 0, scene.scale.width, scene.scale.height, "bg_tile");
+    bg = this.add.tileSprite(0, 0, this.scale.width, this.scale.height, "bg_tile");
     bg.setOrigin(0, 0);
     bg.setScrollFactor(0);
     bg.setDepth(-1000);
 
-    scene.scale.on("resize", (s) => {
+    this.scale.on("resize", (s) => {
+      if (!bg) return;
       bg.width = s.width;
       bg.height = s.height;
     });
 
-    // raw json 읽기
-    const cached = scene.cache.tilemap.get(MAP_KEY);
-    const raw = cached && cached.data ? cached.data : null;
-    if (!raw) {
-      console.error("map raw json not found in cache", MAP_JSON_URL);
+    cursors = this.input.keyboard.createCursorKeys();
+
+    map = this.make.tilemap({ key: "map" });
+    if (!map) {
+      console.error("tilemap 생성 실패. MAP_URL 확인", MAP_URL);
       return;
     }
 
-    const rawTilesets = Array.isArray(raw.tilesets) ? raw.tilesets : [];
-    if (!rawTilesets.length) {
-      console.error("tilesets is empty");
+    // tileset 연결
+    const phaserTilesets = [];
+    for (const ts of map.tilesets) {
+      const key = `ts_${ts.name}`;
+      const phTs = map.addTilesetImage(ts.name, key);
+      if (phTs) phaserTilesets.push(phTs);
+    }
+
+    // 레이어 생성
+    const createdLayers = [];
+    for (const layer of map.layers) {
+      const l = map.createLayer(layer.name, phaserTilesets, 0, 0);
+      if (l) createdLayers.push(l);
+    }
+
+    if (!createdLayers.length) {
+      console.error("Tile layer 생성 실패. tileset png 로드 여부 확인 필요");
       return;
     }
 
-    // tileset 이미지 로드
-    for (const ts of rawTilesets) {
-      if (!ts || !ts.name) continue;
+    camera = this.cameras.main;
+    camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+    camera.setZoom(PLAY_ZOOM);
 
-      if (ts.source) {
-        console.warn("external tsx detected, embed tilesets in tiled export", ts.source);
-        continue;
-      }
+    player = this.physics.add.sprite(120, 120, "player_box");
+    player.setCollideWorldBounds(true);
 
-      if (!ts.image) {
-        console.warn("tileset image missing", ts.name);
-        continue;
-      }
+    // 충돌은 일단 첫 레이어 전체로 잡아두고 나중에 정교화
+    const baseLayer = createdLayers[0];
+    baseLayer.setCollisionByExclusion([-1]);
+    this.physics.add.collider(player, baseLayer);
 
-      const key = "ts_" + ts.name;
-      const url = toAssetUrl(ts.image);
+    camera.startFollow(player, true, 0.12, 0.12);
 
-      console.log("tileset png load", ts.name, url);
-      scene.load.image(key, withCacheBust(url));
-      ts.__phaserKey = key;
+    // START 버튼
+    if (playBtn) {
+      playBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        started = true;
+        if (introEl) introEl.style.display = "none";
+        setPausedUI(false);
+      });
     }
 
-    scene.load.once("complete", () => {
-      const map = scene.make.tilemap({ key: MAP_KEY });
-      if (!map) {
-        console.error("tilemap create failed");
-        return;
-      }
-
-      const phaserTilesets = [];
-      for (const ts of rawTilesets) {
-        if (!ts || !ts.__phaserKey) continue;
-
-        const phTs = map.addTilesetImage(
-          ts.name,
-          ts.__phaserKey,
-          ts.tilewidth,
-          ts.tileheight,
-          ts.margin || 0,
-          ts.spacing || 0
-        );
-
-        if (phTs) phaserTilesets.push(phTs);
-      }
-
-      if (!phaserTilesets.length) {
-        console.error("tileset create failed, check png url, cors, 404");
-        return;
-      }
-
-      const createdLayers = [];
-      for (const layer of map.layers || []) {
-        const l = map.createLayer(layer.name, phaserTilesets, 0, 0);
-        if (l) createdLayers.push(l);
-      }
-
-      if (!createdLayers.length) {
-        console.error("tile layer create failed, check layer type in tiled");
-        return;
-      }
-
-      // 시작 위치 계산
-      const tileBounds = getNonEmptyTileBounds(map);
-      const startX = tileBounds ? (tileBounds.minX + tileBounds.maxX) / 2 : map.widthInPixels / 2;
-      const startY = tileBounds ? (tileBounds.minY + tileBounds.maxY) / 2 : map.heightInPixels / 2;
-
-      const cam = scene.cameras.main;
-      cam.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-
-      const zoomFill = Math.max(
-        scene.scale.width / map.widthInPixels,
-        scene.scale.height / map.heightInPixels
-      );
-
-      const startZoom = Phaser.Math.Clamp(Math.max(PLAY_ZOOM_MIN, zoomFill), MIN_ZOOM, MAX_ZOOM);
-
-      cam.setZoom(startZoom);
-      cam.centerOn(startX, startY);
-
-      const player = scene.add.rectangle(startX, startY, 18, 18, 0x66ccff);
-      player.setDepth(9999);
-
-      cam.startFollow(player, true, 0.12, 0.12);
-
-      const keys = scene.input.keyboard.addKeys({
-        up: "W",
-        down: "S",
-        left: "A",
-        right: "D",
-        up2: "UP",
-        down2: "DOWN",
-        left2: "LEFT",
-        right2: "RIGHT"
-      });
-
-      scene.events.on("update", () => {
-        const dt = scene.game.loop.delta / 1000;
-
-        let vx = 0;
-        let vy = 0;
-
-        if (keys.left.isDown || keys.left2.isDown) vx -= 1;
-        if (keys.right.isDown || keys.right2.isDown) vx += 1;
-        if (keys.up.isDown || keys.up2.isDown) vy -= 1;
-        if (keys.down.isDown || keys.down2.isDown) vy += 1;
-
-        if (vx !== 0 || vy !== 0) {
-          const len = Math.hypot(vx, vy);
-          vx /= len;
-          vy /= len;
-
-          player.x += vx * PLAYER_SPEED * dt;
-          player.y += vy * PLAYER_SPEED * dt;
-
-          player.x = Phaser.Math.Clamp(player.x, 0, map.widthInPixels);
-          player.y = Phaser.Math.Clamp(player.y, 0, map.heightInPixels);
-        }
-      });
-
-      scene.input.on("wheel", (pointer, dx, dy) => {
-        const next = Phaser.Math.Clamp(cam.zoom - dy * 0.001, MIN_ZOOM, MAX_ZOOM);
-        cam.setZoom(next);
-      });
-    });
-
-    scene.load.start();
+    // 시작 전에는 멈춤
+    started = false;
+    if (introEl) introEl.style.display = "";
+    setPausedUI(true);
   }
 
-  function getNonEmptyTileBounds(map) {
-    const tw = map.tileWidth;
-    const th = map.tileHeight;
-
-    let minTX = Infinity;
-    let minTY = Infinity;
-    let maxTX = -Infinity;
-    let maxTY = -Infinity;
-    let found = false;
-
-    for (const layer of map.layers || []) {
-      const data = layer && layer.data ? layer.data : null;
-      if (!data) continue;
-
-      for (let y = 0; y < data.length; y++) {
-        const row = data[y];
-        if (!row) continue;
-
-        for (let x = 0; x < row.length; x++) {
-          const tile = row[x];
-          if (tile && tile.index > 0) {
-            found = true;
-            if (x < minTX) minTX = x;
-            if (y < minTY) minTY = y;
-            if (x > maxTX) maxTX = x;
-            if (y > maxTY) maxTY = y;
-          }
-        }
-      }
+  function update() {
+    if (!started || !player) {
+      if (player) player.setVelocity(0, 0);
+      return;
     }
 
-    if (!found) return null;
+    const speed = 160;
+    let vx = 0;
+    let vy = 0;
 
-    return {
-      minX: minTX * tw,
-      minY: minTY * th,
-      maxX: (maxTX + 1) * tw,
-      maxY: (maxTY + 1) * th
-    };
+    if (cursors.left.isDown) vx = -speed;
+    else if (cursors.right.isDown) vx = speed;
+
+    if (cursors.up.isDown) vy = -speed;
+    else if (cursors.down.isDown) vy = speed;
+
+    player.setVelocity(vx, vy);
   }
 })();
