@@ -2,15 +2,17 @@
 (() => {
   const GAME_PARENT_ID = "game-root";
 
-  // R2 루트
   const R2_ROOT = "https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/";
-
-  // R2에 올라간 경로들
-  const MAP_URL = R2_ROOT + "archive/pixels.json";
   const R2_PIXELS_DIR = R2_ROOT + "archive/pixels/";
   const BG_TILE_URL = R2_PIXELS_DIR + "bg_tile.png";
 
-  const PLAY_ZOOM = 1.8;
+  const MAP_KEY = "map";
+  const MAP_JSON = "/archive/pixels.json";
+
+  const MIN_ZOOM = 0.4;
+  const MAX_ZOOM = 4.0;
+  const PLAY_ZOOM_MIN = 1.8;
+  const PLAYER_SPEED = 220;
 
   const introEl = document.getElementById("pp2-intro");
   const sectionEl = document.getElementById("section2");
@@ -20,20 +22,12 @@
   const archiveBtn = document.getElementById("btn-archive");
   const commissionBtn = document.getElementById("btn-commission");
 
-  // 버튼은 게임 로딩이 터져도 항상 동작하게 맨 위에서 먼저 연결
-  if (archiveBtn) {
-    archiveBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      location.href = "/archive/";
-    });
-  }
-  if (commissionBtn) {
-    commissionBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      location.href = "/commission/";
-    });
+  let started = false;
+
+  function setPausedUI(isPaused) {
+    if (!sectionEl) return;
+    if (isPaused) sectionEl.classList.add("is-paused");
+    else sectionEl.classList.remove("is-paused");
   }
 
   const LS_HEARTS = "pp2_hearts_v1";
@@ -49,27 +43,57 @@
   }
   setHearts(getHearts());
 
-  function setPausedUI(isPaused) {
-    if (!sectionEl) return;
-    if (isPaused) sectionEl.classList.add("is-paused");
-    else sectionEl.classList.remove("is-paused");
-  }
-
-  // Tiled json 안의 image 경로를 어떤 형태로 넣었든
-  // 최종적으로 R2의 archive/pixels 폴더의 파일명만 쓰도록 정리
   function toR2TilesetUrl(tiledImagePath) {
     if (!tiledImagePath) return "";
     let s = String(tiledImagePath).replace(/\\/g, "/");
-
-    // 이미 URL이면 그대로
     if (/^https?:\/\//i.test(s)) return s;
-
-    // 경로가 섞여 있어도 파일명만 추출
     const file = s.split("/").pop();
     return R2_PIXELS_DIR + file;
   }
 
-  let started = false;
+  function resumeAudioIfAny() {
+    try {
+      const scenes = game.scene.getScenes(true);
+      const activeScene = scenes && scenes.length ? scenes[0] : null;
+      if (!activeScene || !activeScene.sound) return;
+
+      const ctx = activeScene.sound.context;
+      if (ctx && ctx.state === "suspended") ctx.resume();
+    } catch (e) {}
+  }
+
+  // 버튼은 Phaser 로딩이 터져도 항상 동작하게 여기서 먼저 연결
+  if (archiveBtn) {
+    archiveBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      location.href = "/archive/";
+    });
+  }
+
+  if (commissionBtn) {
+    commissionBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      location.href = "/commission/";
+    });
+  }
+
+  if (playBtn) {
+    playBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      started = true;
+      if (introEl) introEl.style.display = "none";
+      setPausedUI(false);
+      resumeAudioIfAny();
+      console.log("START pressed, started = true");
+    });
+  }
+
+  // 시작 전 UI 상태
+  started = false;
+  if (introEl) introEl.style.display = "";
   setPausedUI(true);
 
   const config = {
@@ -77,26 +101,17 @@
     parent: GAME_PARENT_ID,
     backgroundColor: "#000000",
     pixelArt: true,
+    roundPixels: true,
     scale: {
       mode: Phaser.Scale.RESIZE,
       width: "100%",
       height: "100%",
       autoCenter: Phaser.Scale.CENTER_BOTH
     },
-    physics: {
-      default: "arcade",
-      arcade: { debug: false }
-    },
-    scene: { preload, create, update }
+    scene: { preload, create }
   };
 
   const game = new Phaser.Game(config);
-
-  let cursors;
-  let player;
-  let map;
-  let camera;
-  let bg;
 
   function preload() {
     this.load.setCORS("anonymous");
@@ -105,126 +120,210 @@
       console.error("loaderror", file && file.key, file && file.src);
     });
 
-    // 배경 타일
-    this.load.image("bg_tile", BG_TILE_URL);
+    // 맵은 로컬
+    this.load.tilemapTiledJSON(MAP_KEY, MAP_JSON + "?v=" + Date.now());
 
-    // 타일맵 json
-    this.load.tilemapTiledJSON("map", MAP_URL);
-
-    // 타일셋 로딩용 raw json도 한번 더 읽기
-    this.load.json("map_raw", MAP_URL);
-
-    // raw json을 받은 뒤 tileset png들을 로더에 추가
-    this.load.once("filecomplete-json-map_raw", () => {
-      const raw = this.cache.json.get("map_raw");
-      const tilesets = raw && raw.tilesets ? raw.tilesets : [];
-
-      for (const ts of tilesets) {
-        if (!ts || ts.source) continue;
-        if (!ts.name || !ts.image) continue;
-
-        const key = `ts_${ts.name}`;
-        const url = toR2TilesetUrl(ts.image);
-        this.load.image(key, url);
-      }
-    });
-
-    // 임시 플레이어
-    this.textures.generate("player_box", {
-      data: ["2222", "2222", "2222", "2222"],
-      pixelWidth: 6,
-      palette: { 2: 0x66ccff }
-    });
+    // 배경 타일은 R2
+    this.load.image("bg_tile", BG_TILE_URL + "?v=" + Date.now());
   }
 
   function create() {
+    const scene = this;
+    
+
     // 배경 타일 반복
-    bg = this.add.tileSprite(0, 0, this.scale.width, this.scale.height, "bg_tile");
+    const bg = scene.add.tileSprite(0, 0, scene.scale.width, scene.scale.height, "bg_tile");
     bg.setOrigin(0, 0);
     bg.setScrollFactor(0);
     bg.setDepth(-1000);
 
-    this.scale.on("resize", (s) => {
-      if (!bg) return;
+    scene.scale.on("resize", (s) => {
       bg.width = s.width;
       bg.height = s.height;
     });
 
-    cursors = this.input.keyboard.createCursorKeys();
-
-    map = this.make.tilemap({ key: "map" });
-    if (!map) {
-      console.error("tilemap 생성 실패. MAP_URL 확인", MAP_URL);
+    // tilemap raw json은 cache.tilemap에서 꺼내서 tileset 로더를 여기서 추가
+    const cached = scene.cache.tilemap.get(MAP_KEY);
+    const raw = cached && cached.data ? cached.data : null;
+    if (!raw) {
+      console.error("map raw json not found in cache");
       return;
     }
 
-    // tileset 연결
-    const phaserTilesets = [];
-    for (const ts of map.tilesets) {
-      const key = `ts_${ts.name}`;
-      const phTs = map.addTilesetImage(ts.name, key);
-      if (phTs) phaserTilesets.push(phTs);
-    }
-
-    // 레이어 생성
-    const createdLayers = [];
-    for (const layer of map.layers) {
-      const l = map.createLayer(layer.name, phaserTilesets, 0, 0);
-      if (l) createdLayers.push(l);
-    }
-
-    if (!createdLayers.length) {
-      console.error("Tile layer 생성 실패. tileset png 로드 여부 확인 필요");
+    const rawTilesets = Array.isArray(raw.tilesets) ? raw.tilesets : [];
+    if (!rawTilesets.length) {
+      console.error("tilesets is empty");
       return;
     }
 
-    camera = this.cameras.main;
-    camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-    camera.setZoom(PLAY_ZOOM);
+    for (const ts of rawTilesets) {
+      if (!ts || !ts.name) continue;
+      if (ts.source) continue;
+      if (!ts.image) continue;
 
-    player = this.physics.add.sprite(120, 120, "player_box");
-    player.setCollideWorldBounds(true);
+      const key = "ts_" + ts.name;
+      const url = toR2TilesetUrl(ts.image);
 
-    // 충돌은 일단 첫 레이어 전체로 잡아두고 나중에 정교화
-    const baseLayer = createdLayers[0];
-    baseLayer.setCollisionByExclusion([-1]);
-    this.physics.add.collider(player, baseLayer);
+      console.log("tileset png load", ts.name, url);
+      scene.load.image(key, url + "?v=" + Date.now());
+      ts.__phaserKey = key;
+    }
 
-    camera.startFollow(player, true, 0.12, 0.12);
+    scene.load.once("complete", () => {
+      const map = scene.make.tilemap({ key: MAP_KEY });
+      if (!map) {
+        console.error("tilemap create failed");
+        return;
+      }
 
-    // START 버튼
-    if (playBtn) {
-      playBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        started = true;
-        if (introEl) introEl.style.display = "none";
-        setPausedUI(false);
+      const phaserTilesets = [];
+      for (const ts of rawTilesets) {
+        if (!ts || !ts.__phaserKey) continue;
+
+        const phTs = map.addTilesetImage(
+          ts.name,
+          ts.__phaserKey,
+          ts.tilewidth,
+          ts.tileheight,
+          ts.margin || 0,
+          ts.spacing || 0
+        );
+
+        if (phTs) phaserTilesets.push(phTs);
+      }
+
+      if (!phaserTilesets.length) {
+        console.error("tileset create failed. png 404인지 위 로그 확인");
+        return;
+      }
+
+      const createdLayers = [];
+      for (const layer of map.layers || []) {
+        const l = map.createLayer(layer.name, phaserTilesets, 0, 0);
+        if (l) {
+          l.setAlpha(1);
+          l.setDepth(0);
+          l.setVisible(true);
+          createdLayers.push(l);
+        }
+      }
+
+      if (!createdLayers.length) {
+        console.error("tile layer create failed");
+        return;
+      }
+
+      // non empty 타일 영역 중심으로 시작점 잡기
+      const tileBounds = getNonEmptyTileBounds(map);
+
+      const startX = tileBounds ? (tileBounds.minX + tileBounds.maxX) / 2 : map.widthInPixels / 2;
+      const startY = tileBounds ? (tileBounds.minY + tileBounds.maxY) / 2 : map.heightInPixels / 2;
+
+      const cam = scene.cameras.main;
+      cam.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+
+      const zoomFill = Math.max(scene.scale.width / map.widthInPixels, scene.scale.height / map.heightInPixels);
+      const startZoom = Phaser.Math.Clamp(Math.max(PLAY_ZOOM_MIN, zoomFill), MIN_ZOOM, MAX_ZOOM);
+
+      cam.setZoom(startZoom);
+      cam.centerOn(startX, startY);
+
+      const player = scene.add.rectangle(startX, startY, 18, 18, 0x66ccff);
+      player.setDepth(9999);
+      cam.startFollow(player, true, 0.12, 0.12);
+
+      const keys = scene.input.keyboard.addKeys({
+        up: "W",
+        down: "S",
+        left: "A",
+        right: "D",
+        up2: "UP",
+        down2: "DOWN",
+        left2: "LEFT",
+        right2: "RIGHT"
       });
-    }
 
-    // 시작 전에는 멈춤
-    started = false;
-    if (introEl) introEl.style.display = "";
-    setPausedUI(true);
+      scene.events.on("update", () => {
+        if (!started) return;
+
+        const dt = scene.game.loop.delta / 1000;
+
+        let vx = 0;
+        let vy = 0;
+
+        if (keys.left.isDown || keys.left2.isDown) vx -= 1;
+        if (keys.right.isDown || keys.right2.isDown) vx += 1;
+        if (keys.up.isDown || keys.up2.isDown) vy -= 1;
+        if (keys.down.isDown || keys.down2.isDown) vy += 1;
+
+        if (vx !== 0 || vy !== 0) {
+          const len = Math.hypot(vx, vy);
+          vx /= len;
+          vy /= len;
+
+          player.x += vx * PLAYER_SPEED * dt;
+          player.y += vy * PLAYER_SPEED * dt;
+
+          player.x = Phaser.Math.Clamp(player.x, 0, map.widthInPixels);
+          player.y = Phaser.Math.Clamp(player.y, 0, map.heightInPixels);
+        }
+      });
+
+      scene.input.on("wheel", (pointer, dx, dy) => {
+        const next = Phaser.Math.Clamp(cam.zoom - dy * 0.001, MIN_ZOOM, MAX_ZOOM);
+        cam.setZoom(next);
+      });
+
+      console.log("map ok", {
+        w: map.widthInPixels,
+        h: map.heightInPixels,
+        layers: createdLayers.map((l) => l.layer.name),
+        tilesets: map.tilesets.map((t) => t.name),
+        tileBounds
+      });
+    });
+
+    scene.load.start();
   }
 
-  function update() {
-    if (!started || !player) {
-      if (player) player.setVelocity(0, 0);
-      return;
+  function getNonEmptyTileBounds(map) {
+    const tw = map.tileWidth;
+    const th = map.tileHeight;
+
+    let minTX = Infinity;
+    let minTY = Infinity;
+    let maxTX = -Infinity;
+    let maxTY = -Infinity;
+    let found = false;
+
+    for (const layer of map.layers || []) {
+      const data = layer && layer.data ? layer.data : null;
+      if (!data) continue;
+
+      for (let y = 0; y < data.length; y++) {
+        const row = data[y];
+        if (!row) continue;
+
+        for (let x = 0; x < row.length; x++) {
+          const tile = row[x];
+          if (tile && tile.index > 0) {
+            found = true;
+            if (x < minTX) minTX = x;
+            if (y < minTY) minTY = y;
+            if (x > maxTX) maxTX = x;
+            if (y > maxTY) maxTY = y;
+          }
+        }
+      }
     }
 
-    const speed = 160;
-    let vx = 0;
-    let vy = 0;
+    if (!found) return null;
 
-    if (cursors.left.isDown) vx = -speed;
-    else if (cursors.right.isDown) vx = speed;
-
-    if (cursors.up.isDown) vy = -speed;
-    else if (cursors.down.isDown) vy = speed;
-
-    player.setVelocity(vx, vy);
+    return {
+      minX: minTX * tw,
+      minY: minTY * th,
+      maxX: (maxTX + 1) * tw,
+      maxY: (maxTY + 1) * th
+    };
   }
 })();
