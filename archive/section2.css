@@ -1,158 +1,149 @@
 :root{
-  --pp2bg0:#1a0015;
-  --pp2bg1:#2b0030;
-
-  --pp2txt:rgba(255,255,255,.92);
-  --pp2mut:rgba(255,255,255,.62);
-
-  --pp2a:rgba(49, 144, 171, 0.4);
-  --pp2b:rgba(93, 120, 180, 0.28);
+  --pp2txt: rgba(255,255,255,.92);
+  --pp2mut: rgba(255,255,255,.62);
+  --pp2stroke: rgba(255,170,210,.48);
 }
 
+/* 기존 섹션2 레이아웃 유지 */
 .pp2{
   min-height: 100vh;
   display:flex;
-  align-items:center;
+  align-items:flex-start;
   justify-content:center;
-
   padding: 0;
   color: var(--pp2txt);
-
-  background:
-    radial-gradient(circle at 18% 18%, rgba(56, 83, 150, 0.28), transparent 48%),
-    radial-gradient(circle at 80% 55%, rgba(43, 79, 171, 0.22), transparent 52%),
-    linear-gradient(180deg, var(--pp2bg0), var(--pp2bg1));
-
+  background: transparent;
   position: relative;
   overflow: hidden;
 }
 
-/* pixel grid overlay */
-.pp2::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  opacity:.16;
-  background:
-    linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
-  background-size: 28px 28px;
-  mix-blend-mode: overlay;
-}
-
-/* 핵심: inner를 카드가 아니라 '섹션 전체 컨테이너'로 */
 .pp2inner{
   width: 100%;
-  max-width: none;
-  margin: 0;
-
-  padding: 80px clamp(18px, 5vw, 80px) 90px;
-
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
-
+  padding: 0;
   position: relative;
-  text-align: center;
 }
 
-/* 타이틀 크게 */
-.pp2title{
-  margin: 0 0 18px;
-  font-size: clamp(64px, 9vw, 160px);
-  line-height: 1;
-  letter-spacing: 1px;
-  text-shadow:
-    2px 2px 0 rgba(0,0,0,.30),
-    0 0 22px rgba(23, 14, 108, 0.3);
+.pp2stage{
+  width: 100%;
+  height: min(780vh, 1000px);
+  margin: 0 auto;
+  background: transparent;
+  overflow: hidden;
+  position: relative;
 }
 
-.pp2sub{
-  margin: 0 0 26px;
-  color: var(--pp2mut);
-  font-size: clamp(14px, 2vw, 18px);
-  line-height: 1.8;
+.pp2gameRoot{
+  width: 100%;
+  height: 100%;
+  background: #000;
 }
 
-/* coming soon은 작은 배지처럼 */
-.pp2coming{
-  margin: 0 auto 34px;
-  width: fit-content;
-
-  padding: 12px 18px;
-  border: 2px solid var(--pp2b);
-  border-radius: 14px;
-
-  background: rgba(0,0,0,.18);
-  color: rgba(255,255,255,.88);
-
-  font-size: 12px;
-  line-height: 1.7;
-  text-align:center;
-
-  backdrop-filter: blur(6px);
-}
-
-.pp2comingSub{
+.pp2gameRoot canvas{
   display:block;
-  margin-top: 6px;
-  font-size: 11px;
-  color: rgba(255,255,255,.66);
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
 }
 
-/* 버튼도 원래처럼 큼직하게 */
-.pp2menu{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap: 14px;
+/* 인트로 오버레이 */
+.pp2intro{
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  pointer-events: auto;
+}
+
+.pp2intro__panel{
+  width: min(520px, calc(100% - 32px));
+  border-radius: 18px;
+  padding: 18px 16px 16px;
+  background: rgba(0,0,0,.38);
+  border: 1px solid rgba(255,170,210,.28);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 16px 40px rgba(0,0,0,.35);
+}
+
+.pp2intro__title{
+  font-family: "Press Start 2P", system-ui, sans-serif;
+  font-size: 18px;
+  line-height: 1.35;
+  margin: 0 0 10px;
+  letter-spacing: .6px;
+}
+
+.pp2intro__sub{
+  margin: 0 0 14px;
+  color: var(--pp2mut);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.pp2intro__row{
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .pp2btn{
-  width: min(760px, 92vw);
-  padding: 18px 22px;
-
-  border: 2px solid rgba(255,170,210,.48);
-  border-radius: 14px;
-
-  background:
-    linear-gradient(180deg,
-      rgba(255,190,235,.16),
-      rgba(255,140,205,.08)),
-    rgba(0,0,0,.18);
-
+  padding: 11px 14px;
+  border: 2px solid var(--pp2stroke);
+  border-radius: 12px;
+  background: rgba(0,0,0,.18);
   color: rgba(255,255,255,.92);
-  cursor:pointer;
-  text-align:left;
-
-  box-shadow: 0 0 0 2px rgba(0,0,0,.18);
-  transition: transform .12s, filter .12s;
+  cursor: pointer;
+  font-size: 12px;
 }
 
 .pp2btn:hover{
-  transform: translateY(-2px);
   filter: brightness(1.06);
 }
 
-.pp2btn:active{
-  transform: translateY(0);
+.pp2btn:disabled{
+  opacity: .6;
+  cursor: not-allowed;
 }
 
-.pp2btn:disabled{
-  opacity: .55;
-  cursor: not-allowed;
-  filter:none;
-  transform:none;
+/* HUD */
+.pp2hud{
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  z-index: 15;
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(0,0,0,.22);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,.10);
+  user-select: none;
+  pointer-events: none;
+}
+
+.pp2hud__chip{
+  font-size: 12px;
+  color: rgba(255,255,255,.90);
+}
+
+.pp2hud__mut{
+  color: var(--pp2mut);
+}
+
+/* 인트로가 켜져있을 때 게임 캔버스 블러 */
+.pp2.is-paused .pp2gameRoot canvas{
+  filter: blur(10px) saturate(.9) brightness(.95);
+  transform: scale(1.02);
 }
 
 /* 모바일 */
 @media (max-width: 640px){
-  .pp2inner{
-    padding: 70px 16px 80px;
+  .pp2stage{
+    height: 70vh;
   }
-  .pp2btn{
-    width: 100%;
+  .pp2intro__title{
+    font-size: 16px;
   }
 }
