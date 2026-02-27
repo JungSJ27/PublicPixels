@@ -59,6 +59,15 @@ header,
   pointer-events: none;
 }
 
+/* 메뉴 텍스트 */
+.main-nav a{
+  color: rgba(234, 234, 236, 0.95);
+}
+
+/* | 구분선 */
+.main-nav a::before{
+  background: rgba(234, 234, 236, 0.95);
+}
 /* ===============================
    LIST TOGGLE (목록으로 돌아가기)
    =============================== */

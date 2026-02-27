@@ -134,6 +134,11 @@ header{
     padding-right: 13px !important;
   }
 
+    /* 모바일에서 메뉴 숨기기 */
+  .main-nav{
+    display:none !important;
+  }
+  
   /* 토큰 업사이즈 */
   :root{
     --bag-size: 24px;        /* 쇼핑백 아이콘 크기 */
