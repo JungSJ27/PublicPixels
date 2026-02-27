@@ -140,15 +140,19 @@
 
 /* 모바일 */
 @media (max-width: 640px){
-  .pp2stage{
-    height: 100svh;
+  .pp2{
+    min-height: 100svh; /* 모바일은 svh로 안정 */
   }
+
+  .pp2stage{
+    height: 100%;       /* 부모 높이를 그대로 채움 */
+    max-height: none;   /* 혹시 모를 제한 제거 */
+  }
+
   .pp2intro__title{
     font-size: 16px;
   }
-
 }
-
 #game-root{
   position: relative;
   z-index: 5;
