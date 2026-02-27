@@ -25,7 +25,8 @@
 
 .pp2stage{
   width: 100%;
-  height: min(780vh, 1000px);
+  height: 100vh;
+  height: 100dvh; /* 모바일 안정 */
   margin: 0 auto;
   background: transparent;
   overflow: hidden;
@@ -141,18 +142,18 @@
 /* 모바일 */
 @media (max-width: 640px){
   .pp2{
-    min-height: 100svh; /* 모바일은 svh로 안정 */
+    min-height: 100dvh;
   }
 
   .pp2stage{
-    height: 100%;       /* 부모 높이를 그대로 채움 */
-    max-height: none;   /* 혹시 모를 제한 제거 */
+    height: 100%;
   }
 
   .pp2intro__title{
     font-size: 16px;
   }
 }
+
 #game-root{
   position: relative;
   z-index: 5;
