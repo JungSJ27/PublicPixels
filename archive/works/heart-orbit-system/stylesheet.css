@@ -47,6 +47,16 @@ body[data-page="log"] header {
   transition: transform 0.35s ease, opacity 0.25s ease;
 }
 
+/* 메뉴 텍스트 */
+.main-nav a{
+  color: rgba(255, 255, 255, 0.18);
+}
+
+/* | 구분선 */
+.main-nav a::before{
+  background: rgba(255, 255, 255, 0.18);
+}
+
 /* LIST 기본 숨김 헤더랑 같이 움직이게 */
 .list-toggle {
   position: fixed;

@@ -69,6 +69,15 @@ body[data-page="log"] header .shop-toggle {
   display: none !important;
 }
 
+/* 메뉴 텍스트 */
+.main-nav a{
+  color:rgba(255, 255, 255, 0.9);
+}
+
+/* | 구분선 */
+.main-nav a::before{
+  background:rgba(255, 255, 255, 0.9);
+}
 
 
 /* =======================================================

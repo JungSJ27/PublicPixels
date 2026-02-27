@@ -258,3 +258,13 @@
 /* 활성 카드만 배경 유지, 프리뷰(비활성) 카드는 투명 처리 */
 #section4.s4 .s4__slide:not(.is-active){ background: transparent !important; }
 #section4.s4 .s4__slide:not(.is-active) .s4__bg{ background: transparent !important; }
+
+/* 메뉴 텍스트 */
+.main-nav a{
+  color:#ffffffa9;
+}
+
+/* | 구분선 */
+.main-nav a::before{
+  background:#ffffffa9;
+}

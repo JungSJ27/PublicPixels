@@ -824,3 +824,15 @@ body[data-page="artworks"] #cart [data-cart-clear] {
 body[data-page="artworks"] #cart [data-cart-clear]:hover {
   background: #1c1d22 !important;
 }
+
+/* 메뉴 텍스트 */
+.main-nav a{
+  color:#ffffffa9;
+}
+
+
+
+/* | 구분선 */
+.main-nav a::before{
+  background:#ffffffa9;
+}

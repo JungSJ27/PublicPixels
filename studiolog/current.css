@@ -480,3 +480,15 @@ body[data-page="news"] #cart :is(
 ):hover{
   background:#1c1d22 !important;
 }
+
+/* 메뉴 텍스트 */
+.main-nav a{
+  color:#ffffffa9;
+}
+
+
+
+/* | 구분선 */
+.main-nav a::before{
+  background:#ffffffa9;
+}
