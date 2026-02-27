@@ -141,7 +141,7 @@
 /* 모바일 */
 @media (max-width: 640px){
   .pp2stage{
-    height: 70vh;
+    height: min(70svh, 600px);
   }
   .pp2intro__title{
     font-size: 16px;
