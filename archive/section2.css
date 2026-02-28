@@ -103,10 +103,10 @@
 /* Button row */
 .pp2intro__row{
   display:flex;
-  gap:18px;
+  gap:20px;
   flex-wrap:wrap;
   justify-content:center;
-  margin-top:-60px;
+  margin-top:-50px;
 }
 
 /* Buttons */
