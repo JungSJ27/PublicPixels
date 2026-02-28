@@ -113,7 +113,7 @@
 .pp2btn{
   padding:10px 18px;
   border:2px solid #ff7ad9;
-  border-radius:10px;
+  border-radius:7px;
   background:rgba(0,0,0,0.55);
   color:white;
 
@@ -194,7 +194,7 @@
 
   /* 버튼 줄 마진도 음수 제거 */
   .pp2intro__row{
-    gap:12px;
+    gap:8px;
     margin-top:-40px;
   }
 
