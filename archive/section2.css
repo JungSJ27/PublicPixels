@@ -5,7 +5,6 @@
 }
 
 /* Section2 wrapper */
-
 .pp2{
   min-height:100vh;
   display:flex;
@@ -25,7 +24,6 @@
 }
 
 /* Game stage */
-
 .pp2stage{
   width:100%;
   height:100vh;
@@ -50,229 +48,164 @@
 }
 
 /* Intro overlay */
-
 .pp2intro{
-
   position:absolute;
   inset:0;
   z-index:20;
-
   pointer-events:auto;
 
   display:flex;
   flex-direction:column;
   align-items:center;
-
-  /* 핵심: 전체를 위로 이동 */
   justify-content:center;
 
   gap:18px;
-
   padding-top:0px;
 }
 
 /* PIXELS Logo */
-
 .pp2intro__logo{
-
   width: clamp(480px,55vw,900px);
-
   height:auto;
-
   image-rendering:pixelated;
+
   margin-top:-100px;
 
   filter:
-  drop-shadow(0 20px 50px rgba(0,0,0,.55))
-  drop-shadow(0 0 34px rgba(255,150,220,.35));
+    drop-shadow(0 20px 50px rgba(0,0,0,.55))
+    drop-shadow(0 0 34px rgba(255,150,220,.35));
+
   animation: logoFloat 3.5s ease-in-out infinite;
-
 }
+
 @keyframes logoFloat{
-
-  0%{
-    transform: translateY(0px);
-  }
-
-  50%{
-    transform: translateY(-10px);
-  }
-
-  100%{
-    transform: translateY(0px);
-  }
-
+  0%{ transform: translateY(0px); }
+  50%{ transform: translateY(-10px); }
+  100%{ transform: translateY(0px); }
 }
+
 /* Avatar */
-
 .pp2intro__avatar{
-
   width:clamp(140px,18vw,220px);
-
   height:auto;
-
   image-rendering:pixelated;
 
-  /* 위로 이동 */
   margin-top:-100px;
   margin-bottom:5px;
 
   filter:
-  drop-shadow(0 18px 40px rgba(0,0,0,.45))
-  drop-shadow(0 0 18px rgba(255,170,210,.25));
-
+    drop-shadow(0 18px 40px rgba(0,0,0,.45))
+    drop-shadow(0 0 18px rgba(255,170,210,.25));
 }
 
 /* Button row */
-
 .pp2intro__row{
-
   display:flex;
-
   gap:18px;
-
   flex-wrap:wrap;
-
   justify-content:center;
-
   margin-top:-30px;
-
 }
 
 /* Buttons */
-
 .pp2btn{
-
   padding:10px 18px;
-
   border:2px solid #ff7ad9;
-
   border-radius:10px;
-
   background:rgba(0,0,0,0.55);
-
   color:white;
 
   font-size:12px;
-
   letter-spacing:1px;
 
   cursor:pointer;
-
   transition:0.15s;
 
   font-family:monospace;
 
   box-shadow:
-  0 0 6px rgba(255,100,200,0.4),
-  inset 0 0 6px rgba(255,120,220,0.3);
-
+    0 0 6px rgba(255,100,200,0.4),
+    inset 0 0 6px rgba(255,120,220,0.3);
 }
 
 .pp2btn:hover{
-
   transform:translateY(-2px);
-
   border-color:#ff9fe6;
-
   box-shadow:
-  0 0 14px rgba(255,120,220,0.8),
-  inset 0 0 8px rgba(255,150,240,0.4);
-
+    0 0 14px rgba(255,120,220,0.8),
+    inset 0 0 8px rgba(255,150,240,0.4);
 }
 
 .pp2btn:active{
-
   transform:translateY(1px);
-
   box-shadow:0 0 6px rgba(255,120,220,0.5);
-
 }
 
 .pp2btn:disabled{
-
   opacity:.6;
-
   cursor:not-allowed;
-
 }
 
 /* Blur */
-
 .pp2.is-paused .pp2gameRoot canvas{
-
   filter:blur(10px) saturate(.9) brightness(.95);
-
   transform:scale(1.06);
-
 }
 
-/* Mobile */
-
+/* Mobile fix */
 @media (max-width:640px){
 
-.pp2{
+  /* 섹션 자체 높이 안정화 */
+  .pp2{
+    min-height:100svh;
+  }
 
-min-height:100dvh;
+  /* 핵심: height 100% 제거 + svh로 고정 */
+  .pp2stage{
+    height:100svh;
+    min-height:100svh;
+  }
 
-}
+  /* 전체 UI를 transform으로 안정적으로 위로 */
+  .pp2intro{
+    padding-top:0;
+    gap:14px;
+    transform: translateY(-35px);
+  }
 
-.pp2stage{
+  /* 로고는 모바일에서만 적당히 */
+  .pp2intro__logo{
+    width:min(92vw, 520px);
+    margin-top:0;
+  }
 
-height:100%;
+  /* 아바타도 margin 음수 제거 */
+  .pp2intro__avatar{
+    width:140px;
+    margin-top:0;
+    margin-bottom:2px;
+  }
 
-}
+  /* 버튼 줄 마진도 음수 제거 */
+  .pp2intro__row{
+    gap:12px;
+    margin-top:0;
+  }
 
-.pp2intro{
-
-padding-top:40px;
-gap:14px;
-
-}
-
-.pp2intro__logo{
-
-width:90vw;
-
-}
-
-.pp2intro__avatar{
-
-width:140px;
-
-}
-
-.pp2intro__row{
-
-gap:12px;
-
-}
-
-.pp2btn{
-
-padding:9px 14px;
-font-size:11px;
-
-}
-
+  .pp2btn{
+    padding:9px 14px;
+    font-size:11px;
+  }
 }
 
 /* Phaser safety */
-
 #game-root{
-
-position:relative;
-
-z-index:5;
-
+  position:relative;
+  z-index:5;
 }
 
 #game-root canvas{
-
-position:relative !important;
-
-z-index:10 !important;
-
-display:block;
-
+  position:relative !important;
+  z-index:10 !important;
+  display:block;
 }
