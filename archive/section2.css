@@ -176,7 +176,7 @@
   .pp2intro{
     padding-top:0;
     gap:14px;
-    transform: translateY(0px);
+    transform: translateY(-30px);
   }
 
   /* 로고는 모바일에서만 적당히 */
