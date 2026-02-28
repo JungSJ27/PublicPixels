@@ -149,7 +149,7 @@
 /* Blur */
 .pp2.is-paused .pp2gameRoot canvas{
   filter:blur(10px) saturate(.9) brightness(.95);
-  transform:scale(1.06);
+  transform:scale(1);
 }
 
 /* Mobile fix */
