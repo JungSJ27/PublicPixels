@@ -88,11 +88,11 @@
 
 /* Avatar */
 .pp2intro__avatar{
-  width:clamp(160px,18vw,240px);
+  width:clamp(140px,18vw,200px);
   height:auto;
   image-rendering:pixelated;
 
-  margin-top:-120px;
+  margin-top:-130px;
   margin-bottom:5px;
 
   filter:
@@ -106,7 +106,7 @@
   gap:20px;
   flex-wrap:wrap;
   justify-content:center;
-  margin-top:-50px;
+  margin-top:10px;
 }
 
 /* Buttons */
@@ -182,20 +182,20 @@
   /* 로고는 모바일에서만 적당히 */
   .pp2intro__logo{
     width:min(100vw,700px);
-    margin-top:00px;
+    margin-top:0px;
   }
 
   /* 아바타도 margin 음수 제거 */
   .pp2intro__avatar{
-    width:300px;
-    margin-top:-150px;
+    width:200px;
+    margin-top:-100px;
     margin-bottom:-0px;
   }
 
   /* 버튼 줄 마진도 음수 제거 */
   .pp2intro__row{
     gap:8px;
-    margin-top:-85px;
+    margin-top:20px;
   }
 
   .pp2btn{
