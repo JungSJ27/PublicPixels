@@ -2,6 +2,8 @@
   --pp2txt: rgba(255,255,255,.92);
   --pp2mut: rgba(255,255,255,.62);
   --pp2stroke: rgba(255,170,210,.48);
+  
+  --pp2pixelfont: "Press Start 2P", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
 /* Section2 wrapper */
@@ -65,11 +67,11 @@
 
 /* PIXELS Logo */
 .pp2intro__logo{
-  width: clamp(480px,55vw,900px);
+  width: clamp(700px,60vw,900px);
   height:auto;
   image-rendering:pixelated;
 
-  margin-top:-100px;
+  margin-top:-200px;
 
   filter:
     drop-shadow(0 20px 50px rgba(0,0,0,.55))
@@ -104,7 +106,7 @@
   gap:18px;
   flex-wrap:wrap;
   justify-content:center;
-  margin-top:-50px;
+  margin-top:-60px;
 }
 
 /* Buttons */
@@ -115,18 +117,22 @@
   background:rgba(0,0,0,0.55);
   color:white;
 
-  font-size:12px;
-  letter-spacing:1px;
+  font-size:11px;
+  letter-spacing:0.6px;
+  line-height:1;
 
   cursor:pointer;
   transition:0.15s;
 
-  font-family:monospace;
+  font-family:var(--pp2pixelfont);
+  text-transform:uppercase;
+  -webkit-font-smoothing:antialiased;
 
   box-shadow:
     0 0 6px rgba(255,100,200,0.4),
     inset 0 0 6px rgba(255,120,220,0.3);
 }
+
 
 .pp2btn:hover{
   transform:translateY(-2px);
@@ -194,7 +200,8 @@
 
   .pp2btn{
     padding:9px 14px;
-    font-size:11px;
+    font-size:10px;
+    letter-spacing:0.4px;
   }
 }
 
