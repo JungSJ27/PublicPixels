@@ -176,26 +176,26 @@
   .pp2intro{
     padding-top:0;
     gap:14px;
-    transform: translateY(-35px);
+    transform: translateY(0px);
   }
 
   /* 로고는 모바일에서만 적당히 */
   .pp2intro__logo{
     width:min(100vw,700px);
-    margin-top:20px;
+    margin-top:-40px;
   }
 
   /* 아바타도 margin 음수 제거 */
   .pp2intro__avatar{
     width:140px;
-    margin-top:-20px;
+    margin-top:0px;
     margin-bottom:2px;
   }
 
   /* 버튼 줄 마진도 음수 제거 */
   .pp2intro__row{
     gap:12px;
-    margin-top:-20px;
+    margin-top:-40px;
   }
 
   .pp2btn{
