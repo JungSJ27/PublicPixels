@@ -5,7 +5,6 @@ export function ensureSearchPanel() {
   if (window.__ppSearchInit) return;
   window.__ppSearchInit = true;
 
-  // 1. 데이터 소스 준비
   if (!Array.isArray(window.SEARCH_SOURCES) || window.SEARCH_SOURCES.length === 0) {
     const ROOT = location.pathname.startsWith("/PublicPixels/") ? "/PublicPixels" : "";
     window.SEARCH_SOURCES = [
@@ -15,7 +14,6 @@ export function ensureSearchPanel() {
     ];
   }
 
-  // 2. 백드롭 준비 (없으면 자동 생성)
   let backdrop = document.getElementById("search-backdrop");
   if (!backdrop) {
     backdrop = document.createElement("div");
@@ -23,7 +21,6 @@ export function ensureSearchPanel() {
     document.body.appendChild(backdrop);
   }
 
-  // 3. 패널 DOM 준비 (없으면 생성)
   let panel = document.getElementById("search");
   if (!panel) {
     panel = document.createElement("div");
@@ -58,7 +55,6 @@ export function ensureSearchPanel() {
     return;
   }
 
-  // 4. 데이터 로딩 관련 상태
   let DATA = [];
   let loaded = false;
   let loading = false;
@@ -72,7 +68,6 @@ export function ensureSearchPanel() {
     }
   }
 
-  // 정규화 함수 (status 포함)
   function norm(x = {}) {
     const title = String(x.title ?? x.name ?? "Untitled");
     const url   = toAbs(x.url ?? x.link ?? x.href ?? x.page ?? "#");
@@ -104,7 +99,6 @@ export function ensureSearchPanel() {
     return { title, url, image, price, date, type, medium, year, status, _hay: hay };
   }
 
-  // 여러 형태의 JSON을 rows 배열로 밀어넣기
   function pushAny(rows, val) {
     if (!val) return;
 
@@ -124,7 +118,6 @@ export function ensureSearchPanel() {
     }
   }
 
-  // 전체 JSON 로딩
   async function loadAll() {
     if (loaded || loading) return DATA;
     loading = true;
@@ -140,10 +133,8 @@ export function ensureSearchPanel() {
       if (s.status === "fulfilled") pushAny(rows, s.value);
     });
 
-    // 중복 제거, private 제거
     const uniq = new Set();
     DATA = rows.filter((r) => {
-      // status 가 private 이면 제외
       if (r.status && r.status.toLowerCase() === "private") return false;
 
       const k = (r.title + "|" + r.url).toLowerCase();
@@ -157,7 +148,6 @@ export function ensureSearchPanel() {
     return DATA;
   }
 
-  // 5. 추천 카드
   const DEMO = [
     { title: "SJ1",                 url: "/about/",                             image: "/front/SJ1.png" },
     { title: "Still, Life goes on", url: "/archive/works/still-life-goes-on/",  image: "/front/recstill.png" },
@@ -183,7 +173,6 @@ export function ensureSearchPanel() {
     `;
   }
 
-  // 6. 결과 렌더
   function formatDate(iso) {
     if (!iso) return "";
     const d = new Date(iso);
@@ -231,7 +220,17 @@ export function ensureSearchPanel() {
     `;
   }
 
-  // 7. 오픈, 클로즈 함수
+  function setGameKeyboardEnabled(enabled) {
+    try {
+      if (typeof window.__pp2_setKeyboardEnabled === "function") {
+        window.__pp2_setKeyboardEnabled(enabled);
+        return;
+      }
+      const g = window.__pp2_game;
+      if (g && g.input && g.input.keyboard) g.input.keyboard.enabled = !!enabled;
+    } catch (e) {}
+  }
+
   function openSearch() {
     panel.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
@@ -252,6 +251,10 @@ export function ensureSearchPanel() {
     loadAll();
 
     icon.setAttribute("aria-expanded", "true");
+
+    // 검색이 열려있는 동안 Phaser 키보드를 꺼서 WASD가 input에 입력되게 함
+    setGameKeyboardEnabled(false);
+
     setTimeout(() => input.focus(), 10);
   }
 
@@ -266,9 +269,11 @@ export function ensureSearchPanel() {
     document.body.style.overflow = "";
     icon.setAttribute("aria-expanded", "false");
     input.blur();
+
+    // 검색 닫히면 Phaser 키보드 다시 켬
+    setGameKeyboardEnabled(true);
   }
 
-  // 8. 이벤트 바인딩
   icon.addEventListener("click", (e) => {
     e.preventDefault();
     const hidden = panel.getAttribute("aria-hidden") === "true";
@@ -323,7 +328,11 @@ export function ensureSearchPanel() {
     }
   });
 
-  // 9. 입력 이벤트
+  // input에서 타이핑할 때는 다른 전역 keydown 리스너가 키를 못 먹게 보호
+  input.addEventListener("keydown", (e) => {
+    e.stopImmediatePropagation();
+  });
+
   input.addEventListener("input", async () => {
     const q = input.value.trim().toLowerCase();
 

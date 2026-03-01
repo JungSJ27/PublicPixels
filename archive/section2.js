@@ -62,7 +62,6 @@
     } catch (e) {}
   }
 
-  // 버튼은 Phaser 로딩이 터져도 항상 동작하게 여기서 먼저 연결
   if (archiveBtn) {
     archiveBtn.addEventListener("click", (e) => {
       e.preventDefault();
@@ -91,7 +90,6 @@
     });
   }
 
-  // 시작 전 UI 상태
   started = false;
   if (introEl) introEl.style.display = "";
   setPausedUI(true);
@@ -113,6 +111,16 @@
 
   const game = new Phaser.Game(config);
 
+  // 검색 오버레이가 열릴 때 WASD 키가 input에 입력되도록 Phaser 키보드를 껐다 켰다 할 수 있게 노출
+  window.__pp2_game = game;
+  window.__pp2_setKeyboardEnabled = (enabled) => {
+    try {
+      const g = window.__pp2_game;
+      if (!g || !g.input || !g.input.keyboard) return;
+      g.input.keyboard.enabled = !!enabled;
+    } catch (e) {}
+  };
+
   function preload() {
     this.load.setCORS("anonymous");
 
@@ -120,18 +128,13 @@
       console.error("loaderror", file && file.key, file && file.src);
     });
 
-    // 맵은 로컬
     this.load.tilemapTiledJSON(MAP_KEY, MAP_JSON + "?v=" + Date.now());
-
-    // 배경 타일은 R2
     this.load.image("bg_tile", BG_TILE_URL + "?v=" + Date.now());
   }
 
   function create() {
     const scene = this;
-    
 
-    // 배경 타일 반복
     const bg = scene.add.tileSprite(0, 0, scene.scale.width, scene.scale.height, "bg_tile");
     bg.setOrigin(0, 0);
     bg.setScrollFactor(0);
@@ -142,7 +145,6 @@
       bg.height = s.height;
     });
 
-    // tilemap raw json은 cache.tilemap에서 꺼내서 tileset 로더를 여기서 추가
     const cached = scene.cache.tilemap.get(MAP_KEY);
     const raw = cached && cached.data ? cached.data : null;
     if (!raw) {
@@ -213,7 +215,6 @@
         return;
       }
 
-      // non empty 타일 영역 중심으로 시작점 잡기
       const tileBounds = getNonEmptyTileBounds(map);
 
       const startX = tileBounds ? (tileBounds.minX + tileBounds.maxX) / 2 : map.widthInPixels / 2;
