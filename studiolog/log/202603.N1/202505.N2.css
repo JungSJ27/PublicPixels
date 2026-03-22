@@ -229,7 +229,8 @@ body[data-page="log"] header .shop-toggle {
 /* 공통 아이콘 스타일 */
 .ic-arrow,
 .ic-insta,
-.ic-external {
+.ic-external,
+.ic-download {
   width: 12px;
   height: 12px;
   stroke-linecap: round;
