@@ -1,35 +1,37 @@
 // ===== Section 4: 연속 트랙 + 중앙 강조 + 비순환 + 마지막 CTA =====
 
 const NEWS = [
+
+    {
+    hero: "studiolog/secass4/NewsDDW2.png",
+    href: "studiolog/log/202604/",
+    bg:   "#0a0a0a",
+    title: "DIGITAL DESIGN WEEK 26",
+    host: "Digital Exhibition Group",
+    when:  "Apr 20, 2026",
+    where: "Milan, Italy",
+    cta:  "studiolog/",
+    rw:6, rh:7, shift:0
+  },
+
   {
-    hero: "studiolog/secass4/0315Front.png",
-    href: "studiolog/log/202603/",
+    hero: "studiolog/secass4/CN031526.avif",
+    href: "studiolog/log/202603.N2/",
     bg: "#0a0a0a",
     title: "Volume 2",
     host:  "Brooklyn to Gangnam Magazine",
     when:  "MAR 2026",
-    where: "New York, USA",
+    where: "Print + Digital Publication",
     rw:6, rh:7, shift:0
   },
   {
-    hero: "studiolog/secass4/NewsAfterlives.jpg",
-    href: "studiolog/log/202505.N2/",
+    hero: "studiolog/secass4/NewsPlayful.png",
+    href: "studiolog/log/202603.N1/",
     bg:   "#0a0a0a",
-    title: "Afterlives",
-    host: "Digital Arts, Pratt Institute",
-    when:  "May 19, 2025",
-    where: "New york, USA ",
-    rw:6, rh:7, shift:0
-  },
-  {
-    hero: "studiolog/secass4/NewsMetaMorphosis.png",
-    href: "studiolog/log/202505.N1/",
-    bg:   "#0a0a0a",
-    title: "Meta-Morphosis",
-    host: "Digital Arts, Pratt Institute",
-    when:  "May 12, 2025",
-    where: "New York, USA",
-    cta:  "studiolog/",
+    title: "Playful",
+    host: "Domio Gallery",
+    when:  "Mar 6, 2026",
+    where: "Online Exhibition ",
     rw:6, rh:7, shift:0
   }
 ];
