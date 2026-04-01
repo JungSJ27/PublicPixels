@@ -24,6 +24,12 @@
 
   let started = false;
 
+  let game;
+  let player;
+  let cursors;
+  let collisionLayer;
+  let currentMap;
+
   function setPausedUI(isPaused) {
     if (!sectionEl) return;
     if (isPaused) sectionEl.classList.add("is-paused");
@@ -100,18 +106,27 @@
     backgroundColor: "#000000",
     pixelArt: true,
     roundPixels: true,
+    physics: {
+      default: "arcade",
+      arcade: {
+        debug: false
+      }
+    },
     scale: {
       mode: Phaser.Scale.RESIZE,
       width: "100%",
       height: "100%",
       autoCenter: Phaser.Scale.CENTER_BOTH
     },
-    scene: { preload, create }
+    scene: {
+      preload,
+      create,
+      update
+    }
   };
 
-  const game = new Phaser.Game(config);
+  game = new Phaser.Game(config);
 
-  // 검색 오버레이가 열릴 때 WASD 키가 input에 입력되도록 Phaser 키보드를 껐다 켰다 할 수 있게 노출
   window.__pp2_game = game;
   window.__pp2_setKeyboardEnabled = (enabled) => {
     try {
@@ -173,6 +188,8 @@
 
     scene.load.once("complete", () => {
       const map = scene.make.tilemap({ key: MAP_KEY });
+      currentMap = map;
+
       if (!map) {
         console.error("tilemap create failed");
         return;
@@ -202,17 +219,28 @@
       const createdLayers = [];
       for (const layer of map.layers || []) {
         const l = map.createLayer(layer.name, phaserTilesets, 0, 0);
-        if (l) {
-          l.setAlpha(1);
-          l.setDepth(0);
-          l.setVisible(true);
-          createdLayers.push(l);
+        if (!l) continue;
+
+        l.setAlpha(1);
+        l.setVisible(true);
+        l.setDepth(0);
+        createdLayers.push(l);
+
+        if (layer.name === "Collision") {
+          collisionLayer = l;
         }
       }
 
       if (!createdLayers.length) {
         console.error("tile layer create failed");
         return;
+      }
+
+      if (collisionLayer) {
+        collisionLayer.setCollisionByExclusion([-1]);
+        collisionLayer.setVisible(false);
+      } else {
+        console.warn("Collision layer not found");
       }
 
       const tileBounds = getNonEmptyTileBounds(map);
@@ -227,13 +255,29 @@
       const startZoom = Phaser.Math.Clamp(Math.max(PLAY_ZOOM_MIN, zoomFill), MIN_ZOOM, MAX_ZOOM);
 
       cam.setZoom(startZoom);
-      cam.centerOn(startX, startY);
 
-      const player = scene.add.rectangle(startX, startY, 18, 18, 0x66ccff);
-      player.setDepth(9999);
+      player = scene.physics.add.sprite(startX, startY, null);
+      player.setSize(16, 16);
+      player.body.setSize(10, 6);
+      player.body.setCollideWorldBounds(true);
+      player.setDepth(10);
+
+      const gfx = scene.add.graphics();
+      gfx.fillStyle(0x66ccff, 1);
+      gfx.fillRect(0, 0, 18, 18);
+      gfx.generateTexture("playerBlock", 18, 18);
+      gfx.destroy();
+
+      player.setTexture("playerBlock");
+
+      if (collisionLayer) {
+        scene.physics.add.collider(player, collisionLayer);
+      }
+
+      scene.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
       cam.startFollow(player, true, 0.12, 0.12);
 
-      const keys = scene.input.keyboard.addKeys({
+      cursors = scene.input.keyboard.addKeys({
         up: "W",
         down: "S",
         left: "A",
@@ -242,32 +286,6 @@
         down2: "DOWN",
         left2: "LEFT",
         right2: "RIGHT"
-      });
-
-      scene.events.on("update", () => {
-        if (!started) return;
-
-        const dt = scene.game.loop.delta / 1000;
-
-        let vx = 0;
-        let vy = 0;
-
-        if (keys.left.isDown || keys.left2.isDown) vx -= 1;
-        if (keys.right.isDown || keys.right2.isDown) vx += 1;
-        if (keys.up.isDown || keys.up2.isDown) vy -= 1;
-        if (keys.down.isDown || keys.down2.isDown) vy += 1;
-
-        if (vx !== 0 || vy !== 0) {
-          const len = Math.hypot(vx, vy);
-          vx /= len;
-          vy /= len;
-
-          player.x += vx * PLAYER_SPEED * dt;
-          player.y += vy * PLAYER_SPEED * dt;
-
-          player.x = Phaser.Math.Clamp(player.x, 0, map.widthInPixels);
-          player.y = Phaser.Math.Clamp(player.y, 0, map.heightInPixels);
-        }
       });
 
       scene.input.on("wheel", (pointer, dx, dy) => {
@@ -280,11 +298,31 @@
         h: map.heightInPixels,
         layers: createdLayers.map((l) => l.layer.name),
         tilesets: map.tilesets.map((t) => t.name),
-        tileBounds
+        collisionLayerFound: !!collisionLayer
       });
     });
 
     scene.load.start();
+  }
+
+  function update() {
+    if (!started || !player || !cursors) return;
+
+    let vx = 0;
+    let vy = 0;
+
+    if (cursors.left.isDown || cursors.left2.isDown) vx -= 1;
+    if (cursors.right.isDown || cursors.right2.isDown) vx += 1;
+    if (cursors.up.isDown || cursors.up2.isDown) vy -= 1;
+    if (cursors.down.isDown || cursors.down2.isDown) vy += 1;
+
+    if (vx !== 0 || vy !== 0) {
+      const len = Math.hypot(vx, vy);
+      vx /= len;
+      vy /= len;
+    }
+
+    player.body.setVelocity(vx * PLAYER_SPEED, vy * PLAYER_SPEED);
   }
 
   function getNonEmptyTileBounds(map) {
