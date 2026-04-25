@@ -3,13 +3,24 @@
 const NEWS = [
 
     {
+    hero: "studiolog/secass4/S40616.png",
+    href: "studiolog/log/202606.N1/",
+    bg:   "#0a0a0a",
+    title: "Group Exhibition at Imlip Art Museum",
+    host: "Imlip Art Museu",
+    when:  "June 16, 2026",
+    where: "Gongju, South Korea ",
+    rw:6, rh:7, shift:0
+  },
+
+    {
     hero: "studiolog/secass4/NewsDDW2.png",
     href: "studiolog/log/202604/",
     bg:   "#0a0a0a",
     title: "DIGITAL DESIGN WEEK 26",
     host: "Digital Exhibition Group",
     when:  "Apr 20, 2026",
-    where: "Milan, Italy",
+    where: "Milan, Italy / Online",
     cta:  "studiolog/",
     rw:6, rh:7, shift:0
   },
@@ -22,16 +33,6 @@ const NEWS = [
     host:  "Brooklyn to Gangnam Magazine",
     when:  "MAR 2026",
     where: "Print + Digital Publication",
-    rw:6, rh:7, shift:0
-  },
-  {
-    hero: "studiolog/secass4/NewsPlayful.png",
-    href: "studiolog/log/202603.N1/",
-    bg:   "#0a0a0a",
-    title: "Playful",
-    host: "Domio Gallery",
-    when:  "Mar 6, 2026",
-    where: "Online Exhibition ",
     rw:6, rh:7, shift:0
   }
 ];
