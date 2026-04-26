@@ -150,7 +150,7 @@ body[data-page="log"] header .shop-toggle {
   width: 100%;
   display: flex;
   justify-content: center;
-  margin: 0 auto 75px;
+  margin: 0 auto 60px;
 }
 
 .instagram-media {
@@ -165,7 +165,7 @@ body[data-page="log"] header .shop-toggle {
    EXHIBITION INFO
    ======================================================= */
 .exhibition-info {
-  margin: 70px 0 60px;
+  margin: 0px 0 40px;
   font-size: 10px;
   color: #333;
   line-height: 1.45;
