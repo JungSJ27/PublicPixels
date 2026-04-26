@@ -3,67 +3,114 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Siasangbok Lee Website</title>
+  <title>Sia Sangbok Lee Website</title>
 
   <link rel="stylesheet" href="../front/styles.css" />
   <link rel="stylesheet" href="../front/header.css" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <link rel="icon" href="/front/favicon.ico">
 
   <link rel="stylesheet" href="./siasangboklee.css" />
-  <meta name="theme-color" content="#ffffff">
 </head>
 
 <body>
   <div data-include="header"></div>
 
   <main class="wrap">
+
+    <!-- TOP -->
     <header class="top">
-      <h1 class="h1">Siasangbok Lee Website</h1>
-      <p class="desc">Official portfolio website for artist Siasangbok Lee.</p>
+      <p class="eyebrow">Commissioned Website</p>
+
+      <h1 class="h1">
+        <a href="https://siasangboklee.com" target="_blank">
+          Sia Sangbok Lee <span class="arrow">↗</span>
+        </a>
+      </h1>
+
+      <p class="desc">
+        Official website of Sia Sangbok Lee, an abstract painter
+      </p>
 
       <div class="meta">
         <span class="chip">Web</span>
         <span class="dot">•</span>
-        <span>Design and development</span>
+        <span>WordPress / Visual Design</span>
         <span class="dot">•</span>
         <span>2026</span>
       </div>
-
-      <div class="actions">
-        <a class="btn" href="https://siasangboklee.com" target="_blank" rel="noreferrer">Visit website</a>
-        <a class="btn ghost" href="./" aria-label="Back to commission">Back</a>
-      </div>
     </header>
 
-    <section class="shots" aria-label="Screenshots">
-      <figure class="shot">
-        <img src="./assets/siasangboklee/shot1.jpg" alt="Homepage screenshot" loading="lazy">
-        <figcaption>Homepage</figcaption>
-      </figure>
-
-      <figure class="shot">
-        <img src="./assets/siasangboklee/shot2.jpg" alt="Works page screenshot" loading="lazy">
-        <figcaption>Works archive</figcaption>
-      </figure>
-
-      <figure class="shot">
-        <img src="./assets/siasangboklee/shot3.jpg" alt="Artwork detail screenshot" loading="lazy">
-        <figcaption>Artwork detail</figcaption>
-      </figure>
-
-      <figure class="shot">
-        <img src="./assets/siasangboklee/shot4.jpg" alt="CV and contact screenshot" loading="lazy">
-        <figcaption>CV and contact</figcaption>
-      </figure>
+    <!-- MAIN VIDEO -->
+    <section class="hero-video">
+      <video autoplay muted loop playsinline>
+        <source src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/commission/siasangbok.com/Home.mov" type="video/mp4">
+      </video>
     </section>
+
+    <!-- SUMMARY -->
+    <section class="project-summary">
+      <div class="summary-block">
+        <h2>What I Did</h2>
+        <p>Designed and built a official website using WordPress.</p>
+      </div>
+
+      <div class="summary-block">
+        <h2>Focus</h2>
+        <p>Clean structure and artwork presentation.</p>
+      </div>
+
+      <div class="summary-block">
+        <h2>System</h2>
+        <p>WordPress-based layout with custom visual design.</p>
+      </div>
+    </section>
+
+    <!-- VIDEO GRID (4개) -->
+    <section class="shots">
+
+      <figure class="shot">
+        <div class="shot-media">
+          <video autoplay muted loop playsinline>
+            <source src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/commission/siasangbok.com/about.mov" type="video/mp4">
+          </video>
+        </div>
+        <figcaption>About</figcaption>
+      </figure>
+
+      <figure class="shot">
+        <div class="shot-media">
+          <video autoplay muted loop playsinline>
+            <source src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/commission/siasangbok.com/Works.mov" type="video/mp4">
+          </video>
+        </div>
+        <figcaption>Works</figcaption>
+      </figure>
+
+      <figure class="shot">
+        <div class="shot-media">
+          <video autoplay muted loop playsinline>
+            <source src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/commission/siasangbok.com/Exhibition.mov" type="video/mp4">
+          </video>
+        </div>
+        <figcaption>Exhibition</figcaption>
+      </figure>
+
+      <figure class="shot">
+        <div class="shot-media">
+          <video autoplay muted loop playsinline>
+            <source src="https://pub-7ab3678ff1cb45fd9bc95ef16f0d8b39.r2.dev/commission/siasangbok.com/Press.mov" type="video/mp4">
+          </video>
+        </div>
+        <figcaption>Press</figcaption>
+      </figure>
+
+    </section>
+
   </main>
 
-  <script type="module" src="./siasangboklee.js"></script>
   <script src="../front/headerLoader.js" defer></script>
-  <script defer src="/front/favicons.js"></script>
 </body>
 </html>
