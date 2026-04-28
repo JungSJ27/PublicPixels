@@ -1,4 +1,36 @@
-[
+[{
+  "id": "Pixels",
+  "slug": "PublicPixels",
+  "href": "/archive/works/pixels/",
+  "title": "Pixels",
+  "year": 2026,
+  "medium": ["Interactive Art"],
+  "tags": ["Game-based Experience", "Creative Coding"],
+  "dimensions": "variable (web-based)",
+  "status": "private",
+  "password": "1234",
+  "featured": true,
+  "themeColor": "#0a1322",
+  "thumb": { "src": "./secass2/Thumbnail_Pixels.png", "alt": "Pixels thumbnail" },
+  "image": "/archive/secass2/Thumbnail_Pixels.png",
+  "hero": { "src": "", "alt": "", "ratio": "" },
+  "assets": [
+    { "type": "image", "src": "", "alt": "" },
+    { "type": "video", "src": "", "poster": "", "alt": "" }
+  ],
+  "description": {
+    "short": "An interactive web-based world where visitors can explore a personal digital environment.",
+    "long": "Pixels is an interactive web-based experience that transforms a personal archive into a navigable digital world. Inspired by game structures, the work invites visitors to move through space, discovering projects and narratives along the way. By merging creative coding with spatial storytelling, the piece blurs the boundary between portfolio and playable environment, allowing the audience to sneak into the artist’s inner world."
+  },
+  "credits": [{ "role": "Artist", "name": "JJ Seungjin Jung" }],
+  "exhibition": {
+    "venue": "Online",
+    "location": "Web-based",
+    "date": "2026"
+  },
+  "links": []
+},
+
   {
     "id": "PublicPixels",
     "slug": "PublicPixels",

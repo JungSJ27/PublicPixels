@@ -109,7 +109,8 @@
 .pp2intro__logo,
 .pp2intro__avatar,
 .pp2intro__row,
-.pp2mobileNote{
+.pp2mobileNote,
+.pp2desktopNote{
   position:relative;
   z-index:1;
 }
@@ -137,57 +138,104 @@
   height:auto;
   image-rendering:pixelated;
   margin-top:-180px;
-  margin-bottom: 25px;
+  margin-bottom:5px;
   transform:translateY(-6px);
   filter:
     drop-shadow(0 22px 38px rgba(0,0,0,.75))
     drop-shadow(0 0 22px rgba(255,90,240,.5));
 }
 
+.pp2desktopNote{
+  font-size:12px;
+  font-family:var(--pp2pixelfont);
+  line-height:1.8;
+  text-align:center;
+  color:rgba(255,255,255,.88);
+  margin-top:2px;
+  letter-spacing:.5px;
+  line-height:1.6;
+  text-shadow:
+    0 0 6px rgba(255,255,255,.28),
+    0 0 14px rgba(255,120,220,.35);
+}
+
+.pp2mobileNote{
+  display:none;
+  color:white;
+  font-size:11px;
+  text-align:center;
+  font-family:var(--pp2pixelfont);
+  line-height:1.7;
+  max-width:320px;
+  text-shadow:
+    0 0 6px rgba(255,255,255,.25),
+    0 0 12px rgba(255,120,220,.25);
+}
+
 .pp2intro__row{
   display:flex;
-  gap:20px;
+  gap:18px;
   flex-wrap:wrap;
   justify-content:center;
-  margin-top:10px;
-  padding:10px 14px;
-  border:1px solid rgba(255,120,220,.25);
-  border-radius:14px;
-  background:rgba(6,8,28,.38);
-  backdrop-filter:blur(6px);
-  box-shadow:
-    0 0 28px rgba(255,80,220,.18),
-    inset 0 0 18px rgba(255,255,255,.04);
+  align-items:center;
+  margin-top:18px;
+  padding:0;
+  border:none;
+  background:none;
+  backdrop-filter:none;
+  box-shadow:none;
+}
+
+.pp2intro__row::before{
+  content:"";
+  position:absolute;
+  width:340px;
+  height:1px;
+  top:-13px;
+  left:50%;
+  transform:translateX(-50%);
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,120,220,.65),
+    rgba(120,120,255,.42),
+    transparent
+  );
+  box-shadow:0 0 14px rgba(255,120,220,.45);
+  pointer-events:none;
 }
 
 .pp2btn{
-  padding:10px 18px;
-  border:2px solid #ff7ad9;
-  border-radius:7px;
-  background:rgba(0,0,0,.55);
+  padding:12px 20px;
+  border:1px solid rgba(255,120,220,.72);
+  border-radius:10px;
+  background:rgba(10,12,40,.34);
+  backdrop-filter:blur(8px);
   color:white;
   font-size:11px;
   letter-spacing:.6px;
   line-height:1;
   cursor:pointer;
-  transition:.15s;
+  transition:.2s ease;
   font-family:var(--pp2pixelfont);
   text-transform:uppercase;
   box-shadow:
-    0 0 6px rgba(255,100,200,.4),
-    inset 0 0 6px rgba(255,120,220,.3);
+    0 0 10px rgba(255,80,220,.35),
+    inset 0 0 8px rgba(255,120,220,.24);
 }
 
 .pp2btn:hover{
-  transform:translateY(-2px);
-  border-color:#ff9fe6;
+  transform:translateY(-3px) scale(1.03);
+  border-color:rgba(255,170,240,.95);
+  background:rgba(20,16,54,.45);
   box-shadow:
-    0 0 14px rgba(255,120,220,.8),
-    inset 0 0 8px rgba(255,150,240,.4);
+    0 0 22px rgba(255,120,220,.85),
+    0 0 42px rgba(120,120,255,.42),
+    inset 0 0 12px rgba(255,150,240,.36);
 }
 
 .pp2btn:active{
-  transform:translateY(1px);
+  transform:translateY(1px) scale(.99);
 }
 
 .pp2.is-paused .pp2gameRoot canvas{
@@ -217,18 +265,12 @@
   display:block;
 }
 
-.pp2mobileNote{
-  display:none;
-  color:white;
-  font-size:11px;
-  text-align:center;
-  font-family:var(--pp2pixelfont);
-  line-height:1.7;
-  max-width:320px;
-}
-
 @media (max-width:768px){
   #btn-play{
+    display:none;
+  }
+
+  .pp2desktopNote{
     display:none;
   }
 
@@ -241,7 +283,12 @@
     align-items:stretch;
     gap:12px;
     width:min(260px, 80vw);
-    padding:14px;
+    margin-top:16px;
+  }
+
+  .pp2intro__row::before{
+    width:220px;
+    top:-12px;
   }
 
   .pp2btn{
@@ -251,7 +298,7 @@
 }
 
 @media (max-width:640px){
- .pp2{
+  .pp2{
     min-height:100vh;
     min-height:100dvh;
   }
@@ -294,12 +341,14 @@
     margin-bottom:0;
   }
 
-  .pp2intro__row{
-    margin-top:15px;
+  .pp2mobileNote{
+    font-size:9px;
+    max-width:280px;
+    padding:0 18px;
   }
 
   .pp2btn{
-    padding:11px 14px;
+    padding:12px 14px;
     font-size:8px;
     letter-spacing:.4px;
   }
@@ -327,41 +376,3 @@
 .pp2gameRoot canvas{
   touch-action:auto !important;
 }
-
-/* Desktop 문구 */
-.pp2desktopNote{
-  position:relative;
-  z-index:1;
-
-  font-size:12px;
-  font-family:var(--pp2pixelfont);
-  text-align:center;
-
-  color:rgba(255,255,255,.85);
-
-  margin-top:8px;
-
-  letter-spacing:0.5px;
-
-  text-shadow:
-    0 0 6px rgba(255,255,255,.25),
-    0 0 12px rgba(255,120,220,.25);
-}
-
-/* 기본: mobile 숨김 */
-.pp2mobileNote{
-  display:none;
-}
-
-/* 모바일 전환 */
-@media (max-width:768px){
-
-  .pp2desktopNote{
-    display:none;
-  }
-
-  .pp2mobileNote{
-    display:block;
-  }
-}
-
