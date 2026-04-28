@@ -299,29 +299,37 @@
 
 @media (max-width:640px){
   .pp2{
-    min-height:100vh;
-    min-height:100dvh;
+    min-height:var(--pp2-mobile-h, 100svh);
+    height:var(--pp2-mobile-h, 100svh);
+    overflow:hidden;
   }
 
   .pp2stage{
-    height:100vh;
-    height:100dvh;
-    min-height:100vh;
-    min-height:100dvh;
+    height:var(--pp2-mobile-h, 100svh);
+    min-height:var(--pp2-mobile-h, 100svh);
+    overflow:hidden;
+  }
+
+  .pp2gameRoot{
+    display:none;
   }
 
   .pp2intro{
     inset:0;
-    min-height:100vh;
-    min-height:100dvh;
+    height:var(--pp2-mobile-h, 100svh);
+    min-height:var(--pp2-mobile-h, 100svh);
     gap:14px;
   }
 
   .pp2intro__shade{
     position:absolute;
-    inset:-2px;
-    min-height:calc(100vh + 4px);
-    min-height:calc(100dvh + 4px);
+    inset:0;
+    min-height:100%;
+    backdrop-filter:none;
+  }
+
+  .pp2.is-paused .pp2gameRoot canvas{
+    filter:none;
   }
 
   .pp2intro::before{
@@ -354,10 +362,7 @@
   }
 
   .pp2exit{
-    top:70px;
-    right:12px;
-    font-size:8px;
-    padding:8px 10px;
+    display:none !important;
   }
 }
 

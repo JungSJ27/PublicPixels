@@ -32,6 +32,15 @@
   let doorZones = [];
   let isChangingPage = false;
 
+const isMobileGameBlocked = window.matchMedia("(max-width: 768px), (pointer: coarse)").matches;
+
+function setMobileStableHeight() {
+  if (!isMobileGameBlocked) return;
+  const h = window.innerHeight;
+  document.documentElement.style.setProperty("--pp2-mobile-h", `${h}px`);
+}
+
+setMobileStableHeight();
   function setPausedUI(isPaused) {
     if (!sectionEl) return;
     if (isPaused) sectionEl.classList.add("is-paused");
@@ -149,6 +158,12 @@
     },
     scene: { preload, create, update }
   };
+  
+  if (isMobileGameBlocked) {
+    console.log("Mobile detected: Phaser game disabled for stability.");
+    setPausedUI(true);
+    return;
+  }
 
   game = new Phaser.Game(config);
   window.__pp2_game = game;
