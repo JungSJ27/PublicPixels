@@ -340,7 +340,7 @@
 
   .pp2intro__logo{
     width:min(100vw,700px);
-    margin-top:0;
+    margin-top:-35px;
   }
 
   .pp2intro__avatar{
