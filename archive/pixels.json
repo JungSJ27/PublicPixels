@@ -1241,7 +1241,7 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":17.6000304143861,
+                 "width":14.428447794659,
                  "x":1288.44,
                  "y":671.479208756841
                 }, 
@@ -1291,7 +1291,7 @@
                  "y":793.259836189407
                 }, 
                 {
-                 "height":34.4410023127502,
+                 "height":28.8907327282276,
                  "id":22,
                  "name":"",
                  "rotation":0,
@@ -1426,7 +1426,7 @@
                  "y":1046.02
                 }, 
                 {
-                 "height":31.4417684502271,
+                 "height":26.6843945206363,
                  "id":35,
                  "name":"",
                  "rotation":0,
@@ -1437,13 +1437,13 @@
                  "y":1058.74
                 }, 
                 {
-                 "height":38.1833692211439,
+                 "height":28.6686213619621,
                  "id":36,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":59.8578,
+                 "width":55.8933217253409,
                  "x":1443.32,
                  "y":1052.75
                 }, 
@@ -1783,18 +1783,6 @@
                  "y":1442.57
                 }, 
                 {
-                 "ellipse":true,
-                 "height":25.7263629791656,
-                 "id":69,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":47.9042,
-                 "x":1639.63,
-                 "y":1435.89363702083
-                }, 
-                {
                  "height":18.323252289882,
                  "id":70,
                  "name":"",
@@ -1993,14 +1981,14 @@
                  "y":1339.85359383267
                 }, 
                 {
-                 "height":45.6039322749534,
+                 "height":36.8820800707035,
                  "id":89,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":21.8169007709166,
-                 "x":2883.86,
+                 "width":18.6453181511893,
+                 "x":2883.06710434507,
                  "y":1269.68
                 }, 
                 {
@@ -2026,13 +2014,13 @@
                  "y":961.288
                 }, 
                 {
-                 "height":66.2744946782263,
+                 "height":59.1384337838401,
                  "id":94,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":117.842,
+                 "width":118.634895654932,
                  "x":2880.85,
                  "y":1162.11259768725
                 }, 
@@ -2057,17 +2045,6 @@
                  "width":7.02036,
                  "x":2796.11,
                  "y":1221.54
-                }, 
-                {
-                 "height":25.0727,
-                 "id":99,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":21.5625,
-                 "x":2758.5,
-                 "y":1188.45
                 }, 
                 {
                  "height":17.5509,
@@ -2227,7 +2204,7 @@
                  "y":1213.52
                 }, 
                 {
-                 "height":47.4878293116665,
+                 "height":38.7659771074163,
                  "id":116,
                  "name":"",
                  "rotation":0,
@@ -2281,18 +2258,6 @@
                  "width":19.0839369461903,
                  "x":2309.66696305381,
                  "y":1054.06
-                }, 
-                {
-                 "ellipse":true,
-                 "height":37.1649738923809,
-                 "id":122,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32.8882554192855,
-                 "x":2334.77,
-                 "y":1120.25
                 }, 
                 {
                  "ellipse":true,
@@ -2452,18 +2417,6 @@
                 }, 
                 {
                  "ellipse":true,
-                 "height":33.2106477847617,
-                 "id":136,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":20.5596,
-                 "x":2277.1,
-                 "y":1314.81
-                }, 
-                {
-                 "ellipse":true,
                  "height":20.0582,
                  "id":137,
                  "name":"",
@@ -2550,8 +2503,7 @@
                  "width":31.1429015418335,
                  "x":2177.9,
                  "y":1062.34
-                },
-            
+                }, 
                 {
                  "height":37.1168053964176,
                  "id":146,
@@ -2597,7 +2549,8 @@
                  "width":15.9131,
                  "x":2056.63,
                  "y":1350.97
-                }, 
+                },
+            
                 {
                  "ellipse":true,
                  "height":16.3997038545838,
@@ -2777,7 +2730,7 @@
                  "y":1050.26
                 }, 
                 {
-                 "height":43.7346525535694,
+                 "height":40.5630699338421,
                  "id":166,
                  "name":"",
                  "rotation":0,
@@ -2931,7 +2884,7 @@
                  "y":680.97
                 }, 
                 {
-                 "height":36.8317876211338,
+                 "height":31.2815180366111,
                  "id":180,
                  "name":"",
                  "rotation":0,
@@ -3063,7 +3016,7 @@
                  "y":636.259617775284
                 }, 
                 {
-                 "height":32.9018530607991,
+                 "height":26.5586878213446,
                  "id":192,
                  "name":"",
                  "rotation":0,
@@ -3283,29 +3236,29 @@
                  "y":704.017
                 }, 
                 {
-                 "height":30.1179038545838,
+                 "height":26.1534255799247,
                  "id":212,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":22.9844038545836,
-                 "x":2401.29099614542,
+                 "width":21.3986125447202,
+                 "x":2402.87678745528,
                  "y":708.955
                 }, 
                 {
-                 "height":30.8737046255007,
+                 "height":28.4950176607053,
                  "id":213,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":24.0819038545841,
-                 "x":2400.74099614542,
+                 "width":20.9103212348567,
+                 "x":2403.91257876514,
                  "y":740.233
                 }, 
                 {
-                 "height":30.397506938251,
+                 "height":24.8472373537284,
                  "id":214,
                  "name":"",
                  "rotation":0,
@@ -3316,13 +3269,13 @@
                  "y":710.053
                 }, 
                 {
-                 "height":28.5442061673343,
+                 "height":23.7868322377434,
                  "id":215,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":24.9723030836667,
+                 "width":23.3865117738032,
                  "x":2469.27,
                  "y":742.976
                 }, 
@@ -3338,25 +3291,25 @@
                  "y":639.267
                 }, 
                 {
-                 "height":36.3610046255006,
+                 "height":31.6036306959098,
                  "id":217,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":20.1787077091676,
-                 "x":2372.96679691633,
+                 "width":16.214229434509,
+                 "x":2373.75969257126,
                  "y":638.718
                 }, 
                 {
-                 "height":43.018206938251,
+                 "height":31.1247721142738,
                  "id":218,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":26.2872100219183,
-                 "x":2402.7351953745,
+                 "width":17.5653578176684,
+                 "x":2407.49256930409,
                  "y":629.939
                 }, 
                 {
@@ -3371,7 +3324,7 @@
                  "y":638.718
                 }, 
                 {
-                 "height":43.9086061673343,
+                 "height":35.1867539630844,
                  "id":220,
                  "name":"",
                  "rotation":0,
@@ -3382,7 +3335,7 @@
                  "y":631.585
                 }, 
                 {
-                 "height":40.2745069382511,
+                 "height":33.1384460438647,
                  "id":221,
                  "name":"",
                  "rotation":0,
@@ -3393,7 +3346,7 @@
                  "y":629.939
                 }, 
                 {
-                 "height":35.6777061673342,
+                 "height":29.3345409278797,
                  "id":222,
                  "name":"",
                  "rotation":0,
@@ -3410,8 +3363,8 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":21.6178069382509,
-                 "x":2691.83779306175,
+                 "width":16.8604330086601,
+                 "x":2696.59516699134,
                  "y":705.114
                 }, 
                 {
@@ -3508,26 +3461,26 @@
                  "y":1117.59477011867
                 }, 
                 {
-                 "height":87.6728894263472,
+                 "height":76.5723502573019,
                  "id":246,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":43.8364447131735,
-                 "x":1401.25462927972,
+                 "width":34.3216968539916,
+                 "x":1406.80489886424,
                  "y":674.93008842869
                 }, 
                 {
-                 "height":70.235883184369,
+                 "height":50.413491811074,
                  "id":247,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":86.1612878845135,
-                 "x":2900.76335877863,
-                 "y":1059.63268082533
+                 "width":66.3388965112181,
+                 "x":2910.27810663781,
+                 "y":1067.56163737465
                 }, 
                 {
                  "height":26.4530269820875,
@@ -3625,12 +3578,12 @@
         }, 
         {
          "draworder":"topdown",
-         "id":47,
+         "id":48,
          "name":"Doors",
          "objects":[
                 {
-                 "height":37.4378473237789,
-                 "id":266,
+                 "height":14.2721217887726,
+                 "id":273,
                  "name":"",
                  "properties":[
                         {
@@ -3641,9 +3594,451 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":32.7581164083065,
-                 "x":1919.85960807254,
-                 "y":964.60953495174
+                 "width":29.3371392324768,
+                 "x":1888.67745004757,
+                 "y":915.00158579131
+                }, 
+                {
+                 "height":18.2366000634315,
+                 "id":275,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"to",
+                         "type":"string",
+                         "value":"\/archive\/works\/still-life-goes-on\/"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":52.3311132254994,
+                 "x":2118.6171899778,
+                 "y":1045.82936885506
+                }, 
+                {
+                 "height":32.5087218522043,
+                 "id":277,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"to",
+                         "type":"string",
+                         "value":"\/archive\/works\/butterfly-trap\/"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":19.0294957183633,
+                 "x":2691.8807484935,
+                 "y":727.878211227402
+                }, 
+                {
+                 "height":39.6447827465905,
+                 "id":278,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"to",
+                         "type":"string",
+                         "value":"\/archive\/works\/desenlace-in-nyc\/"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16.6508087535681,
+                 "x":2692.67364414843,
+                 "y":790.516967967015
+                }, 
+                {
+                 "height":62.638756739613,
+                 "id":281,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"to",
+                         "type":"string",
+                         "value":"\/archive\/works\/delulu-is-the-solulu\/"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":72.1535045987948,
+                 "x":2906.75547098002,
+                 "y":1060.89438629876
+                }, 
+                {
+                 "height":26.9584522676817,
+                 "id":282,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"to",
+                         "type":"string",
+                         "value":"\/archive\/works\/heart-orbit-system\/"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":30.9229305423405,
+                 "x":2656.9933396765,
+                 "y":1190.13637805265
+                }, 
+                {
+                 "height":20.6152870282272,
+                 "id":284,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"to",
+                         "type":"string",
+                         "value":"\/archive\/works\/introducing-your-dreams\/"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":17.4437044084998,
+                 "x":2759.2768791627,
+                 "y":1193.30796067238
+                }, 
+                {
+                 "height":26.1655566127497,
+                 "id":285,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"to",
+                         "type":"string",
+                         "value":"\/archive\/works\/mothong\/"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":35.6803044719318,
+                 "x":2941.64287979702,
+                 "y":1198.8582302569
+                }, 
+                {
+                 "height":42.8163653663178,
+                 "id":286,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"to",
+                         "type":"string",
+                         "value":"\/archive\/works\/condensed\/"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":23.7868696479545,
+                 "x":2882.17570567713,
+                 "y":1268.6330478909
+                }, 
+                {
+                 "height":23.7868696479543,
+                 "id":288,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"to",
+                         "type":"string",
+                         "value":"\/archive\/works\/phototaxis\/"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":18.236600063432,
+                 "x":2277.98921661909,
+                 "y":1316.20678718681
+                }, 
+                {
+                 "height":38.058991436727,
+                 "id":289,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"to",
+                         "type":"string",
+                         "value":"\/archive\/works\/driving-force\/"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":30.9229305423405,
+                 "x":2335.87059942911,
+                 "y":1050.58674278465
+                }, 
+                {
+                 "height":26.9584522676817,
+                 "id":291,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"to",
+                         "type":"string",
+                         "value":"\/archive\/works\/naeseongcheon\/"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":22.9939739930223,
+                 "x":2339.83507770377,
+                 "y":1121.94735172851
+                }, 
+                {
+                 "height":38.058991436727,
+                 "id":293,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"to",
+                         "type":"string",
+                         "value":"\/archive\/works\/a-moth-drawn-to-the-scent-of-peonies\/"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":61.8458610846812,
+                 "x":1440.6914050111,
+                 "y":1049.00095147479
+                }, 
+                {
+                 "height":25.372660957818,
+                 "id":294,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"to",
+                         "type":"string",
+                         "value":"\/archive\/works\/bok\/"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":46.7808436409769,
+                 "x":1640.50111005392,
+                 "y":1435.14113542658
+                }, 
+                {
+                 "height":34.8874088169996,
+                 "id":296,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"to",
+                         "type":"string",
+                         "value":"\/archive\/works\/mong\/"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":60.2600697748178,
+                 "x":1377.25975261656,
+                 "y":797.653028861402
+                }, 
+                {
+                 "height":84.8398350777037,
+                 "id":297,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"to",
+                         "type":"string",
+                         "value":"\/archive\/works\/saz\/"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":43.6092610212497,
+                 "x":1402.63241357437,
+                 "y":676.339993656835
+                }, 
+                {
+                 "height":52.3311132254995,
+                 "id":298,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"to",
+                         "type":"string",
+                         "value":"\/archive\/works\/all-in-one\/"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":15.0650174437044,
+                 "x":1291.62702188392,
+                 "y":872.978116079924
+                }, 
+                {
+                 "height":59.4671741198858,
+                 "id":299,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"to",
+                         "type":"string",
+                         "value":"\/archive\/works\/egyptian-yuldong\/"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16.6508087535681,
+                 "x":1290.04123057406,
+                 "y":931.652394544878
+                }, 
+                {
+                 "height":22.9939739930226,
+                 "id":300,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"to",
+                         "type":"string",
+                         "value":"\/archive\/works\/cha\/"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":65.0174437044084,
+                 "x":1688.86774500476,
+                 "y":649.381541389153
+                }, 
+                {
+                 "height":27.7513479226134,
+                 "id":301,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"to",
+                         "type":"string",
+                         "value":"\/archive\/works\/the-moth-that-devours-the-butterfly\/"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":66.6032350142721,
+                 "x":1917.22169362512,
+                 "y":635.109419600381
+                }, 
+                {
+                 "height":27.7513479226134,
+                 "id":302,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"to",
+                         "type":"string",
+                         "value":"\/archive\/works\/thisisnotabutterfly\/"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":19.0294957183633,
+                 "x":2406.43831271805,
+                 "y":640.659689184903
+                }, 
+                {
+                 "height":26.9584522676817,
+                 "id":303,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"to",
+                         "type":"string",
+                         "value":"\/archive\/works\/nakwon\/"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":29.3371392324771,
+                 "x":2626.86330478909,
+                 "y":643.83127180463
+                }, 
+                {
+                 "height":7.92895654931817,
+                 "id":304,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"to",
+                         "type":"string",
+                         "value":"\/archive\/works\/skin\/"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":8.7218522042499,
+                 "x":2603.07643514114,
+                 "y":758.008246114811
+                }, 
+                {
+                 "height":61.8458610846812,
+                 "id":305,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"to",
+                         "type":"string",
+                         "value":"\/archive\/works\/modern-surrealism\/"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":15.8579130986363,
+                 "x":1290.04123057406,
+                 "y":673.961306692039
+                }, 
+                {
+                 "height":16.6508087535678,
+                 "id":306,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"to",
+                         "type":"string",
+                         "value":"\/archive\/works\/blossom\/"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":20.6152870282272,
+                 "x":2117.82429432287,
+                 "y":1309.86362194735
+                }, 
+                {
+                 "height":16.650808753568,
+                 "id":307,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"to",
+                         "type":"string",
+                         "value":"\/archive\/works\/publicpixels\/"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":26.1655566127497,
+                 "x":2688.70916587377,
+                 "y":645.417063114494
+                }, 
+                {
+                 "height":14.2721217887726,
+                 "id":308,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"to",
+                         "type":"string",
+                         "value":"\/archive\/works\/pixels\/"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":29.3371392324771,
+                 "x":1922.77196320964,
+                 "y":915.00158579131
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -3651,8 +4046,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":48,
- "nextobjectid":267,
+ "nextlayerid":49,
+ "nextobjectid":309,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.2",
