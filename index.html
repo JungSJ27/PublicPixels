@@ -85,10 +85,13 @@
   <div class="pp2inner">
 
     <div id="pixelGameWrap" class="pp2stage">
+      
       <div id="game-root" class="pp2gameRoot"></div>
 
+      <!-- 🔥 게임 중 EXIT 버튼 -->
+      <button id="btn-exit-game" class="pp2exit">EXIT</button>
 
-        <div id="pp2-intro" class="pp2intro">
+      <div id="pp2-intro" class="pp2intro">
         <div class="pp2intro__shade"></div>
 
         <img 
@@ -101,6 +104,11 @@
           src="archive/pixelsjj.png"
           alt="PublicPixels character">
 
+        <!-- 🔥 모바일 안내 -->
+        <p class="pp2mobileNote">
+          Desktop recommended. Use Archive on mobile.
+        </p>
+
         <div class="pp2intro__row">
           <button id="btn-play" class="pp2btn">START</button>
           <button id="btn-archive" class="pp2btn">ARCHIVE</button>
@@ -111,7 +119,6 @@
     </div>
   </div>
 </section>
-
 
   <section id="section3" class="s3 scroll-shop" data-allow-horizontal="true">
     <h2 class="shop-title">

@@ -21,6 +21,7 @@
   const playBtn = document.getElementById("btn-play");
   const archiveBtn = document.getElementById("btn-archive");
   const commissionBtn = document.getElementById("btn-commission");
+  const exitBtn = document.getElementById("btn-exit-game");
 
   let started = false;
   let game;
@@ -97,11 +98,30 @@
     playBtn.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
+
       started = true;
       if (introEl) introEl.style.display = "none";
+      if (sectionEl) sectionEl.classList.add("is-playing");
+
       setPausedUI(false);
       resumeAudioIfAny();
       console.log("START pressed");
+    });
+  }
+
+  if (exitBtn) {
+    exitBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      started = false;
+      if (player && player.body) player.body.setVelocity(0, 0);
+
+      if (sectionEl) sectionEl.classList.remove("is-playing");
+      if (introEl) introEl.style.display = "";
+
+      setPausedUI(true);
+      console.log("EXIT pressed");
     });
   }
 
@@ -253,7 +273,6 @@
       gfx.destroy();
 
       player = scene.physics.add.sprite(startX, startY, "playerBlock");
-
       player.body.setSize(14, 16);
       player.body.setOffset(2, 2);
       player.body.setCollideWorldBounds(true);
@@ -277,10 +296,13 @@
         right2: "RIGHT"
       });
 
-      scene.input.on("wheel", (pointer, dx, dy) => {
-        const next = Phaser.Math.Clamp(cam.zoom - dy * 0.001, MIN_ZOOM, MAX_ZOOM);
-        cam.setZoom(next);
+     scene.input.on("wheel", (pointer, gameObjects, deltaX, deltaY) => {
+      window.scrollBy({
+        top: deltaY * 4.5,
+        left: 0,
+        behavior: "auto"
       });
+    });
 
       console.log("map ok", {
         w: map.widthInPixels,
