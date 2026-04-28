@@ -9,7 +9,7 @@
   "dimensions": "variable (web-based)",
   "status": "private",
   "password": "1234",
-  "featured": true,
+  "featured": false,
   "themeColor": "#0a1322",
   "thumb": { "src": "./secass2/Thumbnail_Pixels.png", "alt": "Pixels thumbnail" },
   "image": "/archive/secass2/Thumbnail_Pixels.png",
