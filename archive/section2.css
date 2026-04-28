@@ -116,7 +116,7 @@
 }
 
 .pp2intro__logo{
-  width:clamp(700px,60vw,900px);
+  width:clamp(700px,60vw,800px);
   height:auto;
   image-rendering:pixelated;
   margin-top:-200px;
@@ -134,7 +134,7 @@
 }
 
 .pp2intro__avatar{
-  width:clamp(160px,18vw,230px);
+  width:clamp(160px,18vw,200px);
   height:auto;
   image-rendering:pixelated;
   margin-top:-180px;
