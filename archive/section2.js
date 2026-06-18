@@ -6,6 +6,10 @@
   const R2_PIXELS_DIR = R2_ROOT + "archive/pixels/";
   const BG_TILE_URL = R2_PIXELS_DIR + "bg_tile.png";
 
+  const PLAYER_FRONT_URL = "/archive/PiFront.png";
+  const PLAYER_SIDE_URL = "/archive/PiSide.png";
+  const PLAYER_BACK_URL = "/archive/PiBack.png";
+
   const MAP_KEY = "map";
   const MAP_JSON = "/archive/pixels.json";
 
@@ -13,6 +17,7 @@
   const MAX_ZOOM = 4.0;
   const PLAY_ZOOM_MIN = 1.8;
   const PLAYER_SPEED = 220;
+  const PLAYER_SCALE = 0.7;
 
   const introEl = document.getElementById("pp2-intro");
   const sectionEl = document.getElementById("section2");
@@ -31,16 +36,18 @@
   let collisionBodies = [];
   let doorZones = [];
   let isChangingPage = false;
+  let lastDirection = "front";
 
-const isMobileGameBlocked = window.matchMedia("(max-width: 768px), (pointer: coarse)").matches;
+  const isMobileGameBlocked = window.matchMedia("(max-width: 768px), (pointer: coarse)").matches;
 
-function setMobileStableHeight() {
-  if (!isMobileGameBlocked) return;
-  const h = window.innerHeight;
-  document.documentElement.style.setProperty("--pp2-mobile-h", `${h}px`);
-}
+  function setMobileStableHeight() {
+    if (!isMobileGameBlocked) return;
+    const h = window.innerHeight;
+    document.documentElement.style.setProperty("--pp2-mobile-h", `${h}px`);
+  }
 
-setMobileStableHeight();
+  setMobileStableHeight();
+
   function setPausedUI(isPaused) {
     if (!sectionEl) return;
     if (isPaused) sectionEl.classList.add("is-paused");
@@ -158,7 +165,7 @@ setMobileStableHeight();
     },
     scene: { preload, create, update }
   };
-  
+
   if (isMobileGameBlocked) {
     console.log("Mobile detected: Phaser game disabled for stability.");
     setPausedUI(true);
@@ -177,6 +184,10 @@ setMobileStableHeight();
 
     this.load.tilemapTiledJSON(MAP_KEY, MAP_JSON + "?v=" + Date.now());
     this.load.image("bg_tile", BG_TILE_URL + "?v=" + Date.now());
+
+    this.load.image("playerFront", PLAYER_FRONT_URL + "?v=" + Date.now());
+    this.load.image("playerSide", PLAYER_SIDE_URL + "?v=" + Date.now());
+    this.load.image("playerBack", PLAYER_BACK_URL + "?v=" + Date.now());
   }
 
   function create() {
@@ -281,15 +292,11 @@ setMobileStableHeight();
       const startZoom = Phaser.Math.Clamp(Math.max(PLAY_ZOOM_MIN, zoomFill), MIN_ZOOM, MAX_ZOOM);
       cam.setZoom(startZoom);
 
-      const gfx = scene.add.graphics();
-      gfx.fillStyle(0x66ccff, 1);
-      gfx.fillRect(0, 0, 18, 18);
-      gfx.generateTexture("playerBlock", 18, 18);
-      gfx.destroy();
-
-      player = scene.physics.add.sprite(startX, startY, "playerBlock");
-      player.body.setSize(14, 16);
-      player.body.setOffset(2, 2);
+      player = scene.physics.add.sprite(startX, startY, "playerFront");
+      player.setOrigin(0.5, 0.85);
+      player.setScale(PLAYER_SCALE);
+      player.body.setSize(18, 18);
+      player.body.setOffset(21, 42);
       player.body.setCollideWorldBounds(true);
       player.setDepth(player.y);
 
@@ -311,13 +318,13 @@ setMobileStableHeight();
         right2: "RIGHT"
       });
 
-     scene.input.on("wheel", (pointer, gameObjects, deltaX, deltaY) => {
-      window.scrollBy({
-        top: deltaY * 4.5,
-        left: 0,
-        behavior: "auto"
+      scene.input.on("wheel", (pointer, gameObjects, deltaX, deltaY) => {
+        window.scrollBy({
+          top: deltaY * 4.5,
+          left: 0,
+          behavior: "auto"
+        });
       });
-    });
 
       console.log("map ok", {
         w: map.widthInPixels,
@@ -437,8 +444,45 @@ setMobileStableHeight();
       vy /= len;
     }
 
-    player.body.setVelocity(vx * PLAYER_SPEED, vy * PLAYER_SPEED);
-    player.setDepth(player.y);
+player.body.setVelocity(vx * PLAYER_SPEED, vy * PLAYER_SPEED);
+
+if (vy > 0) {
+  setPlayerDirection("front");
+} else if (vy < 0) {
+  setPlayerDirection("back");
+} else if (vx > 0) {
+  setPlayerDirection("right");
+} else if (vx < 0) {
+  setPlayerDirection("left");
+}
+
+player.setDepth(player.y + 4000);
+  }
+
+  function setPlayerDirection(direction) {
+    if (!player || direction === lastDirection) return;
+
+    lastDirection = direction;
+
+    if (direction === "front") {
+      player.setTexture("playerFront");
+      player.setFlipX(false);
+    }
+
+    if (direction === "back") {
+      player.setTexture("playerBack");
+      player.setFlipX(false);
+    }
+
+    if (direction === "right") {
+      player.setTexture("playerSide");
+      player.setFlipX(false);
+    }
+
+    if (direction === "left") {
+      player.setTexture("playerSide");
+      player.setFlipX(true);
+    }
   }
 
   function getNonEmptyTileBounds(map) {
